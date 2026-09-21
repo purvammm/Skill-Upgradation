@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A personalized, evidence-led career and migration strategy dossier for Purvam Prajapati.">
+  <meta name="theme-color" content="#09110f">
+  <title>Purvam's Career Strategy Dossier</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink-950: #07100e;
+      --ink-900: #0a1512;
+      --ink-850: #0d1a16;
+      --ink-800: #11211c;
+      --ink-700: #193028;
+      --line: #29483b;
+      --line-soft: rgba(109, 151, 129, 0.22);
+      --paper: #eee7d8;
+      --paper-muted: #b9b3a6;
+      --paper-faint: #858b82;
+      --brass: #d0aa61;
+      --brass-bright: #ebc978;
+      --brass-wash: rgba(208, 170, 97, 0.12);
+      --seal: #79b68f;
+      --seal-deep: #3f7658;
+      --seal-wash: rgba(121, 182, 143, 0.12);
+      --warning: #d88969;
+      --danger: #cb6d6d;
+      --blue: #7fa9bd;
+      --shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+      --serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --radius: 18px;
+      --radius-sm: 10px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 85% 2%, rgba(208, 170, 97, 0.08), transparent 28rem),
+        radial-gradient(circle at 8% 38%, rgba(70, 130, 94, 0.08), transparent 25rem),
+        var(--ink-950);
+      color: var(--paper);
+      font-family: var(--sans);
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.13;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.17'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+      z-index: 100;
+    }
+
+    a { color: var(--brass-bright); text-underline-offset: 3px; }
+    a:hover { color: #ffe0a1; }
+    button, input, select, textarea { font: inherit; }
+    button, select, input[type="range"], input[type="checkbox"] { cursor: pointer; }
+    img, svg { display: block; max-width: 100%; }
+    ::selection { color: var(--ink-950); background: var(--brass-bright); }
+
+    :focus-visible {
+      outline: 2px solid var(--brass-bright);
+      outline-offset: 3px;
+    }
+
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+    .print-only { display: none; }
+
+    .skip-link {
+      position: fixed;
+      left: 1rem;
+      top: -5rem;
+      padding: 0.65rem 0.9rem;
+      border-radius: 8px;
+      color: var(--ink-950);
+      background: var(--brass-bright);
+      font-weight: 800;
+      z-index: 1000;
+      transition: top 0.18s ease;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .shell { width: min(calc(100% - 32px), var(--max)); margin-inline: auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      border-bottom: 1px solid rgba(208, 170, 97, 0.2);
+      background: rgba(7, 16, 14, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand { display: flex; align-items: center; gap: 0.8rem; min-width: 0; }
+    .brand-mark {
+      width: 37px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid var(--brass);
+      border-radius: 50%;
+      color: var(--brass-bright);
+      font-family: var(--serif);
+      font-weight: 800;
+      background: var(--brass-wash);
+    }
+    .brand-copy { min-width: 0; }
+    .brand-copy strong { display: block; font-family: var(--serif); font-size: 1rem; line-height: 1.05; }
+    .brand-copy span { color: var(--paper-faint); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .top-actions { display: flex; align-items: center; gap: 0.55rem; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      min-height: 40px;
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--paper);
+      background: var(--ink-800);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    .button:hover { transform: translateY(-1px); border-color: var(--brass); background: #182a24; }
+    .button.primary { color: var(--ink-950); border-color: var(--brass-bright); background: var(--brass-bright); font-weight: 900; }
+    .button.primary:hover { background: #f4d88f; }
+    .button.danger { color: #f0bbbb; }
+    .button .wide-label { display: inline; }
+
+    .hero {
+      position: relative;
+      padding: 5.8rem 0 3rem;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "STRATEGY";
+      position: absolute;
+      right: -1rem;
+      top: 1.1rem;
+      z-index: -1;
+      color: rgba(238, 231, 216, 0.025);
+      font-family: var(--serif);
+      font-size: clamp(5rem, 15vw, 13rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.2rem;
+      color: var(--brass-bright);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+    .kicker::before { content: ""; width: 38px; height: 1px; background: currentColor; }
+
+    h1, h2, h3, h4 { margin: 0; font-family: var(--serif); line-height: 1.08; text-wrap: balance; }
+    h1 { max-width: 980px; font-size: clamp(3rem, 7.3vw, 7.1rem); letter-spacing: -0.052em; font-weight: 500; }
+    h1 em { color: var(--brass-bright); font-style: italic; }
+    h2 { font-size: clamp(2rem, 4.4vw, 4rem); letter-spacing: -0.035em; font-weight: 500; }
+    h3 { font-size: 1.45rem; letter-spacing: -0.018em; }
+    h4 { font-size: 1.06rem; }
+
+    .hero-lede {
+      max-width: 760px;
+      margin: 1.5rem 0 0;
+      color: var(--paper-muted);
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+      line-height: 1.55;
+    }
+
+    .verdict {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1.4rem;
+      align-items: center;
+      margin-top: 2.5rem;
+      padding: clamp(1.35rem, 3vw, 2.2rem);
+      border: 1px solid rgba(208, 170, 97, 0.42);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(208, 170, 97, 0.11), rgba(121, 182, 143, 0.04));
+      box-shadow: var(--shadow);
+    }
+    .verdict-label { color: var(--brass-bright); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .verdict h2 { margin-top: 0.45rem; font-size: clamp(1.45rem, 3.3vw, 2.7rem); }
+    .verdict p { max-width: 820px; margin: 0.8rem 0 0; color: var(--paper-muted); }
+    .seal {
+      width: 118px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: 0.9rem;
+      border: 1px solid var(--seal);
+      border-radius: 50%;
+      color: var(--seal);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      line-height: 1.5;
+      text-transform: uppercase;
+      transform: rotate(-6deg);
+      box-shadow: inset 0 0 0 6px var(--ink-950), inset 0 0 0 7px var(--seal-deep);
+    }
+
+    .snapshot-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .snapshot {
+      min-height: 142px;
+      padding: 1.1rem;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: rgba(13, 26, 22, 0.72);
+    }
+    .snapshot .value { color: var(--brass-bright); font-family: var(--serif); font-size: 1.75rem; line-height: 1; }
+    .snapshot strong { display: block; margin-top: 0.6rem; font-size: 0.86rem; }
+    .snapshot p { margin: 0.35rem 0 0; color: var(--paper-faint); font-size: 0.78rem; line-height: 1.45; }
+
+    .mini-nav {
+      display: flex;
+      gap: 0.55rem;
+      margin-top: 1.15rem;
+      padding-bottom: 0.5rem;
+      overflow-x: auto;
+      scrollbar-color: var(--line) transparent;
+    }
+    .mini-nav a {
+      flex: 0 0 auto;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      color: var(--paper-muted);
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .mini-nav a:hover { color: var(--paper); border-color: var(--brass); }
+
+    section { padding: 5rem 0; border-top: 1px solid rgba(78, 111, 95, 0.17); }
+    .section-head { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(280px, 0.52fr); gap: 2.5rem; align-items: end; margin-bottom: 2.2rem; }
+    .section-num { display: block; margin-bottom: 0.8rem; color: var(--brass); font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .section-intro { margin: 0; color: var(--paper-muted); font-size: 0.95rem; }
+
+    .card {
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(17, 33, 28, 0.94), rgba(10, 21, 18, 0.94));
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.13);
+    }
+
+    .four-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; }
+    .strategy-card { position: relative; min-height: 278px; padding: 1.3rem; overflow: hidden; }
+    .strategy-card::after { content: attr(data-letter); position: absolute; right: -0.05em; bottom: -0.25em; color: rgba(238, 231, 216, 0.035); font-family: var(--serif); font-size: 9rem; line-height: 1; }
+    .eyebrow { color: var(--seal); font-family: var(--mono); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; }
+    .strategy-card h3 { margin-top: 0.7rem; }
+    .strategy-card p { color: var(--paper-muted); font-size: 0.84rem; }
+    .strategy-card ul { position: relative; z-index: 1; margin: 1rem 0 0; padding: 0; list-style: none; }
+    .strategy-card li { display: flex; gap: 0.5rem; margin-top: 0.48rem; color: var(--paper-muted); font-size: 0.78rem; line-height: 1.45; }
+    .strategy-card li::before { content: "—"; color: var(--brass); }
+    .strategy-card.warning { border-color: rgba(216, 137, 105, 0.3); }
+    .strategy-card.warning .eyebrow { color: var(--warning); }
+
+    .identity-strip {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 1.3rem;
+      align-items: center;
+      margin-top: 1rem;
+      padding: 1.4rem;
+      border-left: 3px solid var(--brass);
+      background: var(--brass-wash);
+    }
+    .identity-strip .index { color: var(--brass-bright); font-family: var(--mono); font-size: 1.8rem; }
+    .identity-strip p { margin: 0; font-family: var(--serif); font-size: clamp(1rem, 2.1vw, 1.35rem); }
+
+    .truth-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
+    .truth-card { padding: 1.2rem; }
+    .myth, .truth { display: grid; grid-template-columns: 70px 1fr; gap: 0.9rem; }
+    .myth { padding-bottom: 0.9rem; border-bottom: 1px solid var(--line-soft); }
+    .truth { padding-top: 0.9rem; }
+    .tag { font-family: var(--mono); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+    .myth .tag { color: var(--warning); }
+    .truth .tag { color: var(--seal); }
+    .truth-card p { margin: 0; color: var(--paper-muted); font-size: 0.82rem; }
+
+    .engine {
+      display: grid;
+      grid-template-columns: minmax(270px, 0.42fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: start;
+    }
+    .controls { position: sticky; top: 86px; padding: 1.3rem; }
+    .controls h3 { margin-bottom: 0.35rem; }
+    .controls > p { margin: 0 0 1.2rem; color: var(--paper-faint); font-size: 0.77rem; }
+    .control { padding: 0.95rem 0; border-top: 1px solid var(--line-soft); }
+    .control:first-of-type { border-top: 0; }
+    .control label, .control .control-label { display: flex; justify-content: space-between; gap: 0.6rem; color: var(--paper-muted); font-size: 0.76rem; font-weight: 700; }
+    .control output { color: var(--brass-bright); font-family: var(--mono); }
+    input[type="range"] { width: 100%; margin-top: 0.7rem; accent-color: var(--brass); }
+    select, textarea {
+      width: 100%;
+      margin-top: 0.6rem;
+      padding: 0.7rem 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--paper);
+      background: var(--ink-950);
+    }
+    .toggle-row { display: flex; align-items: center; gap: 0.65rem; margin-top: 0.7rem; color: var(--paper-muted); font-size: 0.78rem; }
+    .toggle-row input { width: 18px; height: 18px; accent-color: var(--seal); }
+    .presets { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+    .preset { padding: 0.4rem 0.58rem; border: 1px solid var(--line); border-radius: 999px; color: var(--paper-muted); background: transparent; font-family: var(--mono); font-size: 0.61rem; text-transform: uppercase; }
+    .preset:hover, .preset.active { color: var(--ink-950); border-color: var(--brass); background: var(--brass); }
+    .engine-note { margin: 1rem 0 0; padding: 0.8rem; border-radius: 8px; color: var(--paper-faint); background: rgba(0,0,0,0.18); font-size: 0.69rem; }
+
+    .ranking { display: grid; gap: 0.7rem; }
+    .route-card {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.15rem;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .route-card:hover { transform: translateY(-2px); border-color: rgba(208,170,97,0.45); }
+    .route-rank { color: var(--paper-faint); font-family: var(--serif); font-size: 2.3rem; line-height: 1; }
+    .route-card:first-child .route-rank { color: var(--brass-bright); }
+    .route-copy h3 { font-size: 1.22rem; }
+    .route-copy p { margin: 0.3rem 0 0; color: var(--paper-muted); font-size: 0.78rem; }
+    .route-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.65rem; }
+    .route-tags span { padding: 0.25rem 0.45rem; border: 1px solid var(--line-soft); border-radius: 999px; color: var(--paper-faint); font-family: var(--mono); font-size: 0.57rem; text-transform: uppercase; }
+    .score-wrap { min-width: 84px; text-align: right; }
+    .score { color: var(--brass-bright); font-family: var(--serif); font-size: 2rem; line-height: 1; }
+    .score-label { color: var(--paper-faint); font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .bar { width: 84px; height: 4px; margin-top: 0.45rem; border-radius: 5px; background: var(--line-soft); overflow: hidden; }
+    .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--seal), var(--brass-bright)); }
+
+    .track-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; }
+    .track { padding: 1.25rem; }
+    .track-top { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+    .fit { color: var(--brass-bright); font-family: var(--mono); font-size: 0.72rem; white-space: nowrap; }
+    .track p { color: var(--paper-muted); font-size: 0.8rem; }
+    .track dl { margin: 1rem 0 0; }
+    .track dl div { display: grid; grid-template-columns: 76px 1fr; gap: 0.5rem; padding: 0.48rem 0; border-top: 1px solid var(--line-soft); font-size: 0.72rem; }
+    .track dt { color: var(--paper-faint); font-family: var(--mono); text-transform: uppercase; }
+    .track dd { margin: 0; color: var(--paper-muted); }
+    .track.recommended { border-color: rgba(208,170,97,0.48); background: linear-gradient(145deg, rgba(58, 48, 27, 0.28), rgba(10, 21, 18, 0.96)); }
+
+    .moat {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .moat-copy { padding: 1.5rem; }
+    .moat-copy blockquote { margin: 0; font-family: var(--serif); font-size: clamp(1.35rem, 3vw, 2.2rem); line-height: 1.32; }
+    .moat-copy p { color: var(--paper-muted); font-size: 0.82rem; }
+    .moat-list { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.7rem; }
+    .moat-item { padding: 1rem; }
+    .moat-item b { display: block; color: var(--seal); font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .moat-item p { margin: 0.45rem 0 0; color: var(--paper-muted); font-size: 0.76rem; }
+
+    .universe { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 0.8rem; }
+    .universe-column { padding: 1.15rem; }
+    .universe-column h3 { color: var(--brass-bright); font-size: 1.16rem; }
+    .universe-column > p { min-height: 60px; color: var(--paper-faint); font-size: 0.73rem; }
+    .option { padding: 0.75rem 0; border-top: 1px solid var(--line-soft); }
+    .option strong { display: block; font-size: 0.81rem; }
+    .option span { display: block; margin-top: 0.22rem; color: var(--paper-muted); font-size: 0.69rem; line-height: 1.45; }
+    .option i { display: inline-block; margin-top: 0.42rem; color: var(--seal); font-family: var(--mono); font-size: 0.57rem; font-style: normal; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .country-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.8rem; margin-bottom: 1rem; }
+    .filters { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .filter-button { padding: 0.48rem 0.7rem; border: 1px solid var(--line); border-radius: 999px; color: var(--paper-muted); background: transparent; font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; }
+    .filter-button:hover, .filter-button.active { color: var(--ink-950); border-color: var(--seal); background: var(--seal); }
+    .legend { color: var(--paper-faint); font-family: var(--mono); font-size: 0.6rem; text-transform: uppercase; }
+    .country-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0.8rem; }
+    .country { position: relative; padding: 1.2rem; overflow: hidden; }
+    .country.hidden { display: none; }
+    .country-head { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+    .country-name { display: flex; gap: 0.65rem; align-items: center; }
+    .flag { width: 34px; height: 25px; display: grid; place-items: center; border: 1px solid var(--line-soft); border-radius: 4px; color: var(--brass); background: rgba(255,255,255,0.03); font-family: var(--mono); font-size: 0.58rem; }
+    .tier { padding: 0.25rem 0.42rem; border-radius: 999px; color: var(--seal); background: var(--seal-wash); font-family: var(--mono); font-size: 0.54rem; text-transform: uppercase; white-space: nowrap; }
+    .country .route { min-height: 45px; margin: 0.75rem 0 0; color: var(--paper-muted); font-size: 0.76rem; }
+    .meters { display: grid; gap: 0.5rem; margin-top: 0.9rem; }
+    .meter { display: grid; grid-template-columns: 70px 1fr auto; gap: 0.5rem; align-items: center; color: var(--paper-faint); font-family: var(--mono); font-size: 0.57rem; text-transform: uppercase; }
+    .meter-line { height: 4px; border-radius: 5px; background: var(--line-soft); overflow: hidden; }
+    .meter-line i { display: block; height: 100%; background: var(--seal); }
+    .country .catch { margin: 0.9rem 0 0; padding-top: 0.8rem; border-top: 1px solid var(--line-soft); color: var(--paper-faint); font-size: 0.69rem; }
+    .country .source-link { display: inline-block; margin-top: 0.65rem; font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; }
+
+    .route-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.9rem; }
+    details.route-detail { overflow: hidden; }
+    details.route-detail summary { display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding: 1.2rem; cursor: pointer; list-style: none; }
+    details.route-detail summary::-webkit-details-marker { display: none; }
+    details.route-detail summary::after { content: "+"; color: var(--brass); font-family: var(--mono); font-size: 1.2rem; }
+    details.route-detail[open] summary::after { content: "−"; }
+    .summary-copy span { display: block; color: var(--seal); font-family: var(--mono); font-size: 0.59rem; text-transform: uppercase; }
+    .summary-copy strong { display: block; margin-top: 0.25rem; font-family: var(--serif); font-size: 1.25rem; }
+    .detail-body { padding: 0 1.2rem 1.2rem; border-top: 1px solid var(--line-soft); }
+    .detail-body p { color: var(--paper-muted); font-size: 0.79rem; }
+    .detail-body h4 { margin-top: 1rem; color: var(--brass-bright); }
+    .detail-body ul { padding-left: 1.1rem; color: var(--paper-muted); font-size: 0.75rem; }
+    .gate { padding: 0.7rem; border-left: 2px solid var(--seal); color: var(--paper-muted); background: var(--seal-wash); font-size: 0.72rem; }
+
+    .study-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
+    .study-card { padding: 1.4rem; }
+    .study-card .decision { display: inline-block; margin: 0.75rem 0; padding: 0.35rem 0.55rem; border: 1px solid var(--brass); border-radius: 999px; color: var(--brass-bright); font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; }
+    .study-card p, .study-card li { color: var(--paper-muted); font-size: 0.78rem; }
+    .study-card ul { padding-left: 1.15rem; }
+    .formula { margin-top: 1rem; padding: 1rem; border: 1px dashed rgba(208,170,97,0.42); border-radius: 8px; color: var(--paper); font-family: var(--mono); font-size: 0.72rem; background: rgba(208,170,97,0.06); }
+
+    .correction-list { display: grid; gap: 0.75rem; }
+    .correction { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 1rem; padding: 1.1rem; }
+    .correction-num { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--warning); border-radius: 50%; color: var(--warning); font-family: var(--mono); font-size: 0.69rem; }
+    .correction h3 { font-size: 1.15rem; }
+    .correction p { margin: 0.4rem 0 0; color: var(--paper-muted); font-size: 0.78rem; }
+
+    .now-callout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.5rem;
+      border: 1px solid rgba(208,170,97,0.45);
+      border-radius: var(--radius);
+      background: linear-gradient(120deg, rgba(208,170,97,0.12), rgba(63,118,88,0.1));
+    }
+    .now-callout h3 { font-size: clamp(1.3rem, 3vw, 2rem); }
+    .now-callout p { margin: 0.5rem 0 0; color: var(--paper-muted); font-size: 0.82rem; }
+    .date-box { min-width: 128px; padding: 0.9rem; border: 1px solid var(--line); border-radius: 9px; text-align: center; background: rgba(0,0,0,0.2); }
+    .date-box strong { display: block; color: var(--brass-bright); font-family: var(--serif); font-size: 1.5rem; }
+    .date-box span { color: var(--paper-faint); font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; }
+
+    .timeline { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0.85rem; margin-top: 1rem; }
+    .phase { padding: 1.2rem; }
+    .phase-time { color: var(--brass); font-family: var(--mono); font-size: 0.61rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .phase h3 { margin-top: 0.45rem; }
+    .phase p { color: var(--paper-muted); font-size: 0.76rem; }
+    .checklist { margin-top: 0.9rem; }
+    .check-item { position: relative; display: grid; grid-template-columns: 22px 1fr; gap: 0.65rem; align-items: start; padding: 0.65rem 0; border-top: 1px solid var(--line-soft); color: var(--paper-muted); font-size: 0.73rem; }
+    .check-item input { width: 18px; height: 18px; margin: 0.15rem 0 0; accent-color: var(--seal); }
+    .check-item:has(input:checked) span { color: var(--paper-faint); text-decoration: line-through; }
+
+    .progress-panel { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center; margin-top: 1rem; padding: 1rem 1.2rem; }
+    .progress-ring { width: 56px; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(var(--seal) var(--progress, 0%), var(--line-soft) 0); position: relative; }
+    .progress-ring::before { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--ink-850); }
+    .progress-ring span { position: relative; z-index: 1; font-family: var(--mono); font-size: 0.62rem; }
+    .progress-copy strong { display: block; }
+    .progress-copy span { color: var(--paper-faint); font-size: 0.7rem; }
+
+    .long-roadmap { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 0.7rem; margin-top: 1rem; }
+    .quarter { padding: 1rem; border-top: 2px solid var(--line); }
+    .quarter.active { border-top-color: var(--brass); }
+    .quarter span { color: var(--seal); font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; }
+    .quarter h4 { margin-top: 0.4rem; }
+    .quarter p { margin-bottom: 0; color: var(--paper-muted); font-size: 0.69rem; }
+
+    .operating-grid { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 1rem; }
+    .weekly { padding: 1.3rem; }
+    .weekly-total { margin: 0.8rem 0; color: var(--brass-bright); font-family: var(--serif); font-size: 2.1rem; }
+    .allocation { display: grid; gap: 0.6rem; }
+    .allocation-row { display: grid; grid-template-columns: 115px 1fr 34px; gap: 0.6rem; align-items: center; color: var(--paper-muted); font-size: 0.7rem; }
+    .allocation-row .line { height: 6px; border-radius: 5px; background: var(--line-soft); overflow: hidden; }
+    .allocation-row .line i { display: block; height: 100%; background: linear-gradient(90deg, var(--seal), var(--brass)); }
+    .rules { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.7rem; }
+    .rule { padding: 1rem; }
+    .rule b { color: var(--brass-bright); font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; }
+    .rule p { margin: 0.4rem 0 0; color: var(--paper-muted); font-size: 0.72rem; }
+
+    .evidence-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0.8rem; }
+    .evidence-card { padding: 1.2rem; }
+    .evidence-card h3 { font-size: 1.2rem; }
+    .evidence-card p, .evidence-card li { color: var(--paper-muted); font-size: 0.74rem; }
+    .evidence-card ol, .evidence-card ul { padding-left: 1.1rem; }
+    .milestone { display: flex; justify-content: space-between; gap: 0.7rem; padding: 0.55rem 0; border-top: 1px solid var(--line-soft); font-size: 0.69rem; }
+    .milestone span:first-child { color: var(--paper-muted); }
+    .milestone span:last-child { color: var(--seal); font-family: var(--mono); text-transform: uppercase; }
+
+    .stop-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0.75rem; }
+    .stop { padding: 1rem; border-left: 2px solid var(--warning); }
+    .stop strong { font-family: var(--serif); }
+    .stop p { margin: 0.45rem 0 0; color: var(--paper-muted); font-size: 0.72rem; }
+
+    .decision-journal { display: grid; grid-template-columns: minmax(0,1fr) 0.55fr; gap: 1rem; }
+    .journal { padding: 1.3rem; }
+    .journal textarea { min-height: 210px; resize: vertical; line-height: 1.55; }
+    .journal-actions { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.8rem; }
+    .commitment { padding: 1.3rem; }
+    .commitment-list { margin: 1rem 0 0; padding: 0; list-style: none; counter-reset: commitments; }
+    .commitment-list li { display: grid; grid-template-columns: 30px 1fr; gap: 0.6rem; padding: 0.7rem 0; border-top: 1px solid var(--line-soft); color: var(--paper-muted); font-size: 0.75rem; counter-increment: commitments; }
+    .commitment-list li::before { content: counter(commitments, decimal-leading-zero); color: var(--brass); font-family: var(--mono); }
+
+    .source-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0.65rem; }
+    .source { display: flex; flex-direction: column; justify-content: space-between; min-height: 135px; padding: 0.95rem; border: 1px solid var(--line-soft); border-radius: 10px; background: rgba(10,21,18,0.65); }
+    .source span { color: var(--seal); font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .source strong { display: block; margin: 0.35rem 0 0.7rem; font-family: var(--serif); font-size: 0.98rem; line-height: 1.25; }
+    .source a { font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; }
+    .source-note { margin-top: 1rem; padding: 0.9rem; border: 1px solid var(--line-soft); border-radius: 9px; color: var(--paper-faint); font-size: 0.7rem; }
+
+    footer { padding: 3rem 0 4rem; border-top: 1px solid var(--line-soft); }
+    .footer-grid { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+    .footer-grid blockquote { max-width: 800px; margin: 0; font-family: var(--serif); font-size: clamp(1.35rem, 3.5vw, 2.6rem); line-height: 1.24; }
+    .footer-grid p { max-width: 760px; color: var(--paper-faint); font-size: 0.72rem; }
+    .stamp { color: var(--brass); font-family: var(--mono); font-size: 0.62rem; text-align: right; text-transform: uppercase; }
+
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 150;
+      max-width: min(360px, calc(100% - 2rem));
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--seal);
+      border-radius: 9px;
+      color: var(--paper);
+      background: #10231b;
+      box-shadow: var(--shadow);
+      font-size: 0.74rem;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .noscript { margin: 1rem auto; padding: 1rem; border: 1px solid var(--warning); color: var(--paper); background: rgba(216,137,105,0.1); }
+
+    @media (max-width: 1020px) {
+      .snapshot-grid, .four-grid, .universe, .long-roadmap { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .track-grid, .country-grid, .evidence-grid, .source-grid, .stop-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .section-head { grid-template-columns: 1fr; gap: 1rem; }
+      .engine { grid-template-columns: 1fr; }
+      .controls { position: static; }
+      .moat, .operating-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .shell { width: min(calc(100% - 22px), var(--max)); }
+      .hero { padding-top: 3.8rem; }
+      h1 { font-size: clamp(2.7rem, 15vw, 4.7rem); }
+      section { padding: 3.7rem 0; }
+      .brand-copy span { display: none; }
+      .button .wide-label { display: none; }
+      .verdict { grid-template-columns: 1fr; }
+      .seal { width: 96px; }
+      .snapshot-grid, .four-grid, .truth-grid, .track-grid, .moat-list, .universe, .country-grid, .route-detail-grid, .study-grid, .timeline, .long-roadmap, .rules, .evidence-grid, .stop-grid, .decision-journal, .source-grid { grid-template-columns: 1fr; }
+      .strategy-card { min-height: auto; }
+      .route-card { grid-template-columns: 42px minmax(0,1fr); }
+      .score-wrap { grid-column: 2; display: flex; align-items: center; gap: 0.7rem; text-align: left; }
+      .bar { flex: 1; }
+      .now-callout { grid-template-columns: 1fr; }
+      .date-box { width: 100%; }
+      .progress-panel { grid-template-columns: auto 1fr; }
+      .progress-panel .button { grid-column: 1 / -1; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .stamp { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+
+    @media print {
+      :root { color-scheme: light; --paper: #17201c; --paper-muted: #3e4943; --paper-faint: #606963; --line: #a4aaa6; --line-soft: #d7d9d7; --ink-950: #fff; --ink-900: #fff; --ink-850: #fff; --ink-800: #f6f4ef; --brass: #745617; --brass-bright: #745617; --seal: #28633d; --seal-wash: #eef7f0; --brass-wash: #faf4e7; }
+      body, .card, .source { background: white !important; box-shadow: none !important; }
+      body::before, .topbar, .mini-nav, .controls, .country-toolbar, .journal-actions, .progress-panel .button, .toast { display: none !important; }
+      .print-only { display: block !important; padding: 0.7rem; border: 1px solid var(--line-soft); }
+      .hero { padding-top: 1rem; }
+      section { padding: 1.5rem 0; break-inside: avoid; }
+      .shell { width: 100%; }
+      a { color: #173b29; }
+      details > * { display: block !important; }
+      .country.hidden { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to strategy</a>
+
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <div class="brand" aria-label="Purvam career strategy dossier">
+        <div class="brand-mark" aria-hidden="true">P</div>
+        <div class="brand-copy">
+          <strong>Purvam's Dossier</strong>
+          <span>Career × wealth × residency</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="button" id="downloadPlan" type="button" title="Download your saved plan">JSON <span class="wide-label">Export plan</span></button>
+        <button class="button primary" id="printPage" type="button" title="Print or save as PDF">PDF <span class="wide-label">Save PDF</span></button>
+      </div>
+    </div>
+  </header>
+
+  <noscript><div class="shell noscript">The static narrative remains readable without JavaScript. The route ranking, country cards, filters, saved checklist, journal and export require JavaScript.</div></noscript>
+
+  <main id="main">
+    <div class="hero">
+      <div class="shell">
+        <div class="kicker">Private strategy memorandum · September 2026</div>
+        <h1>You do not need to choose your whole life. You need to build <em>leverage.</em></h1>
+        <p class="hero-lede">Purvam, your problem is not a lack of possibilities. It is that too many unequal possibilities—TCS, product engineering, AI, research, business, graduate school, Canada, Australia, Europe and the US—are competing without a decision system.</p>
+
+        <div class="verdict">
+          <div>
+            <span class="verdict-label">The considered verdict</span>
+            <h2>Build production credibility in India first; use it to buy income, mobility and optionality.</h2>
+            <p>For the next 12–24 months, become a product-minded Java/Spring backend or platform engineer for AI-enabled workflows. Ship AnimaFlow narrowly, create proof that strangers can verify, and preserve three migration options: direct European hiring, points/employer routes in Australia, and a French-strengthened Canadian route. Treat the US as upside—not the foundation of your peace of mind.</p>
+          </div>
+          <div class="seal" aria-label="Evidence checked September 2026">Evidence<br>checked<br>09 · 2026</div>
+        </div>
+
+        <div class="snapshot-grid" aria-label="Profile snapshot">
+          <article class="snapshot"><div class="value">22</div><strong>Time is your largest asset</strong><p>You can compound skills for two years without making an irreversible country bet.</p></article>
+          <article class="snapshot"><div class="value">A+</div><strong>Communication advantage</strong><p>Teaching Spring, Angular and Java gives you a rare edge for solutions and developer-facing roles.</p></article>
+          <article class="snapshot"><div class="value">1</div><strong>Main bottleneck</strong><p>Your external signal says “broad junior faculty,” not yet “engineer who owns production outcomes.”</p></article>
+          <article class="snapshot"><div class="value">3</div><strong>Engines to compound</strong><p>Employment skill, owned product, and migration eligibility—built together, not sequentially.</p></article>
+        </div>
+
+        <nav class="mini-nav" aria-label="Dossier sections">
+          <a href="#verdict">Verdict</a><a href="#reality">Reality</a><a href="#engine">Route engine</a><a href="#career">Career</a><a href="#countries">Countries</a><a href="#study">Study</a><a href="#plan">90 days</a><a href="#sources">Sources</a>
+        </nav>
+      </div>
+    </div>
+
+    <section id="verdict">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">01 · Executive direction</span><h2>A portfolio of bets—not one fragile dream.</h2></div>
+          <p class="section-intro">No honest adviser can guarantee wealth, a visa or citizenship. A strong strategy instead raises the probability of several good outcomes while capping the downside of each failed bet.</p>
+        </div>
+
+        <div class="four-grid">
+          <article class="card strategy-card" data-letter="A">
+            <div class="eyebrow">Primary engine · 65%</div><h3>Production engineering</h3>
+            <p>Move from faculty/generalist positioning into software ownership. This is the base asset that improves salary, sponsorship and founder credibility.</p>
+            <ul><li>Java + Spring + SQL + distributed systems</li><li>Cloud, tests, observability and security</li><li>Deploy, operate, measure and explain</li></ul>
+          </article>
+          <article class="card strategy-card" data-letter="B">
+            <div class="eyebrow">Asymmetric bet · 20%</div><h3>AnimaFlow in public</h3>
+            <p>Stop treating 69 compiling files as the finish line. Convert the product into external evidence and a small revenue experiment.</p>
+            <ul><li>One narrow customer and workflow</li><li>Ten interviews, three design partners</li><li>One paid pilot before “scale” work</li></ul>
+          </article>
+          <article class="card strategy-card" data-letter="C">
+            <div class="eyebrow">Mobility option · 15%</div><h3>One language + documents</h3>
+            <p>Choose one route-specific lever. German supports the recommended direct-Europe path; tested French can alter Canadian selection.</p>
+            <ul><li>Do not learn both at once</li><li>Verify duties against occupation codes</li><li>Keep degree, experience and funds ready</li></ul>
+          </article>
+          <article class="card strategy-card warning" data-letter="×">
+            <div class="eyebrow">Do not build around</div><h3>Promises and panic</h3>
+            <p>Wings was cancelled; retention was refused. Do not replace those uncertainties with a consultant's visa promise or a debt-heavy degree.</p>
+            <ul><li>No resignation without offer or runway</li><li>No generic degree “for PR”</li><li>No certificate collection as a substitute for work</li></ul>
+          </article>
+        </div>
+
+        <div class="identity-strip">
+          <div class="index" aria-hidden="true">01</div>
+          <p><strong>Your one-sentence professional identity:</strong> “I build and operate reliable enterprise automation and AI-enabled workflow products with Java/Spring, cloud and modern frontends—and I can teach complex systems clearly.”</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reality">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">02 · Reality reset</span><h2>Replace frightening headlines with precise gates.</h2></div>
+          <p class="section-intro">Your concerns are rational, but several have become too absolute. Immigration has tightened and AI is changing work; neither means every route is closed.</p>
+        </div>
+
+        <div class="truth-grid">
+          <article class="card truth-card"><div class="myth"><span class="tag">Fear</span><p>“AI is taking software jobs, so choosing tech is unsafe.”</p></div><div class="truth"><span class="tag">Useful truth</span><p>Commodity implementation is under pressure, but official US projections still show faster-than-average growth in software, data and information-security roles. Your defence is ownership, architecture, reliability, domain context and communication—not refusing AI.</p></div></article>
+          <article class="card truth-card"><div class="myth"><span class="tag">Claim</span><p>“The US has stopped student visas.”</p></div><div class="truth"><span class="tag">Correction</span><p>The official State Department still publishes the F/M student-visa route. Appointment availability, scrutiny, policy and cost can change; that is different from a universal closure. The real weakness is the uncertain post-study work-to-residence chain.</p></div></article>
+          <article class="card truth-card"><div class="myth"><span class="tag">Claim</span><p>“Canada no longer gives PR.”</p></div><div class="truth"><span class="tag">Correction</span><p>Canada still operates economic PR and 2026 category-based Express Entry, while reducing temporary arrivals and making selection more targeted. “Open” does not mean easy: your duties, language, score, category and draw timing must all work.</p></div></article>
+          <article class="card truth-card"><div class="myth"><span class="tag">Assumption</span><p>“Canadian PR gives me a future TN route to the US.”</p></div><div class="truth"><span class="tag">Correction</span><p>TN requires Canadian citizenship, a qualifying USMCA profession and matching duties/credentials. PR alone is not enough. Citizenship generally requires 1,095 days of physical presence in the relevant five-year window, then processing.</p></div></article>
+          <article class="card truth-card"><div class="myth"><span class="tag">Assumption</span><p>“A PhD creates an O-1 or EB-1 path.”</p></div><div class="truth"><span class="tag">Correction</span><p>A PhD creates time to build evidence; it is not extraordinary-ability evidence by itself. Recognition, original contribution, citations, judging, selective awards and overall merit matter. India-born green-card chargeability is generally not changed by later Canadian citizenship.</p></div></article>
+          <article class="card truth-card"><div class="myth"><span class="tag">Pressure</span><p>“I must pick the final country right now.”</p></div><div class="truth"><span class="tag">Correction</span><p>You need a 24-month direction, not a lifetime verdict. Production experience, strong English, one strategic language, savings and public proof improve multiple countries at once. Build assets before purchasing geography.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="engine">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">03 · Interactive route engine</span><h2>Rank paths by your values—not their marketing.</h2></div>
+          <p class="section-intro">Change the controls to see how priorities alter the ranking. Scores are a transparent strategic model for your profile, not visa probabilities or salary forecasts.</p>
+        </div>
+        <p class="print-only" id="printSettings"></p>
+
+        <div class="engine">
+          <aside class="card controls" aria-label="Route ranking controls">
+            <h3>Your constraints</h3><p>This standalone page stores settings as plaintext in this browser's localStorage; avoid sensitive notes on a shared device.</p>
+            <div class="control">
+              <label for="wealthWeight"><span>Priority balance</span><output id="wealthOutput" for="wealthWeight">55% income</output></label>
+              <input id="wealthWeight" type="range" min="0" max="100" value="55">
+              <div style="display:flex;justify-content:space-between;color:var(--paper-faint);font-size:.58rem;font-family:var(--mono)"><span>Settlement</span><span>Income</span></div>
+            </div>
+            <div class="control">
+              <label for="riskTolerance"><span>Risk tolerance</span><output id="riskOutput" for="riskTolerance">Moderate</output></label>
+              <input id="riskTolerance" type="range" min="0" max="100" value="40">
+            </div>
+            <div class="control">
+              <label for="researchInterest"><span>Research appetite</span><output id="researchOutput" for="researchInterest">Selective</output></label>
+              <input id="researchInterest" type="range" min="0" max="100" value="30">
+            </div>
+            <div class="control">
+              <label for="capitalLevel"><span>Capital available</span></label>
+              <select id="capitalLevel"><option value="1">Lean — avoid major tuition</option><option value="3">Moderate — controlled spend</option><option value="5">High — degree affordable</option></select>
+            </div>
+            <div class="control">
+              <label for="timelineLevel"><span>Desired visible progress</span></label>
+              <select id="timelineLevel"><option value="2">Within 2 years</option><option value="3" selected>Within 3 years</option><option value="5">Within 5+ years</option></select>
+              <label for="languageChoice"><span>Language investment</span></label>
+              <select id="languageChoice"><option value="none">None for now</option><option value="german" selected>German — Europe strategy</option><option value="french">French — Canada strategy</option></select>
+            </div>
+            <div class="presets" aria-label="Strategy presets">
+              <button class="preset active" type="button" data-preset="recommended" aria-pressed="true">Recommended</button>
+              <button class="preset" type="button" data-preset="wealth" aria-pressed="false">Max income</button>
+              <button class="preset" type="button" data-preset="settlement" aria-pressed="false">Max clarity</button>
+              <button class="preset" type="button" data-preset="lean" aria-pressed="false">Min capital</button>
+              <button class="preset" type="button" data-preset="research" aria-pressed="false">Research</button>
+            </div>
+            <p class="engine-note">Model dimensions: earning ceiling, settlement clarity, control, current fit, speed, capital mismatch, research fit and risk mismatch. Ratings are editorial hypotheses, not calibrated measurements; the index does not estimate visa probability, salary or personal worth.</p>
+          </aside>
+          <div>
+            <p class="sr-only" id="routeStatus" aria-live="polite"></p>
+            <div id="routeRanking" class="ranking"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="career">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">04 · Career identity</span><h2>Do not restart. Reposition.</h2></div>
+          <p class="section-intro">You already have Java/Spring breadth, frontend context, teaching ability, research exposure and a real product codebase. The winning move is to focus those assets into a scarce hiring category.</p>
+        </div>
+
+        <div class="track-grid">
+          <article class="card track recommended"><div class="track-top"><h3>Backend / platform engineer</h3><span class="fit">BEST FIT</span></div><p>The strongest base: Java/Spring, APIs, SQL, messaging, cloud, reliability and AI-service integration.</p><dl><div><dt>Ceiling</dt><dd>High across India, EU, Australia and US-linked firms</dd></div><div><dt>Proof</dt><dd>Deployed service, load/cost metrics, tests, incidents</dd></div><div><dt>Risk</dt><dd>Staying at tutorial-level CRUD</dd></div></dl></article>
+          <article class="card track"><div class="track-top"><h3>Solutions engineer / DevRel</h3><span class="fit">STRONG FIT</span></div><p>Your teaching ability becomes economically valuable when paired with credible technical depth and customer outcomes.</p><dl><div><dt>Ceiling</dt><dd>High at cloud, data, security and developer-tool vendors</dd></div><div><dt>Proof</dt><dd>Demos, technical discovery, talks, sample apps</dd></div><div><dt>Risk</dt><dd>Being seen as trainer-only</dd></div></dl></article>
+          <article class="card track"><div class="track-top"><h3>Cloud / security platform</h3><span class="fit">GOOD FIT</span></div><p>A durable specialization after backend fundamentals: identity, secrets, observability, CI/CD and cloud security.</p><dl><div><dt>Ceiling</dt><dd>High, especially in regulated enterprise systems</dd></div><div><dt>Proof</dt><dd>Threat model, hardening, SLOs, infrastructure code</dd></div><div><dt>Risk</dt><dd>Certificates without operational work</dd></div></dl></article>
+          <article class="card track"><div class="track-top"><h3>ML systems / applied AI</h3><span class="fit">GOOD FIT</span></div><p>Use your research projects, but target evaluation, pipelines, retrieval, deployment and workflow integration—not model hype.</p><dl><div><dt>Ceiling</dt><dd>High, with a tougher proof threshold</dd></div><div><dt>Proof</dt><dd>Reproducibility, baselines, evals, production latency/cost</dd></div><div><dt>Risk</dt><dd>Inflated accuracy or notebook-only projects</dd></div></dl></article>
+          <article class="card track"><div class="track-top"><h3>Technical product / pre-sales</h3><span class="fit">LATERAL FIT</span></div><p>A future branch if you enjoy customers, commercial discovery and persuasion more than daily implementation.</p><dl><div><dt>Ceiling</dt><dd>Very high with commission or product ownership</dd></div><div><dt>Proof</dt><dd>Discovery, conversion, adoption and business metrics</dd></div><div><dt>Risk</dt><dd>Switching before engineering credibility</dd></div></dl></article>
+          <article class="card track"><div class="track-top"><h3>Pure research / academia</h3><span class="fit">CONDITIONAL</span></div><p>Viable only if rigorous research itself is satisfying. It is not the fastest earning route and must not be a visa disguise.</p><dl><div><dt>Ceiling</dt><dd>Variable; strongest in elite industry research</dd></div><div><dt>Proof</dt><dd>Reproducible work, credible venue, citations, references</dd></div><div><dt>Risk</dt><dd>Years invested for immigration rather than interest</dd></div></dl></article>
+        </div>
+
+        <div class="moat">
+          <article class="card moat-copy"><blockquote>Do not compete with AI at typing code. Compete at deciding what deserves to exist—and owning what happens after deployment.</blockquote><p>Use AI daily for scaffolding, tests, review and exploration. Your value moves upward into judgment, integration, verification, responsibility and adoption.</p></article>
+          <div class="moat-list">
+            <article class="card moat-item"><b>Own outcomes</b><p>Latency, reliability, cost, security and customer adoption are harder to commoditize than code volume.</p></article>
+            <article class="card moat-item"><b>Handle ambiguity</b><p>Translate conflicting business needs into a working system and defend the trade-offs.</p></article>
+            <article class="card moat-item"><b>Verify machines</b><p>Design evaluations, review generated code, detect subtle failure and maintain auditability.</p></article>
+            <article class="card moat-item"><b>Move humans</b><p>Teach, sell, document, negotiate and help teams adopt complex technology—your existing advantage.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="possibilities">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">05 · Opportunity universe</span><h2>The viable possibilities—sorted by what they require.</h2></div>
+          <p class="section-intro">This covers the serious route families rather than pretending every job title or visa is a separate life. “Viable” means worth testing under stated conditions, not guaranteed.</p>
+        </div>
+        <div class="universe">
+          <article class="card universe-column"><h3>Compound your base</h3><p>Highest fit; these preserve your accumulated technical and communication capital.</p>
+            <div class="option"><strong>Enterprise backend engineering</strong><span>Java/Spring, payments, identity, workflow, integration and regulated systems.</span><i>Primary now</i></div>
+            <div class="option"><strong>Platform / cloud engineering</strong><span>CI/CD, containers, observability, reliability, cost and developer platforms.</span><i>Specialize after base</i></div>
+            <div class="option"><strong>Solutions engineering / DevRel</strong><span>Combine technical depth, demos, teaching and customer discovery.</span><i>Asymmetric fit</i></div>
+            <div class="option"><strong>Applied AI systems</strong><span>Integrate models safely into workflows; own data, evaluation, latency and cost.</span><i>High-upside layer</i></div>
+            <div class="option"><strong>Production bridge roles</strong><span>Data/integration engineering, SRE, SDET automation and customer implementation can be practical entry points if they include real systems ownership.</span><i>Screen by duties</i></div>
+          </article>
+          <article class="card universe-column"><h3>Move through work</h3><p>Lower capital than study; success rises sharply after credible production experience.</p>
+            <div class="option"><strong>Direct European sponsorship</strong><span>Germany, Ireland and the Netherlands lead your near-term developed-market list.</span><i>18–30 month target</i></div>
+            <div class="option"><strong>Genuine MNC internal transfer</strong><span>TCS or a future multinational can create an ICT/L-1 style bridge, but you cannot control timing.</span><i>Keep as option</i></div>
+            <div class="option"><strong>Australia employer / skilled route</strong><span>Build assessable duties, English and points; model 482 plus 189/190/491—not only one subclass.</span><i>Model eligibility later</i></div>
+            <div class="option"><strong>Canada direct / French route</strong><span>Validate NOC duties, gain qualifying experience and use tested French only if Canada stays a real endpoint.</span><i>Model eligibility later</i></div>
+          </article>
+          <article class="card universe-column"><h3>Own distribution</h3><p>Riskier, but ownership is the largest wealth multiplier when real demand exists.</p>
+            <div class="option"><strong>AnimaFlow SaaS</strong><span>Release a narrow beta; use interviews, paid pilots and retention—not code count—as evidence.</span><i>Side bet now</i></div>
+            <div class="option"><strong>Automation consultancy</strong><span>Sell a specific workflow outcome to a niche; productize repeated work later.</span><i>Fast market test</i></div>
+            <div class="option"><strong>Developer education products</strong><span>Paid labs, enterprise enablement or technical courses—only with distribution and differentiation.</span><i>Leverages teaching</i></div>
+            <div class="option"><strong>Arc Mode / media</strong><span>Keep it a capped experiment unless audience or revenue proves pull. Do not let two brands fracture focus.</span><i>2-hour weekly cap</i></div>
+          </article>
+          <article class="card universe-column"><h3>Conditional resets</h3><p>Real possibilities, but only rational if interest survives after immigration benefits are removed.</p>
+            <div class="option"><strong>Funded MSc / industrial PhD</strong><span>Software systems, human–AI workflows or developer tooling can combine salary, research and residence.</span><i>Funding + advisor gate</i></div>
+            <div class="option"><strong>Regulated shortage career</strong><span>Nursing, allied health or trades may offer clearer shortages, but require years of retraining and genuine fit.</span><i>Do not choose cynically</i></div>
+            <div class="option"><strong>Singapore / UAE earnings bridge</strong><span>Can accelerate income and savings; do not confuse renewable residence with reliable citizenship.</span><i>Wealth, not settlement</i></div>
+            <div class="option"><strong>US exceptional-talent path</strong><span>Build evidence because it improves your career—not merely to check O-1/EB-1 boxes.</span><i>Moonshot, not base</i></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="countries">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">06 · Country field</span><h2>No country wins every objective.</h2></div>
+          <p class="section-intro">The meters are a personalized strategic assessment (5 = stronger), not official rankings. Every card links to an official starting point. Filter by the role a country can play in your portfolio.</p>
+        </div>
+        <div class="country-toolbar">
+          <div class="filters" role="group" aria-label="Filter countries">
+            <button class="filter-button active" type="button" data-country-filter="all" aria-pressed="true">All</button>
+            <button class="filter-button" type="button" data-country-filter="priority" aria-pressed="false">Priority now</button>
+            <button class="filter-button" type="button" data-country-filter="settlement" aria-pressed="false">Settlement</button>
+            <button class="filter-button" type="button" data-country-filter="income" aria-pressed="false">Income bridge</button>
+            <button class="filter-button" type="button" data-country-filter="moonshot" aria-pressed="false">Moonshots</button>
+          </div>
+          <span class="legend">Fit reflects your profile today · not eligibility</span>
+        </div>
+        <div class="gate" style="margin-bottom:1rem"><strong>Decision-data gap:</strong> these cards are a screening layer, not the quantified Residency Ledger. Before any tuition payment or resignation, add target-role compensation, estimated tax, city housing, likely net savings, job-loss grace, dependant rights, and the work permit / PR / citizenship sequence from current official data. Missing figures stay “pending”; they are never guessed.</div>
+        <div id="countryGrid" class="country-grid"></div>
+      </div>
+    </section>
+
+    <section id="routes">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">07 · Route dossiers</span><h2>What each serious route demands.</h2></div>
+          <p class="section-intro">Open each path. Notice that every route has an evidence gate and a kill criterion; this prevents hope from quietly becoming sunk cost.</p>
+        </div>
+        <div class="route-detail-grid">
+          <details class="card route-detail" open><summary><div class="summary-copy"><span>Plan A · Recommended</span><strong>India product role to direct Europe</strong></div></summary><div class="detail-body"><p>Move into real backend ownership in India, then target sponsor-capable employers in Germany, Ireland and the Netherlands. This raises income even if migration takes longer.</p><h4>Evidence required</h4><ul><li>18–30 months of relevant production duties, not just course delivery.</li><li>One service you deployed and operated, with performance/reliability/cost evidence.</li><li>Targeted CV, strong references, and German if Germany becomes primary.</li></ul><div class="gate"><strong>Kill / revise:</strong> review the funnel after every 25 matched applications by country, role, seniority, language and referral source. If four iterations still produce almost no screens, audit positioning and consider a low-cost local-study bridge—not random mass applications.</div></div></details>
+          <details class="card route-detail"><summary><div class="summary-copy"><span>Plan B · Balanced</span><strong>Australia skilled + employer portfolio</strong></div></summary><div class="detail-body"><p>Model multiple gates: skills assessment, occupation alignment, English, points, state criteria, invitation and employer sponsorship. A minimum points threshold is not an invitation.</p><h4>Evidence required</h4><ul><li>Assess whether your CSE degree and actual work duties meet the relevant assessing authority's rules.</li><li>Maximize verified English; document every employment duty and date accurately.</li><li>Track 189, 190, the conditional 491-to-191 pathway, and 482 employer options under current rules.</li></ul><div class="gate"><strong>Kill / revise:</strong> do not buy an Australian degree unless its conservative job case works without assuming nomination or PR.</div></div></details>
+          <details class="card route-detail"><summary><div class="summary-copy"><span>Plan C · Conditional</span><strong>Canada with French / direct eligibility</strong></div></summary><div class="detail-body"><p>Canada remains real, but the strategy must be score- and category-specific. Technical-faculty experience cannot simply be relabeled as software development; occupation classification follows duties.</p><h4>Evidence required</h4><ul><li>Classify the faculty role truthfully under the NOC whose lead statement and duties it actually matches; it may still be skilled experience in its own category.</li><li>Test three separate gates: basic Express Entry program eligibility, CRS competitiveness, and eligibility for a current category-based round.</li><li>Run language diagnostics, then build high English and—only if committed—tested French.</li><li>Recalculate federal and provincial scenarios from official tools before each major spend.</li></ul><div class="gate"><strong>Kill / revise:</strong> no generic college program based on an agent's “study to job to PR” chain. Each arrow is a separate uncertain gate.</div></div></details>
+          <details class="card route-detail"><summary><div class="summary-copy"><span>Plan D · Research</span><strong>Fully funded MSc / PhD</strong></div></summary><div class="detail-body"><p>Choose this because research questions energize you. Your best-fit themes are software systems, AI evaluation, human–AI workflows, developer tools and applied ML systems.</p><h4>Evidence required</h4><ul><li>Advisor/lab fit, confirmed funding and recent student outcomes.</li><li>Rigorous validation of the 99.96% sign-language result for leakage, split quality and external generalization.</li><li>A thesis question you would pursue even if immigration rules changed tomorrow.</li></ul><div class="gate"><strong>Kill / revise:</strong> reject unfunded US PhDs and paper-volume strategies. A weak venue can hurt more than no paper.</div></div></details>
+          <details class="card route-detail"><summary><div class="summary-copy"><span>Plan E · Upside</span><strong>US via MNC, cap-exempt work or evidence</strong></div></summary><div class="detail-body"><p>Better controlled US possibilities include a genuine multinational transfer, university/affiliated nonprofit cap-exempt role, funded research, later O-1/EB-1 extraordinary-ability evaluation, or a distinct EB-2 NIW analysis. None is automatic.</p><h4>Evidence required</h4><ul><li>For transfer: qualifying corporate relationship, role, tenure and specialized knowledge/managerial facts.</li><li>For O-1/EB-1: independent recognition and a strong overall record—not only minimum boxes.</li><li>For NIW: separately assess the proposed endeavor, national importance, positioning and the benefit of waiving the normal job-offer/labor-certification requirements.</li><li>For study: funding, advisor outcomes and a downside plan if post-study sponsorship fails.</li></ul><div class="gate"><strong>Kill / revise:</strong> never borrow life-changing money because the highest US salary is visible while visa and green-card uncertainty is hidden.</div></div></details>
+          <details class="card route-detail"><summary><div class="summary-copy"><span>Plan F · Ownership</span><strong>AnimaFlow / consulting to company</strong></div></summary><div class="detail-body"><p>AnimaFlow is already an excellent evidence engine. It becomes a business only when customers repeatedly pay for an outcome.</p><h4>Evidence required</h4><ul><li>Audit TCS employment, moonlighting, confidentiality and IP terms before release or monetization.</li><li>Ten interviews, three active design partners, one paid pilot, then retention evidence.</li><li>Separate business metrics from technical milestones; “69 files compile” is not demand.</li></ul><div class="gate"><strong>Go full-time only if:</strong> legal/IP issues are resolved, demand repeats, unit economics are visible and you have a deliberate financial runway.</div></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section id="study">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">08 · Master's vs PhD vs no degree</span><h2>Education is an investment—not an escape hatch.</h2></div>
+          <p class="section-intro">Your default today should be “no immediate expensive degree.” That can change when a specific program clears every gate below.</p>
+        </div>
+        <div class="study-grid">
+          <article class="card study-card"><h3>Master's gate</h3><span class="decision">Conditional yes</span><p>A master's is rational when it creates local employer access, specialized depth and a credible work route at a controlled cost.</p><ul><li>Program is public/reputable and directly tied to your target occupation.</li><li>Total cost is affordable without threatening family security.</li><li>Official graduate outcomes and internship access—not testimonials—support the case.</li><li>You would value the degree if post-study rules changed.</li><li>Conservative post-tax earnings justify cost and lost income.</li></ul><div class="formula">VALUE = skill depth + employer access + work rights − tuition − living cost − lost salary − policy risk</div></article>
+          <article class="card study-card"><h3>PhD gate</h3><span class="decision">Only fully funded</span><p>A PhD is an apprenticeship in research, not an immigration coupon. It should survive a brutal counterfactual.</p><ul><li>Funding, healthcare and realistic living support are written.</li><li>The advisor's students publish well, finish and reach roles you respect.</li><li>You enjoy method, uncertainty and writing—not just the title.</li><li>The research theme improves industry options even without O-1/EB-1.</li><li>You accept delayed earnings and geographic uncertainty.</li></ul><div class="formula">TEST: “Would I still choose this lab if it gave zero immigration advantage?” If no: do not enroll.</div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="corrections">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">09 · Important corrections</span><h2>Five facts that change the plan.</h2></div>
+          <p class="section-intro">These are strategy-level summaries, not legal advice. Verify the exact current rule with the linked authority before filing or paying.</p>
+        </div>
+        <div class="correction-list">
+          <article class="card correction"><div class="correction-num">01</div><div><h3>Canadian citizenship is necessary but insufficient for TN.</h3><p>USCIS describes TN for qualified Canadian and Mexican citizens in listed professional activities. Citizenship creates no automatic pipeline: the US job, actual duties and credentials must fit a listed profession; “software developer” is not made eligible by changing the title.</p></div></article>
+          <article class="card correction"><div class="correction-num">02</div><div><h3>Canadian citizenship adds years and does not usually reset US chargeability.</h3><p>The 1,095-day physical-presence rule is only one citizenship condition; eligible pre-PR time may receive limited half-day credit under current rules, and processing follows. Employment-based US visa chargeability is generally based on country of birth, subject to limited exceptions. India does not permit ordinary simultaneous Indian and foreign citizenship; OCI is a separate status, not dual citizenship.</p></div></article>
+          <article class="card correction"><div class="correction-num">03</div><div><h3>Australia's points floor is eligibility—not selection.</h3><p>An expression of interest can remain uninvited. Occupation, assessment, invitation rounds, state criteria, English and employer demand can matter more than university brand.</p></div></article>
+          <article class="card correction"><div class="correction-num">04</div><div><h3>PhD to O-1 / EB-1 is not a pipeline.</h3><p>USCIS evaluates extraordinary ability under evidentiary criteria and overall merit. A degree, publications or minimum category count alone do not compel approval. Build a respected career; evaluate immigration evidence later.</p></div></article>
+          <article class="card correction"><div class="correction-num">05</div><div><h3>Residence and citizenship are different products.</h3><p>Singapore and UAE can be excellent earnings bases while offering less predictable permanent settlement. Germany, Ireland, Canada, Australia and New Zealand may offer clearer residence structures but still impose separate conditions and policy risk.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="plan">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">10 · The next 90 days</span><h2>Turn anxiety into completed evidence.</h2></div>
+          <p class="section-intro">This is the executable part. Checkboxes save automatically on this device. Project release from T&D is not the same as resigning from TCS.</p>
+        </div>
+        <div class="now-callout">
+          <div><h3>Immediate TCS rule: request the project release calmly; do not resign into a vacuum.</h3><p>Get the October 9, 2026 release and positive teaching feedback documented. Give internal engineering opportunities a short, written gate—but run external applications in parallel. Accept only a role with a named team, real coding/deployment ownership and a start date.</p></div>
+          <div class="date-box"><strong>09 Oct</strong><span id="releaseStatus">Release · 2026</span></div>
+        </div>
+
+        <div class="timeline">
+          <article class="card phase"><span class="phase-time">Days 1–14 · Position</span><h3>Choose one market identity</h3><p>Stop presenting five careers at once. Establish the backend/platform story and protect your downside.</p><div class="checklist">
+            <label class="check-item"><input type="checkbox" data-task="identity"><span>Use the one-sentence backend/platform identity on CV and profiles.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="tcs-release"><span>Confirm release date, allocation status and feedback in writing.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="internal-gate"><span>Set a 30-day gate for a named production-engineering assignment.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="ip-audit"><span>Review employment, IP, confidentiality and moonlighting terms.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="resume"><span>Rewrite CV around outcomes, systems and quantified teaching scope.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="english-test"><span>Take an IELTS/PTE-style diagnostic; record the baseline.</span></label>
+          </div></article>
+          <article class="card phase"><span class="phase-time">Days 15–45 · Prove</span><h3>Ship what strangers can inspect</h3><p>Convert claims into a live system, serious case study and interview readiness.</p><div class="checklist">
+            <label class="check-item"><input type="checkbox" data-task="beta-scope"><span>Cut AnimaFlow to one customer, one painful workflow and one promise.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="beta-live"><span>Deploy the beta with logs, alerts, cost tracking and a demo account.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="architecture"><span>Publish a sanitized architecture and trade-off case study.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="interviews-10"><span>Complete 10 customer interviews; do not pitch during the first half.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="job-prep"><span>Begin Java/Spring, SQL, system design, testing, cloud and DSA plan.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="paper-audit"><span>Audit the 99.96% model for leakage and external generalization.</span></label>
+          </div></article>
+          <article class="card phase"><span class="phase-time">Days 46–90 · Test</span><h3>Let the market answer</h3><p>Use a sustainable funnel: minimum 4, target 8 and stretch 12 applications per week. Customers and mentors generate the other evidence.</p><div class="checklist">
+            <label class="check-item"><input type="checkbox" data-task="applications"><span>Send 4 minimum / 8 target carefully matched applications weekly, mostly India product/GCC roles.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="referrals"><span>Request 2 targeted referrals weekly with a specific role and proof link.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="design-partners"><span>Recruit 3 active AnimaFlow design partners and ask for one paid pilot.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="language-choice"><span>Choose German or French only after confirming the primary country route.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="program-shortlist"><span>Shortlist at most 6 study programs using cost, funding, outcomes and route fit.</span></label>
+            <label class="check-item"><input type="checkbox" data-task="quarter-review"><span>Run the 90-day review: offers, interviews, users, revenue, skill and migration data.</span></label>
+          </div></article>
+        </div>
+
+        <div class="card progress-panel">
+          <div class="progress-ring" id="progressRing" role="progressbar" aria-label="90-day action progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressPercent">0%</span></div>
+          <div class="progress-copy"><strong id="progressTitle">Your plan is waiting for its first completed action.</strong><span id="progressDetail">0 of 18 actions complete · progress is saved locally</span></div>
+          <button class="button danger" id="resetProgress" type="button">Reset checks</button>
+        </div>
+
+        <div class="long-roadmap" aria-label="24 month roadmap">
+          <article class="card quarter active"><span>0–3 months</span><h4>Reposition + release</h4><p>Production-role search, AnimaFlow beta, baseline tests and evidence audit.</p></article>
+          <article class="card quarter"><span>3–6 months</span><h4>Enter engineering</h4><p>Internal only if concrete; otherwise switch to a role that ships and operates software.</p></article>
+          <article class="card quarter"><span>6–12 months</span><h4>Own a service</h4><p>Quantify reliability, cost, latency, adoption or incident improvement. Build references.</p></article>
+          <article class="card quarter"><span>9–18 months</span><h4>Activate mobility</h4><p>Language progress, documents and sponsor-matched Europe applications; current AU/CA modeling.</p></article>
+          <article class="card quarter"><span>18–24 months</span><h4>Take the best gate</h4><p>Direct relocation if sound; otherwise only a program whose conservative case beats another work year.</p></article>
+          <article class="card quarter"><span>24+ months</span><h4>Compound abroad or at home</h4><p>Increase scope, negotiate globally, grow ownership and keep residence compliance exact.</p></article>
+          <article class="card quarter"><span>Annual</span><h4>Re-rank countries</h4><p>Policies, occupation lists, salaries and your evidence change. Update from official sources.</p></article>
+          <article class="card quarter"><span>Always</span><h4>Protect optionality</h4><p>Cash runway, health, reputation, honest documents and strong relationships prevent forced decisions.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="operating-system">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">11 · Weekly operating system</span><h2>A plan that can survive a full-time job.</h2></div>
+          <p class="section-intro">Twelve focused hours every week beats an unsustainable 30-hour burst. Keep one evening fully free. If work becomes unusually heavy, preserve the job-search and engineering blocks first.</p>
+        </div>
+        <div class="operating-grid">
+          <article class="card weekly"><h3>Default allocation</h3><div class="weekly-total">12 hours / week</div><div class="allocation">
+            <div class="allocation-row"><span>Engineering depth</span><div class="line"><i style="width:33%"></i></div><b>4h</b></div>
+            <div class="allocation-row"><span>Interview + jobs</span><div class="line"><i style="width:33%"></i></div><b>4h</b></div>
+            <div class="allocation-row"><span>AnimaFlow users</span><div class="line"><i style="width:17%"></i></div><b>2h</b></div>
+            <div class="allocation-row"><span>German / French</span><div class="line"><i style="width:8%"></i></div><b>1h</b></div>
+            <div class="allocation-row"><span>Review + network</span><div class="line"><i style="width:8%"></i></div><b>1h</b></div>
+          </div></article>
+          <div class="rules">
+            <article class="card rule"><b>Rule 01 · One headline</b><p>Backend/platform is the hiring identity. AI, teaching, research and founder work support it.</p></article>
+            <article class="card rule"><b>Rule 02 · Evidence before credentials</b><p>Take a certification only when a target role requests it or it structures a skill you will demonstrate.</p></article>
+            <article class="card rule"><b>Rule 03 · Applications are experiments</b><p>Track role, source, screen, rejection stage and feedback. Change one variable every two weeks.</p></article>
+            <article class="card rule"><b>Rule 04 · One language</b><p>German for Europe or French for Canada. Beginner status in both creates little selection value.</p></article>
+            <article class="card rule"><b>Rule 05 · Monthly policy check</b><p>Use official pages and date-stamped notes. Never let an old dashboard silently become law.</p></article>
+            <article class="card rule"><b>Rule 06 · No irreversible panic</b><p>Use a 48-hour pause before resignation, tuition deposit, major debt or abandoning a proven path.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">12 · Evidence conversion</span><h2>Turn what you already built into career capital.</h2></div>
+          <p class="section-intro">Your projects are not weak; their evidence is unfinished. Each asset needs an external verifier, measurable outcome and coherent story.</p>
+        </div>
+        <div class="evidence-grid">
+          <article class="card evidence-card"><h3>AnimaFlow</h3><p>Use it as a product, backend and founder case study even if it never becomes a large company.</p><div class="milestone"><span>Legal/IP audit</span><span>Before launch</span></div><div class="milestone"><span>Live narrow beta</span><span>Day 45</span></div><div class="milestone"><span>10 interviews</span><span>Evidence</span></div><div class="milestone"><span>3 design partners</span><span>Usage</span></div><div class="milestone"><span>1 paid pilot</span><span>Demand</span></div><div class="milestone"><span>Retention / repeat use</span><span>Scale gate</span></div></article>
+          <article class="card evidence-card"><h3>TCS faculty work</h3><p>Translate teaching into scope and influence without pretending it was production development.</p><ul><li>Number of batches/associates trained and subjects owned.</li><li>Preparation time compressed relative to normal onboarding.</li><li>Feedback, pass rates or learning outcomes where documented.</li><li>Interview/assessment content and cross-team responsibility.</li><li>Separate “built training systems” from “operated production systems.”</li></ul></article>
+          <article class="card evidence-card"><h3>Research portfolio</h3><p>One credible, reproducible result is stronger than several inflated manuscripts.</p><ol><li>Rebuild data split and leakage checks.</li><li>Add external/subject-independent validation.</li><li>Publish code, seeds, baselines and limitations where permitted.</li><li>Find a credible mentor and venue.</li><li>Track citations and external use; do not manufacture prestige.</li></ol></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="avoid">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">13 · Stop-doing list</span><h2>What can quietly waste your twenties.</h2></div>
+          <p class="section-intro">The most dangerous choices are not obviously foolish; they are respectable-looking activities that fail to produce proof, income or eligibility.</p>
+        </div>
+        <div class="stop-grid">
+          <article class="card stop"><strong>Waiting for TCS rescue</strong><p>Internal mobility is an option, not a plan, until a named team and start date exist.</p></article>
+          <article class="card stop"><strong>Being five professionals at once</strong><p>Trainer + full-stack + researcher + founder + data scientist sounds unfocused at junior level.</p></article>
+          <article class="card stop"><strong>Buying a panic degree</strong><p>Admission is not a job; work rights are not PR; PR is not citizenship.</p></article>
+          <article class="card stop"><strong>Publishing for box-checking</strong><p>Predatory or weak venues do not create extraordinary ability and can damage credibility.</p></article>
+          <article class="card stop"><strong>Perfecting in private</strong><p>A smaller live system with users is stronger than a huge codebase only you can inspect.</p></article>
+          <article class="card stop"><strong>Collecting cloud badges</strong><p>One operated service with an incident story beats three entry-level certifications.</p></article>
+          <article class="card stop"><strong>Calling residence “settlement”</strong><p>Renewable Gulf or Asian work status can build wealth but may not produce reliable citizenship.</p></article>
+          <article class="card stop"><strong>Optimizing only gross salary</strong><p>Compare taxes, housing, healthcare, spouse options, job loss risk and residency conditions.</p></article>
+          <article class="card stop"><strong>Letting fear choose the field</strong><p>There is no automation-proof career. Build adaptability, ownership and distribution instead.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="journal-section">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">14 · Decision journal</span><h2>Write the next decision—not your destiny.</h2></div>
+          <p class="section-intro">Use this local note to capture evidence, fears and the next reversible test. It is plaintext browser storage—not encrypted private storage. Export it with your route settings and checklist.</p>
+        </div>
+        <div class="decision-journal">
+          <article class="card journal"><h3>Your working note</h3><textarea id="journal" aria-label="Career decision journal" placeholder="Example: My 90-day hypothesis is that production backend engineering gives me the best salary and migration leverage. I will test it through 40 targeted applications, a live AnimaFlow case study, and five conversations with engineers in Germany/Ireland..."></textarea><div class="journal-actions"><button class="button primary" id="saveJournal" type="button">Save note</button><button class="button" id="copyBrief" type="button">Copy 30-day brief</button><button class="button danger" id="clearLocalData" type="button">Clear local data</button></div></article>
+          <aside class="card commitment"><div class="eyebrow">The seven-day commitment</div><h3>Before researching another country</h3><ol class="commitment-list"><li>Finalize one backend/platform résumé.</li><li>Get the TCS release and evidence trail organized.</li><li>Schedule the AnimaFlow legal/IP review.</li><li>Define the smallest live beta.</li><li>Apply to five product engineering roles.</li><li>Speak to two engineers who have relocated.</li><li>Block twelve recurring weekly hours.</li></ol></aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="section-num">15 · Official source ledger</span><h2>Policies expire. Sources matter.</h2></div>
+          <p class="section-intro">These official pages were used to challenge broad claims and establish live route families. Re-check them before an application, tuition deposit or resignation.</p>
+        </div>
+        <div class="source-grid">
+          <article class="source"><div><span>Canada · IRCC</span><strong>2026 Express Entry categories</strong></div><a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/rounds-invitations/category-based-selection.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Canada · IRCC</span><strong>2026–2028 immigration levels</strong></div><a href="https://www.canada.ca/en/immigration-refugees-citizenship/corporate/mandate/corporate-initiatives/levels/supplementary-immigration-levels-2026-2028.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Canada · IRCC</span><strong>PGWP eligibility</strong></div><a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation/eligibility.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Canada · IRCC</span><strong>Citizenship physical presence</strong></div><a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-citizenship/become-canadian-citizen/check-eligibility.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United States · State</span><strong>F and M student visas</strong></div><a href="https://travel.state.gov/content/travel/en/us-visas/study/student-visa.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United States · USCIS</span><strong>H-1B specialty occupations</strong></div><a href="https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United States · USCIS</span><strong>TN USMCA professionals</strong></div><a href="https://www.uscis.gov/working-in-the-united-states/temporary-workers/tn-nafta-professionals" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United States · USCIS</span><strong>Entrepreneur work pathways incl. O-1A / EB-1A</strong></div><a href="https://www.uscis.gov/working-in-the-united-states/options-for-alien-entrepreneurs-to-work-in-the-united-states" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United States · BLS</span><strong>AI, IT and 2024–34 employment</strong></div><a href="https://www.bls.gov/opub/ted/2026/artificial-intelligence-information-technology-and-employment-2024-34.htm" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Australia · Home Affairs</span><strong>Skilled Independent subclass 189</strong></div><a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-independent-189/points-tested" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Australia · Home Affairs</span><strong>Regional 491 and conditional 191 pathway</strong></div><a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-work-regional-provisional-491" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Australia · Home Affairs</span><strong>Skills in Demand subclass 482</strong></div><a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skills-in-demand-visa-subclass-482" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Germany · Federal portal</span><strong>EU Blue Card</strong></div><a href="https://www.make-it-in-germany.com/en/visa-residence/types/eu-blue-card" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Ireland · Enterprise</span><strong>Critical Skills Employment Permit</strong></div><a href="https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/permit-types/critical-skills-employment-permit/" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Netherlands · IND</span><strong>Highly skilled migrant</strong></div><a href="https://ind.nl/en/residence-permits/work/highly-skilled-migrant" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United Kingdom · GOV.UK</span><strong>Skilled Worker visa</strong></div><a href="https://www.gov.uk/skilled-worker-visa" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United Kingdom · GOV.UK</span><strong>Global Talent: digital technology</strong></div><a href="https://www.gov.uk/global-talent-digital-technology/eligibility" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>New Zealand · Immigration NZ</span><strong>Green List residence pathway</strong></div><a href="https://www.immigration.govt.nz/live/resident-visas-to-live-in-new-zealand/skilled-residence-pathways-in-new-zealand/green-list-pathway-to-residence/" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Singapore · MOM</span><strong>Employment Pass + COMPASS</strong></div><a href="https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Switzerland · SEM</span><strong>Third-country work admission</strong></div><a href="https://www.sem.admin.ch/sem/en/home/themen/arbeit/nicht-eu_efta-angehoerige/grundlagen_zur_arbeitsmarktzulassung.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>France · Service Public</span><strong>Talent residence card</strong></div><a href="https://www.service-public.fr/particuliers/vosdroits/F16922?lang=en" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Finland · Migri</span><strong>Specialist residence permit</strong></div><a href="https://migri.fi/en/specialist" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Denmark · SIRI</span><strong>Positive List: higher education</strong></div><a href="https://nyidanmark.dk/en-GB/You-want-to-apply/Work/Positive-List-Higher-Education" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Sweden · Migration Agency</span><strong>EU Blue Card</strong></div><a href="https://www.migrationsverket.se/en/you-want-to-apply/work/employee-or-self-employed/eu-blue-cards.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Norway · UDI</span><strong>Skilled worker permit</strong></div><a href="https://udi.no/en/want-to-apply/work-immigration/skilled-workers/" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>UAE · Government</span><strong>Green residence visa</strong></div><a href="https://u.ae/en/information-and-services/visa-and-emirates-id/Types-of-visas/Investor-visa/Green-visa" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Japan · Immigration Services</span><strong>J-Skip highly skilled route</strong></div><a href="https://www.moj.go.jp/isa/applications/resources/nyuukokukanri01_00009.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>India · Home Affairs</span><strong>OCI and simultaneous citizenship</strong></div><a href="https://www.mha.gov.in/sites/default/files/OCIIntroduction_23072021.pdf" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>Canada · IRCC</span><strong>Pre-PR physical-presence credit</strong></div><a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/canadian-citizenship/act-changes/requirements-2017-2018.html" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United States · USCIS</span><strong>Employment-based country of chargeability</strong></div><a href="https://www.uscis.gov/green-card/questions-and-answers-pending-employment-based-form-i-485-inventory" target="_blank" rel="noopener">Open official source</a></article>
+          <article class="source"><div><span>United States · USCIS</span><strong>EB-2 National Interest Waiver guidance</strong></div><a href="https://www.uscis.gov/newsroom/alerts/uscis-updates-guidance-on-eb-2-national-interest-waiver-petitions" target="_blank" rel="noopener">Open official source</a></article>
+        </div>
+        <p class="source-note"><strong>Evidence note:</strong> Content was rephrased for compliance with licensing restrictions. Sources are official government or public-authority pages where available. Search review completed in September 2026. Government pages, salary thresholds, occupation lists, invitation behavior and processing conditions can change without this static file updating. “Fit,” “ceiling,” “clarity” and route scores are explicitly the dossier's judgment—not government data and not legal, immigration or financial advice.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <div><blockquote>“Your next move is not to discover the perfect country. It is to become the kind of person several countries, employers and customers compete to keep.”</blockquote><p>This dossier is a decision aid, not a promise. Verify immigration rules with official authorities or a licensed professional, validate study economics independently, and never misstate duties, achievements or evidence. The plan intentionally favors reversible experiments before irreversible spending.</p></div>
+      <div class="stamp">Prepared for<br><strong>Purvam Prajapati</strong><br>Version 1.0 · 2026</div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const STORAGE_KEY = 'purvam-career-dossier-v1';
+      const safeStorage = {
+        read() {
+          try {
+            const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+          } catch (_) { return {}; }
+        },
+        write(value) {
+          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(value)); return true; }
+          catch (_) { return false; }
+        },
+        clear() {
+          try { localStorage.removeItem(STORAGE_KEY); return true; }
+          catch (_) { return false; }
+        }
+      };
+      let state = safeStorage.read();
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+      const toast = (message) => {
+        const el = $('#toast');
+        el.textContent = message;
+        el.classList.add('show');
+        clearTimeout(toast.timer);
+        toast.timer = setTimeout(() => el.classList.remove('show'), 2400);
+      };
+
+      const routes = [
+        { id:'india-europe', name:'Production role in India to direct Europe', summary:'Build production ownership, then target Germany, Ireland and the Netherlands. Improves your career even if migration is delayed.', income:8.2, settlement:7.5, control:9.2, fit:10, speed:7.8, capital:1, risk:3, research:2, language:'german', tags:['recommended','low capital','compounding'] },
+        { id:'mnc-transfer', name:'Production MNC role to internal transfer', summary:'A real transfer can unlock Europe or the US without tuition, but timing and business need remain outside your control.', income:8.5, settlement:5.2, control:4.2, fit:8.2, speed:5.8, capital:1, risk:5.3, research:1, language:null, tags:['low capital','employer-led','option'] },
+        { id:'eu-masters', name:'Low-cost EU master’s to local employment', summary:'Useful only with controlled cost, strong program-employer links and a degree valuable even if migration rules change.', income:7.5, settlement:7.4, control:6.2, fit:7.8, speed:5.1, capital:4, risk:5.2, research:5, language:'german', tags:['conditional','study','local network'] },
+        { id:'australia', name:'Australia skilled + employer portfolio', summary:'Build assessable duties and English; track 189/190/491 and employer-sponsored 482 rather than betting on one invitation.', income:8.2, settlement:8.1, control:5.3, fit:6.3, speed:4.2, capital:2, risk:5.4, research:2, language:null, tags:['points','employer','medium horizon'] },
+        { id:'canada', name:'Canada direct / French-strengthened route', summary:'Validate skilled duties and scores. French can be a material lever; a generic study-to-PR chain is not the strategy.', income:7, settlement:7.4, control:5.1, fit:5.6, speed:4, capital:2, risk:6.1, research:2, language:'french', tags:['French lever','score-dependent','conditional'] },
+        { id:'remote', name:'India base to remote / export income', summary:'Global clients or remote employers can increase income and proof without solving settlement. Tax, contracts and job stability need care.', income:8.4, settlement:1.2, control:7.5, fit:8.2, speed:7.2, capital:1, risk:6.2, research:1, language:null, tags:['income','low capital','no settlement'] },
+        { id:'saas', name:'AnimaFlow to validated SaaS company', summary:'Highest ownership upside and highest variance. Keep it a side bet until paid demand, retention, IP clarity and runway exist.', income:10, settlement:3, control:6.4, fit:8.4, speed:3.4, capital:2, risk:9.6, research:2, language:null, tags:['ownership','high risk','milestone-gated'] },
+        { id:'funded-phd', name:'Fully funded research degree to research industry', summary:'Potential US/EU upside if you love the work. Delays earnings and does not guarantee O-1, EB-1 or residence.', income:8.8, settlement:4.5, control:3.6, fit:5.6, speed:2, capital:1, risk:7.8, research:10, language:null, tags:['funded only','long horizon','research'] },
+        { id:'income-bridge', name:'Singapore / UAE earnings bridge', summary:'Strong potential for income and savings. Treat it as a wealth engine, not a reliable citizenship strategy.', income:8.8, settlement:2.1, control:5.2, fit:6.2, speed:5.4, capital:1, risk:5.7, research:1, language:null, tags:['income','residence ≠ citizenship','bridge'] },
+        { id:'new-zealand', name:'New Zealand Green List / skilled route', summary:'Clearer residence pathways for qualifying listed roles, but a smaller market and lower earning ceiling than top alternatives.', income:6.3, settlement:8.3, control:5.2, fit:5.2, speed:4.2, capital:2, risk:4.2, research:1, language:null, tags:['settlement','small market','occupation gate'] },
+        { id:'us-direct', name:'US direct: cap-exempt, L-1 or later evidence route', summary:'The highest salary ceiling with the weakest near-term predictability. Pursue opportunistically; do not make it the only plan.', income:10, settlement:2.2, control:2.8, fit:4.2, speed:2.8, capital:1, risk:9, research:5, language:null, tags:['moonshot','high ceiling','policy risk'] }
+      ];
+
+      const countries = [
+        { code:'DE', name:'Germany', tier:'Priority', groups:['priority','settlement'], route:'Qualifying direct offer under EU Blue Card / skilled work; low-cost study as a conditional bridge.', income:3.7, settlement:4.4, fit:4.7, catch:'German expands the market. Degree comparability, role and salary must meet the current permit.', source:'https://www.make-it-in-germany.com/en/visa-residence/types/eu-blue-card' },
+        { code:'IE', name:'Ireland', tier:'Priority', groups:['priority','settlement'], route:'A direct offer in a Critical Skills occupation can support the permit and a longer-term residence path.', income:4.2, settlement:4, fit:4.2, catch:'Small market and housing pressure; check occupation, remuneration and employer facts.', source:'https://enterprise.gov.ie/en/what-we-do/workplace-and-skills/employment-permits/permit-types/critical-skills-employment-permit/' },
+        { code:'NL', name:'Netherlands', tier:'Priority', groups:['priority'], route:'Recognised sponsor under the highly skilled migrant route; EU Blue Card is another option.', income:4, settlement:3.6, fit:4, catch:'Sponsor and salary gates; housing and tax assumptions require a conservative check.', source:'https://ind.nl/en/residence-permits/work/highly-skilled-migrant' },
+        { code:'AU', name:'Australia', tier:'Alternative', groups:['priority','settlement'], route:'Skills/employer portfolio: 189, 190, 491 with later 191 eligibility, and 482.', income:4.1, settlement:4.2, fit:3.2, catch:'Assessment and invitation are separate; minimum points do not guarantee selection.', source:'https://immi.homeaffairs.gov.au/visas/working-in-australia/skillselect' },
+        { code:'CA', name:'Canada', tier:'Alternative', groups:['priority','settlement'], route:'Express Entry / PNP with verified duties, strong language and possible French category leverage.', income:3.5, settlement:3.9, fit:2.9, catch:'More targeted selection and lower temporary targets; TN requires later citizenship, not PR.', source:'https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/rounds-invitations/category-based-selection.html' },
+        { code:'US', name:'United States', tier:'Upside', groups:['moonshot'], route:'MNC transfer, cap-exempt work, funded research, H-1B or later O-1/EB evidence.', income:5, settlement:1.4, fit:2.1, catch:'Cap and green-card uncertainty are structural. A PhD is not an extraordinary-ability guarantee.', source:'https://www.uscis.gov/working-in-the-united-states/options-for-alien-entrepreneurs-to-work-in-the-united-states' },
+        { code:'GB', name:'United Kingdom', tier:'Watch', groups:['income'], route:'Approved sponsor under Skilled Worker; Global Talent only with a strong evidence record.', income:4, settlement:3, fit:3, catch:'Model salary, visa costs, healthcare surcharge and settlement rules together.', source:'https://www.gov.uk/skilled-worker-visa' },
+        { code:'NZ', name:'New Zealand', tier:'Settlement', groups:['settlement'], route:'A qualifying Green List role may support straight-to-residence, work-to-residence or another skilled route.', income:3, settlement:4.3, fit:2.7, catch:'Smaller technology market; exact role, pay, qualification and registration gates matter.', source:'https://www.immigration.govt.nz/live/resident-visas-to-live-in-new-zealand/skilled-residence-pathways-in-new-zealand/green-list-pathway-to-residence/' },
+        { code:'SG', name:'Singapore', tier:'Income', groups:['income'], route:'Employer-sponsored Employment Pass, subject to minimum qualifying salary and COMPASS.', income:4.5, settlement:2, fit:2.8, catch:'Excellent career hub; PR is discretionary and should not be modeled as automatic.', source:'https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility' },
+        { code:'AE', name:'UAE', tier:'Income', groups:['income'], route:'Employer work residence; Green/Golden residence for qualifying profiles.', income:4.3, settlement:1.2, fit:3.2, catch:'Potential savings engine, but long-term residence is not a normal citizenship pipeline.', source:'https://u.ae/en/information-and-services/visa-and-emirates-id/Types-of-visas/Investor-visa/Green-visa' },
+        { code:'FR', name:'France', tier:'Watch', groups:['settlement'], route:'Talent / EU Blue Card and qualified-employment routes.', income:3.3, settlement:4, fit:2.8, catch:'French materially improves hiring and integration; verify category and salary.', source:'https://www.service-public.fr/particuliers/vosdroits/F16922?lang=en' },
+        { code:'FI', name:'Finland', tier:'Watch', groups:['settlement'], route:'Specialist or EU Blue Card with fast-track options for qualifying applicants.', income:3.2, settlement:4, fit:2.7, catch:'Small market; employer demand and role-specific salary remain the real gate.', source:'https://migri.fi/en/specialist' },
+        { code:'DK', name:'Denmark', tier:'Watch', groups:['settlement'], route:'Positive List or pay-limit/employer route for qualifying offers.', income:3.8, settlement:3.4, fit:2.5, catch:'Small market, current list/pay requirements and longer-term language/integration trade-offs.', source:'https://nyidanmark.dk/en-GB/You-want-to-apply/Work/Positive-List-Higher-Education' },
+        { code:'SE', name:'Sweden', tier:'Watch', groups:['settlement'], route:'Employer work permit or EU Blue Card for qualifying highly skilled employment.', income:3.4, settlement:3.7, fit:2.6, catch:'Salary, employer compliance and current permit rules need close verification.', source:'https://www.migrationsverket.se/en/you-want-to-apply/work/employee-or-self-employed/eu-blue-cards.html' },
+        { code:'NO', name:'Norway', tier:'Watch', groups:['settlement'], route:'Skilled-worker residence with a qualifying job offer.', income:3.8, settlement:3.7, fit:2.4, catch:'High costs and a small market; a job offer is normally needed first.', source:'https://udi.no/en/want-to-apply/work-immigration/skilled-workers/' },
+        { code:'CH', name:'Switzerland', tier:'Moonshot', groups:['income','moonshot'], route:'Highly qualified third-country hire subject to employer case and permit limits.', income:5, settlement:2.1, fit:1.3, catch:'Non-EU/EFTA permits are limited and local/EU priority makes this a poor base plan.', source:'https://www.sem.admin.ch/sem/en/home/themen/arbeit/nicht-eu_efta-angehoerige/grundlagen_zur_arbeitsmarktzulassung.html' },
+        { code:'JP', name:'Japan', tier:'Watch', groups:['settlement'], route:'Engineer / Highly Skilled Professional; J-Skip only at exceptional thresholds.', income:3.5, settlement:3.6, fit:2.1, catch:'Japanese often matters for market depth; J-Skip is not a junior route.', source:'https://www.moj.go.jp/isa/applications/resources/nyuukokukanri01_00009.html' },
+        { code:'HK', name:'Hong Kong', tier:'Watch', groups:['income'], route:'Employer/talent schemes; top-talent routes require high income or listed university/experience facts.', income:4.2, settlement:2.8, fit:1.9, catch:'Strong finance/tech hub, but eligibility and long-term preference need separate checks.', source:'https://www.immd.gov.hk/eng/services/visas/TTPS.html' }
+      ];
+
+      const controls = {
+        wealth: $('#wealthWeight'), risk: $('#riskTolerance'), research: $('#researchInterest'),
+        capital: $('#capitalLevel'), timeline: $('#timelineLevel'), language: $('#languageChoice')
+      };
+
+      const labelRisk = (value) => value < 25 ? 'Low' : value < 55 ? 'Moderate' : value < 80 ? 'High' : 'Very high';
+      const labelResearch = (value) => value < 20 ? 'Low' : value < 50 ? 'Selective' : value < 80 ? 'Strong' : 'Research-first';
+      const clampNumber = (value, fallback, min, max) => {
+        const numeric = Number(value);
+        return Number.isFinite(numeric) ? Math.min(max, Math.max(min, numeric)) : fallback;
+      };
+      const allowedNumber = (value, allowed, fallback) => allowed.includes(Number(value)) ? Number(value) : fallback;
+      const normalizeInputs = (raw = {}) => ({
+        wealth: clampNumber(raw.wealth, 55, 0, 100),
+        risk: clampNumber(raw.risk, 40, 0, 100),
+        research: clampNumber(raw.research, 30, 0, 100),
+        capital: allowedNumber(raw.capital, [1, 3, 5], 1),
+        timeline: allowedNumber(raw.timeline, [2, 3, 5], 3),
+        language: ['none', 'german', 'french'].includes(raw.language) ? raw.language : 'german'
+      });
+
+      function currentInputs() {
+        return normalizeInputs({
+          wealth: controls.wealth.value, risk: controls.risk.value,
+          research: controls.research.value, capital: controls.capital.value,
+          timeline: controls.timeline.value, language: controls.language.value
+        });
+      }
+
+      function scoreRoute(route, input) {
+        const wealthRatio = input.wealth / 100;
+        const incomeWeight = 1.1 + (wealthRatio * 2.1);
+        const settlementWeight = 1.1 + ((1 - wealthRatio) * 2.1);
+        const speedWeight = input.timeline <= 2 ? 1.5 : input.timeline <= 3 ? 1 : 0.55;
+        const researchTarget = input.research / 10;
+        const riskCapacity = input.risk / 10;
+        const raw = (route.income * incomeWeight) + (route.settlement * settlementWeight) +
+          (route.control * 1.55) + (route.fit * 2.15) + (route.speed * speedWeight) +
+          ((10 - Math.abs(route.research - researchTarget)) * 0.65);
+        const maxRaw = 10 * (incomeWeight + settlementWeight + 1.55 + 2.15 + speedWeight + 0.65);
+        const capitalPenalty = Math.max(0, route.capital - input.capital) * 4.4;
+        const riskPenalty = Math.max(0, route.risk - riskCapacity) * 2.6;
+        const languageBonus = !route.language ? 0 : route.language === input.language ? 3.2 : -2.4;
+        return Math.max(1, Math.min(99, Math.round((raw / maxRaw) * 100 - capitalPenalty - riskPenalty + languageBonus)));
+      }
+
+      function renderRanking() {
+        const input = currentInputs();
+        $('#wealthOutput').textContent = input.wealth === 50 ? 'Balanced' : input.wealth > 50 ? `${input.wealth}% income` : `${100-input.wealth}% settlement`;
+        $('#riskOutput').textContent = labelRisk(input.risk);
+        $('#researchOutput').textContent = labelResearch(input.research);
+        const languageLabel = {none:'None', german:'German', french:'French'}[input.language];
+        $('#printSettings').textContent = `Directional model settings — income weight: ${input.wealth}%; risk tolerance: ${labelRisk(input.risk)}; research appetite: ${labelResearch(input.research)}; capital level: ${input.capital}; horizon: ${input.timeline}+ years; language: ${languageLabel}.`;
+        const ranked = routes.map(route => ({...route, score: scoreRoute(route, input)})).sort((a,b) => b.score - a.score);
+        $('#routeRanking').innerHTML = ranked.map((route, index) => `
+          <article class="card route-card">
+            <div class="route-rank">${String(index + 1).padStart(2,'0')}</div>
+            <div class="route-copy"><h3>${route.name}</h3><p>${route.summary}</p><div class="route-tags">${route.tags.map(tag => `<span>${tag}</span>`).join('')}</div></div>
+            <div class="score-wrap"><div><div class="score">${route.score}</div><div class="score-label">directional index</div></div><div class="bar" aria-hidden="true"><i style="width:${route.score}%"></i></div></div>
+          </article>`).join('');
+        $('#routeStatus').textContent = `Ranking updated. ${ranked[0].name} is first in this directional model with an index of ${ranked[0].score}.`;
+        state.engine = input;
+        safeStorage.write(state);
+      }
+
+      const presets = {
+        recommended:{wealth:55,risk:40,research:30,capital:1,timeline:3,language:'german'},
+        wealth:{wealth:92,risk:72,research:20,capital:3,timeline:2,language:'none'},
+        settlement:{wealth:20,risk:28,research:20,capital:3,timeline:5,language:'german'},
+        lean:{wealth:55,risk:35,research:15,capital:1,timeline:3,language:'german'},
+        research:{wealth:55,risk:60,research:95,capital:1,timeline:5,language:'none'}
+      };
+
+      const inputsMatch = (a, b) => ['wealth','risk','research','capital','timeline','language'].every(key => a[key] === b[key]);
+      function setActivePreset(key = null) {
+        $$('.preset').forEach(button => {
+          const active = button.dataset.preset === key;
+          button.classList.toggle('active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+      }
+
+      function applyInputs(rawInput) {
+        const input = normalizeInputs(rawInput);
+        controls.wealth.value = input.wealth;
+        controls.risk.value = input.risk;
+        controls.research.value = input.research;
+        controls.capital.value = String(input.capital);
+        controls.timeline.value = String(input.timeline);
+        controls.language.value = input.language;
+        renderRanking();
+        const matchingPreset = Object.entries(presets).find(([, preset]) => inputsMatch(input, preset));
+        setActivePreset(matchingPreset ? matchingPreset[0] : null);
+      }
+
+      Object.values(controls).forEach(control => control.addEventListener('input', () => {
+        setActivePreset(null);
+        renderRanking();
+      }));
+      $$('.preset').forEach(button => button.addEventListener('click', () => applyInputs(presets[button.dataset.preset])));
+
+      let currentCountryFilter = 'all';
+      function renderCountries(filter = 'all') {
+        const visible = filter === 'all' ? countries : countries.filter(country => country.groups.includes(filter));
+        $('#countryGrid').innerHTML = visible.map(country => `
+          <article class="card country">
+            <div class="country-head"><div class="country-name"><span class="flag">${country.code}</span><h3>${country.name}</h3></div><span class="tier">${country.tier}</span></div>
+            <p class="route">${country.route}</p>
+            <div class="meters">
+              <div class="meter"><span>Income</span><span class="meter-line"><i style="width:${country.income*20}%"></i></span><b>${country.income.toFixed(1)}</b></div>
+              <div class="meter"><span>Settlement</span><span class="meter-line"><i style="width:${country.settlement*20}%"></i></span><b>${country.settlement.toFixed(1)}</b></div>
+              <div class="meter"><span>Fit now</span><span class="meter-line"><i style="width:${country.fit*20}%"></i></span><b>${country.fit.toFixed(1)}</b></div>
+            </div>
+            <p class="catch"><strong>Watch:</strong> ${country.catch}</p>
+            <a class="source-link" href="${country.source}" target="_blank" rel="noopener" aria-label="Open official immigration source for ${country.name}">Official starting point</a>
+          </article>`).join('');
+      }
+
+      $$('.filter-button').forEach(button => button.addEventListener('click', () => {
+        currentCountryFilter = button.dataset.countryFilter;
+        $$('.filter-button').forEach(item => {
+          const active = item === button;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+        renderCountries(currentCountryFilter);
+      }));
+
+      const checks = $$('[data-task]');
+      function updateProgress() {
+        const completed = checks.filter(check => check.checked).length;
+        const percent = Math.round((completed / checks.length) * 100);
+        $('#progressRing').style.setProperty('--progress', `${percent}%`);
+        $('#progressRing').setAttribute('aria-valuenow', String(percent));
+        $('#progressPercent').textContent = `${percent}%`;
+        $('#progressTitle').textContent = completed === 0 ? 'Your plan is waiting for its first completed action.' : completed === checks.length ? 'The 90-day evidence plan is complete. Re-rank with new facts.' : completed >= 12 ? 'Momentum is visible. Finish the market tests.' : completed >= 6 ? 'You are converting uncertainty into evidence.' : 'The plan has started. Protect the weekly rhythm.';
+        state.checks = Object.fromEntries(checks.map(check => [check.dataset.task, check.checked]));
+        const saved = safeStorage.write(state);
+        $('#progressDetail').textContent = saved ? `${completed} of ${checks.length} actions complete · progress is saved locally` : `${completed} of ${checks.length} actions complete · local storage unavailable; export to keep progress`;
+      }
+      checks.forEach(check => {
+        check.checked = Boolean(state.checks && state.checks[check.dataset.task]);
+        check.addEventListener('change', updateProgress);
+      });
+      $('#resetProgress').addEventListener('click', () => {
+        if (!window.confirm('Reset all 90-day checklist items? Your journal and route settings will remain.')) return;
+        checks.forEach(check => { check.checked = false; });
+        updateProgress();
+        toast('Checklist reset.');
+      });
+
+      const journal = $('#journal');
+      journal.value = typeof state.journal === 'string' ? state.journal : '';
+      let journalTimer;
+      journal.addEventListener('input', () => {
+        clearTimeout(journalTimer);
+        journalTimer = setTimeout(() => { state.journal = journal.value; safeStorage.write(state); }, 450);
+      });
+      $('#saveJournal').addEventListener('click', () => {
+        state.journal = journal.value;
+        toast(safeStorage.write(state) ? 'Decision note saved locally.' : 'Storage is unavailable; export the plan instead.');
+      });
+      $('#clearLocalData').addEventListener('click', () => {
+        if (!window.confirm('Clear the saved journal, route settings and checklist from this browser?')) return;
+        if (safeStorage.clear()) window.location.reload();
+        else toast('Local storage could not be cleared in this browser.');
+      });
+
+      const briefText = () => {
+        const completed = checks.filter(check => check.checked).length;
+        return `PURVAM — 30-DAY CAREER BRIEF\n\nNorth star: Product-minded Java/Spring backend/platform engineer for reliable AI-enabled workflows.\n\nPrimary move: Secure genuine production ownership in India, then use the evidence for higher compensation and direct European hiring.\n\nThis month:\n1. Finalize one outcome-led backend résumé.\n2. Confirm TCS project release and run internal/external searches in parallel.\n3. Audit AnimaFlow IP terms and define a narrow live beta.\n4. Prepare Java/Spring, SQL, system design, testing, cloud and DSA.\n5. Delay any expensive degree until it clears funding, outcomes and downside gates.\n\nProgress: ${completed}/${checks.length} actions complete.\nWorking note: ${journal.value || '(none yet)'}`;
+      };
+      $('#copyBrief').addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(briefText()); toast('30-day brief copied.'); }
+        catch (_) { toast('Clipboard unavailable. Use Export plan instead.'); }
+      });
+
+      $('#downloadPlan').addEventListener('click', () => {
+        state.journal = journal.value;
+        state.exportedAt = new Date().toISOString();
+        const payload = {
+          title:'Purvam Career Strategy Dossier — saved plan',
+          northStar:'Product-minded Java/Spring backend/platform engineer for reliable AI-enabled workflows',
+          routeSettings:currentInputs(),
+          rankedRoutes:routes.map(route => ({name:route.name, score:scoreRoute(route,currentInputs())})).sort((a,b)=>b.score-a.score),
+          checklist:Object.fromEntries(checks.map(check => [check.dataset.task, check.checked])),
+          journal:journal.value,
+          exportedAt:state.exportedAt,
+          note:'Scores are personal strategy judgments, not visa probabilities or salary forecasts.'
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'purvam-career-plan.json';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        safeStorage.write(state);
+        toast('Plan exported as JSON.');
+      });
+      window.addEventListener('beforeprint', () => renderCountries('all'));
+      window.addEventListener('afterprint', () => renderCountries(currentCountryFilter));
+      $('#printPage').addEventListener('click', () => window.print());
+
+      $$('#sources .source').forEach(card => {
+        const link = $('a', card);
+        const title = $('strong', card);
+        if (link && title) link.setAttribute('aria-label', `Open official source: ${title.textContent}`);
+      });
+      if (Date.now() > new Date('2026-10-09T23:59:59+05:30').getTime()) {
+        $('#releaseStatus').textContent = 'Historical date · verify status';
+      }
+
+      if (state.engine && typeof state.engine === 'object' && !Array.isArray(state.engine)) applyInputs(state.engine);
+      else applyInputs(presets.recommended);
+      renderCountries(currentCountryFilter);
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>
