@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Strategy Dossier — P. Prajapati — September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,400;0,500;0,600;0,700;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0f16;
+  --ink-2:#111925;
+  --ink-3:#18222f;
+  --ink-4:#1f2c3b;
+  --paper:#f2ece0;
+  --paper-2:#e6dece;
+  --rule:#2b3a4c;
+  --rule-soft:#223042;
+  --brass:#c49a3a;
+  --brass-dim:#8f6f27;
+  --brass-glow:rgba(196,154,58,.14);
+  --seal:#2f7f68;
+  --seal-dim:#1d5344;
+  --crimson:#a83a34;
+  --crimson-dim:#7a2a26;
+  --text:#dfe4ea;
+  --text-dim:#98a5b5;
+  --text-faint:#6b7a8c;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:74px}
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%,rgba(196,154,58,.055),transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 100%,rgba(47,127,104,.045),transparent 70%);
+  background-attachment:fixed;
+}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,15,22,.93);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--rule-soft);
+}
+.topbar-inner{
+  max-width:1180px;margin:0 auto;padding:11px 28px;
+  display:flex;align-items:center;gap:22px;
+}
+.tb-mark{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
+  color:var(--brass);text-transform:uppercase;white-space:nowrap;font-weight:600;
+}
+.tb-nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
+.tb-nav a{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
+  color:var(--text-faint);text-decoration:none;text-transform:uppercase;
+  padding:5px 9px;border-radius:3px;transition:all .16s;white-space:nowrap;
+}
+.tb-nav a:hover{color:var(--brass);background:var(--brass-glow)}
+.tb-nav a.on{color:var(--paper);background:rgba(255,255,255,.055)}
+.progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--brass),var(--seal));z-index:101;width:0;transition:width .1s linear}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+section{padding:78px 0;border-bottom:1px solid var(--rule-soft)}
+section:last-of-type{border-bottom:none}
+
+.sec-label{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;
+  color:var(--brass-dim);text-transform:uppercase;margin-bottom:14px;
+  display:flex;align-items:center;gap:12px;font-weight:600;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--rule),transparent)}
+h2{
+  font-family:var(--serif);font-size:39px;font-weight:500;line-height:1.16;
+  letter-spacing:-.018em;color:var(--paper);margin-bottom:16px;
+}
+h3{
+  font-family:var(--serif);font-size:25px;font-weight:500;line-height:1.28;
+  color:var(--paper);margin:44px 0 14px;letter-spacing:-.012em;
+}
+h4{
+  font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--brass);margin:30px 0 11px;
+}
+p{margin-bottom:17px;color:var(--text-dim);max-width:74ch}
+p.lead{font-size:21px;line-height:1.62;color:var(--text);max-width:70ch}
+strong{color:var(--paper);font-weight:600}
+em{color:var(--text);font-style:italic}
+a{color:var(--brass);text-decoration:none;border-bottom:1px solid rgba(196,154,58,.28)}
+a:hover{border-bottom-color:var(--brass)}
+ul,ol{margin:0 0 18px 22px;color:var(--text-dim);max-width:74ch}
+li{margin-bottom:9px}
+li::marker{color:var(--brass-dim)}
+.num{font-family:var(--mono);font-size:.93em;color:var(--paper);font-weight:500}
+
+/* ---------- cover ---------- */
+.cover{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:100px 0 70px;position:relative;border-bottom:1px solid var(--rule);
+}
+.cover-grid{display:grid;grid-template-columns:1fr auto;gap:54px;align-items:start}
+.cover-class{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;color:var(--crimson);
+  text-transform:uppercase;margin-bottom:26px;font-weight:600;
+}
+h1{
+  font-family:var(--serif);font-size:clamp(44px,7.4vw,86px);font-weight:300;
+  line-height:1.02;letter-spacing:-.036em;color:var(--paper);margin-bottom:24px;
+}
+h1 .it{font-style:italic;color:var(--brass)}
+.cover-sub{
+  font-size:22px;line-height:1.56;color:var(--text-dim);max-width:60ch;
+  margin-bottom:40px;font-weight:300;
+}
+.meta-tbl{border-top:1px solid var(--rule);max-width:620px}
+.meta-row{
+  display:grid;grid-template-columns:150px 1fr;gap:18px;
+  padding:11px 0;border-bottom:1px solid var(--rule-soft);
+}
+.meta-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--text-faint);text-transform:uppercase;padding-top:3px}
+.meta-v{font-size:16px;color:var(--text)}
+
+/* verification stamp */
+.stamp{
+  width:186px;height:186px;flex-shrink:0;position:relative;
+  border:2.5px solid var(--seal);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform:rotate(-8deg);opacity:.9;
+}
+.stamp::before{
+  content:'';position:absolute;inset:8px;border:1px solid var(--seal);border-radius:50%;opacity:.5;
+}
+.stamp-top{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;color:var(--seal);
+  text-transform:uppercase;text-align:center;line-height:1.5;padding:0 22px;font-weight:600;
+}
+.stamp-mid{
+  font-family:var(--serif);font-size:31px;color:var(--seal);font-weight:600;
+  margin:5px 0;letter-spacing:.03em;
+}
+.stamp-bot{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--seal);
+  text-transform:uppercase;text-align:center;line-height:1.5;padding:0 18px;
+}
+.stamp-rule{width:64px;height:1px;background:var(--seal);opacity:.55;margin:5px 0}
+
+/* ---------- callouts ---------- */
+.box{
+  background:var(--ink-2);border:1px solid var(--rule);border-radius:4px;
+  padding:26px 30px;margin:26px 0;
+}
+.box p:last-child{margin-bottom:0}
+.box-t{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  margin-bottom:12px;font-weight:600;
+}
+.box.brass{border-left:3px solid var(--brass);background:linear-gradient(90deg,var(--brass-glow),var(--ink-2) 55%)}
+.box.brass .box-t{color:var(--brass)}
+.box.seal{border-left:3px solid var(--seal);background:linear-gradient(90deg,rgba(47,127,104,.1),var(--ink-2) 55%)}
+.box.seal .box-t{color:var(--seal)}
+.box.crimson{border-left:3px solid var(--crimson);background:linear-gradient(90deg,rgba(168,58,52,.1),var(--ink-2) 55%)}
+.box.crimson .box-t{color:var(--crimson)}
+.box.plain .box-t{color:var(--text-faint)}
+
+/* ---------- premise audit ---------- */
+.premise{
+  border:1px solid var(--rule);border-radius:4px;margin:20px 0;
+  background:var(--ink-2);overflow:hidden;
+}
+.premise-h{
+  padding:20px 26px;display:flex;align-items:flex-start;gap:18px;
+  border-bottom:1px solid var(--rule-soft);background:var(--ink-3);
+}
+.verdict{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;font-weight:600;
+  text-transform:uppercase;padding:5px 11px;border-radius:3px;white-space:nowrap;
+  flex-shrink:0;margin-top:2px;
+}
+.v-false{background:rgba(168,58,52,.16);color:#d97b74;border:1px solid var(--crimson-dim)}
+.v-part{background:rgba(196,154,58,.15);color:var(--brass);border:1px solid var(--brass-dim)}
+.v-true{background:rgba(47,127,104,.16);color:#54b096;border:1px solid var(--seal-dim)}
+.premise-q{font-size:18.5px;color:var(--paper);font-style:italic;line-height:1.5}
+.premise-b{padding:22px 26px}
+.premise-b p:last-child{margin-bottom:0}
+
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:660px}
+thead th{
+  background:var(--ink-3);font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--brass);font-weight:600;text-align:left;
+  padding:13px 16px;border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody td{padding:13px 16px;border-bottom:1px solid var(--rule-soft);color:var(--text-dim);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,.022)}
+td .mono,.mono{font-family:var(--mono);font-size:13.5px}
+.pos{color:#54b096}
+.neg{color:#d97b74}
+.warn{color:var(--brass)}
+
+/* ---------- ledger ---------- */
+.ledger-ctl{
+  background:var(--ink-2);border:1px solid var(--rule);border-radius:4px;
+  padding:24px 28px;margin:28px 0;
+}
+.slider-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.slider-lab{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--text-faint);white-space:nowrap;
+}
+input[type=range]{
+  flex:1;min-width:220px;-webkit-appearance:none;appearance:none;height:3px;
+  background:linear-gradient(90deg,var(--seal),var(--brass));border-radius:2px;outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:17px;height:17px;border-radius:50%;
+  background:var(--paper);border:2px solid var(--ink);cursor:pointer;
+  box-shadow:0 0 0 1px var(--brass);
+}
+input[type=range]::-moz-range-thumb{
+  width:17px;height:17px;border-radius:50%;background:var(--paper);
+  border:2px solid var(--ink);cursor:pointer;box-shadow:0 0 0 1px var(--brass);
+}
+.filter-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:20px;padding-top:20px;border-top:1px solid var(--rule-soft)}
+.chip{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--rule);border-radius:3px;
+  background:transparent;color:var(--text-faint);cursor:pointer;transition:all .15s;
+}
+.chip:hover{border-color:var(--brass-dim);color:var(--brass)}
+.chip.on{background:var(--brass);border-color:var(--brass);color:var(--ink);font-weight:600}
+
+.path{
+  border:1px solid var(--rule);border-radius:4px;background:var(--ink-2);
+  margin:14px 0;overflow:hidden;transition:border-color .18s;
+}
+.path:hover{border-color:var(--rule)}
+.path-h{
+  padding:18px 24px;display:flex;align-items:center;gap:18px;cursor:pointer;
+  user-select:none;transition:background .15s;
+}
+.path-h:hover{background:rgba(255,255,255,.025)}
+.path-score{
+  font-family:var(--mono);font-size:20px;font-weight:600;color:var(--brass);
+  min-width:46px;text-align:right;
+}
+.path-id{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--text-faint);
+  border:1px solid var(--rule);padding:3px 8px;border-radius:3px;flex-shrink:0;
+}
+.path-name{font-size:19px;color:var(--paper);flex:1;line-height:1.35}
+.path-tier{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 9px;border-radius:3px;white-space:nowrap;font-weight:600;
+}
+.t-a{background:rgba(47,127,104,.18);color:#54b096}
+.t-b{background:rgba(196,154,58,.16);color:var(--brass)}
+.t-c{background:rgba(120,140,170,.16);color:#8fa3bd}
+.t-d{background:rgba(168,58,52,.15);color:#d97b74}
+.path-caret{color:var(--text-faint);font-family:var(--mono);font-size:13px;transition:transform .2s}
+.path.open .path-caret{transform:rotate(90deg)}
+.path-b{display:none;padding:4px 24px 24px;border-top:1px solid var(--rule-soft)}
+.path.open .path-b{display:block}
+.path-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:1px;background:var(--rule-soft);margin:20px 0;border:1px solid var(--rule-soft)}
+.pg-cell{background:var(--ink-2);padding:14px 16px}
+.pg-k{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+.pg-v{font-size:15.5px;color:var(--text);line-height:1.45}
+.bars{display:flex;gap:22px;flex-wrap:wrap;margin:18px 0}
+.bar-u{flex:1;min-width:150px}
+.bar-lab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+.bar-trk{height:4px;background:var(--ink-4);border-radius:2px;overflow:hidden}
+.bar-fil{height:100%;border-radius:2px}
+.bar-fil.rel{background:var(--seal)}
+.bar-fil.ceil{background:var(--brass)}
+.bar-fil.spd{background:#6b8fb5}
+
+/* ---------- strategy cards ---------- */
+.strat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:20px;margin:30px 0}
+.strat{
+  border:1px solid var(--rule);border-radius:4px;background:var(--ink-2);
+  padding:28px 26px;display:flex;flex-direction:column;position:relative;
+}
+.strat.rec{border-color:var(--brass-dim);background:linear-gradient(170deg,var(--brass-glow),var(--ink-2) 40%)}
+.strat-badge{
+  position:absolute;top:-1px;right:18px;font-family:var(--mono);font-size:9px;
+  letter-spacing:.16em;text-transform:uppercase;background:var(--brass);color:var(--ink);
+  padding:4px 10px;border-radius:0 0 3px 3px;font-weight:700;
+}
+.strat-n{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--brass-dim);text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.strat-t{font-family:var(--serif);font-size:25px;color:var(--paper);line-height:1.2;margin-bottom:6px;letter-spacing:-.01em}
+.strat-tag{font-size:15px;color:var(--text-faint);font-style:italic;margin-bottom:18px}
+.strat ul{margin:0 0 18px 18px;font-size:15.5px}
+.strat li{margin-bottom:7px}
+.strat-foot{margin-top:auto;padding-top:18px;border-top:1px solid var(--rule-soft);display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sf-k{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint);margin-bottom:4px}
+.sf-v{font-family:var(--mono);font-size:14px;color:var(--paper);font-weight:500}
+
+/* ---------- timeline ---------- */
+.tl{margin:32px 0;border-left:1.5px solid var(--rule);padding-left:0}
+.tl-item{position:relative;padding:0 0 34px 34px}
+.tl-item::before{
+  content:'';position:absolute;left:-6.5px;top:6px;width:11px;height:11px;
+  border-radius:50%;background:var(--ink);border:2px solid var(--brass);
+}
+.tl-item.done::before{background:var(--seal);border-color:var(--seal)}
+.tl-item:last-child{padding-bottom:0}
+.tl-when{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin-bottom:7px;font-weight:600}
+.tl-what{font-size:18.5px;color:var(--paper);margin-bottom:8px;line-height:1.42}
+.tl-detail{font-size:16px;color:var(--text-dim);max-width:70ch}
+.tl-detail p{margin-bottom:10px}
+.tl-detail p:last-child{margin-bottom:0}
+
+/* ---------- misc ---------- */
+.pull{
+  border-left:3px solid var(--brass);padding:6px 0 6px 26px;margin:34px 0;
+  font-family:var(--serif);font-size:25px;line-height:1.48;color:var(--paper);
+  font-style:italic;max-width:66ch;font-weight:300;
+}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:1px;background:var(--rule-soft);margin:30px 0;border:1px solid var(--rule)}
+.stat{background:var(--ink-2);padding:22px 20px}
+.stat-n{font-family:var(--mono);font-size:32px;font-weight:600;color:var(--brass);line-height:1;margin-bottom:9px;letter-spacing:-.02em}
+.stat-l{font-size:14px;color:var(--text-dim);line-height:1.42}
+.stat-s{font-family:var(--mono);font-size:9.5px;color:var(--text-faint);margin-top:8px;letter-spacing:.06em}
+
+.src-list{columns:2;column-gap:40px;font-size:14px;margin-top:22px}
+.src-list li{margin-bottom:11px;break-inside:avoid;color:var(--text-faint);line-height:1.5}
+.src-list a{font-size:13.5px}
+
+footer{padding:60px 0 80px;text-align:center}
+.foot-rule{width:74px;height:1px;background:var(--brass);margin:0 auto 26px;opacity:.5}
+.foot-t{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);line-height:2}
+
+@media(max-width:860px){
+  body{font-size:17px}
+  .cover-grid{grid-template-columns:1fr}
+  .stamp{width:150px;height:150px;margin-top:10px}
+  h2{font-size:31px}
+  .src-list{columns:1}
+  .tb-nav{display:none}
+  .strat-foot{grid-template-columns:1fr}
+  section{padding:56px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="tb-mark">Dossier · PP-2609</div>
+    <nav class="tb-nav" id="nav">
+      <a href="#read">Read First</a>
+      <a href="#premise">Premise Audit</a>
+      <a href="#position">Position</a>
+      <a href="#assets">Assets</a>
+      <a href="#ledger">The Ledger</a>
+      <a href="#strategy">Strategies</a>
+      <a href="#verdict">Verdict</a>
+      <a href="#plan">90 Days</a>
+      <a href="#rules">Tripwires</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ============ COVER ============ -->
+<div class="wrap">
+<div class="cover">
+  <div class="cover-grid">
+    <div>
+      <div class="cover-class">Personal Strategy Document · Prepared for P. Prajapati · Not legal or financial advice</div>
+      <h1>What You Can<br>Actually <span class="it">Do</span></h1>
+      <p class="cover-sub">A full accounting of every viable route from a TCS Ninja band in Nadiad to high earnings and a first-world passport — with the false premises removed first.</p>
+      <div class="meta-tbl">
+        <div class="meta-row"><div class="meta-k">Subject</div><div class="meta-v">Purvam Prajapati, 22 · B.Tech CSE · TCS Associate (Ninja), Technical Faculty, T&amp;D</div></div>
+        <div class="meta-row"><div class="meta-k">Stated Objective</div><div class="meta-v">Earn substantially more; settle in a first-world country</div></div>
+        <div class="meta-row"><div class="meta-k">Trigger Event</div><div class="meta-v">Retention/upgrade refused; release from project effective 9 October 2026</div></div>
+        <div class="meta-row"><div class="meta-k">Compiled</div><div class="meta-v">21 September 2026</div></div>
+        <div class="meta-row"><div class="meta-k">Scope</div><div class="meta-v">27 pathways · 10 jurisdictions · 5 premises audited · 3 recommended strategies</div></div>
+        <div class="meta-row"><div class="meta-k">Evidence Basis</div><div class="meta-v">Government primary sources where available; law-firm and industry data otherwise. All figures linked.</div></div>
+      </div>
+    </div>
+    <div class="stamp">
+      <div class="stamp-top">Premises<br>Verified Against<br>Primary Sources</div>
+      <div class="stamp-rule"></div>
+      <div class="stamp-mid">4 / 5</div>
+      <div class="stamp-rule"></div>
+      <div class="stamp-bot">Found False<br>21 Sep 2026</div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- ============ READ FIRST ============ -->
+<section id="read">
+<div class="wrap">
+  <div class="sec-label">Section 00 · Read This First</div>
+  <h2>Before anything else</h2>
+  <p class="lead">You asked me to think hard and give you every possibility. I did. But the most useful thing I found was not a new option — it was that <strong>a large part of what is making you feel stuck isn't true.</strong></p>
+
+  <p>You are paralysed partly by real difficulty and partly by a set of specific factual beliefs about visas and job markets that do not survive contact with the September 2026 record. I checked each one. Four of five were wrong or badly distorted. One of the wrong ones sits at the centre of your own written long-term plan and would have cost you roughly three years if you'd discovered it later.</p>
+
+  <p>So this document does four things, in order:</p>
+  <ol>
+    <li><strong>Audits your premises.</strong> Every belief you stated, checked against primary sources, marked true or false. This section matters more than the rest.</li>
+    <li><strong>States your position honestly</strong> — including one number about your current pay trajectory that you should find genuinely alarming, and which is the real reason to move.</li>
+    <li><strong>Lays out all 27 pathways</strong> I could find that are actually open to you, scored on reliability, earning ceiling, and speed, with what disqualifies you from each.</li>
+    <li><strong>Collapses them into three coherent strategies</strong> and tells you which one I'd pick, and why.</li>
+  </ol>
+
+  <div class="box crimson">
+    <div class="box-t">Three honest limits on this document</div>
+    <p><strong>I am not an immigration lawyer.</strong> Immigration rules in 2026 are moving faster than at any point in recent memory — two of the policies below are currently suspended by courts and could revive within months. Anything here that you decide to act on should be confirmed with a licensed professional in that jurisdiction before you spend money.</p>
+    <p><strong>I cannot tell you what you want.</strong> I can tell you that a bilingual Canadian route is more reliable than a US route and that Germany is the fastest to permanent residence. I cannot tell you whether you'd rather live in Berlin or Toronto, or whether leaving Shivani and your family for three years is worth ₹40 lakh a year. Those are the actual decisions and they are yours.</p>
+    <p><strong>I read one thing charitably.</strong> You said "go to a third world country." Given everything else you wrote, I've assumed you meant first-world and drafted accordingly. If you genuinely meant a lower-cost country as an arbitrage base, that's a real strategy and it's covered in Path C1.</p>
+  </div>
+
+  <div class="pull">You are not stuck because your options are bad. You are stuck because you have been comparing an accurate picture of your present against an inaccurate picture of your future.</div>
+</div>
+</section>
+
+<!-- ============ PREMISE AUDIT ============ -->
+<section id="premise">
+<div class="wrap">
+  <div class="sec-label">Section 01 · Premise Audit</div>
+  <h2>What you believe, and what is true</h2>
+  <p class="lead">Each of these is something you stated or wrote. I checked all of them. Read the verdicts before you read anything else in this document.</p>
+
+  <div class="premise">
+    <div class="premise-h">
+      <span class="verdict v-false">False — and costly</span>
+      <div class="premise-q">"The US is accessible later via the TN visa route after obtaining Canadian PR."</div>
+    </div>
+    <div class="premise-b">
+      <p>This is from your own career plan, and it is the single most important correction in this document. <strong>The TN visa is available only to <em>citizens</em> of Canada and Mexico. Permanent residents are explicitly excluded.</strong> The US State Department states this directly, as does USCIS, and every university international office repeats it — Harvard's guidance says legal permanent residents of Canada and Mexico are not eligible, full stop.</p>
+      <p>Why this matters so much: your plan implicitly assumes PR unlocks the US. It doesn't. You would need Canadian <em>citizenship</em>, which requires three years of physical presence within a five-year window <em>after</em> landing as a PR. Realistically that's PR around 2029, citizenship around 2032–33, and only then TN eligibility. That's a five-to-six year lag your plan did not account for.</p>
+      <p>A second problem: <strong>TN status does not permit dual intent.</strong> It requires intent to return home when the work ends. If your purpose is to settle permanently in the US, TN is the wrong instrument regardless. The realistic Canada→US routes are H-1B (now much harder — see below), L-1 intracompany transfer, or an employment-based green card.</p>
+      <p><em>Sources:</em> <a href="https://travel.state.gov/content/travel/en/us-visas/employment/visas-canadian-mexican-usmca-professional-workers.html">US State Department</a> · <a href="https://www.uscis.gov/working-in-the-united-states/temporary-workers/tn-nafta-professionals">USCIS</a> · <a href="https://www.hio.harvard.edu/tn-visa">Harvard International Office</a> · <a href="https://isss.umn.edu/departments/employment-based-visas/tn">U. Minnesota ISSS on dual intent</a></p>
+    </div>
+  </div>
+
+  <div class="premise">
+    <div class="premise-h">
+      <span class="verdict v-false">False</span>
+      <div class="premise-q">"Canada is not giving PRs anymore — only to a select number of people."</div>
+    </div>
+    <div class="premise-b">
+      <p>Canada's 2026–2028 Immigration Levels Plan holds permanent resident admissions <strong>steady at 380,000 per year</strong> through 2028. The economic class share is rising to roughly 63% in 2026 and 64% in 2027–28 — which IRCC itself describes as the highest proportion in over a decade. More economic PRs proportionally, not fewer.</p>
+      <p>And the provincial route went the other direction entirely: the 2026 plan raised <strong>Provincial Nominee Program allocations by about 66%, to roughly 91,500 nominations</strong> — reported as the largest single-year PNP increase in Canadian immigration history. A provincial nomination adds 600 CRS points, which in practice guarantees an invitation.</p>
+      <p><strong>What you're actually sensing is real, but it's a different thing.</strong> Canada cut <em>temporary</em> residents hard — targeting under 5% of population by end-2027, with temporary arrivals down to 385,000 in 2026. So the study-permit → post-graduation work permit → Canadian Experience Class conveyor belt got much narrower. Meanwhile CEC draw cut-offs sat at a brutal CRS 516–523 over summer 2026.</p>
+      <p>So: the <em>student</em> path to Canadian PR is harder. The <em>skilled economic</em> path is as open as it has been in a decade — if you enter through the right door. Which brings us to the finding in Section 04 that changes your odds more than anything else here.</p>
+      <p><em>Sources:</em> <a href="https://www.canada.ca/en/immigration-refugees-citizenship/corporate/mandate/corporate-initiatives/levels/supplementary-immigration-levels-2026-2028.html">IRCC Levels Plan 2026–2028</a> · <a href="https://www.canada.ca/en/immigration-refugees-citizenship/corporate/transparency/committees/cimm-apr-22-2026/immigration-levels-plan.html">IRCC on TR reduction</a> · <a href="https://moving2canada.com/news/pnp-allocations-2026-by-province/">2026 PNP allocations</a> · <a href="https://www.marinimmigrationlaw.ca/blog/express-entry-review-what-changed-in-2023-and-why-its-important-for-2024">CEC cut-off range</a></p>
+    </div>
+  </div>
+
+  <div class="premise">
+    <div class="premise-h">
+      <span class="verdict v-false">False as stated</span>
+      <div class="premise-q">"The US has stopped student visas."</div>
+    </div>
+    <div class="premise-b">
+      <p>It hasn't. What happened is narrower and messier. DHS finalised a rule in July 2026 ending "duration of status" for F-1 students — replacing open-ended admission with a fixed admit-until date capped at four years, and cutting the post-graduation grace period from 60 days to 30. It was due to take effect 15 September 2026.</p>
+      <p><strong>On 14 September 2026, a federal judge in Massachusetts issued a nationwide preliminary injunction blocking it.</strong> As of this document's date the rule is paused and prior regulations still apply. Student visas are being issued.</p>
+      <p>But don't over-correct into optimism. The signal here is <em>volatility</em>, not safety. A rule that reaches the eve of taking effect and is stopped by a court can be revived on appeal. Planning a four-to-six year US education around litigation outcomes is a genuine risk — just not the risk you thought it was.</p>
+      <p><em>Sources:</em> <a href="https://studyinthestates.dhs.gov/final-rule-establishing-a-fixed-time-period-of-admission-and-an-extension-of-stay-procedure-quick">DHS StudyintheStates</a> · <a href="https://www.dhs.gov/news/2026/07/16/trump-administration-issues-final-rule-end-foreign-student-visa-abuse">DHS rule announcement</a> · <a href="https://isso.charlotte.edu/duration-of-status-and-program-extension-changes/">Nationwide injunction, 14 Sep 2026</a> · <a href="https://oiss.tulane.edu/dhs-ends-duration-status-rule-f-1-and-j-1-students-and-scholars">Tulane OISS status note</a></p>
+    </div>
+  </div>
+
+  <div class="premise">
+    <div class="premise-h">
+      <span class="verdict v-part">Partly true — wrong conclusion</span>
+      <div class="premise-q">"Australia needs huge capital."</div>
+    </div>
+    <div class="premise-b">
+      <p>True for the route you're thinking of, irrelevant for the routes that matter. The Business Innovation and Investment visa (subclass 188) — the capital-heavy one — <strong>closed to new applications on 31 July 2024.</strong> It's gone. So the capital requirement you're worried about no longer exists as an option to be priced out of.</p>
+      <p>What replaced the top end is the <strong>National Innovation Visa (subclass 858)</strong>: a direct permanent visa, invitation-only, judged on <em>merit not money</em>. You lodge an expression of interest and need an Australian nominator. It's tiered — Priority One is Nobel-laureate territory, but <strong>Priority Three covers outstanding achievement in critical technologies</strong>, which includes AI. That is a real, if demanding, door, and it costs capital you don't have only in the sense that it costs reputation you haven't built yet.</p>
+      <p>Separately, the ordinary skilled points-tested routes require no capital at all beyond application and skills-assessment fees. Note that Australia's points test is under active overhaul following the 2026 budget, so verify current settings before committing.</p>
+      <p><em>Sources:</em> <a href="https://www.fragomen.com/insights/australia-national-innovation-visa-introduced.html">Fragomen on NIV priority tiers</a> · <a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/national-innovation-visa-858">Home Affairs — subclass 858</a> · <a href="https://www.australianmigrationagents.com.au/fr/news-and-updates/new-national-innovation-visa">188 closure</a> · <a href="https://www.abc.net.au/news/2026-05-08/migration-overhauled-and-red-tape-cut-in-budget/106660316">2026 points test overhaul</a></p>
+    </div>
+  </div>
+
+  <div class="premise">
+    <div class="premise-h">
+      <span class="verdict v-true">True — but you've drawn the wrong lesson</span>
+      <div class="premise-q">"AI is taking a lot of jobs, and that's why I can't figure out what to do."</div>
+    </div>
+    <div class="premise-b">
+      <p>The first half is true and the data is worse than you probably think. The second half is where you've gone wrong, and it's costing you.</p>
+      <p>What the 2026 data shows: new-graduate hiring at the largest tech companies is down roughly <strong>65% against 2019</strong> per SignalFire's mid-2026 report. Junior postings in software development and data analysis have fallen by as much as <strong>67%</strong> since early 2023. Stanford's 2026 AI Index documented a near <strong>20% drop in software developer employment for workers aged 22–25</strong> since 2024. One tracker found brand-name employers posting 2,930 senior roles against just 212 junior ones. The share of tech jobs open to three years' experience or less fell from 43% in 2018 to 28% in 2024.</p>
+      <p><strong>Here is the lesson you've missed.</strong> Every one of those numbers describes the difficulty of <em>getting onto</em> the ladder. You are already on it. You have ten months at TCS, you teach five technologies to fresher batches, and you have shipped microservice systems. The collapse you're afraid of is a collapse you already walked through — in December 2025, when you got hired.</p>
+      <p>Your actual risk is completely different, and more insidious: <strong>the same collapse that protects your position also means the rung above you is crowded with people who are better positioned than juniors were in 2019.</strong> Demand held up for engineers who direct AI systems. It collapsed for people who do what AI now does. Your teaching role is safe and pleasant and pays ₹3.4–3.9 lakh, and the gravitational pull of that is the thing most likely to cost you a decade.</p>
+      <p>AI isn't the reason to freeze. It's the reason the <em>specific direction</em> of your next move matters more than it would have five years ago. Section 04, Tier A tells you which direction.</p>
+      <p><em>Sources:</em> <a href="https://hatchworks.com/blog/gen-ai/software-engineer-shortage/">SignalFire data via Hatchworks</a> · <a href="https://www.metaintro.com/blog/entry-level-jobs-ai-2026-college-graduates">Revelio Labs junior postings</a> · <a href="https://www.metaintro.com/blog/ai-wiping-out-entry-level-jobs-2026-seven-moves">Stanford AI Index 2026</a> · <a href="https://www.wobo.ai/blog/wobo-software-hiring-report-2026/">Senior-vs-junior posting ratio</a> · <a href="https://www.hcamag.com/us/specialization/hr-technology/the-real-reason-junior-hiring-is-collapsing-may-not-be-ai-it-may-be-your-remote-work-policy/577164">Stanford Digital Economy Lab</a></p>
+    </div>
+  </div>
+
+  <div class="box seal">
+    <div class="box-t">One more correction, this one in your favour</div>
+    <p>You believe the H-1B situation is bad. It is — but the reason changed in a way that's decision-relevant. Effective <strong>27 February 2026</strong>, the random H-1B lottery was replaced by a <strong>wage-weighted selection</strong>. Registrations now enter the pool multiple times based on the offered wage's DOL level: Level IV gets four entries, Level III three, Level II two, Level I one.</p>
+    <p>This is structurally decisive for you. A services-company petition at Level I–II now has <em>a quarter to a half</em> the selection odds of a high-paying product-company petition. The implication is precise and useful: <strong>if you ever want the US via H-1B, the path runs through being a high-wage candidate first.</strong> Which means a product company or a global capability centre — not a services firm. The same move that raises your income in India is the move that makes the US reachable. They are not competing plans.</p>
+    <p><em>Sources:</em> <a href="https://www.hollandhart.com/dhs-issues-final-rule-implementing-weighted-h-1b-cap-selection-process">Holland &amp; Hart — entry multipliers</a> · <a href="https://www.gtlaw.com/en/insights/2026/2/uscis-finalizes-wage-weighted-h-1b-cap-selection-rule-effective-feb-27-2026">Greenberg Traurig — effective date</a></p>
+  </div>
+
+  <div class="box plain">
+    <div class="box-t">And one door that genuinely closed</div>
+    <p>While researching this I found Quebec's permanent immigration pilot for workers in <strong>artificial intelligence, IT and visual effects</strong> — an almost perfect match for your profile, offering direct permanent selection. <strong>It ended as planned on 1 January 2026.</strong> Applications are no longer accepted.</p>
+    <p>I'm including it because the lesson is worth more than the path was: <strong>these windows open and close on 12-to-24-month cycles.</strong> Quebec's PEQ was abolished in November 2025, reopened 2 July 2026, and is currently scheduled to close permanently on 2 July 2028. Your instinct that "everything is closing" is half-right — things close constantly, and they also open constantly, and the people who benefit are the ones already holding the prerequisites when a window opens. That is the single strongest argument for starting the Tier A actions now rather than after you've decided on a country.</p>
+    <p><em>Sources:</em> <a href="https://www.quebec.ca/en/immigration/permanent/skilled-workers/artificial-intelligence/application-selection">Quebec — AI/IT-VE pilot ended 1 Jan 2026</a> · <a href="https://sepimmigration.ca/service/quebec-experience-program/">PEQ abolition and reopening</a></p>
+  </div>
+</div>
+</section>
+
+
+<!-- ============ POSITION ============ -->
+<section id="position">
+<div class="wrap">
+  <div class="sec-label">Section 02 · Current Position</div>
+  <h2>The number you should be angry about</h2>
+  <p class="lead">You asked for honesty, so here it is. The thing threatening your future isn't AI or visa policy. It's the compounding arithmetic of the band you're currently in.</p>
+
+  <p>TCS recruits freshers into three tracks off the same NQT. Ninja pays roughly <span class="num">₹3.36–3.9 LPA</span>. Digital pays roughly <span class="num">₹7.0–7.5 LPA</span>. Prime pays <span class="num">₹9.0–11.0 LPA</span>. Same company, same intake exam, same year — <strong>Digital starts at approximately double Ninja</strong> for identical graduating batches.</p>
+
+  <p>Now the part that should genuinely alarm you. Reported Ninja progression runs increments of roughly 8–14% on anniversary rating. Compounded from a ₹3.36 LPA base, a Ninja associate with decent-to-good ratings reaches somewhere around <strong>₹6.5 LPA after seven years.</strong></p>
+
+  <div class="box crimson">
+    <div class="box-t">Read that again</div>
+    <p>Seven years of good performance in the Ninja band lands you <em>below where a Digital hire starts on day one.</em> You are not on a slow track. You are on a track whose seven-year terminal value is less than another track's entry offer.</p>
+  </div>
+
+  <p>Against that, here is what the same skills are worth elsewhere in India in 2026:</p>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-n">₹35–50L</div>
+      <div class="stat-l">Senior backend engineer at a global capability centre in Hyderabad</div>
+      <div class="stat-s">vs ₹18–24L for the same title at a mid-size services firm</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">60%</div>
+      <div class="stat-l">Salary premium commanded by AI skills in the Indian tech sector</div>
+      <div class="stat-s">Senior AI/ML at a GCC: ₹58–60L, growing ~18%/yr</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">12–20%</div>
+      <div class="stat-l">Baseline GCC premium over services firms for comparable tech roles</div>
+      <div class="stat-s">TeamLease Digital, via IBEF</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">₹12–22L</div>
+      <div class="stat-l">Product-company fresher range — versus ₹3.5–5L at services firms</div>
+      <div class="stat-s">Same experience level, same cities</div>
+    </div>
+  </div>
+
+  <p>And the other fact of your situation: <strong>the TCS Wings T15 exam — the entire mechanism your certification roadmap was built around — has been cancelled and currently carries no value toward pay or role upgrades.</strong> Roshni refused the retention request. Your release lands 9 October. Your planned upgrade path evaporated, your negotiated alternative was declined, and your allocation is ending.</p>
+
+  <div class="pull">Every exit is blocked except the one you weren't looking at. That is not a crisis. That is a clarified situation.</div>
+
+  <h3>Reframing the release</h3>
+  <p>You are treating 9 October as a loss. Look at what actually happened on the merits.</p>
+  <p>You were placed in a faculty role on a three-month temporary basis, asked to extend, and then handed Spring Boot and Angular — senior-scope content — on a compressed timeline. You delivered Core Java, JDBC, Servlets, Spring Boot and Angular to full batches, solo, with positive feedback across multiple batches. Other associates brought into the same Learning Enabler role were given <em>over a year</em> to prepare and then handled only basic Java.</p>
+  <p>You did several times the scope, in a fraction of the time, at 22, and asked to be paid for it. The answer was no. <strong>That is complete information about the ceiling of that path, delivered free, at the earliest possible moment.</strong> If Roshni had said yes, you'd have accepted a Digital-scale salary inside a Ninja band and stayed for years in a role whose market value you'd never test.</p>
+  <p>The refusal is the most useful thing that has happened to your career this year. It is worth more to you than the raise would have been.</p>
+
+  <div class="box brass">
+    <div class="box-t">Practical note on the release and RMG</div>
+    <p>Do not go into RMG passively. Two things worth doing in the next fortnight, both low-cost:</p>
+    <p><strong>Harvest your evidence before you lose access.</strong> Get written appreciation — email or Teams messages — from batch participants, fellow teaching associates, and any senior who praised your sessions. Save your own training artefacts: the HTML decks, trainer guides, MCQ banks, lab sheets. Export feedback scores if you can get them. This material is the raw input for every path in Tier A, and it is much harder to obtain after you're off the project. Keep only what you're entitled to keep under TCS policy — the point is your own record of your own work, not company IP.</p>
+    <p><strong>Use the contacts you mentioned.</strong> You told Roshni you had project managers you could approach. Actually approach them now, while you're still allocated and still have the faculty role as current credibility. An internal move to a higher-billing project is the cheapest possible improvement to your position and doesn't foreclose anything else in this document.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ ASSETS ============ -->
+<section id="assets">
+<div class="wrap">
+  <div class="sec-label">Section 03 · Asset Inventory</div>
+  <h2>What you actually have</h2>
+  <p class="lead">You described yourself as very confused and stuck, with nothing working. That's a feeling, not an inventory. Here is the inventory, stated plainly, because several of these are load-bearing for paths later in this document and you appear not to be counting them.</p>
+
+  <h4>Rare for 22</h4>
+  <ul>
+    <li><strong>You can teach senior-level technical content to a room.</strong> You delivered Core Java, JDBC, Servlets, Spring Boot and Angular to fresher batches, alone, on a compressed timeline, with positive feedback. Most engineers with ten years' experience cannot do this and quietly fear it.</li>
+    <li><strong>You have three research projects at or near publishable quality.</strong> An Indian Sign Language classification model at 99.96% with ResNet50 targeting IEEE; a fake-news-detection ensemble targeting Springer; a RoBERTa question-answering system. This is the rarest item on the list and — see Tier D — it is the raw material for the highest-ceiling immigration routes that exist.</li>
+    <li><strong>You ship complete systems, not toy projects.</strong> A seven-microservice train ticketing platform with Angular 17. An online grocery system with a Spring Boot microservice backend. You debugged production-grade CORS problems across services, which sounds trivial and is not.</li>
+    <li><strong>You shipped a real SaaS.</strong> AnimaFlow at Phase 2: 69 Java files compiling, verified MP4 pipeline, a 27-step end-to-end suite passing, Stripe integration and security hardening done.</li>
+    <li><strong>You have institutional credibility.</strong> TCS on a CV clears résumé screens worldwide, and you have interviewed candidates on Spring Boot and Angular — meaning you've been trusted to judge others' competence.</li>
+    <li><strong>You handle adversarial situations like an adult.</strong> The stolen-laptop matter: FIR filed, CCTV confirmed, document translated for insurance, internal security report drafted, HR outcome secured. And the pay negotiation itself — you built a paper trail, escalated deliberately, kept your senior manager in reserve, and stayed factual. At 22. Most people either explode or go silent.</li>
+  </ul>
+
+  <h4>The asset you are systematically undervaluing</h4>
+  <p>Read your own record again. You take unfamiliar technical material, restructure it into a teachable sequence, and transmit it to people who don't have it — repeatedly, under time pressure, at quality. You've built an entire library doing this: interactive HTML decks with keyboard navigation and syntax-highlighted code, trainer guides with conversational scripts and beginner callouts, 200-question MCQ banks across five batches, lab sheets, sprint review questionnaires.</p>
+  <p><strong>That is not a teaching skill. It is a compression-and-transmission skill, and in a market where AI generates infinite mediocre explanation, the scarce thing is someone who knows which explanation a confused human actually needs.</strong> It underwrites developer advocacy, solutions architecture, technical product management, and the entire Tier C monetisation route. Right now you're using it to earn ₹3.4 lakh, which is roughly the worst price it will ever fetch.</p>
+
+  <h4>Honest gaps — stated so you can close them deliberately</h4>
+  <ul>
+    <li><strong>No production AI/ML work.</strong> Your research projects are academic; your professional work is Java/Spring/Angular full-stack. The AI premium in the data above attaches to shipped production systems, not coursework. This is the single highest-value gap to close and it is closeable in months, not years.</li>
+    <li><strong>Services-firm experience only.</strong> This depresses your market rate and — via the wage-weighted H-1B rule — your US odds specifically. It is also normal and fixable with one job change.</li>
+    <li><strong>No second language.</strong> Which, given Section 04's central finding, is currently the most expensive gap on this list.</li>
+    <li><strong>Nothing published yet.</strong> Three papers in progress and zero in print. In-progress work counts for nothing on any immigration or hiring assessment. Converting these is pure upside sitting unrealised.</li>
+    <li><strong>No savings buffer stated.</strong> Every migration path below requires proof of settlement funds, and most require several lakh in fees, tests and travel. On ₹3.4 lakh gross this is a real constraint on sequencing — which is a further argument for raising income inside India first.</li>
+  </ul>
+</div>
+</section>
+
+
+<!-- ============ LEDGER ============ -->
+<section id="ledger">
+<div class="wrap">
+  <div class="sec-label">Section 04 · The Ledger</div>
+  <h2>Every pathway I could find</h2>
+  <p class="lead">27 routes, grouped by tier. Each is scored on reliability, earning ceiling and speed. Move the slider to re-rank by what you actually care about — you told Claude before that you want "the best balance of both," so it starts at centre.</p>
+
+  <div class="ledger-ctl">
+    <div class="slider-row">
+      <span class="slider-lab">Reliability</span>
+      <input type="range" id="wt" min="0" max="100" value="50" aria-label="Weighting between reliability and earning ceiling">
+      <span class="slider-lab">Earning ceiling</span>
+      <span class="slider-lab mono" id="wtv" style="color:var(--brass);min-width:118px">50 / 50 balanced</span>
+    </div>
+    <div class="filter-row" id="filters">
+      <button class="chip on" data-f="all">All 27</button>
+      <button class="chip" data-f="A">Tier A · Do regardless</button>
+      <button class="chip" data-f="B">Tier B · Migration</button>
+      <button class="chip" data-f="C">Tier C · Money without moving</button>
+      <button class="chip" data-f="D">Tier D · High variance</button>
+    </div>
+  </div>
+
+  <div id="paths"></div>
+
+  <div class="box plain">
+    <div class="box-t">How to read the scores</div>
+    <p><strong>Reliability</strong> is the probability the path delivers its stated outcome if you execute competently — it penalises lotteries, discretionary invitations and policy volatility. <strong>Ceiling</strong> is realistic peak earnings, not median. <strong>Speed</strong> is time until your income or status materially changes. These are my calibrated judgements from the sourced data, not published indices; treat them as a way to compare options against each other, not as precise measurements.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ STRATEGY ============ -->
+<section id="strategy">
+<div class="wrap">
+  <div class="sec-label">Section 05 · Coherent Strategies</div>
+  <h2>Three plays, not twenty-four options</h2>
+  <p class="lead">Twenty-four pathways is how you stay paralysed. Here they are collapsed into three internally consistent strategies. Each assumes you complete Tier A first — those four moves are common to all three and that is the entire point of them.</p>
+
+  <div class="strat-grid">
+    <div class="strat rec">
+      <div class="strat-badge">Recommended</div>
+      <div class="strat-n">Strategy 01</div>
+      <div class="strat-t">The Bilingual Canadian</div>
+      <div class="strat-tag">Income first, French as the lever, PR from a position of strength</div>
+      <ul>
+        <li>Leave TCS for a GCC or product company in India within 6–9 months. Target ₹12–18L now, ₹25L+ by 2029.</li>
+        <li>Start French immediately. Reach NCLC 7 on TEF Canada in 18–24 months.</li>
+        <li>Publish the three papers. Build one production AI system at the new job.</li>
+        <li>Enter the Express Entry pool 2028 with a bilingual profile, targeting French-category draws at CRS 382–391 instead of CEC's 516–523.</li>
+        <li>PR around 2029. Citizenship around 2032–33. US optional after that via H-1B at a high wage, L-1, or EB-category — not TN.</li>
+      </ul>
+      <div class="strat-foot">
+        <div><div class="sf-k">Time to PR</div><div class="sf-v">~3 years</div></div>
+        <div><div class="sf-k">Capital needed</div><div class="sf-v">₹4–6L</div></div>
+        <div><div class="sf-k">Reliability</div><div class="sf-v">High</div></div>
+        <div><div class="sf-k">Income en route</div><div class="sf-v">Rises throughout</div></div>
+      </div>
+    </div>
+
+    <div class="strat">
+      <div class="strat-n">Strategy 02</div>
+      <div class="strat-t">The Fast European</div>
+      <div class="strat-tag">Fastest passport upgrade available to your profile</div>
+      <ul>
+        <li>Same Tier A income move, but learn <strong>German</strong> instead of French, to B1.</li>
+        <li>Job-hunt Germany directly. The EU Blue Card IT/shortage threshold is <span class="num">€45,934.20</span> — well within reach for a mid-level Java/Spring engineer, and IT specialists can qualify even without a degree.</li>
+        <li>Land the Blue Card 2027–28. Then <strong>settlement permit in 21 months with B1 German.</strong></li>
+        <li>German PR by roughly 2029–30, with EU-wide mobility attached.</li>
+        <li>Optionally Netherlands instead, for the 30%/27% expat tax ruling and English-language workplaces.</li>
+      </ul>
+      <div class="strat-foot">
+        <div><div class="sf-k">Time to PR</div><div class="sf-v">~21 mo post-arrival</div></div>
+        <div><div class="sf-k">Capital needed</div><div class="sf-v">₹3–5L</div></div>
+        <div><div class="sf-k">Reliability</div><div class="sf-v">High</div></div>
+        <div><div class="sf-k">Trade-off</div><div class="sf-v">Lower ceiling than US</div></div>
+      </div>
+    </div>
+
+    <div class="strat">
+      <div class="strat-n">Strategy 03</div>
+      <div class="strat-t">The Sovereign</div>
+      <div class="strat-tag">Maximum income, no visa dependency, optional exit later</div>
+      <ul>
+        <li>Skip migration as the primary goal. Optimise purely for earnings and optionality.</li>
+        <li>GCC job for two years to build a credible senior profile and market rate.</li>
+        <li>Transition to <strong>direct USD remote contracting</strong>. Reported reality: an engineer on ₹20L can reach USD 80–120k remote for a US employer — roughly ₹70L to ₹1cr for the same work from the same desk.</li>
+        <li>Run AnimaFlow and the training-product line alongside, funded by the contracting income rather than by savings.</li>
+        <li>Keep French or German going in the background. Migrate later, from wealth, if you still want to — or take a golden-visa style route that money opens.</li>
+      </ul>
+      <div class="strat-foot">
+        <div><div class="sf-k">Time to PR</div><div class="sf-v">Deferred / optional</div></div>
+        <div><div class="sf-k">Capital needed</div><div class="sf-v">Minimal</div></div>
+        <div><div class="sf-k">Reliability</div><div class="sf-v">Medium</div></div>
+        <div><div class="sf-k">Ceiling</div><div class="sf-v">Highest of the three</div></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Side by side</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Dimension</th><th>01 · Bilingual Canadian</th><th>02 · Fast European</th><th>03 · Sovereign</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Primary goal served</strong></td><td>First-world settlement</td><td>First-world settlement, fastest</td><td>Earnings</td></tr>
+      <tr><td><strong>Income in 2027</strong></td><td class="mono">₹12–18L</td><td class="mono">₹12–18L</td><td class="mono">₹12–18L</td></tr>
+      <tr><td><strong>Income in 2030</strong></td><td class="mono">CAD 85–110k</td><td class="mono">€60–75k</td><td class="mono pos">USD 90–130k</td></tr>
+      <tr><td><strong>Permanent status by</strong></td><td class="mono pos">~2029</td><td class="mono pos">~2029–30</td><td class="mono neg">Not on this path</td></tr>
+      <tr><td><strong>Passport upgrade by</strong></td><td class="mono">~2032–33</td><td class="mono">~2031–33</td><td class="mono neg">None</td></tr>
+      <tr><td><strong>Hardest single step</strong></td><td>TEF Canada NCLC 7 in all four abilities</td><td>German B1 plus a German job offer from India</td><td>Winning the first two overseas clients</td></tr>
+      <tr><td><strong>Main failure mode</strong></td><td>French plateaus at NCLC 5–6, CRS stays short</td><td>Offer never materialises remotely</td><td>Income stays volatile; no status accrues</td></tr>
+      <tr><td><strong>Policy risk</strong></td><td class="warn">Medium — category rules shift</td><td class="pos">Low — statutory thresholds</td><td class="pos">Low — no visa dependency</td></tr>
+      <tr><td><strong>Reversible?</strong></td><td class="pos">Yes</td><td class="pos">Yes</td><td class="pos">Yes</td></tr>
+      <tr><td><strong>Compatible with the others?</strong></td><td class="pos">Yes — shares Tier A</td><td class="pos">Yes — language differs only</td><td class="pos">Yes — is the fallback for both</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="box brass">
+    <div class="box-t">The thing to notice about this table</div>
+    <p>All three strategies have <strong>identical income in 2027</strong>, because all three start with the same move: get out of the Ninja band into a GCC or product company. The strategies only diverge in 2028 and later, and the divergence is mostly <em>which language you study in the evenings.</em></p>
+    <p>This is why your paralysis is more expensive than your indecision is justified. You do not need to choose a country to start. You need to choose a <em>language</em>, and even that can wait 90 days. Everything before that point is common to every good outcome.</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ============ VERDICT ============ -->
+<section id="verdict">
+<div class="wrap">
+  <div class="sec-label">Section 06 · Verdict</div>
+  <h2>What I would do, in your position</h2>
+  <p class="lead">You asked me to do this genuinely and sincerely, so I'm going to stop hedging and answer the question directly. This is an opinion, clearly labelled as one, and you should weigh it against your own knowledge of your life.</p>
+
+  <p><strong>I would run Strategy 01, and I would treat the first move as urgent and the country decision as not urgent at all.</strong></p>
+
+  <p>Here is the reasoning, in the order that matters.</p>
+
+  <h4>1. Your binding constraint is income, not geography</h4>
+  <p>You framed this as a migration problem. It isn't yet. On ₹3.4 lakh gross you cannot fund an application, prove settlement funds, sit an expensive language test, or survive a gap between jobs. Every path in Tier B has a capital requirement you currently cannot meet. Raising your Indian income is not a detour from emigration — <strong>it is the first mandatory step of every version of it</strong>, and it happens to also be the step that pays for itself immediately. A move to a GCC plausibly triples your income in 2–3 years while making you <em>more</em> qualified for every visa route, not less.</p>
+
+  <h4>2. French is the highest-leverage thing you are not doing</h4>
+  <p>This is the finding I'd most want you to act on. Canadian Experience Class draws ran CRS <strong>516–523</strong> over summer 2026. French-language category draws in the same period ran <strong>382–391</strong>. That is a gap of roughly <strong>130 CRS points</strong> — a gap you cannot close with a master's degree, more work experience, or anything else available to you.</p>
+  <p>The mechanism: strong French earns up to <strong>50 bonus CRS points</strong>, plus up to 24 for second-official-language ability — as much as 74 points in total. IRCC describes strong French as worth up to 50 additional points even when it's your second language. One analysis puts it as roughly equivalent to a second post-secondary degree or several extra years of skilled experience.</p>
+  <p>And Canada has committed to the demand side: the 2026–2028 levels plan targets French-speaking PR admissions outside Quebec at <strong>9% in 2026 — 30,267 admissions</strong> — rising to 10.5% and 35,175 by 2028. They are not going to hit those numbers from the existing pool. They need people who did what I'm suggesting you do.</p>
+  <p>The cost is 12–24 months of evening study to reach NCLC 7 in all four abilities. Note that IRCC never averages your four abilities — <strong>your weakest section sets your usable level</strong> — so this requires genuine balanced competence, not test-gaming. That is the real price and it is the reason most people don't do it. It is also exactly why it works.</p>
+
+  <h4>3. The US is a later-stage option, not a current one</h4>
+  <p>Not because it's closed, but because every US route that works for you requires assets you don't have yet. The wage-weighted lottery means H-1B favours high earners, so you need the high salary first. The O-1A and EB-1A routes need three of eight or three of ten criteria — publications, judging, original contributions of major significance, critical employment, high remuneration — and you currently have <em>zero published papers</em>, though you have three in progress. EB-2 NIW approval rates have reportedly fallen to 50–65% with heavy scrutiny.</p>
+  <p>The right way to hold the US is as a <strong>door that opens later if you build the evidence</strong>, not a destination you aim at now. Publishing your three papers, peer-reviewing for conferences (a genuinely accessible criterion), and reaching a high wage all serve Strategy 01 anyway. If in 2030 you have a Canadian PR, four publications, a reviewing record and a senior salary, the US becomes reachable through several doors at once. Chasing it directly from where you stand today is the lowest-probability move available.</p>
+
+  <h4>4. Germany is the better choice if you want out of India fast</h4>
+  <p>If your dominant feeling is "I need to leave soon," switch to Strategy 02. Germany's EU Blue Card for IT and shortage occupations sits at <span class="num">€45,934.20</span> — genuinely attainable for a competent Spring Boot engineer — and the same reduced threshold applies to graduates within three years of finishing their degree, which for you means a window open until roughly 2028. Then a settlement permit in <strong>21 months with B1 German</strong>. That is the fastest route to permanent residence in a first-world country available to your profile, by a wide margin.</p>
+  <p>I rank it second only because German-language acquisition to B1 plus landing a German offer from India is harder in practice than the timeline suggests, and because Canada's ceiling and English-language workplace are better fits for your existing strengths. But if speed is what you want, this is the answer and I'd say so plainly.</p>
+
+  <h4>5. On the master's degree</h4>
+  <p>I would not do it now, and I want to be specific about why rather than just discouraging you. A master's abroad costs two years of foregone income plus ₹25–60 lakh, and its main function — access to a post-study work permit and a local job market — is precisely the mechanism that Canada has been tightening and the US has been litigating. Canada's PGWP now carries a field-of-study requirement tied to long-term shortage occupations, with the eligible-fields list <strong>frozen for all of 2026</strong>, and post-November-2024 applicants must additionally prove language ability. You'd be buying an expensive ticket to a queue that is being actively shortened.</p>
+  <p>Do it later, if at all, and for a real reason: if you decide on the research route to O-1A/EB-1A, a funded PhD at a strong lab is a genuinely different proposition — you're paid rather than paying, and the output is the immigration evidence itself. That is a coherent plan. A self-funded master's as a migration vehicle, in 2026, is not the plan you think it is.</p>
+
+  <div class="pull">Your instinct that the world is closing is half-right. What's closing are the paths that let you convert money into status. What's opening are the paths that let you convert scarce, verifiable skill into status. You are 22 with three unpublished papers and an unused talent for explanation. You are on the right side of that shift and you don't know it yet.</div>
+
+  <h4>6. The thing I'd most want you to internalise</h4>
+  <p>You have spent this year fighting for a pay rise inside a system whose seven-year terminal value is ₹6.5 lakh. You built a careful paper trail, escalated correctly, kept leverage in reserve, and executed a genuinely skilled negotiation — <strong>over a prize that was never worth the effort you put into it.</strong></p>
+  <p>The same care and persistence, pointed at the TEF Canada exam, or at getting three papers published, or at one GCC interview loop, produces an order of magnitude more. You are not short of capability or work ethic. You have been aiming a strong engine at a small target. Change the target.</p>
+</div>
+</section>
+
+<!-- ============ 90 DAY PLAN ============ -->
+<section id="plan">
+<div class="wrap">
+  <div class="sec-label">Section 07 · Execution</div>
+  <h2>The next 90 days, dated</h2>
+  <p class="lead">Nothing here requires you to have decided on a country. Every item serves all three strategies. Total cash cost is under ₹20,000 until the final item.</p>
+
+  <div class="tl">
+    <div class="tl-item">
+      <div class="tl-when">This week · by 27 September</div>
+      <div class="tl-what">Harvest the evidence while you still have access</div>
+      <div class="tl-detail">
+        <p>Collect every written appreciation from batch participants, teaching colleagues and seniors. Save your training artefacts — HTML decks, trainer guides, MCQ banks, lab sheets. Export any feedback scores you can obtain. Keep only what you're entitled to under TCS policy; this is a record of your own work, not company material.</p>
+        <p>Then write a one-page, factual account of what you actually did: five technologies, solo delivery, compressed timeline, multiple batches, positive feedback, versus the year-plus preparation given to peers in the same role. You will paste from this page into every job application, reference request and visa submission for the next five years.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-when">This week · in parallel</div>
+      <div class="tl-what">Message the project managers you told Roshni about</div>
+      <div class="tl-detail"><p>You claimed that leverage in a negotiation. Use it for real, now, while the faculty role is still current. An internal move to a higher-billing project costs you nothing and forecloses nothing.</p></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-when">Week 2 · by 5 October</div>
+      <div class="tl-what">Take a free French placement test and book a course</div>
+      <div class="tl-detail">
+        <p>This is the single highest-expected-value hour in the whole plan. You need NCLC 7 across reading, writing, listening and speaking on TEF Canada or TCF Canada — and your weakest ability sets your level, so start balanced from day one rather than front-loading grammar.</p>
+        <p>Commit to a fixed daily slot. 45–60 minutes, six days a week, is the realistic dose for NCLC 7 in 18–24 months from zero. Put it in the same place in your day as your lifting — you already know you can hold a 5-day split and a running streak, so use the habit machinery you've already proven works on yourself.</p>
+        <p><em>If you prefer Germany:</em> substitute German to B1. Same slot, same discipline, shorter target level.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-when">Weeks 2–4 · October</div>
+      <div class="tl-what">Submit the sign language paper</div>
+      <div class="tl-detail">
+        <p>Of your three research projects, the ISL classification model at 99.96% with ResNet50 is the most complete and the most distinctive. Pick a target venue, format to its template, and submit. Do not polish for another six months.</p>
+        <p>An unpublished paper is worth nothing on any assessment — hiring, Express Entry, O-1A, EB-1A, Australian NIV. A published one is a permanent, portable, compounding asset that appears in three different tiers of this document. You already did the hard part two years ago. What remains is administrative.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-when">Weeks 3–8 · October–November</div>
+      <div class="tl-what">Rebuild your CV for the GCC market and start applying</div>
+      <div class="tl-detail">
+        <p>Target global capability centres and product companies in Hyderabad, Bengaluru, Pune and Ahmedabad. Lead with the microservices systems and the fact that you taught Spring Boot and Angular to production teams — that framing converts your teaching role from a detour into evidence of senior-level command.</p>
+        <p>Anchor your expectation at ₹12–18 lakh, not at a multiple of ₹3.4 lakh. Your current band is not a valuation of your skills; it is an artefact of which NQT track you were slotted into as a fresher. Do not let the Ninja number anchor your negotiation.</p>
+        <p>Apply to at least 30. Interview for practice even where you don't want the job — your interviewing muscle is untested from the candidate side, though you've sat on the other side of the table.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-when">Weeks 4–12 · continuous</div>
+      <div class="tl-what">Build one real AI system, end to end</div>
+      <div class="tl-detail">
+        <p>Not a course, not a certificate. One deployed system that a stranger can use. The 2026 signal that hiring managers say they now test for is whether you can ship agent systems, control inference cost at production scale, and verify AI output rather than trust it. A LangChain-and-vector-database résumé line is described as table stakes at best.</p>
+        <p>Your fastest route: <strong>AnimaFlow already is this system.</strong> It's at Phase 2 with a verified pipeline and a passing end-to-end suite. Finish the live API integration, Stripe Checkout and the DigitalOcean deployment you'd already scoped. A deployed revenue-capable AI product, built solo, is stronger evidence than any certification and simultaneously serves Tier C and the O-1A "original contributions" criterion.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-when">Week 12 · by 21 December</div>
+      <div class="tl-what">Decide the language, and write the decision down</div>
+      <div class="tl-detail">
+        <p>By now you'll have three months of language data, at least one GCC interview outcome, and a paper under review. That is enough to commit.</p>
+        <p>French → Strategy 01 (Canada). German → Strategy 02 (Germany/NL). Neither sticking and income rising fast → Strategy 03 (Sovereign).</p>
+        <p>Write the decision and the reasoning in a file with the date on it. The purpose is not ceremony. It's that in March, when you feel stuck again, you will be able to read what you decided and why, instead of re-running the entire deliberation from zero. That re-running is what has cost you this year.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="box seal">
+    <div class="box-t">What is deliberately absent from this plan</div>
+    <p>No certifications. AZ-900, AWS Cloud Practitioner and Azure AI Engineer were sequenced for the Wings T15 upgrade, <strong>and Wings T15 is cancelled.</strong> The reason for that roadmap no longer exists. Cloud certifications have modest independent value for GCC hiring and none for any immigration route in this document. Do not spend the next six months on them out of momentum — that is the highest-risk failure mode available to you right now, because it <em>feels</em> like progress.</p>
+    <p>No emigration-research platform work either. Your Residency Ledger corpus and dashboard are genuinely impressive, and building more of them is a sophisticated way of avoiding the decision. You have enough information. This document is the last research artefact you need. What's missing is not analysis.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ TRIPWIRES ============ -->
+<section id="rules">
+<div class="wrap">
+  <div class="sec-label">Section 08 · Decision Rules</div>
+  <h2>Tripwires, set in advance</h2>
+  <p class="lead">You reopen this decision every few weeks and that is the actual problem. So pre-commit now, while you're thinking clearly, to what will make you change course later. Then stop deliberating between checkpoints.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th style="min-width:170px">Checkpoint</th><th>Test</th><th>If yes</th><th>If no</th></tr></thead>
+    <tbody>
+      <tr><td><strong>31 Dec 2026</strong></td><td>Have you had at least one GCC or product-company interview?</td><td>Continue. Keep applying.</td><td>Your CV is the problem, not the market. Get three engineers outside TCS to review it before you send another application.</td></tr>
+      <tr><td><strong>31 Mar 2027</strong></td><td>Are you out of the Ninja band — new employer or genuine internal upgrade?</td><td>Proceed to language and publication milestones.</td><td class="neg">Treat this as an emergency. Everything in this document is gated on it. Consider accepting a lower offer than you want purely to break the band.</td></tr>
+      <tr><td><strong>31 Mar 2027</strong></td><td>Six months in: is your language at roughly A2?</td><td>On track for NCLC 7 by 2028.</td><td>Change the method, not the goal — tutor instead of app, or immersion instead of grammar. Do not conclude you can't learn languages from six months of a bad method.</td></tr>
+      <tr><td><strong>30 Jun 2027</strong></td><td>Is at least one paper published or accepted?</td><td>Start the second. You're building a real record.</td><td>Drop the research-based routes (Tier D) from your plan honestly. Don't keep them as a comfort.</td></tr>
+      <tr><td><strong>31 Dec 2027</strong></td><td>Is your income above ₹12 lakh?</td><td>Begin the migration application in earnest; you can now fund it.</td><td>Switch to Strategy 03. Optimise earnings, defer status.</td></tr>
+      <tr><td><strong>Any time</strong></td><td>Has a policy window opened that matches your profile?</td><td class="pos">Apply immediately, even if under-prepared. Windows close on 12–24 month cycles — see the Quebec AI pilot.</td><td>Keep the prerequisites current so you're eligible when one opens.</td></tr>
+      <tr><td><strong>Any time</strong></td><td>Are you researching instead of executing?</td><td class="warn">Stop. Reread Section 07 and do the next dated item.</td><td>Carry on.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>What could go wrong</h3>
+  <p>An honest list, because a plan you can't see the failure modes of isn't a plan.</p>
+  <ul>
+    <li><strong>Policy reversal.</strong> Canada could add French-category draws for candidates already in the pool and compress the advantage, or raise cut-offs. Germany's thresholds rise annually with the pension assessment ceiling. Nothing here is guaranteed for three years. Mitigation: the Tier A moves hold value under every policy regime, which is precisely why they're Tier A.</li>
+    <li><strong>The language doesn't stick.</strong> The most likely single failure. NCLC 7 in all four abilities from zero is genuinely hard and most people who start don't finish. Mitigation: the 31 March 2027 A2 checkpoint catches it early, and Strategy 03 requires no language at all.</li>
+    <li><strong>You stay at TCS.</strong> The faculty role is enjoyable, you're respected, the work is meaningful, and you said yourself you don't want to leave it. This is the quiet failure mode — the one that doesn't feel like failing. Mitigation: the ₹6.5 lakh seven-year figure, reread whenever it feels comfortable.</li>
+    <li><strong>Health.</strong> Your MRI showed Schmorl's nodes and desiccated discs at D12-L1 and L1-L2, and the pain returns after long sitting. Every path in this document involves substantially more desk time. Mitigation: treat the physiotherapy and the McKenzie protocol as part of the career plan, not separate from it. A back that fails at 30 ends all three strategies.</li>
+    <li><strong>Burnout from stacking everything at once.</strong> Job hunt, language, publication, AnimaFlow, plus lifting and running. That is a lot. Mitigation: the plan is sequenced deliberately — language and job hunt are the only two that are genuinely non-negotiable in the first 90 days. If something has to give, let AnimaFlow slip.</li>
+    <li><strong>The relationship and family cost.</strong> Not a footnote. Strategies 01 and 02 mean leaving Shivani, your parents, and Nadiad for years, possibly permanently. Strategy 03 doesn't. I have deliberately not weighted this because I can't — but you must, and it may well be the factor that decides this. If it points to Strategy 03, that is a legitimate answer and not a retreat.</li>
+  </ul>
+</div>
+</section>
+
+
+<!-- ============ SOURCES ============ -->
+<section id="sources">
+<div class="wrap">
+  <div class="sec-label">Section 09 · Sources</div>
+  <h2>Evidence basis</h2>
+  <p class="lead">Every factual claim in this document traces to one of these. Government and official sources are marked. Where I relied on industry or law-firm analysis rather than primary data, that is stated. Content from all sources has been paraphrased and summarised for licensing compliance.</p>
+
+  <h4>Immigration — Canada</h4>
+  <ul class="src-list">
+    <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/corporate/mandate/corporate-initiatives/levels/supplementary-immigration-levels-2026-2028.html">IRCC — Supplementary Information, 2026–2028 Immigration Levels Plan</a> · <em>official</em></li>
+    <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/corporate/transparency/committees/cimm-apr-22-2026/immigration-levels-plan.html">IRCC — CIMM briefing on levels plan and temporary resident reduction, Apr 2026</a> · <em>official</em></li>
+    <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/corporate/transparency/committees/cimm-mar-23-2026/permanent-resident-targets.html">IRCC — Permanent Resident Targets, Mar 2026</a> · <em>official</em></li>
+    <li><a href="https://www1.canada.ca/en/immigration-refugees-citizenship/corporate/transparency/committees/cimm-nov-18-2025/francophone-immigration.html">IRCC — Francophone immigration targets outside Quebec</a> · <em>official</em></li>
+    <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/campaigns/francophone-immigration-outside-quebec/francophone-immigration-express-entry.html">IRCC — Express Entry for French-speaking skilled workers</a> · <em>official</em></li>
+    <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/rounds-invitations.html">IRCC — Express Entry rounds of invitations</a> · <em>official</em></li>
+    <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation/eligibility/field-of-study/currently-eligible.html">IRCC — PGWP eligible fields of study</a> · <em>official</em></li>
+    <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/news/notices/update-requirement-post-graduation-work-permits.html">IRCC — PGWP field of study update</a> · <em>official</em></li>
+    <li><a href="https://www.cicnews.com/2026/01/ircc-freezes-list-of-pgwp-eligible-fields-of-study-for-2026-0167305.html">CIC News — PGWP field list frozen for 2026</a></li>
+    <li><a href="https://www1.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/rural-franco-pilots/franco-immigration/eligibility.html">IRCC — Francophone Community Immigration Pilots eligibility</a> · <em>official</em></li>
+    <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada/hire-temporary-foreign/international-mobility-program.html">IRCC — International Mobility Program (LMIA-exempt)</a> · <em>official</em></li>
+    <li><a href="https://moving2canada.com/news/pnp-allocations-2026-by-province/">Moving2Canada — 2026 PNP allocations by province</a></li>
+    <li><a href="https://onthemovecanada.com/immigration/pnp-and-regional/pnp-status/">On the Move Canada — 2026 PNP allocation increase</a></li>
+    <li><a href="https://www.cicnews.com/2026/04/breaking-british-columbia-axes-graduate-tech-and-entry-level-pr-pathways-focuses-on-healthcare-and-trades-workers-0474509.html">CIC News — BC closes tech and graduate PR streams, Apr 2026</a></li>
+    <li><a href="https://www.alberta.ca/aaip-processing-information">Alberta — AAIP 2026 sector priorities</a> · <em>official</em></li>
+    <li><a href="https://www.marinimmigrationlaw.ca/blog/express-entry-review-what-changed-in-2023-and-why-its-important-for-2024">Marin Immigration Law — 2026 CEC vs category draw cut-offs</a></li>
+    <li><a href="https://wildmountainimmigration.com/express-entry/category-based-draws">Wild Mountain Immigration — category-based draw cut-offs</a></li>
+    <li><a href="https://www.languagenext.com/blog/bilingual-express-entry-french-english/">LanguageNext — bilingual CRS point mechanics</a></li>
+    <li><a href="https://www.languagenext.com/blog/tef-canada-score-chart/">LanguageNext — TEF Canada NCLC 7 thresholds</a></li>
+    <li><a href="https://www.berlitz.com/en-ca/blog/accelerating-pr-alberta-french-scores-edmonton-express-entry">Berlitz — value of the French bonus in CRS terms</a></li>
+    <li><a href="https://www.quebec.ca/en/immigration/permanent/skilled-workers/artificial-intelligence/application-selection">Quebec — AI/IT-VE pilot closure, 1 Jan 2026</a> · <em>official</em></li>
+    <li><a href="https://www.quebec.ca/immigration/permanente/travailleurs-qualifies/programme-experience-quebecoise">Quebec — PEQ reopening window 2026–2028</a> · <em>official</em></li>
+    <li><a href="https://sepimmigration.ca/service/quebec-experience-program/">SEP Immigration — PEQ abolition and reopening history</a></li>
+  </ul>
+
+  <h4>Immigration — United States</h4>
+  <ul class="src-list">
+    <li><a href="https://travel.state.gov/content/travel/en/us-visas/employment/visas-canadian-mexican-usmca-professional-workers.html">US State Department — TN/USMCA professionals; PRs ineligible</a> · <em>official</em></li>
+    <li><a href="https://www.uscis.gov/working-in-the-united-states/temporary-workers/tn-nafta-professionals">USCIS — TN USMCA professionals</a> · <em>official</em></li>
+    <li><a href="https://fam.state.gov/fam/09FAM/09FAM040217.html">9 FAM 402.17 — USMCA professionals</a> · <em>official</em></li>
+    <li><a href="https://www.hio.harvard.edu/tn-visa">Harvard International Office — TN ineligibility for PRs</a></li>
+    <li><a href="https://isss.umn.edu/departments/employment-based-visas/tn">U. Minnesota ISSS — TN and absence of dual intent</a></li>
+    <li><a href="https://studyinthestates.dhs.gov/final-rule-establishing-a-fixed-time-period-of-admission-and-an-extension-of-stay-procedure-quick">DHS StudyintheStates — fixed period of admission final rule</a> · <em>official</em></li>
+    <li><a href="https://www.dhs.gov/news/2026/07/16/trump-administration-issues-final-rule-end-foreign-student-visa-abuse">DHS — final rule announcement, Jul 2026</a> · <em>official</em></li>
+    <li><a href="https://isso.charlotte.edu/duration-of-status-and-program-extension-changes/">UNC Charlotte ISSO — nationwide injunction, 14 Sep 2026</a></li>
+    <li><a href="https://oiss.tulane.edu/dhs-ends-duration-status-rule-f-1-and-j-1-students-and-scholars">Tulane OISS — rule paused under litigation</a></li>
+    <li><a href="https://www.hollandhart.com/dhs-issues-final-rule-implementing-weighted-h-1b-cap-selection-process">Holland &amp; Hart — wage-weighted H-1B entry multipliers</a></li>
+    <li><a href="https://www.gtlaw.com/en/insights/2026/2/uscis-finalizes-wage-weighted-h-1b-cap-selection-rule-effective-feb-27-2026">Greenberg Traurig — rule effective 27 Feb 2026</a></li>
+    <li><a href="https://www.alston.com/en/insights/publications/2026/06/federal-court-vacates-$100000-h-1b-fee">Alston &amp; Bird — court vacates $100,000 H-1B fee</a></li>
+    <li><a href="https://oip.wayne.edu/oiss/h1b-updates">Wayne State OISS — $100k fee not currently in effect</a></li>
+    <li><a href="https://www.envoyglobal.com/news-alert/h-1b-100000-fee-requirement-extended-through-september-2027-amid-ongoing-court-challenges/">Envoy Global — proclamation extended through Sep 2027</a></li>
+    <li><a href="https://www.fraserpllc.com/news-insights/original-contributions-engineers-eb1a-o1">Fraser PLLC — original contributions criterion for engineers</a></li>
+    <li><a href="https://opensphere.ai/immigration-resources/o-1a-visa-software-engineers-2026-guide">OpenSphere — O-1A criteria for software engineers</a></li>
+    <li><a href="https://immigrationlawyersusa.com/eb-2-niw-vs-o-1-vs-eb-1a-for-engineers/">Immigration Lawyers USA — EB-2 NIW approval rate decline</a></li>
+    <li><a href="https://www.beyondborderglobal.com/resources/o-1-judging-evidence-conferences-journals-hackathons-panels">Beyond Border Global — judging criterion accessibility</a></li>
+  </ul>
+
+  <h4>Immigration — Europe, Australia, Asia-Pacific</h4>
+  <ul class="src-list">
+    <li><a href="https://www.make-it-in-germany.com/en/visa-residence/skilled-immigration-act">Make it in Germany — Skilled Immigration Act, 2026 thresholds</a> · <em>official</em></li>
+    <li><a href="https://accra.diplo.de/gh-en/service/-visainformation/2615308-2615308">German Federal Foreign Office — 2026 Blue Card salary minimums</a> · <em>official</em></li>
+    <li><a href="https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/02a-what-is-the-blue-card/606754">Auswärtiges Amt — Blue Card settlement permit timelines</a> · <em>official</em></li>
+    <li><a href="https://verwaltung.bund.de/leistungsverzeichnis/EN/leistung/99010003001006/herausgeber/HE-381430683/region/060000000000">Verwaltung.bund.de — settlement permit language requirements</a> · <em>official</em></li>
+    <li><a href="https://www.jobbatical.com/blog/eu-blue-card-hr-guide-it-specialists-germany-latest">Jobbatical — IT specialist threshold €45,934.20</a></li>
+    <li><a href="https://expats.de/en/bureaucracy/blue-card-germany/">Expats.de — Blue Card without degree for IT specialists</a></li>
+    <li><a href="https://ind.nl/en/required-amounts-income-requirements">Netherlands IND — required income amounts</a> · <em>official</em></li>
+    <li><a href="https://www.government.nl/themes/taxes-benefits-and-allowances/income-tax/shortening-30-percent-ruling">Government of the Netherlands — 30% facility</a> · <em>official</em></li>
+    <li><a href="https://business.gov.nl/amendment/30-percent-ruling-compensation-down-to-27-percent/">Business.gov.nl — reduction to 27%</a> · <em>official</em></li>
+    <li><a href="https://business.gov.nl/amendment/rules-highly-skilled-migrants-change/">Business.gov.nl — proposed change to under-30 salary threshold</a> · <em>official</em></li>
+    <li><a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/national-innovation-visa-858">Australian Home Affairs — National Innovation visa 858</a> · <em>official</em></li>
+    <li><a href="https://www.fragomen.com/insights/australia-national-innovation-visa-introduced.html">Fragomen — NIV priority tiers and nomination</a></li>
+    <li><a href="https://www.australianmigrationagents.com.au/fr/news-and-updates/new-national-innovation-visa">Australian Migration Agents — subclass 188 closure</a></li>
+    <li><a href="https://www.abc.net.au/news/2026-05-08/migration-overhauled-and-red-tape-cut-in-budget/106660316">ABC News — 2026 budget points test overhaul</a></li>
+    <li><a href="https://www.gov.uk/global-talent-digital-technology">UK Gov — Global Talent visa, digital technology</a> · <em>official</em></li>
+    <li><a href="https://www.gov.uk/government/publications/review-of-salary-requirements/review-of-salary-requirements-accessible">UK Gov — Skilled Worker salary thresholds</a> · <em>official</em></li>
+    <li><a href="https://www.gov.uk/skilled-worker-visa/when-you-can-be-paid-less">UK Gov — immigration salary list reduced rate</a> · <em>official</em></li>
+    <li><a href="https://www.gov.ie/en/publication/faf04-critical-skills-employment-permits/">Ireland Gov — Critical Skills Employment Permit</a> · <em>official</em></li>
+    <li><a href="https://www.citizensinformation.ie/en/moving_country/working_in_ireland/employment_permits/green_card_permits.html">Citizens Information Ireland — CSEP overview</a> · <em>official</em></li>
+    <li><a href="https://www.immigration.govt.nz/work/requirements-for-work-visas/green-list-occupations-qualifications-and-skills/">Immigration New Zealand — Green List residence pathways</a> · <em>official</em></li>
+    <li><a href="https://www.moj.go.jp/isa/applications/resources/nyuukokukanri01_00009.html">Japan Immigration Services Agency — J-Skip</a> · <em>official</em></li>
+    <li><a href="https://english.visajapan.jp/koudo.html">VisaJapan — HSP points and PR timelines</a></li>
+    <li><a href="https://helloworldjapan.com/en/articles/japan-hsp-visa-shortcut-to-pr">Hello World Japan — 80-point HSP one-year PR route</a></li>
+  </ul>
+
+  <h4>Labour market, salaries and AI</h4>
+  <ul class="src-list">
+    <li><a href="https://hatchworks.com/blog/gen-ai/software-engineer-shortage/">Hatchworks — SignalFire 2026 State of Tech Talent, new-grad hiring decline</a></li>
+    <li><a href="https://www.metaintro.com/blog/entry-level-jobs-ai-2026-college-graduates">Metaintro — Revelio Labs entry-level posting declines</a></li>
+    <li><a href="https://www.metaintro.com/blog/ai-wiping-out-entry-level-jobs-2026-seven-moves">Metaintro — Stanford 2026 AI Index, ages 22–25</a></li>
+    <li><a href="https://www.wobo.ai/blog/wobo-software-hiring-report-2026/">Wobo — senior versus junior posting ratios, 2026</a></li>
+    <li><a href="https://www.hcamag.com/us/specialization/hr-technology/the-real-reason-junior-hiring-is-collapsing-may-not-be-ai-it-may-be-your-remote-work-policy/577164">HCA Mag — Stanford Digital Economy Lab experience-requirement shift</a></li>
+    <li><a href="https://www.forbes.com/sites/rachelwells/2026/07/28/will-ai-kill-entry-level-jobs-new-hiring-data-says-no/">Forbes — counter-evidence on entry-level hiring</a></li>
+    <li><a href="https://supersourcing.com/blog/gcc-salary-benchmark-india-2026/">Supersourcing — India GCC salary benchmark 2026</a></li>
+    <li><a href="https://supersourcing.com/blog/india-gcc-salary-benchmarks/">Supersourcing — GCC premium over services firms (TeamLease/IBEF)</a></li>
+    <li><a href="https://techmonk.economictimes.indiatimes.com/news/jobs-layoffs/ai-skills-command-60-salary-premium-in-indian-tech-sector/130876572">Economic Times TechMonk — 60% AI skills premium</a></li>
+    <li><a href="https://cio.economictimes.indiatimes.com/news/artificial-intelligence/ai-job-salaries-surge-23-since-2024-as-legacy-tech-pay-slips-report/133710126">ET CIO — AI salary growth versus legacy tech decline</a></li>
+    <li><a href="https://economictimes.indiatimes.com/news/company/corporate-trends/indias-gccs-become-global-ai-hubs-drive-demand-for-specialised-skills/articleshow/128471891.cms">Economic Times — foundit data on AI role premiums</a></li>
+    <li><a href="https://www.teaminindia.com/blog/hire-software-developers-in-india-cost-guide/">Team in India — product versus services fresher ranges</a></li>
+    <li><a href="https://faceprep.in/article/tcs-recruitment-latest-updates/">FACE Prep — TCS Ninja, Digital and Prime bands</a></li>
+    <li><a href="https://testbook.com/tcs-nqt/salary-job-profile">Testbook — TCS NQT salary bands</a></li>
+    <li><a href="https://www.wisemonk.io/blogs/highest-paying-remote-skills-indian-professionals">Wisemonk — remote USD earnings for Indian professionals</a></li>
+    <li><a href="https://www.wisemonk.io/blogs/hire-remote-developers-india-us-clients">Wisemonk — 2026 senior India remote rates</a></li>
+    <li><a href="https://www.marsdevs.com/blog/global-developer-rates-2026">MarsDevs — global senior developer rates by country</a></li>
+    <li><a href="https://www.secondtalent.com/resources/countries-with-highest-software-engineer-salaries/">SecondTalent — Stack Overflow 2025 median salaries by country</a></li>
+    <li><a href="https://digitaldefynd.com/IQ/top-countries-for-career-in-software-engineering/">DigitalDefynd — BLS median wage for software developers</a></li>
+    <li><a href="https://www.digitalapplied.com/blog/ai-developer-hiring-skills-that-matter-2026">Digital Applied — what AI hiring managers test in 2026</a></li>
+    <li><a href="https://www.deeplearning.ai/the-batch/the-ai-engineering-skills-map">DeepLearning.AI — AI engineering skills map</a></li>
+    <li><a href="https://tripleten.com/blog/posts/ai-skills">TripleTen — most-requested AI skills</a></li>
+  </ul>
+
+  <div class="box plain">
+    <div class="box-t">Known uncertainties in this document</div>
+    <p><strong>Germany's A1 settlement timeline is inconsistent across official sources.</strong> Some German federal pages state 27 months with A1 German; others, including the Federal Foreign Office and verwaltung.bund.de, state 33 months with A1 and 21 months with B1. I have used <strong>21 months with B1</strong> throughout because it is consistent across every source and is the figure you'd actually target. Verify the A1 variant with the relevant Ausländerbehörde before relying on it.</p>
+    <p><strong>Express Entry cut-offs are volatile by design.</strong> The CRS figures quoted are from specific 2026 rounds and will move. Treat the <em>gap</em> between CEC and French-category draws as the durable finding, not the absolute numbers.</p>
+    <p><strong>Two US policies are in active litigation</strong> — the F-1 duration-of-status rule and the $100,000 H-1B fee. Both are currently unenforceable and both could revive. Any US planning must be re-verified at the time of action.</p>
+    <p><strong>Salary figures are gross and pre-tax,</strong> and cost-of-living adjustment has not been applied. A €60,000 German salary and a CAD 100,000 Canadian salary are not directly comparable to each other or to an Indian rupee figure. If you want that comparison done properly, it's a separate piece of work and worth doing before a final country choice.</p>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-rule"></div>
+    <div class="foot-t">
+      Career Strategy Dossier · PP-2609<br>
+      Compiled 21 September 2026 · 27 pathways · 10 jurisdictions<br>
+      Not legal, immigration, financial or medical advice<br>
+      Verify every rule with a licensed professional before acting
+    </div>
+  </div>
+</footer>
+
+<script>
+const PATHS=[
+/* ---- TIER A ---- */
+{id:"A1",tier:"A",name:"Escape the Ninja band — move to an India GCC or product company",rel:88,ceil:58,spd:92,
+what:"Leave TCS services for a global capability centre or product company in India. This is the single highest expected-value move available to you and it is a prerequisite for almost everything else in this document.",
+pays:"₹12–18L within 6–9 months. ₹25–35L by 2029–30. Senior backend at a Hyderabad GCC reportedly ₹35–50L versus ₹18–24L for the same title at a mid-size services firm.",
+cost:"Interview preparation. Possibly a short income gap. No capital.",
+time:"3–9 months from starting to apply.",
+verdict:"Do this regardless of which country you eventually choose. It raises income immediately, and because the H-1B lottery is now wage-weighted it simultaneously improves your US odds. It also builds the savings buffer every Tier B path requires.",
+dq:"Nothing disqualifies you. Your Spring Boot and Angular depth plus microservices work is directly relevant. Your weak point is interview practice from the candidate side, not capability.",
+src:[["India GCC salary benchmark 2026","https://supersourcing.com/blog/gcc-salary-benchmark-india-2026/"],["TCS band structure","https://faceprep.in/article/tcs-recruitment-latest-updates/"]]},
+
+{id:"A2",tier:"A",name:"Learn French to NCLC 7 — the highest-leverage single action",rel:82,ceil:60,spd:34,
+what:"Reach NCLC 7 in all four abilities on TEF Canada or TCF Canada. This unlocks Canada's French-language category draws, whose cut-offs run dramatically below the general Canadian Experience Class rounds.",
+pays:"Up to 74 CRS points — as much as 50 bonus points for strong French plus up to 24 for second-official-language ability. In 2026 that was the difference between competing at CRS 516–523 and competing at 382–391.",
+cost:"₹30–80k in tuition plus roughly ₹25k for the test. 45–60 minutes a day for 18–24 months.",
+time:"18–24 months to NCLC 7 from zero.",
+verdict:"If you do only one thing from this document besides A1, do this. No other action available to you moves your Canadian odds by anything close to 130 CRS points. Canada has also committed to French-speaking admissions outside Quebec of 30,267 in 2026 rising to 35,175 by 2028 — they need the supply.",
+dq:"IRCC never averages your four abilities, so your weakest skill sets your usable level. Balanced practice from day one is mandatory. Partial French earns you nothing on the category draws.",
+src:[["IRCC — French-speaking skilled workers","https://www.canada.ca/en/immigration-refugees-citizenship/campaigns/francophone-immigration-outside-quebec/francophone-immigration-express-entry.html"],["Bilingual CRS mechanics","https://www.languagenext.com/blog/bilingual-express-entry-french-english/"],["TEF NCLC 7 thresholds","https://www.languagenext.com/blog/tef-canada-score-chart/"]]},
+
+{id:"A3",tier:"A",name:"Publish the three research papers",rel:70,ceil:72,spd:46,
+what:"Convert your Indian Sign Language classification model, fake news detection ensemble, and RoBERTa question-answering system from in-progress work into published papers.",
+pays:"No direct income. But publications are load-bearing evidence for O-1A, EB-1A, EB-2 NIW, the Australian National Innovation visa, and senior AI hiring. They are the only asset here that appears across four different tiers.",
+cost:"Formatting and submission effort. Some venues charge fees. Mostly time you have already spent.",
+time:"3–12 months per paper, review-dependent.",
+verdict:"Pure unrealised upside. You already did the hard work — an unpublished paper counts for exactly zero on every assessment that matters, and a published one is permanent and portable. Start with the ISL model at 99.96%; it is your most complete and most distinctive result.",
+dq:"Nothing, except inertia. The risk is polishing indefinitely instead of submitting.",
+src:[["EB-1A criteria including authorship","https://www.fraserpllc.com/news-insights/original-contributions-engineers-eb1a-o1"],["O-1A for software engineers","https://opensphere.ai/immigration-resources/o-1a-visa-software-engineers-2026-guide"]]},
+
+{id:"A4",tier:"A",name:"Ship one production AI system end to end",rel:76,ceil:74,spd:64,
+what:"Build and deploy one real AI system that strangers can use. Not a course, not a certificate. Your fastest route is finishing AnimaFlow, which is already at Phase 2 with a verified pipeline and a passing 27-step end-to-end suite.",
+pays:"AI skills reportedly command around a 60% premium in Indian tech. Senior AI/ML roles at GCCs are reported at ₹58–60L growing around 18% a year, against about ₹12L for legacy IT support work.",
+cost:"Your own time plus roughly $12 a month for hosting.",
+time:"2–4 months to finish AnimaFlow's remaining integration and deployment.",
+verdict:"This closes your single biggest professional gap — no production AI work — and does so with an asset you have already built most of. What 2026 hiring managers say they now test is whether you can ship agent systems, control inference cost, and verify AI output. A LangChain-plus-vector-database résumé line is table stakes at best.",
+dq:"Nothing. You have already done the difficult 70% of this.",
+src:[["AI salary premium in India","https://techmonk.economictimes.indiatimes.com/news/jobs-layoffs/ai-skills-command-60-salary-premium-in-indian-tech-sector/130876572"],["What AI hiring actually tests in 2026","https://www.digitalapplied.com/blog/ai-developer-hiring-skills-that-matter-2026"]]},
+
+/* ---- TIER B ---- */
+{id:"B1",tier:"B",name:"Canada — Express Entry via French-language category",rel:78,ceil:68,spd:45,
+what:"Enter the Express Entry pool with a bilingual profile and target French-language category draws rather than competing in general or Canadian Experience Class rounds.",
+pays:"Canadian software engineer salaries are among the world's top ten. Realistically CAD 85–110k mid-career, with PR granting full labour-market access.",
+cost:"Roughly ₹4–6L all-in: language tests, educational credential assessment, application fees, proof of settlement funds, medicals, travel.",
+time:"PR around 2029 if you start French now.",
+verdict:"My recommended primary route. PR admissions are stable at 380,000 a year through 2028 with the economic class share at a decade high. The French lever is what makes it realistic for your profile rather than aspirational.",
+dq:"Without NCLC 7 French you are competing at CRS 516–523, which your profile will not reach on age, education and experience alone. French is not optional here — it is the whole strategy.",
+src:[["IRCC Levels Plan 2026–2028","https://www.canada.ca/en/immigration-refugees-citizenship/corporate/mandate/corporate-initiatives/levels/supplementary-immigration-levels-2026-2028.html"],["2026 draw cut-off comparison","https://www.marinimmigrationlaw.ca/blog/express-entry-review-what-changed-in-2023-and-why-its-important-for-2024"]]},
+
+{id:"B2",tier:"B",name:"Germany — EU Blue Card, fastest PR available to you",rel:74,ceil:62,spd:62,
+what:"Secure a German job offer meeting the EU Blue Card IT and shortage-occupation threshold, then convert to a settlement permit unusually fast.",
+pays:"€45,934.20 is the 2026 minimum for STEM, IT and shortage occupations; €50,700 for general occupations. Realistic mid-career German software salaries run €60–80k.",
+cost:"Roughly ₹3–5L plus German tuition. No capital requirement.",
+time:"Settlement permit in 21 months with B1 German after arrival. Realistically PR by 2029–30.",
+verdict:"The fastest genuine route to permanent residence in a first-world country for your profile. Two features favour you specifically: the reduced threshold also applies to graduates within three years of finishing their degree, giving you a window to roughly 2028, and IT specialists can qualify even without a degree — so the rules are unusually forgiving here.",
+dq:"You need an actual German employer offer, which is harder to obtain from India than the salary threshold suggests. B1 German is a real requirement for the 21-month timeline; A1 pushes it out to 27–33 months depending on which official source you read.",
+src:[["Make it in Germany — 2026 thresholds","https://www.make-it-in-germany.com/en/visa-residence/skilled-immigration-act"],["Settlement permit timelines","https://www.auswaertiges-amt.de/en/visa-service/buergerservice/faq/02a-what-is-the-blue-card/606754"],["IT specialists without a degree","https://expats.de/en/bureaucracy/blue-card-germany/"]]},
+
+{id:"B3",tier:"B",name:"Canada — Provincial Nominee Program",rel:62,ceil:66,spd:48,
+what:"Obtain a provincial nomination, which adds 600 CRS points to an Express Entry profile and in practice guarantees an invitation to apply.",
+pays:"Same as B1, though often tied to a specific province for an initial period.",
+cost:"Similar to B1 plus provincial application fees.",
+time:"2–4 years depending on stream and province.",
+verdict:"A powerful backstop to B1 rather than a standalone plan. 2026 allocations rose roughly 66% to about 91,500 nominations — reported as the largest single-year increase in Canadian immigration history. Alberta is prioritising technology among its key sectors for 2026.",
+dq:"Important and recent: British Columbia closed its graduate, tech and entry-level PR pathways in April 2026 to focus on healthcare and trades. Do not plan around BC tech streams; they no longer exist. Most remaining streams want a local job offer or prior connection to the province.",
+src:[["2026 PNP allocations","https://moving2canada.com/news/pnp-allocations-2026-by-province/"],["BC closes tech streams","https://www.cicnews.com/2026/04/breaking-british-columbia-axes-graduate-tech-and-entry-level-pr-pathways-focuses-on-healthcare-and-trades-workers-0474509.html"],["Alberta 2026 priorities","https://www.alberta.ca/aaip-processing-information"]]},
+
+{id:"B4",tier:"B",name:"Quebec — PSTQ via Arrima, French-weighted",rel:66,ceil:62,spd:48,
+what:"Apply through Quebec's Skilled Worker Selection Program, an invitation-based system that weights French proficiency heavily, leading to a Quebec Selection Certificate and then federal PR.",
+pays:"Montreal tech salaries run below Toronto but so does cost of living. Strong AI research cluster.",
+cost:"Comparable to B1.",
+time:"2–4 years.",
+verdict:"A genuine second use for the French you learn in A2. Quebec's PEQ also reopened on 2 July 2026 for a two-year window scheduled to close permanently on 2 July 2028 — worth watching if you end up studying or working in Quebec.",
+dq:"Arrima recalibrated its invitation thresholds, raising the bar for candidates without strong French. Without real French this route is closed to you; with it, it becomes a parallel option to B1.",
+src:[["Quebec PSTQ invitations 2026","https://www.quebec.ca/en/immigration/permanent/skilled-workers/skilled-worker-selection-program/invitation/2026"],["PEQ reopening window","https://www.quebec.ca/immigration/permanente/travailleurs-qualifies/programme-experience-quebecoise"]]},
+
+{id:"B5",tier:"B",name:"Netherlands — Highly Skilled Migrant with expat tax ruling",rel:66,ceil:66,spd:58,
+what:"Enter via the Highly Skilled Migrant scheme through a recognised sponsor employer, with the 30% expat tax facility reducing your effective tax burden.",
+pays:"Dutch senior contract rates are reported at the top of Western Europe. The expat facility allows a portion of salary tax-free — now reduced to 27% — for up to five years.",
+cost:"Roughly ₹3–5L. Employer handles sponsorship.",
+time:"5 years to permanent residence.",
+verdict:"Underrated for you specifically because Dutch workplaces operate in English, so there's no language prerequisite blocking entry. Strong balance of salary, quality of life and administrative competence.",
+dq:"Requires a recognised-sponsor employer; you cannot self-sponsor. Note a live risk: the government has signalled an intent to raise the under-30 salary threshold from €4,171 per month toward 1.1 times the average gross annual salary, which would directly affect you at 22.",
+src:[["IND required income amounts","https://ind.nl/en/required-amounts-income-requirements"],["30% facility","https://www.government.nl/themes/taxes-benefits-and-allowances/income-tax/shortening-30-percent-ruling"],["Proposed under-30 threshold rise","https://business.gov.nl/amendment/rules-highly-skilled-migrants-change/"]]},
+
+{id:"B6",tier:"B",name:"Japan — Highly Skilled Professional points route",rel:70,ceil:60,spd:60,
+what:"Qualify under Japan's HSP points system — education, career, income, age and bonus categories — reaching the 70-point threshold, or 80 for the accelerated track.",
+pays:"Japanese salaries are lower than North America but the immigration timeline is exceptional.",
+cost:"Low. Standard visa fees.",
+time:"At 80 points, PR is reported achievable in as little as one year of residence. At 70 points, around three years.",
+verdict:"The most underrated route in this document. Your age scores well, a degree scores, and JLPT certification adds bonus points. One analysis notes that a competitive salary plus a degree plus JLPT already puts 80 points within reach for many developers — and moving from 70 to 80 points can save two years.",
+dq:"You need a Japanese employer. Japanese language ability is not strictly required for the visa but matters enormously for actually getting hired and living there. Lower earning ceiling than North America or Australia.",
+src:[["HSP points system","https://english.visajapan.jp/koudo.html"],["J-Skip","https://www.moj.go.jp/isa/applications/resources/nyuukokukanri01_00009.html"],["80-point one-year PR route","https://helloworldjapan.com/en/articles/japan-hsp-visa-shortcut-to-pr"]]},
+
+{id:"B7",tier:"B",name:"Australia — skilled points-tested visas",rel:58,ceil:74,spd:40,
+what:"Skills assessment through ACS, then an expression of interest under the points-tested skilled programme, potentially with state nomination.",
+pays:"Australia ranks among the highest-paying countries for software engineers, frequently in the global top three to five.",
+cost:"₹4–7L including skills assessment, English testing and application fees. No capital requirement — the capital-heavy subclass 188 closed in July 2024.",
+time:"2–4 years.",
+verdict:"High ceiling and genuinely no capital barrier, contrary to your assumption. Its weakness is that occupation-list alignment and points-test settings matter more than your credentials do, and both are moving.",
+dq:"The points test is under active overhaul following the 2026 budget, and processing priority changed under new ministerial directions effective 25 July 2026. Verify current settings before spending on a skills assessment.",
+src:[["2026 budget points test overhaul","https://www.abc.net.au/news/2026-05-08/migration-overhauled-and-red-tape-cut-in-budget/106660316"],["Processing priority directions","https://visaenvoy.com/order-of-consideration/"],["Subclass 188 closure","https://www.australianmigrationagents.com.au/fr/news-and-updates/new-national-innovation-visa"]]},
+
+{id:"B8",tier:"B",name:"Ireland — Critical Skills Employment Permit",rel:64,ceil:70,spd:55,
+what:"Employer-sponsored permit for occupations on Ireland's Critical Skills list, explicitly designed to lead toward permanent residence.",
+pays:"Ireland ranks high in global software salary surveys, helped by the concentration of US tech European headquarters in Dublin.",
+cost:"Low. Employer-driven.",
+time:"2 years to Stamp 4, then a route to long-term residence.",
+verdict:"Clean, English-language, and deliberately structured as a residence pathway. Software roles are typically on the Critical Skills list and no labour market needs test is required for listed occupations.",
+dq:"Needs an Irish employer offer. Dublin housing costs are severe and will consume much of the salary advantage.",
+src:[["Ireland Gov — CSEP","https://www.gov.ie/en/publication/faf04-critical-skills-employment-permits/"],["Citizens Information — CSEP","https://www.citizensinformation.ie/en/moving_country/working_in_ireland/employment_permits/green_card_permits.html"]]},
+
+{id:"B9",tier:"B",name:"New Zealand — Green List residence pathway",rel:60,ceil:52,spd:50,
+what:"Roles on the Green List offer either immediate residence eligibility or residence after two years of work in New Zealand, with simplified applications.",
+pays:"Lowest ceiling among the English-speaking destinations here.",
+cost:"Low to moderate.",
+time:"Immediate to 2 years for residence, depending on the specific role's tier.",
+verdict:"Genuinely the most straightforward residence mechanism on this list if your occupation qualifies. Treat it as a strong fallback rather than a primary target, given the earnings ceiling.",
+dq:"Small job market with few senior opportunities. Geographic isolation. Verify your specific occupation and qualification against the current Green List, which was amended in March 2026.",
+src:[["Immigration NZ — Green List","https://www.immigration.govt.nz/work/requirements-for-work-visas/green-list-occupations-qualifications-and-skills/"],["Green List March 2026 amendment","https://www.immigration.govt.nz/opsmanual/89117.htm"]]},
+
+{id:"B10",tier:"B",name:"United Kingdom — Skilled Worker or Global Talent",rel:55,ceil:72,spd:52,
+what:"Either employer-sponsored Skilled Worker entry, or the Global Talent visa for digital technology which requires endorsement rather than sponsorship.",
+pays:"UK tech salaries trail the US substantially but London remains a major market.",
+cost:"High. Visa fees plus the immigration health surcharge are among the steepest of any destination here.",
+time:"5 years to settlement.",
+verdict:"Global Talent is the more interesting half for you long term — it has no language or minimum salary requirement, so it rewards exactly the publication-and-shipped-product record that A3 and A4 build. Skilled Worker is the conventional route.",
+dq:"The Skilled Worker general threshold rose to £41,700 from July 2025, and you must meet the higher of that or your occupation's going rate. Global Talent requires endorsement you cannot currently obtain — revisit it once you have publications and a shipped product.",
+src:[["UK Gov — salary requirements review","https://www.gov.uk/government/publications/review-of-salary-requirements/review-of-salary-requirements-accessible"],["UK Gov — Global Talent, digital technology","https://www.gov.uk/global-talent-digital-technology"]]},
+
+{id:"B11",tier:"B",name:"Canada — Francophone Community Immigration Pilot",rel:58,ceil:55,spd:50,
+what:"A federal pilot granting PR through designated employers in francophone minority communities outside Quebec.",
+pays:"Lower than major metros, as these are smaller and rural communities.",
+cost:"Moderate.",
+time:"1–3 years.",
+verdict:"A useful secondary payoff from learning French, and notably it requires only NCLC 5 rather than the NCLC 7 needed for Express Entry French draws — a materially lower bar. Worth knowing about as a fallback if your French plateaus below NCLC 7.",
+dq:"Requires a job offer from a designated employer plus a community recommendation, and at least 1,560 hours of related work experience in the past three years. You are tied to a specific small community.",
+src:[["IRCC — Francophone Community Immigration Pilots","https://www1.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/rural-franco-pilots/franco-immigration/eligibility.html"],["Requirements summary","https://wildmountainimmigration.com/francophone-community-immigration-pilot"]]},
+
+{id:"B12",tier:"B",name:"TCS internal — onsite deputation or intra-company transfer",rel:46,ceil:50,spd:70,
+what:"Use TCS's global mobility and intra-company transfer routes to get posted onsite in Canada, the UK, Europe or the US. Canada's International Mobility Program allows LMIA-exempt intra-company transfers.",
+pays:"Onsite allowances substantially exceed Indian salary, though usually below local market rate for the same role.",
+cost:"None. Employer-funded.",
+time:"Potentially fast if a client project needs you — this is the quickest route out of India on this list.",
+verdict:"The cheapest possible way to get foreign work experience and a first entry stamp, and it costs you nothing. Worth actively pursuing in parallel with everything else. But treat it as a stepping stone, never as the plan — you would be on a temporary permit tied to your employer.",
+dq:"Entirely discretionary and demand-driven. Onsite assignments depend on client need, band, performance and internal policy, and are not available to everyone. Your Ninja band and the fact you are being released work against you here, though your faculty record works for you. Deputation also usually ties you to TCS, which conflicts with A1.",
+src:[["IRCC — International Mobility Program","https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada/hire-temporary-foreign/international-mobility-program.html"],["Intra-company transfer stream","https://sepimmigration.ca/service/intra-company-transferees/"]]},
+
+/* ---- TIER C ---- */
+{id:"C1",tier:"C",name:"Direct USD remote contracting from India",rel:62,ceil:80,spd:78,
+what:"Work remotely for US or European clients at international rates while living in India, capturing the full arbitrage instead of letting an employer capture it.",
+pays:"The reported arbitrage is stark: an engineer earning around ₹20L from an Indian employer can earn USD 80–120k working remotely for a US company — roughly ₹70L to ₹1cr for the same work from the same desk. Fully-loaded senior India remote rates are reported at $33–45 an hour.",
+cost:"Minimal capital. Needs a portfolio, a professional presence, and the ability to sell.",
+time:"6–18 months to a first serious contract.",
+verdict:"The highest realistic income per unit of risk on this entire list, and the answer to your 'earn a lot' goal that requires no visa at all. It also answers the third-world-country reading of your question: earning in USD while living in a low-cost country is the purest form of this arbitrage.",
+dq:"No status accrues — you get money, not a passport. Income is volatile and client acquisition is a genuinely different skill from engineering. Realistically requires two years of GCC or product experience first to command these rates, so A1 comes before this.",
+src:[["Remote USD earnings for Indian professionals","https://www.wisemonk.io/blogs/highest-paying-remote-skills-indian-professionals"],["2026 senior India remote rates","https://www.wisemonk.io/blogs/hire-remote-developers-india-us-clients"]]},
+
+{id:"C2",tier:"C",name:"Productise the technical training capability",rel:45,ceil:78,spd:60,
+what:"Turn what you already do at TCS into products you own: cohort-based Spring Boot and Angular courses, a paid curriculum library, corporate training contracts, or developer-education content.",
+pays:"Highly variable. Independent technical instructors and course creators in this space range from a few lakh to genuinely substantial income. Corporate training contracts pay well per day.",
+cost:"Low. You have already built the material.",
+time:"3–12 months to first revenue.",
+verdict:"This is your most distinctive and least-exploited asset. You have built HTML decks, trainer guides, 200-question MCQ banks, lab sheets and sprint questionnaires — a curriculum library most independent instructors would take two years to assemble. In a market flooded with AI-generated mediocre explanation, the scarce good is knowing which explanation a confused human actually needs. You have demonstrated that repeatedly, under time pressure, to real batches.",
+dq:"Materials created for TCS belong to TCS — you must rebuild from your own knowledge rather than reusing company assets. Requires marketing ability you have not yet tested. Also a credible route into developer advocacy or solutions architecture roles, which pay well and value exactly this skill.",
+src:[["What AI hiring tests — verification over generation","https://www.digitalapplied.com/blog/ai-developer-hiring-skills-that-matter-2026"]]},
+
+{id:"C3",tier:"C",name:"AnimaFlow — finish and monetise the SaaS",rel:25,ceil:97,spd:35,
+what:"Complete live API integration, Stripe Checkout and DigitalOcean deployment, then find paying customers for the anime-style faceless video automation platform.",
+pays:"Unbounded in principle. Most likely zero. That is the honest distribution for solo SaaS.",
+cost:"Around $12 a month for hosting, plus API costs, plus large amounts of your time.",
+time:"2–4 months to launch. Revenue unknowable.",
+verdict:"Keep this alive, but change its job. As a wealth plan it is a lottery ticket. As evidence — a solo-built, deployed, revenue-capable AI product — it is excellent, and it serves A4, the O-1A original-contributions criterion, the Australian NIV, and UK Global Talent endorsement all at once. Finish it for the evidence; treat any revenue as a bonus.",
+dq:"Nothing external. The risk is that it absorbs the time that should go to French and the job hunt. If something in the 90-day plan has to slip, let it be this.",
+src:[["O-1A original contributions criterion","https://www.fraserpllc.com/news-insights/original-contributions-engineers-eb1a-o1"]]},
+
+{id:"C4",tier:"C",name:"Arc Mode — faceless content channel",rel:20,ceil:85,spd:30,
+what:"Continue the Indian Gen Z dark-comedy channel on career and placement anxiety, at @arcmode.in.",
+pays:"Extremely skewed. Most channels earn nothing; successful ones in this niche can earn well through sponsorship and product sales.",
+cost:"Time. Minimal money.",
+time:"12–24 months to meaningful revenue, if ever.",
+verdict:"Lowest priority on this list, with one genuine caveat: the niche is well chosen because you are living the subject matter, and audience is the one asset that compounds independently of employer and visa. Keep it as a weekend activity. Do not let it compete with Tier A.",
+dq:"Nothing external. Purely an attention-allocation risk — content creation is unusually good at feeling productive while producing nothing.",
+src:[]},
+
+{id:"C5",tier:"C",name:"Stay in India deliberately and optimise for capital",rel:72,ceil:66,spd:80,
+what:"Reject migration as a goal. Maximise Indian income through GCC or product roles plus remote contracting, exploit India's lower cost of living, and build capital and financial independence instead of a foreign passport.",
+pays:"A ₹40–60L income in India, with Nadiad or Ahmedabad living costs, produces a savings rate that a €60k Berlin salary cannot match.",
+cost:"None. This is the default with better execution.",
+time:"Immediate.",
+verdict:"I am including this as a serious option because it deserves to be one, and because your stated goals may be in tension. If your real goal is 'earn a lot' and 'first world' is a proxy for that, this route reaches the money faster with none of the visa risk, none of the family separation, and none of the policy volatility. It is also fully compatible with your existing interest in personal finance and financial independence.",
+dq:"It does not give you a stronger passport, which you have separately said matters to you because you see the Indian passport's global ranking as a real constraint on travel, work and education. If that is a genuine terminal goal rather than a means to income, this route cannot deliver it.",
+src:[["India GCC salary benchmarks","https://supersourcing.com/blog/gcc-salary-benchmark-india-2026/"]]},
+
+/* ---- TIER D ---- */
+{id:"D1",tier:"D",name:"Funded PhD abroad, then O-1A and EB-1A",rel:32,ceil:96,spd:12,
+what:"Enter a funded PhD programme at a strong lab, build a publication and recognition record, then self-petition for O-1A status and an EB-1A green card.",
+pays:"The highest ceiling available to you. EB-1A is a self-petition requiring no employer, no PERM labour certification and no prevailing-wage determination. O-1A has no lottery and no annual cap.",
+cost:"A funded PhD pays a stipend rather than tuition, so the real cost is 4–6 years of foregone senior-engineer income.",
+time:"6–10 years to a green card.",
+verdict:"This is the correct route to the US for your profile, and the only one with a high ceiling that does not depend on a lottery. You need three of eight O-1A criteria, or three of ten for EB-1A plus a final merits determination. Your three research projects are the seed. Judging is noted as one of the more accessible criteria, and peer-reviewing for conferences and journals is something you could begin this year at no cost.",
+dq:"You currently have zero publications, which means zero of the criteria are met today. Standards have tightened materially — EB-2 NIW approval rates have reportedly fallen to 50–65% with cases that would once have passed now drawing evidence requests. Do not commit to this before A3 proves you can actually get published.",
+src:[["EB-1A self-petition mechanics","https://www.visaverge.com/green-cards/eb1-green-card/eb-1a-software-engineers-tech-professionals-filing-strategy/"],["O-1A criteria","https://opensphere.ai/immigration-resources/o-1a-visa-software-engineers-2026-guide"],["Tightening standards","https://immigrationlawyersusa.com/eb-2-niw-vs-o-1-vs-eb-1a-for-engineers/"],["Judging criterion","https://www.beyondborderglobal.com/resources/o-1-judging-evidence-conferences-journals-hackathons-panels"]]},
+
+{id:"D2",tier:"D",name:"Australia — National Innovation Visa (subclass 858)",rel:22,ceil:80,spd:35,
+what:"Invitation-only direct permanent residence for people with an internationally recognised record of exceptional achievement. You lodge an expression of interest and need an Australian nominator.",
+pays:"Permanent residence immediately on grant, with no provisional stage — unusual and valuable.",
+cost:"No capital requirement. This is merit-assessed, not money-assessed.",
+time:"1–3 years if you are invited.",
+verdict:"Worth knowing about because it directly refutes your belief that Australia requires huge capital. Priority Three covers outstanding achievement in Tier One sectors including critical technologies, which encompasses AI. If A3 and A4 succeed over several years, this becomes a genuine option.",
+dq:"You do not currently qualify and should not plan around it yet. Priority One is Nobel-and-Olympic territory. You also need a nominator — an Australian citizen, permanent resident, eligible New Zealand citizen, or nationally recognised Australian organisation in your field — which you do not have.",
+src:[["Home Affairs — NIV","https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/national-innovation-visa-858"],["Fragomen — priority tiers and nomination","https://www.fragomen.com/insights/australia-national-innovation-visa-introduced.html"]]},
+
+{id:"D3",tier:"D",name:"Self-funded master's abroad as a migration vehicle",rel:48,ceil:64,spd:20,
+what:"A taught master's in Canada, Australia, the UK or Europe, used primarily to access a post-study work permit and a local job market.",
+pays:"Indirect. The degree's value here is access, not the credential.",
+cost:"₹25–60L plus two years of foregone income. The most expensive option in this document by a wide margin.",
+time:"2 years study plus 1–3 years to PR.",
+verdict:"I recommend against this now, and specifically as a migration vehicle. The mechanism you would be buying is exactly the one being tightened: Canada's PGWP now has a field-of-study requirement tied to long-term shortage occupations, that eligible-fields list is frozen for all of 2026, and post-November-2024 applicants must additionally prove language ability. You would be paying a large sum for a place in a queue that is being deliberately shortened.",
+dq:"Not disqualified, but poorly priced. If you want graduate study, prefer D1 — a funded PhD pays you and produces immigration evidence as its output. A self-funded master's does neither.",
+src:[["PGWP field of study requirement","https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation/eligibility/field-of-study/currently-eligible.html"],["Field list frozen for 2026","https://www.cicnews.com/2026/01/ircc-freezes-list-of-pgwp-eligible-fields-of-study-for-2026-0167305.html"],["Language requirement","https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/work/after-graduation/get-documents.html"]]},
+
+{id:"D4",tier:"D",name:"United States — H-1B via a high-wage employer",rel:18,ceil:88,spd:30,
+what:"Employer-sponsored H-1B, now allocated through a wage-weighted rather than random selection process.",
+pays:"The highest median software salaries in the world. US software developer median wage was reported at $135,980 for May 2025.",
+cost:"Employer-borne, though the $100,000 fee proclamation remains a live legal question.",
+time:"1–3 years, contingent on selection.",
+verdict:"Structurally worse for you than it was, and the reason is specific rather than vague. Since 27 February 2026 registrations enter the pool by wage level — Level IV four times, Level III three, Level II twice, Level I once. A services-firm petition at Level I–II therefore has a quarter to a half the odds of a high-paying product-company petition. The actionable read: this route only works if you are already a high earner, which is an argument for A1, not against the US.",
+dq:"You would need a US employer willing to sponsor at a high wage level. Additional live uncertainty: a Massachusetts court vacated the $100,000 fee policy in June 2026 and the First Circuit declined to extend the stay, so it is currently unenforceable — but the administration extended the underlying proclamation through September 2027 and litigation continues. Filings by IT companies reportedly plunged regardless.",
+src:[["Wage-weighted entry multipliers","https://www.hollandhart.com/dhs-issues-final-rule-implementing-weighted-h-1b-cap-selection-process"],["Effective date","https://www.gtlaw.com/en/insights/2026/2/uscis-finalizes-wage-weighted-h-1b-cap-selection-rule-effective-feb-27-2026"],["Fee vacated","https://www.alston.com/en/insights/publications/2026/06/federal-court-vacates-$100000-h-1b-fee"],["Proclamation extended","https://www.envoyglobal.com/news-alert/h-1b-100000-fee-requirement-extended-through-september-2027-amid-ongoing-court-challenges/"]]},
+
+{id:"D5",tier:"D",name:"United States — L-1 intracompany transfer",rel:35,ceil:84,spd:45,
+what:"Transfer to a US entity of a multinational employer as a manager, executive, or worker with specialised knowledge. No lottery.",
+pays:"Full US market salaries, and L-1A can lead to an EB-1C green card.",
+cost:"Employer-borne.",
+time:"Requires one year of qualifying employment abroad with the same organisation first.",
+verdict:"The most overlooked US route for someone on an Indian services or GCC career track, precisely because it has no lottery. If you join a US-headquartered GCC under A1 and perform well, this becomes a realistic internal move in three to five years. A1 therefore serves this route too.",
+dq:"Requires a qualifying multinational employer and at least a year with them abroad. TCS can do this, but so can any US-headquartered GCC — which is the better version since it also pays more.",
+src:[["Intra-company transfer concept","https://sepimmigration.ca/service/intra-company-transferees/"]]},
+
+{id:"D6",tier:"D",name:"Switch fields entirely",rel:30,ceil:70,spd:25,
+what:"You said you are flexible about changing to any promising field. The honest assessment of that option.",
+pays:"Varies enormously by field.",
+cost:"Potentially your entire four-year degree and ten months of experience as sunk cost.",
+time:"3–6 years to re-establish.",
+verdict:"I would not. And I want to give you the reason rather than just the answer. Your instinct to switch comes from believing software is being eliminated by AI — but Section 01 showed that what collapsed is entry-level software hiring, and you are already past entry. Meanwhile the AI premium attaches most strongly to people who combine software engineering with AI, which is an adjacency you can reach in months, not a new field requiring years.",
+dq:"Healthcare is the field with the genuinely strongest immigration demand across Canada, Australia and Europe — Canada ran a 3,500-invitation healthcare round at CRS 475 in September 2026, and physician draws have gone as low as 169. If you were 18 and choosing, nursing or medicine would be a defensible answer to this whole document. At 22 with a CSE degree and a production Java skillset, the retraining cost is too high and the adjacency of AI engineering is too close. Move within your field, not out of it.",
+src:[["Healthcare and physician draw cut-offs","https://wildmountainimmigration.com/express-entry/category-based-draws"],["September 2026 healthcare round","https://www.immigration2canada.com/latest-express-entry-draw/"]]}
+];
+
+const tierNames={A:"Tier A · Do regardless",B:"Tier B · Migration",C:"Tier C · Money without moving",D:"Tier D · High variance"};
+let filter="all",weight=50;
+
+function score(p){const w=weight/100;return Math.round(p.rel*(1-w)+p.ceil*w);}
+
+function render(){
+  const host=document.getElementById("paths");
+  const list=PATHS.filter(p=>filter==="all"||p.tier===filter)
+    .map(p=>({...p,s:score(p)}))
+    .sort((a,b)=>b.s-a.s||a.id.localeCompare(b.id));
+  host.innerHTML=list.map(p=>`
+    <div class="path" data-id="${p.id}">
+      <div class="path-h" role="button" tabindex="0" aria-expanded="false">
+        <span class="path-score">${p.s}</span>
+        <span class="path-id">${p.id}</span>
+        <span class="path-name">${p.name}</span>
+        <span class="path-tier t-${p.tier.toLowerCase()}">${tierNames[p.tier].split(" · ")[1]}</span>
+        <span class="path-caret">&#9656;</span>
+      </div>
+      <div class="path-b">
+        <div class="bars">
+          <div class="bar-u"><div class="bar-lab"><span>Reliability</span><span>${p.rel}</span></div><div class="bar-trk"><div class="bar-fil rel" style="width:${p.rel}%"></div></div></div>
+          <div class="bar-u"><div class="bar-lab"><span>Earning ceiling</span><span>${p.ceil}</span></div><div class="bar-trk"><div class="bar-fil ceil" style="width:${p.ceil}%"></div></div></div>
+          <div class="bar-u"><div class="bar-lab"><span>Speed</span><span>${p.spd}</span></div><div class="bar-trk"><div class="bar-fil spd" style="width:${p.spd}%"></div></div></div>
+        </div>
+        <p>${p.what}</p>
+        <div class="path-grid">
+          <div class="pg-cell"><div class="pg-k">What it pays</div><div class="pg-v">${p.pays}</div></div>
+          <div class="pg-cell"><div class="pg-k">What it costs</div><div class="pg-v">${p.cost}</div></div>
+          <div class="pg-cell"><div class="pg-k">Timeline</div><div class="pg-v">${p.time}</div></div>
+        </div>
+        <h4 style="margin-top:22px">Honest verdict</h4>
+        <p>${p.verdict}</p>
+        <h4>What would disqualify you</h4>
+        <p>${p.dq}</p>
+        ${p.src.length?`<h4>Sources</h4><p style="font-size:15px">${p.src.map(s=>`<a href="${s[1]}">${s[0]}</a>`).join(" &nbsp;·&nbsp; ")}</p>`:""}
+      </div>
+    </div>`).join("");
+  host.querySelectorAll(".path-h").forEach(h=>{
+    const toggle=()=>{
+      const c=h.parentElement;
+      c.classList.toggle("open");
+      h.setAttribute("aria-expanded",c.classList.contains("open"));
+    };
+    h.addEventListener("click",toggle);
+    h.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
+  });
+}
+
+const wt=document.getElementById("wt"),wtv=document.getElementById("wtv");
+wt.addEventListener("input",()=>{
+  weight=+wt.value;
+  let lab;
+  if(weight<=15)lab="reliability first";
+  else if(weight<=40)lab="leaning reliable";
+  else if(weight<=60)lab="balanced";
+  else if(weight<=85)lab="leaning ceiling";
+  else lab="ceiling first";
+  wtv.textContent=`${100-weight} / ${weight} ${lab}`;
+  render();
+});
+document.getElementById("filters").addEventListener("click",e=>{
+  const b=e.target.closest(".chip");if(!b)return;
+  document.querySelectorAll("#filters .chip").forEach(c=>c.classList.remove("on"));
+  b.classList.add("on");filter=b.dataset.f;render();
+});
+render();
+
+/* progress bar + nav highlight */
+const secs=[...document.querySelectorAll("section[id]")],links=[...document.querySelectorAll("#nav a")];
+function onScroll(){
+  const h=document.documentElement;
+  document.getElementById("prog").style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+"%";
+  let cur=secs[0]?.id;
+  for(const s of secs){if(s.getBoundingClientRect().top<=140)cur=s.id;}
+  links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+cur));
+}
+window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+
+/* keyboard section navigation, matching your other files */
+document.addEventListener("keydown",e=>{
+  if(e.target.matches("input,textarea"))return;
+  if(e.key!=="j"&&e.key!=="k"&&e.key!=="ArrowDown"&&e.key!=="ArrowUp")return;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){if(!e.shiftKey)return;}
+  e.preventDefault();
+  const fwd=e.key==="j"||e.key==="ArrowDown";
+  const all=[document.querySelector(".cover"),...secs];
+  let idx=0;
+  all.forEach((s,i)=>{if(s.getBoundingClientRect().top<=140)idx=i;});
+  const next=Math.max(0,Math.min(all.length-1,idx+(fwd?1:-1)));
+  all[next].scrollIntoView({behavior:"smooth"});
+});
+</script>
+</body>
+</html>
