@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>90 Days · No Looking Back — Salary Upgrade Execution Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0b0d;
+  --s1:#101215;
+  --s2:#16191d;
+  --s3:#1d2126;
+  --s4:#262b32;
+  --line:#23272e;
+  --line-2:#2e343c;
+
+  --am:#ffb020;        /* ARSENAL / primary */
+  --am-d:#a8742a;
+  --am-g:rgba(255,176,32,.10);
+  --cy:#3ddbd9;        /* MARKET */
+  --vi:#a78bfa;        /* PROOF */
+  --ro:#fb7185;        /* ARENA */
+  --gr:#4ade80;        /* BASE / done */
+  --rd:#f87171;
+
+  --tx:#e7e9ec;
+  --tx-d:#99a1ab;
+  --tx-f:#6a727c;
+
+  --dsp:'Space Grotesk',system-ui,sans-serif;
+  --bdy:'Inter',system-ui,-apple-system,sans-serif;
+  --mno:'JetBrains Mono',ui-monospace,Menlo,monospace;
+
+  --r:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{
+  background:var(--bg);color:var(--tx);font-family:var(--bdy);
+  font-size:16.5px;line-height:1.68;-webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(ellipse 70% 45% at 50% -8%,rgba(255,176,32,.07),transparent 72%),
+    radial-gradient(ellipse 55% 40% at 95% 105%,rgba(61,219,217,.05),transparent 72%);
+  background-attachment:fixed;
+}
+::selection{background:rgba(255,176,32,.28)}
+
+/* ---------- topbar ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(10,11,13,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1240px;margin:0 auto;padding:10px 26px;display:flex;align-items:center;gap:18px}
+.bar-mk{font-family:var(--mno);font-size:10.5px;letter-spacing:.2em;color:var(--am);text-transform:uppercase;font-weight:700;white-space:nowrap}
+.bar-nav{display:flex;gap:1px;margin-left:auto;flex-wrap:wrap}
+.bar-nav a{font-family:var(--mno);font-size:10px;letter-spacing:.09em;color:var(--tx-f);text-decoration:none;text-transform:uppercase;padding:6px 9px;border-radius:4px;transition:.15s;white-space:nowrap;font-weight:500}
+.bar-nav a:hover{color:var(--am);background:var(--am-g)}
+.bar-live{display:flex;align-items:center;gap:10px;font-family:var(--mno);font-size:10px;letter-spacing:.08em;color:var(--tx-f);text-transform:uppercase;white-space:nowrap}
+.bar-live b{color:var(--am);font-weight:700}
+.scrollbar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--am),var(--cy));z-index:201;width:0;transition:width .08s linear}
+
+.wrap{max-width:1240px;margin:0 auto;padding:0 26px}
+section{padding:80px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:none}
+
+.lab{font-family:var(--mno);font-size:10px;letter-spacing:.26em;color:var(--am-d);text-transform:uppercase;margin-bottom:15px;display:flex;align-items:center;gap:13px;font-weight:700}
+.lab::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--line-2),transparent)}
+h2{font-family:var(--dsp);font-size:38px;font-weight:600;line-height:1.14;letter-spacing:-.024em;color:#fff;margin-bottom:16px}
+h3{font-family:var(--dsp);font-size:23px;font-weight:600;line-height:1.28;color:#fff;margin:42px 0 13px;letter-spacing:-.014em}
+h4{font-family:var(--mno);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--am);margin:28px 0 11px}
+p{margin-bottom:16px;color:var(--tx-d);max-width:76ch}
+p.lead{font-size:20px;line-height:1.6;color:var(--tx);max-width:70ch;font-weight:300}
+strong{color:#fff;font-weight:600}
+em{color:var(--tx);font-style:italic}
+a{color:var(--am);text-decoration:none;border-bottom:1px solid rgba(255,176,32,.26)}
+a:hover{border-bottom-color:var(--am)}
+ul,ol{margin:0 0 17px 21px;color:var(--tx-d);max-width:76ch}
+li{margin-bottom:8px}
+li::marker{color:var(--am-d)}
+code,.mn{font-family:var(--mno);font-size:.9em;color:var(--tx)}
+.hl{color:var(--am);font-weight:600}
+.hl2{color:var(--cy);font-weight:600}
+.pos{color:var(--gr)}.neg{color:var(--rd)}.wn{color:var(--am)}
+
+/* ---------- cover ---------- */
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:104px 0 64px;border-bottom:1px solid var(--line-2)}
+.cv-tag{display:inline-flex;align-items:center;gap:9px;font-family:var(--mno);font-size:10px;letter-spacing:.2em;color:var(--ro);text-transform:uppercase;font-weight:700;border:1px solid rgba(251,113,133,.3);background:rgba(251,113,133,.07);padding:6px 13px;border-radius:100px;margin-bottom:28px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ro);animation:pl 1.9s infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.25}}
+h1{font-family:var(--dsp);font-size:clamp(46px,8vw,96px);font-weight:700;line-height:.96;letter-spacing:-.045em;color:#fff;margin-bottom:8px}
+h1 .g{background:linear-gradient(100deg,var(--am),#ffd980 55%,var(--cy));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cv-sub{font-family:var(--dsp);font-size:clamp(19px,2.4vw,27px);font-weight:400;color:var(--tx-d);letter-spacing:-.018em;margin-bottom:34px;max-width:30ch;line-height:1.3}
+.cv-p{font-size:18px;color:var(--tx-d);max-width:66ch;margin-bottom:38px;font-weight:300;line-height:1.66}
+
+.arrow{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;max-width:640px;margin:0 0 40px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);padding:24px 26px}
+.ar-k{font-family:var(--mno);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--tx-f);margin-bottom:7px;font-weight:600}
+.ar-v{font-family:var(--dsp);font-size:31px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.ar-v.from{color:var(--tx-f)}
+.ar-v.to{color:var(--am)}
+.ar-s{font-family:var(--mno);font-size:10.5px;color:var(--tx-f);margin-top:8px}
+.ar-mid{width:34px;height:2px;background:var(--am-d);position:relative;flex-shrink:0}
+.ar-mid::after{content:'';position:absolute;right:0;top:-4px;width:10px;height:10px;border-top:2px solid var(--am-d);border-right:2px solid var(--am-d);transform:rotate(45deg)}
+
+.meta{border-top:1px solid var(--line-2);max-width:700px}
+.mr{display:grid;grid-template-columns:168px 1fr;gap:16px;padding:11px 0;border-bottom:1px solid var(--line)}
+.mk{font-family:var(--mno);font-size:10px;letter-spacing:.14em;color:var(--tx-f);text-transform:uppercase;padding-top:4px;font-weight:600}
+.mv{font-size:15.5px;color:var(--tx)}
+
+/* ---------- boxes ---------- */
+.box{background:var(--s1);border:1px solid var(--line-2);border-radius:var(--r);padding:24px 28px;margin:24px 0}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+.bt{font-family:var(--mno);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:11px;font-weight:700}
+.box.am{border-left:3px solid var(--am);background:linear-gradient(95deg,var(--am-g),var(--s1) 52%)}.box.am .bt{color:var(--am)}
+.box.cy{border-left:3px solid var(--cy);background:linear-gradient(95deg,rgba(61,219,217,.08),var(--s1) 52%)}.box.cy .bt{color:var(--cy)}
+.box.gr{border-left:3px solid var(--gr);background:linear-gradient(95deg,rgba(74,222,128,.08),var(--s1) 52%)}.box.gr .bt{color:var(--gr)}
+.box.rd{border-left:3px solid var(--rd);background:linear-gradient(95deg,rgba(248,113,113,.08),var(--s1) 52%)}.box.rd .bt{color:var(--rd)}
+.box.vi{border-left:3px solid var(--vi);background:linear-gradient(95deg,rgba(167,139,250,.08),var(--s1) 52%)}.box.vi .bt{color:var(--vi)}
+.box.pl .bt{color:var(--tx-f)}
+
+.pull{border-left:3px solid var(--am);padding:4px 0 4px 24px;margin:32px 0;font-family:var(--dsp);font-size:23px;line-height:1.46;color:#fff;font-weight:400;max-width:64ch;letter-spacing:-.014em}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(182px,1fr));gap:1px;background:var(--line);margin:28px 0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.st{background:var(--s1);padding:22px 20px}
+.st-n{font-family:var(--dsp);font-size:31px;font-weight:700;color:var(--am);line-height:1;margin-bottom:9px;letter-spacing:-.03em}
+.st-l{font-size:13.5px;color:var(--tx-d);line-height:1.44}
+.st-s{font-family:var(--mno);font-size:9.5px;color:var(--tx-f);margin-top:9px;letter-spacing:.04em}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:24px 0;border:1px solid var(--line-2);border-radius:var(--r)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:680px}
+thead th{background:var(--s2);font-family:var(--mno);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--am);font-weight:700;text-align:left;padding:12px 15px;border-bottom:1px solid var(--line-2);white-space:nowrap}
+tbody td{padding:12px 15px;border-bottom:1px solid var(--line);color:var(--tx-d);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,.018)}
+
+/* ---------- levers ---------- */
+.lev{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin:30px 0}
+.lv{border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);padding:26px 24px;position:relative;overflow:hidden}
+.lv::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--am)}
+.lv:nth-child(2)::before{background:var(--cy)}
+.lv:nth-child(3)::before{background:var(--vi)}
+.lv-n{font-family:var(--mno);font-size:34px;font-weight:700;color:var(--s4);line-height:1;letter-spacing:-.04em;margin-bottom:10px}
+.lv-t{font-family:var(--dsp);font-size:21px;font-weight:600;color:#fff;line-height:1.24;margin-bottom:10px;letter-spacing:-.014em}
+.lv-p{font-size:14.8px;color:var(--tx-d);line-height:1.6;margin-bottom:14px}
+.lv-f{font-family:var(--mno);font-size:11px;color:var(--am);letter-spacing:.06em;padding-top:13px;border-top:1px solid var(--line);font-weight:600}
+.lv:nth-child(2) .lv-f{color:var(--cy)}
+.lv:nth-child(3) .lv-f{color:var(--vi)}
+
+/* ---------- arsenal ---------- */
+.ars{display:flex;flex-direction:column;gap:12px;margin:28px 0}
+.sk{border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);overflow:hidden}
+.sk-h{padding:16px 22px;display:flex;align-items:center;gap:15px;cursor:pointer;user-select:none;transition:background .14s}
+.sk-h:hover{background:rgba(255,255,255,.022)}
+.sk-id{font-family:var(--mno);font-size:9.5px;letter-spacing:.1em;color:var(--tx-f);border:1px solid var(--line-2);padding:3px 8px;border-radius:4px;flex-shrink:0;font-weight:600}
+.sk-n{font-family:var(--dsp);font-size:18px;color:#fff;flex:1;font-weight:500;line-height:1.3;letter-spacing:-.01em}
+.sk-pr{font-family:var(--mno);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:4px;font-weight:700;white-space:nowrap}
+.p-must{background:rgba(248,113,113,.14);color:#fca5a5}
+.p-edge{background:rgba(255,176,32,.14);color:var(--am)}
+.p-plus{background:rgba(61,219,217,.13);color:var(--cy)}
+.sk-cr{font-family:var(--mno);font-size:12px;color:var(--tx-f);transition:transform .2s}
+.sk.open .sk-cr{transform:rotate(90deg)}
+.sk-b{display:none;padding:2px 22px 22px;border-top:1px solid var(--line)}
+.sk.open .sk-b{display:block}
+.sk-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);margin:18px 0;border:1px solid var(--line)}
+.sg{background:var(--s1);padding:13px 15px}
+.sg-k{font-family:var(--mno);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--tx-f);margin-bottom:5px;font-weight:600}
+.sg-v{font-size:14.5px;color:var(--tx);line-height:1.46}
+.sk-b p{font-size:15px;margin-bottom:12px}
+.sk-b ul{font-size:14.8px;margin-bottom:14px}
+
+@media(max-width:880px){
+  body{font-size:16px}
+  h2{font-size:30px}
+  section{padding:58px 0}
+  .bar-nav{display:none}
+  .mr{grid-template-columns:1fr;gap:3px}
+  .arrow{grid-template-columns:1fr;gap:14px;text-align:left}
+  .ar-mid{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="scrollbar" id="sb"></div>
+<div class="bar">
+  <div class="bar-in">
+    <div class="bar-mk">90D · Execution Board</div>
+    <div class="bar-live" id="barLive"></div>
+    <nav class="bar-nav">
+      <a href="#thesis">Thesis</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#arsenal">Arsenal</a>
+      <a href="#board">The 90 Days</a>
+      <a href="#os">Daily OS</a>
+      <a href="#targets">Targets</a>
+      <a href="#gauntlet">Gauntlet</a>
+      <a href="#scripts">Scripts</a>
+      <a href="#resume">Résumé</a>
+      <a href="#rules">Rules</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ================= COVER ================= -->
+<div class="wrap">
+<div class="cover">
+  <div class="cv-tag"><span class="dot"></span>Live plan · Day 1 is 24 September 2026 · Day 90 is 22 December 2026</div>
+  <h1>Ninety Days.<br><span class="g">No Looking Back.</span></h1>
+  <div class="cv-sub">A dated, checkable, day-by-day operation to multiply your salary in India.</div>
+  <p class="cv-p">This is not advice. It is a work order. Every one of the 90 days below has named tasks with time estimates and a checkbox, and the whole thing saves your progress in this browser. You do not need to decide anything else. You need to open this tomorrow morning and do Day 1.</p>
+
+  <div class="arrow">
+    <div>
+      <div class="ar-k">Where you are</div>
+      <div class="ar-v from">₹3.4L</div>
+      <div class="ar-s">TCS Ninja band · Nadiad</div>
+    </div>
+    <div class="ar-mid" aria-hidden="true"></div>
+    <div>
+      <div class="ar-k">Realistic target by Day 90</div>
+      <div class="ar-v to">₹12–18L</div>
+      <div class="ar-s">3.5×–5× · signed written offer</div>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div class="mr"><div class="mk">Operator</div><div class="mv">Purvam Prajapati · 22 · B.Tech CSE · Java / Spring Boot / Angular</div></div>
+    <div class="mr"><div class="mk">Hard deadline</div><div class="mv">Project release effective 9 October 2026 — Day 16 of this plan</div></div>
+    <div class="mr"><div class="mk">The one bet</div><div class="mv">Reposition from <em>services Java developer</em> to <em>Java engineer who ships production AI systems</em></div></div>
+    <div class="mr"><div class="mk">Structure</div><div class="mv">90 dated days · 13 weeks · 4 phases · 5 parallel tracks · 243 checkable tasks</div></div>
+    <div class="mr"><div class="mk">Weekly load</div><div class="mv">~28 hours. 3–4 h weekdays, 6–7 h Saturday, Sunday light.</div></div>
+    <div class="mr"><div class="mk">Cash cost</div><div class="mv">Under ₹8,000 total. Hosting, one domain, LLM API credits, mock interviews.</div></div>
+    <div class="mr"><div class="mk">Compiled</div><div class="mv">23 September 2026 · market data current as of this date</div></div>
+  </div>
+</div>
+</div>
+
+<!-- ================= THESIS ================= -->
+<section id="thesis">
+<div class="wrap">
+  <div class="lab">01 · The Thesis</div>
+  <h2>Why this works, in three sentences</h2>
+  <p class="lead">Your salary is not low because your skills are weak. It is low because of <strong>where those skills are parked</strong> — and 2026 happens to be the single best year in a decade to move them.</p>
+
+  <p>I looked at what the Indian market is actually paying for right now, and the gap between your current pay and your market price comes down to three independent levers. You are going to pull all three at once over the next 90 days. Each one alone is worth money; together they are what turns ₹3.4 lakh into a double-digit number.</p>
+
+  <div class="lev">
+    <div class="lv">
+      <div class="lv-n">01</div>
+      <div class="lv-t">The services-to-product arbitrage</div>
+      <div class="lv-p">The same job title pays radically differently depending on who signs the cheque. Reported 2026 benchmarks put a Java developer with five years at a services firm around <span class="hl">₹8–12L</span>, and the same five years at a product company or global capability centre at <span class="hl">₹18–25L</span>. At senior level the spread widens to roughly ₹18–24L versus ₹35–50L. Nothing about the engineer changes. Only the employer's business model does.</div>
+      <div class="lv-f">→ Lever worth 2–3× on its own</div>
+    </div>
+    <div class="lv">
+      <div class="lv-n">02</div>
+      <div class="lv-t">The AI premium, while it is still a premium</div>
+      <div class="lv-p">Indian salary data through mid-2026 shows professionals who can demonstrate <em>practical, production</em> AI competence commanding roughly a <span class="hl2">25–40%</span> wage premium over peers who cannot, with one Indian study putting it at 38%. Reported demand outstrips supply by something like 10 to 1. Fresher-level AI engineer ranges at product companies are quoted at <span class="hl2">₹8–18L</span>. This window closes as supply catches up. It has not caught up yet.</div>
+      <div class="lv-f">→ Lever worth a further 25–40%</div>
+    </div>
+    <div class="lv">
+      <div class="lv-n">03</div>
+      <div class="lv-t">The Java-AI gap nobody is filling</div>
+      <div class="lv-p">Almost everyone chasing the AI premium is doing it in Python, and almost every enterprise that needs AI in production runs on the JVM. Between May and July 2026 the Java AI stack finally settled — Spring AI reached 2.0 GA, LangChain4j shipped agent support, the Spring AI AgentCore SDK went GA. You already have deep Spring Boot muscle. You do not have to abandon your stack to enter the highest-paying niche in the market. <strong>You have to point it there.</strong></div>
+      <div class="lv-f">→ Lever that makes you rare rather than one of many</div>
+    </div>
+  </div>
+
+  <div class="box am">
+    <div class="bt">The single sentence version</div>
+    <p>You are going to spend 90 days becoming <strong>"the Spring Boot engineer who has shipped a production RAG and agent service, with evaluation, cost metering and observability"</strong> — and then sell that to product companies and GCCs instead of to a services firm. That sentence is currently rare enough in India to be worth several times what you are paid.</p>
+  </div>
+
+  <h3>Three things I am going to be honest about</h3>
+
+  <div class="box rd">
+    <div class="bt">Honesty 1 · The GCC experience wall is real</div>
+    <p>An analysis of 5,000+ live GCC openings and 20,000+ GCC hires over the past year found about <strong>62% of hiring concentrated at three to eight years of experience, with median experience around six years.</strong> You have roughly one year. This means a pure "apply only to GCCs" strategy will mostly bounce.</p>
+    <p>So the plan targets a <strong>portfolio of four employer types</strong> — product companies and unicorns, funded AI-first startups, mid-market SaaS, and the genuinely junior GCC requisitions — weighted toward the ones that hire on demonstrated capability rather than years served. That is why so much of this plan is about building visible proof instead of collecting certificates.</p>
+  </div>
+
+  <div class="box rd">
+    <div class="bt">Honesty 2 · ₹12–18L is the 90-day target, not ₹40L</div>
+    <p>The ₹35–50L numbers in the market reports attach to <em>senior</em> engineers. They are real, and they are your 2029 number, not your December number. Anyone telling you that one year of experience plus 90 days of study produces ₹40L is selling you something.</p>
+    <p>What 90 focused days can genuinely produce is <strong>a written offer in the ₹10–18L range, with a credible shot at the low ₹20s if two offers collide.</strong> That is a 3× to 5× jump. It is also the move that makes the ₹35L+ number reachable in two more jumps, because your next raise compounds off the new base — not off ₹3.4 lakh.</p>
+  </div>
+
+  <div class="box rd">
+    <div class="bt">Honesty 3 · Location is a real decision you have to make in Week 1</div>
+    <p>The pay premiums above are concentrated in <strong>Bengaluru, Hyderabad, Pune, Gurgaon and Chennai.</strong> Ahmedabad and GIFT City are growing and are within reach of Nadiad, but the deepest market and the highest offers are not in Gujarat. Fully-remote roles at this pay band exist but are the most competitive segment of all.</p>
+    <p>You do not have to want to relocate. You do have to <em>decide</em>, on Day 4, which of these you will accept — because it changes which companies you apply to and it is the first question every recruiter asks. Undecided candidates lose offers to decided ones.</p>
+  </div>
+
+  <div class="pull">The refusal you got was not a verdict on your worth. It was a price quote from one buyer. This plan is about getting other quotes.</div>
+</div>
+</section>
+
+<!-- ================= NUMBERS ================= -->
+<section id="numbers">
+<div class="wrap">
+  <div class="lab">02 · The Numbers</div>
+  <h2>What to ask for, and what backs it up</h2>
+  <p class="lead">You cannot negotiate a number you have not researched. Here is the benchmark table you will quote from — and the number you will put in every "expected CTC" field starting this week.</p>
+
+  <div class="stats">
+    <div class="st">
+      <div class="st-n">₹14L</div>
+      <div class="st-l">The number you write in every application form and say to every recruiter</div>
+      <div class="st-s">Ask high, settle mid. Never anchor on ₹3.4L.</div>
+    </div>
+    <div class="st">
+      <div class="st-n">25–40%</div>
+      <div class="st-l">Reported Indian wage premium for demonstrable production AI skill</div>
+      <div class="st-s">Mid-2026 salary data; one study reports 38%</div>
+    </div>
+    <div class="st">
+      <div class="st-n">~10:1</div>
+      <div class="st-l">Reported ratio of AI engineering demand to qualified supply in India</div>
+      <div class="st-s">Projected through end-2026</div>
+    </div>
+    <div class="st">
+      <div class="st-n">+18.7%</div>
+      <div class="st-l">Year-on-year growth in AI engineering pay, 2025 to 2026</div>
+      <div class="st-s">Outpacing nearly every other tech occupation</div>
+    </div>
+  </div>
+
+  <h3>Benchmark table — quote these, do not improvise</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>Role / employer type</th><th>Reported 2026 range</th><th>Your realistic ask now</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Java dev, 5 yrs, <strong>services firm</strong></td><td class="mn">₹8–12L</td><td class="mn neg">Not a target</td><td>This is the trap you are currently inside</td></tr>
+      <tr><td>Java dev, 5 yrs, <strong>product co / GCC</strong></td><td class="mn">₹18–25L</td><td class="mn">—</td><td>Same skills, different buyer</td></tr>
+      <tr><td>Backend engineer, <strong>product co / unicorn</strong></td><td class="mn">₹20–38L</td><td class="mn">—</td><td>Senior bands</td></tr>
+      <tr><td>Backend engineer, <strong>GCC</strong></td><td class="mn">₹22–40L</td><td class="mn">—</td><td>Hiring skews 3–8 yrs</td></tr>
+      <tr><td>Senior backend, <strong>GCC Hyderabad</strong></td><td class="mn">₹35–50L</td><td class="mn">2029 target</td><td>vs ₹18–24L same title at services</td></tr>
+      <tr><td><strong>AI / GenAI engineer, entry, product co</strong></td><td class="mn pos">₹8–18L</td><td class="mn pos">₹12–16L</td><td>Your actual target band</td></tr>
+      <tr><td>GenAI engineer, 3–5 yrs</td><td class="mn">~₹25L avg</td><td class="mn">2028 target</td><td>Reported Indian average</td></tr>
+      <tr><td>AI/ML entry benchmark (CTC)</td><td class="mn">₹7–22L</td><td class="mn pos">₹12–16L</td><td>Wide because proof varies wildly</td></tr>
+      <tr><td><strong>You, Day 90, executed well</strong></td><td class="mn pos">₹10–18L</td><td class="mn pos">Sign it</td><td>3.5×–5× on ₹3.4L</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="font-size:14px;color:var(--tx-f)">Ranges are reported market observations from the secondary sources listed in Section 13, not guarantees, and Indian CTC figures bundle fixed pay, variable pay and benefits — see the CTC anatomy work scheduled for Day 58. Verify against live offers as you collect them.</p>
+
+  <div class="box cy">
+    <div class="bt">The rule that protects the whole plan</div>
+    <p><strong>Never volunteer your current CTC before you have stated your expectation.</strong> In India the recruiter screen almost always asks for current CTC first, precisely because the answer caps you. ₹3.4 lakh is a fact about which fresher track you were slotted into in 2025. It is not a valuation of what you can do, and once it is on the table the conversation reorganises around a percentage of it.</p>
+    <p>Your line — rehearsed, on Day 59 — is to move straight to the market: <em>"For this scope and stack I'm targeting ₹14 lakh, which is where I see comparable roles priced. I'd rather we check the fit on scope first — happy to share my current structure once we're both serious."</em> Then stop talking.</p>
+  </div>
+</div>
+</section>
+
+<!-- ================= ARSENAL ================= -->
+<section id="arsenal">
+<div class="wrap">
+  <div class="lab">03 · The Arsenal</div>
+  <h2>The exact skills, and nothing else</h2>
+  <p class="lead">Fourteen skills. Not fifty. Each one is here because it appears in the job descriptions that pay what you want, or because it is what interviewers actually probe. Click any of them for the precise scope, what proves it, and which days cover it.</p>
+
+  <div class="box pl">
+    <div class="bt">What is deliberately NOT on this list</div>
+    <p><strong>No certifications.</strong> AZ-900, AWS Cloud Practitioner and similar have modest independent value for the hiring you are targeting, and they cost the one thing you cannot spare — weeks. A deployed system with an evaluation harness beats a badge in every interview you will sit. If a job description hard-requires a cert, get it then.</p>
+      <p><strong>No new language, no new framework family, no LeetCode-to-500.</strong> You already have the expensive part: Java and Spring Boot at production depth. Everything below either sharpens that or bolts the high-premium AI layer onto it. Breadth is how you stay at ₹3.4L while feeling busy.</p>
+  </div>
+
+  <div class="ars" id="ars"></div>
+</div>
+</section>
+
+
+<style>
+/* ---------- board control ---------- */
+.ctl{position:sticky;top:53px;z-index:150;background:rgba(16,18,21,.97);backdrop-filter:blur(16px);border:1px solid var(--line-2);border-radius:var(--r);padding:20px 24px;margin:26px 0 30px}
+.ctl-top{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.ring-w{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.ring{position:relative;width:74px;height:74px;flex-shrink:0}
+.ring svg{transform:rotate(-90deg)}
+.ring-t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-p{font-family:var(--dsp);font-size:19px;font-weight:700;color:var(--am);line-height:1;letter-spacing:-.02em}
+.ring-l{font-family:var(--mno);font-size:7.5px;letter-spacing:.12em;color:var(--tx-f);text-transform:uppercase;margin-top:2px}
+.kpis{display:flex;gap:24px;flex-wrap:wrap}
+.kpi-k{font-family:var(--mno);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx-f);margin-bottom:4px;font-weight:600}
+.kpi-v{font-family:var(--dsp);font-size:19px;font-weight:700;color:var(--tx);line-height:1;letter-spacing:-.02em}
+.kpi-v small{font-family:var(--mno);font-size:11px;color:var(--tx-f);font-weight:500}
+.ctl-acts{display:flex;gap:7px;margin-left:auto;flex-wrap:wrap}
+.btn{font-family:var(--mno);font-size:10px;letter-spacing:.09em;text-transform:uppercase;padding:8px 13px;border:1px solid var(--line-2);border-radius:5px;background:var(--s2);color:var(--tx-d);cursor:pointer;transition:.15s;font-weight:600;white-space:nowrap}
+.btn:hover{border-color:var(--am-d);color:var(--am);background:var(--am-g)}
+.btn.pri{background:var(--am);border-color:var(--am);color:#151006;font-weight:700}
+.btn.pri:hover{background:#ffc24d;color:#151006}
+.btn.dgr:hover{border-color:var(--rd);color:var(--rd);background:rgba(248,113,113,.08)}
+.ctl-bot{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px;padding-top:17px;border-top:1px solid var(--line)}
+.chip{font-family:var(--mno);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 12px;border:1px solid var(--line-2);border-radius:5px;background:transparent;color:var(--tx-f);cursor:pointer;transition:.15s;font-weight:600;display:inline-flex;align-items:center;gap:7px}
+.chip:hover{color:var(--tx)}
+.chip .cd{width:7px;height:7px;border-radius:2px}
+.chip.on{background:var(--s4);border-color:var(--line-2);color:#fff}
+.chip.on.all{background:var(--am);border-color:var(--am);color:#151006}
+
+/* ---------- phases & weeks ---------- */
+.phase{margin:42px 0 20px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.ph-n{font-family:var(--mno);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--am-d);font-weight:700;border:1px solid var(--am-d);padding:4px 10px;border-radius:4px}
+.ph-t{font-family:var(--dsp);font-size:26px;font-weight:600;color:#fff;letter-spacing:-.02em}
+.ph-d{font-family:var(--mno);font-size:11px;color:var(--tx-f);letter-spacing:.05em}
+.ph-g{font-size:15px;color:var(--tx-d);max-width:74ch;margin:-6px 0 4px;width:100%}
+
+.wk{border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);margin:12px 0;overflow:hidden}
+.wk-h{padding:15px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;transition:background .14s;flex-wrap:wrap}
+.wk-h:hover{background:rgba(255,255,255,.022)}
+.wk-cr{font-family:var(--mno);font-size:12px;color:var(--tx-f);transition:transform .2s;flex-shrink:0}
+.wk.open .wk-cr{transform:rotate(90deg)}
+.wk-id{font-family:var(--mno);font-size:11px;letter-spacing:.1em;color:var(--am);font-weight:700;flex-shrink:0;min-width:56px}
+.wk-t{font-family:var(--dsp);font-size:17px;color:#fff;font-weight:600;letter-spacing:-.012em;flex:1;min-width:180px}
+.wk-dt{font-family:var(--mno);font-size:10.5px;color:var(--tx-f);letter-spacing:.04em;white-space:nowrap}
+.wk-pw{width:96px;height:4px;background:var(--s4);border-radius:2px;overflow:hidden;flex-shrink:0}
+.wk-pf{height:100%;background:var(--gr);border-radius:2px;transition:width .3s;width:0}
+.wk-pc{font-family:var(--mno);font-size:10px;color:var(--tx-f);min-width:50px;text-align:right;font-weight:600}
+.wk-b{display:none;padding:4px 16px 16px;border-top:1px solid var(--line)}
+.wk.open .wk-b{display:block}
+.wk.done .wk-id{color:var(--gr)}
+
+/* ---------- day cards ---------- */
+.day{border:1px solid var(--line);border-radius:5px;background:var(--s2);margin:10px 0;overflow:hidden;transition:border-color .2s}
+.day.today{border-color:var(--am);box-shadow:0 0 0 1px var(--am-g),0 0 28px rgba(255,176,32,.07)}
+.day.alldone{opacity:.52}
+.day.alldone:hover{opacity:1}
+.day-h{padding:12px 18px;display:flex;align-items:center;gap:14px;background:var(--s3);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.day-n{font-family:var(--dsp);font-size:15px;font-weight:700;color:var(--am);letter-spacing:-.01em;flex-shrink:0}
+.day.alldone .day-n{color:var(--gr)}
+.day-dt{font-family:var(--mno);font-size:11px;color:var(--tx-d);letter-spacing:.05em;flex-shrink:0}
+.day-dw{font-family:var(--mno);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx-f);padding:2px 7px;border:1px solid var(--line-2);border-radius:3px}
+.day-dw.sun{color:var(--gr);border-color:rgba(74,222,128,.3)}
+.day-tag{font-family:var(--mno);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#151006;background:var(--am);padding:3px 8px;border-radius:3px;font-weight:700}
+.day-hr{font-family:var(--mno);font-size:10px;color:var(--tx-f);margin-left:auto;font-weight:600}
+.day-b{padding:6px 0}
+
+.task{display:flex;align-items:flex-start;gap:13px;padding:10px 18px;border-bottom:1px solid rgba(35,39,46,.6);transition:background .13s}
+.task:last-child{border-bottom:none}
+.task:hover{background:rgba(255,255,255,.02)}
+.cbx{appearance:none;-webkit-appearance:none;width:17px;height:17px;border:1.5px solid var(--line-2);border-radius:4px;background:var(--bg);cursor:pointer;flex-shrink:0;margin-top:3px;position:relative;transition:.14s}
+.cbx:hover{border-color:var(--am)}
+.cbx:checked{background:var(--gr);border-color:var(--gr)}
+.cbx:checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#06210f;font-size:12px;font-weight:800}
+.tk-main{flex:1;min-width:0}
+.tk-tx{font-size:15px;color:var(--tx);line-height:1.56}
+.task.done .tk-tx{color:var(--tx-f);text-decoration:line-through;text-decoration-color:var(--line-2)}
+.tk-meta{display:flex;align-items:center;gap:9px;margin-top:6px;flex-wrap:wrap}
+.trk{font-family:var(--mno);font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;padding:2.5px 7px;border-radius:3px;font-weight:700;white-space:nowrap}
+.trk.ARSENAL{background:rgba(255,176,32,.14);color:var(--am)}
+.trk.MARKET{background:rgba(61,219,217,.13);color:var(--cy)}
+.trk.PROOF{background:rgba(167,139,250,.14);color:var(--vi)}
+.trk.ARENA{background:rgba(251,113,133,.14);color:var(--ro)}
+.trk.BASE{background:rgba(74,222,128,.13);color:var(--gr)}
+.tk-hr{font-family:var(--mno);font-size:9.5px;color:var(--tx-f);font-weight:600}
+
+.daily-fix{border:1px dashed var(--line-2);border-radius:var(--r);background:rgba(255,176,32,.04);padding:20px 24px;margin:22px 0}
+.df-t{font-family:var(--mno);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--am);font-weight:700;margin-bottom:12px}
+.df-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+.df-i{font-size:14.2px;color:var(--tx-d);line-height:1.52;padding-left:15px;border-left:2px solid var(--line-2)}
+.df-i b{color:var(--tx);display:block;font-family:var(--mno);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;font-weight:700}
+
+/* ---------- schedule ---------- */
+.sched{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:16px;margin:26px 0}
+.sc{border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);padding:22px}
+.sc-t{font-family:var(--mno);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--am);font-weight:700;margin-bottom:4px}
+.sc-s{font-family:var(--mno);font-size:10px;color:var(--tx-f);margin-bottom:16px}
+.slot{display:grid;grid-template-columns:82px 1fr;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.slot:last-child{border-bottom:none}
+.sl-t{font-family:var(--mno);font-size:11px;color:var(--am-d);font-weight:600;padding-top:2px}
+.sl-w{color:var(--tx-d);line-height:1.45}
+.sl-w b{color:var(--tx);font-weight:600}
+
+/* ---------- companies ---------- */
+.cos{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:16px;margin:26px 0}
+.co{border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);padding:22px 20px}
+.co-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.co-n{font-family:var(--mno);font-size:9.5px;letter-spacing:.14em;color:var(--tx-f);font-weight:700}
+.co-t{font-family:var(--dsp);font-size:18px;font-weight:600;color:#fff;letter-spacing:-.012em}
+.co-w{font-size:13.5px;color:var(--tx-d);margin-bottom:14px;line-height:1.5}
+.co-l{display:flex;flex-wrap:wrap;gap:5px}
+.tg{font-family:var(--mno);font-size:10.5px;padding:3.5px 8px;background:var(--s3);border:1px solid var(--line);border-radius:4px;color:var(--tx-d)}
+.co-f{font-family:var(--mno);font-size:10px;color:var(--am);margin-top:14px;padding-top:12px;border-top:1px solid var(--line);letter-spacing:.05em;font-weight:600}
+
+/* ---------- gauntlet ---------- */
+.rnd{border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);margin:12px 0;padding:22px 24px}
+.rnd-h{display:flex;align-items:baseline;gap:13px;margin-bottom:12px;flex-wrap:wrap}
+.rnd-n{font-family:var(--mno);font-size:10px;letter-spacing:.14em;color:var(--am);font-weight:700;border:1px solid var(--am-d);padding:3px 9px;border-radius:4px}
+.rnd-t{font-family:var(--dsp);font-size:19px;font-weight:600;color:#fff;letter-spacing:-.014em}
+.rnd-w{font-family:var(--mno);font-size:10px;color:var(--tx-f);margin-left:auto;letter-spacing:.06em}
+.rnd p{font-size:14.8px;margin-bottom:10px}
+.rnd ul{font-size:14.5px;margin-bottom:10px}
+.rnd-k{font-family:var(--mno);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--tx-f);font-weight:700;margin:14px 0 7px}
+
+/* ---------- scripts ---------- */
+.scr{border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);margin:16px 0;overflow:hidden}
+.scr-h{padding:14px 20px;background:var(--s2);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+.scr-t{font-family:var(--dsp);font-size:16.5px;font-weight:600;color:#fff;letter-spacing:-.01em;flex:1}
+.scr-u{font-family:var(--mno);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--cy);font-weight:600}
+.scr-b{padding:18px 20px}
+.scr-x{font-family:var(--mno);font-size:13px;line-height:1.72;color:var(--tx);background:var(--bg);border:1px solid var(--line);border-left:2px solid var(--cy);border-radius:4px;padding:16px 18px;white-space:pre-wrap;word-break:break-word}
+.scr-n{font-size:13.8px;color:var(--tx-f);margin-top:12px;line-height:1.55}
+.cpy{font-family:var(--mno);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 11px;border:1px solid var(--line-2);border-radius:4px;background:var(--s3);color:var(--tx-d);cursor:pointer;transition:.15s;font-weight:600}
+.cpy:hover{border-color:var(--cy);color:var(--cy)}
+.cpy.ok{border-color:var(--gr);color:var(--gr)}
+
+/* ---------- resume ---------- */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);margin:16px 0;overflow:hidden}
+.ba-c{background:var(--s1);padding:18px 20px}
+.ba-k{font-family:var(--mno);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;margin-bottom:9px}
+.ba-c.bad .ba-k{color:var(--rd)}
+.ba-c.good .ba-k{color:var(--gr)}
+.ba-x{font-size:14.5px;line-height:1.58;color:var(--tx-d)}
+.ba-c.good .ba-x{color:var(--tx)}
+@media(max-width:700px){.ba{grid-template-columns:1fr}}
+
+/* ---------- checkpoints ---------- */
+.cp{border-left:2px solid var(--line-2);margin:26px 0}
+.cp-i{position:relative;padding:0 0 30px 30px}
+.cp-i::before{content:'';position:absolute;left:-6px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--am)}
+.cp-i:last-child{padding-bottom:0}
+.cp-w{font-family:var(--mno);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--am);font-weight:700;margin-bottom:6px}
+.cp-q{font-family:var(--dsp);font-size:17.5px;color:#fff;margin-bottom:9px;font-weight:500;line-height:1.38}
+.cp-a{font-size:14.8px;color:var(--tx-d);line-height:1.6}
+.cp-a b{color:var(--tx)}
+
+.srcs{columns:2;column-gap:38px;font-size:13.5px;margin-top:20px;list-style:none;margin-left:0}
+.srcs li{margin-bottom:10px;break-inside:avoid;color:var(--tx-f);line-height:1.5;padding-left:0}
+.srcs a{font-size:13px}
+@media(max-width:800px){.srcs{columns:1}}
+
+footer{padding:56px 0 76px;text-align:center}
+.f-r{width:60px;height:1px;background:var(--am);margin:0 auto 22px;opacity:.5}
+.f-t{font-family:var(--mno);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-f);line-height:2.1}
+
+@media print{
+  .bar,.ctl,.scrollbar,.btn,.chip{display:none!important}
+  body{background:#fff;color:#000}
+  .wk-b,.sk-b{display:block!important}
+}
+</style>
+
+<!-- ================= THE BOARD ================= -->
+<section id="board">
+<div class="wrap">
+  <div class="lab">04 · The Board</div>
+  <h2>Ninety days, dated and checkable</h2>
+  <p class="lead">This is the plan. Tick things off — your progress saves automatically in this browser. Five tracks run in parallel every week, because doing them in sequence is what makes 90-day plans fail: by the time you finish learning, you have not applied anywhere.</p>
+
+  <div class="df-g" style="margin:24px 0">
+    <div class="df-i"><b style="color:var(--am)">ARSENAL</b>Skills. The technical depth that justifies the number you are asking for.</div>
+    <div class="df-i"><b style="color:var(--vi)">PROOF</b>Portfolio. Deployed, public artefacts a stranger can inspect without asking you.</div>
+    <div class="df-i"><b style="color:var(--cy)">MARKET</b>Job hunt. Résumé, profiles, referrals, applications, recruiters, negotiation.</div>
+    <div class="df-i"><b style="color:var(--ro)">ARENA</b>Interview prep. DSA, low-level design, system design, Q-banks, mocks, stories.</div>
+    <div class="df-i"><b style="color:var(--gr)">BASE</b>Admin, money, exit mechanics, and your back — which has to survive 90 days of desk time.</div>
+  </div>
+
+  <div class="daily-fix">
+    <div class="df-t">Non-negotiables — every single day, not listed in the cards</div>
+    <div class="df-g">
+      <div class="df-i"><b>Back protocol</b>Work in 50-minute blocks, 10 minutes standing or walking between. Two sets of McKenzie extensions daily. Non-optional: your MRI showed Schmorl's nodes and disc desiccation at D12–L1 and L1–L2, and a back that fails at 25 ends this plan permanently.</div>
+      <div class="df-i"><b>Log the day</b>Two lines in your ledger: what you shipped, what blocked you. Takes 90 seconds and is the only reason you will spot a failing week in week three rather than week nine.</div>
+      <div class="df-i"><b>Inbox discipline</b>Reply to every recruiter within 12 hours, always. Speed of response is the cheapest competitive advantage in Indian hiring and most candidates surrender it.</div>
+      <div class="df-i"><b>Keep the gym</b>You already hold a 5-day split and a running streak. Do not trade them for study hours — they are what makes 28-hour weeks survivable, and you have proof the habit machinery works on you.</div>
+    </div>
+  </div>
+
+  <div class="ctl">
+    <div class="ctl-top">
+      <div class="ring-w">
+        <div class="ring">
+          <svg width="74" height="74" viewBox="0 0 74 74">
+            <circle cx="37" cy="37" r="32" fill="none" stroke="#262b32" stroke-width="6"></circle>
+            <circle id="rgC" cx="37" cy="37" r="32" fill="none" stroke="#ffb020" stroke-width="6" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="201"></circle>
+          </svg>
+          <div class="ring-t"><div class="ring-p" id="rgP">0%</div><div class="ring-l">done</div></div>
+        </div>
+        <div class="kpis">
+          <div><div class="kpi-k">Tasks</div><div class="kpi-v" id="kTask">0<small> / 0</small></div></div>
+          <div><div class="kpi-k">Days cleared</div><div class="kpi-v" id="kDay">0<small> / 90</small></div></div>
+          <div><div class="kpi-k">Today is</div><div class="kpi-v" id="kToday">—</div></div>
+        </div>
+      </div>
+      <div class="ctl-acts">
+        <button class="btn pri" id="bToday">↓ Jump to today</button>
+        <button class="btn" id="bHide">Hide completed</button>
+        <button class="btn" id="bAll">Expand all</button>
+        <button class="btn dgr" id="bReset">Reset</button>
+      </div>
+    </div>
+    <div class="ctl-bot" id="chips">
+      <button class="chip on all" data-t="all">All tracks</button>
+      <button class="chip" data-t="ARSENAL"><span class="cd" style="background:var(--am)"></span>Arsenal</button>
+      <button class="chip" data-t="PROOF"><span class="cd" style="background:var(--vi)"></span>Proof</button>
+      <button class="chip" data-t="MARKET"><span class="cd" style="background:var(--cy)"></span>Market</button>
+      <button class="chip" data-t="ARENA"><span class="cd" style="background:var(--ro)"></span>Arena</button>
+      <button class="chip" data-t="BASE"><span class="cd" style="background:var(--gr)"></span>Base</button>
+    </div>
+  </div>
+
+  <div id="brd"></div>
+</div>
+</section>
+
+<!-- ================= DAILY OS ================= -->
+<section id="os">
+<div class="wrap">
+  <div class="lab">05 · Daily Operating System</div>
+  <h2>Where the hours actually come from</h2>
+  <p class="lead">28 hours a week sounds impossible until you write it down. Here it is written down. Two templates — one for while you are still going in, one for bench or notice period, when you get a windfall of time most people waste.</p>
+
+  <div class="sched">
+    <div class="sc">
+      <div class="sc-t">Template A · Working weekday</div>
+      <div class="sc-s">Mon–Fri while allocated · ~3.5 h of plan work</div>
+      <div class="slot"><div class="sl-t">06:00</div><div class="sl-w"><b>Gym or run.</b> Existing habit. Do not move it.</div></div>
+      <div class="slot"><div class="sl-t">07:30</div><div class="sl-w"><b>ARENA · 60 min.</b> DSA while your head is cleanest. Two problems. Java only — you will interview in Java.</div></div>
+      <div class="slot"><div class="sl-t">09:30</div><div class="sl-w">Day job. Do it properly — you want a clean exit and a usable reference.</div></div>
+      <div class="slot"><div class="sl-t">13:30</div><div class="sl-w"><b>MARKET · 25 min.</b> Lunch break. Applications and recruiter replies from your phone. This is free time you are currently throwing away.</div></div>
+      <div class="slot"><div class="sl-t">19:30</div><div class="sl-w"><b>ARSENAL / PROOF · 120 min.</b> The deep block. Two 50-minute sessions with a real 10-minute standing break. Phone in another room.</div></div>
+      <div class="slot"><div class="sl-t">22:00</div><div class="sl-w"><b>Log · 5 min.</b> Two lines in the ledger. Then stop. Sleep is a performance input, not a luxury.</div></div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-t">Template B · Bench / notice / weekend</div>
+      <div class="sc-s">From 9 Oct onward and every Saturday · ~7 h</div>
+      <div class="slot"><div class="sl-t">06:00</div><div class="sl-w"><b>Train.</b> Same as always.</div></div>
+      <div class="slot"><div class="sl-t">08:00</div><div class="sl-w"><b>ARENA · 90 min.</b> DSA plus one design problem, timed, out loud.</div></div>
+      <div class="slot"><div class="sl-t">10:00</div><div class="sl-w"><b>ARSENAL / PROOF · 150 min.</b> The build block. This is where the differentiator gets made. Three 50-minute sessions.</div></div>
+      <div class="slot"><div class="sl-t">13:30</div><div class="sl-w">Lunch and a real walk. Away from the desk. Your discs need this more than your code does.</div></div>
+      <div class="slot"><div class="sl-t">15:00</div><div class="sl-w"><b>PROOF · 120 min.</b> Second build block. Commit something every single day, even small. The green graph is evidence.</div></div>
+      <div class="slot"><div class="sl-t">17:30</div><div class="sl-w"><b>MARKET · 60 min.</b> Applications, referral messages, follow-ups, ledger hygiene.</div></div>
+      <div class="slot"><div class="sl-t">19:00</div><div class="sl-w"><b>Stop.</b> Shivani, family, food, rest. Ninety days of 14-hour days ends in week five. Ninety days of seven honest hours ends in an offer.</div></div>
+    </div>
+  </div>
+
+  <div class="box gr">
+    <div class="bt">About the bench — read this before 9 October</div>
+    <p>Your release lands on Day 16. Most people treat the bench as dead time and emerge four months later with nothing. <strong>You are being handed roughly 40 unstructured hours a week, which is the single largest resource this plan has.</strong> It is worth more than any course you could buy.</p>
+    <p>Two rules. First, still do the internal thing: message project managers directly about higher-billing allocations, because an internal move costs nothing and forecloses nothing. Second, never let the bench become the plan. It is runway, and runway is finite — find out in writing how long yours is, on Day 16.</p>
+  </div>
+</div>
+</section>
+
+<!-- ================= TARGETS ================= -->
+<section id="targets">
+<div class="wrap">
+  <div class="lab">06 · Target List</div>
+  <h2>Where to send the applications</h2>
+  <p class="lead">Four buckets, deliberately weighted. You are building a list of 60 companies on Day 4 and applying to roughly 8 a day thereafter. Bucket A and C are where someone with one year and strong proof actually converts — so weight your effort there, not at the famous names.</p>
+
+  <div class="cos">
+    <div class="co">
+      <div class="co-h"><span class="co-n">Bucket A · 40% of effort</span></div>
+      <div class="co-t">Product companies &amp; unicorns</div>
+      <div class="co-w">They hire on demonstrated engineering ability and move fast. Best realistic pay-to-probability ratio for your profile. Reported backend bands ₹20–38L at senior level; entry and mid roles sit well within your ask.</div>
+      <div class="co-l">
+        <span class="tg">Razorpay</span><span class="tg">Zerodha</span><span class="tg">CRED</span><span class="tg">Groww</span><span class="tg">PhonePe</span><span class="tg">Swiggy</span><span class="tg">Zepto</span><span class="tg">Meesho</span><span class="tg">Flipkart</span><span class="tg">Dream11</span><span class="tg">Navi</span><span class="tg">slice</span><span class="tg">Postman</span><span class="tg">Freshworks</span><span class="tg">Zoho</span><span class="tg">BrowserStack</span><span class="tg">Chargebee</span><span class="tg">Darwinbox</span><span class="tg">Innovaccer</span><span class="tg">M2P</span><span class="tg">Setu</span>
+      </div>
+      <div class="co-f">→ Apply direct on careers page + chase a referral</div>
+    </div>
+
+    <div class="co">
+      <div class="co-h"><span class="co-n">Bucket B · 20% of effort</span></div>
+      <div class="co-t">Global capability centres</div>
+      <div class="co-w">Highest ceilings and best stability, but hiring skews heavily to 3–8 years. Apply only to requisitions that say 1–3 years or "Associate / SDE-1". Do not waste weeks on senior reqs — you will be screened out on years, not ability.</div>
+      <div class="co-l">
+        <span class="tg">JPMorgan</span><span class="tg">Goldman Sachs</span><span class="tg">Morgan Stanley</span><span class="tg">Wells Fargo</span><span class="tg">Deutsche Bank</span><span class="tg">UBS</span><span class="tg">Barclays</span><span class="tg">Walmart Global Tech</span><span class="tg">Target India</span><span class="tg">Lowe's India</span><span class="tg">Optum</span><span class="tg">Cisco</span><span class="tg">Adobe</span><span class="tg">Salesforce</span><span class="tg">SAP Labs</span><span class="tg">ServiceNow</span><span class="tg">Intuit</span><span class="tg">Maersk</span><span class="tg">Bosch</span><span class="tg">Mercedes-Benz R&amp;D</span>
+      </div>
+      <div class="co-f">→ Referral is close to mandatory here</div>
+    </div>
+
+    <div class="co">
+      <div class="co-h"><span class="co-n">Bucket C · 30% of effort</span></div>
+      <div class="co-t">AI-first &amp; GenAI companies</div>
+      <div class="co-w">Where your differentiator lands hardest. They care about what you have shipped this month, barely at all about years served, and they are competing for a supply of AI-capable engineers reported to be short by something like ten to one. A deployed RAG-and-agent service in Java makes you legible here instantly.</div>
+      <div class="co-l">
+        <span class="tg">Sarvam AI</span><span class="tg">Krutrim</span><span class="tg">Observe.AI</span><span class="tg">Gupshup</span><span class="tg">Haptik</span><span class="tg">Fractal</span><span class="tg">Eightfold</span><span class="tg">SirionLabs</span><span class="tg">Kore.ai</span><span class="tg">Uniphore</span><span class="tg">Composio</span><span class="tg">Portkey</span><span class="tg">Rocketlane</span><span class="tg">MoEngage</span><span class="tg">CleverTap</span><span class="tg">Whatfix</span><span class="tg">Amagi</span><span class="tg">HighRadius</span><span class="tg">Icertis</span><span class="tg">Tekion</span>
+      </div>
+      <div class="co-f">→ Lead with the project link, not the résumé</div>
+    </div>
+
+    <div class="co">
+      <div class="co-h"><span class="co-n">Bucket D · 10% of effort</span></div>
+      <div class="co-t">Gujarat &amp; remote</div>
+      <div class="co-w">Lower ceiling but no relocation. Ahmedabad, Gandhinagar and GIFT City have a growing services and capability-centre presence. Fully-remote roles at this band exist and are the most contested segment in the market — treat them as upside, never as the plan.</div>
+      <div class="co-l">
+        <span class="tg">GIFT City GCCs</span><span class="tg">Ahmedabad product cos</span><span class="tg">Remote-first startups</span><span class="tg">Simform</span><span class="tg">Tatvasoft</span><span class="tg">Bacancy</span><span class="tg">Yudiz</span>
+      </div>
+      <div class="co-f">→ Your fallback, and your leverage if you'd rather stay</div>
+    </div>
+  </div>
+
+  <div class="box am">
+    <div class="bt">How to actually apply — the part that decides your response rate</div>
+    <ul>
+      <li><strong>Naukri is not optional in India.</strong> It is where in-house recruiters actively source, and an incomplete profile is invisible. Complete it to 100%, refresh your résumé weekly so you resurface in searches, and set expected CTC to ₹14L.</li>
+      <li><strong>Extract keywords from the job descriptions.</strong> Pull the 10–15 phrases that recur across 20 target JDs — "Spring Boot", "microservices", "Kafka", "Kubernetes", "REST APIs", "AWS" — and make sure they appear naturally in your headline, skills and bullets. Screening is keyword-first, human-second.</li>
+      <li><strong>Referral beats application by a wide margin.</strong> Cold applications convert in the low single digits; a warm referral or direct recruiter contact reportedly runs 15–30% response. Every application to a Bucket A or B company should be paired with one human being contacted.</li>
+      <li><strong>Apply to roles marked 2–4 years.</strong> Stated experience ranges are a filter, not a law, and strong proof routinely beats a year of tenure. Do not self-reject — that is free rejection you are performing on the company's behalf.</li>
+      <li><strong>Every application gets a row in the ledger.</strong> Company, role, date, channel, referrer, status, next action. Without this you will lose track by week four and start double-applying, which recruiters notice.</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ================= GAUNTLET ================= -->
+<section id="gauntlet">
+<div class="wrap">
+  <div class="lab">07 · The Gauntlet</div>
+  <h2>Every round, and what it is really testing</h2>
+  <p class="lead">Interview loops for backend roles in India are predictable. Six round types, in roughly this order. Knowing what each one is actually measuring is worth more than another fifty DSA problems.</p>
+
+  <div class="rnd">
+    <div class="rnd-h"><span class="rnd-n">Round 1</span><span class="rnd-t">Recruiter screen</span><span class="rnd-w">15–25 min · phone</span></div>
+    <p>Not technical. It is a filter on three things: are your years and stack plausible, is your salary expectation inside their band, and can you hold a conversation. <strong>More candidates die here than at any coding round</strong>, almost always by fumbling the CTC question or sounding bitter about their current job.</p>
+    <div class="rnd-k">What to have ready, verbatim</div>
+    <ul>
+      <li>A 45-second summary of yourself that ends on your strongest proof, not on your job title.</li>
+      <li>Your expected CTC — ₹14L — said without apology and without a question mark at the end.</li>
+      <li>Your notice period, confirmed in writing beforehand. "I'll have to check" reads as unserious.</li>
+      <li>Your location answer, decided on Day 4. Not "I'm flexible", which sounds like you have not thought about it.</li>
+      <li>Your reason for leaving, forward-looking and free of grievance. Scripted on Day 49.</li>
+    </ul>
+  </div>
+
+  <div class="rnd">
+    <div class="rnd-h"><span class="rnd-n">Round 2</span><span class="rnd-t">Online assessment / DSA screen</span><span class="rnd-w">60–90 min</span></div>
+    <p>Two or three problems, usually easy-to-medium, occasionally with MCQs on Java and SQL. This is a pure throughput filter and it is the single most mechanical thing to prepare for — which is why the plan front-loads a daily DSA habit from Day 1 rather than cramming it later.</p>
+    <div class="rnd-k">Scope that is enough</div>
+    <p>Roughly 150 well-understood problems across the standard patterns: hashing, two pointers, sliding window, binary search, stacks, linked lists, trees and BFS/DFS, heaps, graphs, intervals, and 1-D dynamic programming. <strong>Patterns, not volume.</strong> Solving 400 problems without naming the pattern you used is worse preparation than 150 with notes.</p>
+  </div>
+
+  <div class="rnd">
+    <div class="rnd-h"><span class="rnd-n">Round 3</span><span class="rnd-t">Core Java, Spring &amp; SQL depth</span><span class="rnd-w">45–60 min · live</span></div>
+    <p>Your strongest round, and the one you can make decisive. Expect collections internals, equals and hashCode, immutability, concurrency, JVM memory and garbage collection, Spring IoC and bean lifecycle, transaction propagation, AOP, and then SQL — joins, indexing, and reading a query plan.</p>
+    <div class="rnd-k">Where candidates fold, and you will not</div>
+    <ul>
+      <li><strong>Concurrency beyond the textbook.</strong> Not just "synchronized locks the method" but a race condition you have actually caused and fixed. Day 54.</li>
+      <li><strong>Transaction propagation.</strong> What <code>REQUIRES_NEW</code> does inside a failing outer transaction. Almost nobody can answer this cleanly. Day 42.</li>
+      <li><strong>Query plans.</strong> <code>EXPLAIN ANALYZE</code>, index choice, and a real N+1 you found and killed. Day 34.</li>
+      <li><strong>Java 21, not Java 8.</strong> Records, sealed types, pattern matching and virtual threads. Most services-firm candidates are still mentally on Java 8 and it shows within two minutes. Days 5–6.</li>
+    </ul>
+  </div>
+
+  <div class="rnd">
+    <div class="rnd-h"><span class="rnd-n">Round 4</span><span class="rnd-t">Low-level design</span><span class="rnd-w">60 min · code or class diagram</span></div>
+    <p>Design a parking lot, an elevator bank, a rate limiter, a notification service, Splitwise. They are testing whether you can turn a vague requirement into clean classes with sane responsibilities — which is precisely the day job. At 1–3 years this round is often weighted more heavily than system design.</p>
+    <div class="rnd-k">The method</div>
+    <p>Clarify requirements out loud. Name the entities. Define interfaces before implementations. Apply one or two patterns deliberately and <em>say why</em> — Strategy for interchangeable pricing, Factory for object creation, Observer for notifications. Then let them push on extension: "what if we add a second vehicle type?" Good design answers that without rewriting.</p>
+  </div>
+
+  <div class="rnd">
+    <div class="rnd-h"><span class="rnd-n">Round 5</span><span class="rnd-t">High-level system design</span><span class="rnd-w">45–60 min · whiteboard</span></div>
+    <p>URL shortener, news feed, chat, rate limiter at scale, a payment flow. At your experience level they are not expecting a staff engineer. They want to see structured thinking and honest awareness of trade-offs rather than buzzword bingo.</p>
+    <div class="rnd-k">The six-step frame — use it every time</div>
+    <ol>
+      <li>Functional and non-functional requirements. Ask, do not assume.</li>
+      <li>Back-of-envelope scale: users, QPS, storage, read-write ratio.</li>
+      <li>API surface. Concrete endpoints.</li>
+      <li>Data model and the storage choice, with a reason.</li>
+      <li>High-level diagram: clients, gateway, services, cache, queue, database.</li>
+      <li>Deep dive wherever they push, then name the bottlenecks yourself before they do.</li>
+    </ol>
+    <p><strong>Your unfair advantage here:</strong> you have actually built a seven-service system and debugged cross-service failures in it. Speak from that, not from a video course. Interviewers can tell the difference instantly.</p>
+  </div>
+
+  <div class="rnd">
+    <div class="rnd-h"><span class="rnd-n">Round 6</span><span class="rnd-t">Hiring manager &amp; behavioural</span><span class="rnd-w">45 min</span></div>
+    <p>Decides your level and therefore your offer number. They are asking one question in several disguises: <em>is this person going to be a problem, and will they still be here in two years?</em></p>
+    <div class="rnd-k">You have unusually strong raw material — use it</div>
+    <ul>
+      <li><strong>Teaching five technologies solo, on a compressed timeline, to full batches.</strong> Most engineers at any level cannot stand in front of a room and teach Spring Boot. Frame it as evidence of depth and communication, never as "I wasn't doing real dev work".</li>
+      <li><strong>Interviewing candidates on Spring Boot and Angular.</strong> You have been trusted to judge other engineers' competence. Say so.</li>
+      <li><strong>Shipping AnimaFlow solo</strong> — a real SaaS with a working pipeline, payments and an end-to-end test suite. That is ownership, and ownership is what they are buying.</li>
+      <li><strong>The pay negotiation itself.</strong> You built a paper trail, escalated deliberately, kept leverage in reserve and stayed factual. Told without bitterness, that is a maturity story most 22-year-olds cannot tell.</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+
+<!-- ================= SCRIPTS ================= -->
+<section id="scripts">
+<div class="wrap">
+  <div class="lab">08 · Scripts</div>
+  <h2>The exact words, ready to send</h2>
+  <p class="lead">Every one of these is a moment where people improvise and lose money. Do not improvise. Copy, change the bracketed parts, send. Rehearse the spoken ones out loud until they sound like you rather than like a script.</p>
+
+  <div class="scr">
+    <div class="scr-h"><span class="scr-t">Referral request — LinkedIn or email</span><span class="scr-u">Use ~10× per week</span><button class="cpy">Copy</button></div>
+    <div class="scr-b">
+      <div class="scr-x">Hi [Name] — I saw you're on the [team] team at [Company]. I'm a Java/Spring Boot engineer at TCS, currently building production GenAI services on the JVM.
+
+I've applied for [exact role title, Job ID XXXX]. Two things that might make me worth a look:
+
+• I shipped a production RAG and agent service in Spring Boot 3 + Java 21 with retrieval evaluation, per-request token cost metering and OpenTelemetry tracing — live here: [link]
+• I taught Spring Boot, Angular, Core Java, JDBC and Servlets to engineer batches at TCS, solo, and interviewed candidates on those stacks.
+
+Résumé attached. If a referral feels reasonable I'd really appreciate it — and if not, no problem at all, I'd still value any read you have on the team.
+
+Thanks for the time,
+Purvam</div>
+      <div class="scr-n"><strong>Why this works:</strong> it names a specific role and job ID so forwarding you costs them 30 seconds instead of a conversation, it leads with a link they can click rather than claims they have to trust, and it gives them a graceful exit — which counterintuitively raises the yes rate. Never send "can you refer me?" with no role attached; that is a request for unpaid work.</div>
+    </div>
+  </div>
+
+  <div class="scr">
+    <div class="scr-h"><span class="scr-t">Cold message to an in-house recruiter</span><span class="scr-u">Day 56 · 15 of these</span><button class="cpy">Copy</button></div>
+    <div class="scr-b">
+      <div class="scr-x">Hi [Name] — you're hiring backend engineers at [Company], so I'll be brief and specific.
+
+Java 21 + Spring Boot 3, microservices in production, and — the less common part — I've shipped a live GenAI service on the JVM: RAG with pgvector, a tool-calling agent, semantic caching that cut inference cost, an evaluation harness, and full tracing. Code and live demo: [link]
+
+Currently at TCS, ~1 year, notice period [X] days, targeting ₹14L, open to [cities].
+
+Is there a requisition where that profile fits? Happy to send a résumé or just take a screening call.
+
+Purvam Prajapati · [phone] · [LinkedIn]</div>
+      <div class="scr-n"><strong>Why this works:</strong> recruiters are measured on filled requisitions, so a message that hands them every screening data point at once — stack, experience, notice, expectation, location — is a gift, not an imposition. It is also implicitly pre-qualified, which saves them the call they least want to make.</div>
+    </div>
+  </div>
+
+  <div class="scr">
+    <div class="scr-h"><span class="scr-t">"What is your current CTC?" — the hardest question you will face</span><span class="scr-u">Spoken · rehearse 10×</span><button class="cpy">Copy</button></div>
+    <div class="scr-b">
+      <div class="scr-x">FIRST ASK — deflect once, politely:
+
+"I'd rather anchor on the role than on my current structure — my present band is an artefact of which fresher track I was slotted into, not of what I'm doing now. For this scope I'm targeting ₹14 lakh, which is where I see comparable Java-plus-GenAI roles priced. Does that sit inside your range?"
+
+IF THEY PRESS — give it, then immediately reframe:
+
+"It's ₹3.4 lakh fixed. I'll be straight with you about why that's low: I was hired into TCS's Ninja track, and that band is set at intake, not by output. In the same year I was delivering Spring Boot and Angular training to full engineer batches solo and shipping a production GenAI service. I asked to be re-banded, it wasn't possible, and that's exactly why I'm here. I'm pricing against the market, not against that number."
+
+IF THEY SAY "we can only offer 40% above current":
+
+"I understand that's the usual formula. In this case it'd price me at less than half the market rate for the stack, so it wouldn't be a decision I could make. I'd rather show you the work and let you decide what the role is worth — if the scope justifies ₹14L for the person you need, I'm the right candidate; if the budget is fixed lower, I'd rather know now than waste your loop."</div>
+      <div class="scr-n"><strong>This is the single highest-value paragraph in the document.</strong> Indian hiring frequently prices offers as a percentage uplift on current CTC, which would trap you near ₹5L forever. The only way out is to make the conversation about market rate and scope before your number lands — and to be genuinely willing to walk. That willingness is only real if your pipeline is full, which is why the plan never lets you stop applying, even while interviewing.</div>
+    </div>
+  </div>
+
+  <div class="scr">
+    <div class="scr-h"><span class="scr-t">"Why are you leaving TCS?"</span><span class="scr-u">Spoken · Day 49</span><button class="cpy">Copy</button></div>
+    <div class="scr-b">
+      <div class="scr-x">"Two reasons, and neither is drama.
+
+First, scope. I was put into a technical faculty role and ended up delivering Core Java, JDBC, Servlets, Spring Boot and Angular to full engineer batches on my own, on a compressed timeline, and interviewing candidates on those stacks. I learned an enormous amount and I'm genuinely glad I did it. But I'm 22 and I want to be building systems at depth, not teaching them — and the roadmap I'd been given for moving into that was cancelled.
+
+Second, direction. The work I care about is backend engineering with AI in production, and I've been doing that on my own time — I've shipped a live RAG and agent service in Spring Boot with evaluation and cost controls. I want that to be my day job, on a team that's further along than I am.
+
+I have no complaint about TCS. It taught me to teach, and it gave me a production codebase at 22. It just isn't where the next five years of my work are."</div>
+      <div class="scr-n"><strong>Rules for this answer:</strong> never mention the refused raise, never name a manager, never use the words "underpaid", "unfair" or "stuck". Interviewers are listening for whether you will badmouth <em>them</em> in two years. Grievance is the most expensive thing you can bring into a room — the money argument is real, but it belongs in the negotiation, not here.</div>
+    </div>
+  </div>
+
+  <div class="scr">
+    <div class="scr-h"><span class="scr-t">Negotiating the written offer</span><span class="scr-u">Day 73 · after the offer letter arrives</span><button class="cpy">Copy</button></div>
+    <div class="scr-b">
+      <div class="scr-x">"Thank you — I'm genuinely excited about this, and I want to say clearly that I intend to accept.
+
+One thing I'd like to work through. The fixed component is ₹[X]. Based on what I've seen for Java plus production GenAI work at this scope in [city], and given I'm bringing [the specific thing they liked in the loop], I was targeting ₹[X + 20%] fixed.
+
+If the band is capped, I'd look at it in this order: first fixed pay, then a joining bonus to bridge the gap, then an early review at six months rather than twelve.
+
+Can we get to ₹[target] fixed?"
+
+THEN STOP TALKING. Let the silence sit. Do not fill it.
+
+IF THEY IMPROVE IT: "That works. Please send the revised letter and I'll sign today."
+
+IF THEY HOLD FIRM: "Understood. Can you do [joining bonus / 6-month review / the title]?" — take the secondary item. Then accept, or decline cleanly if it's genuinely below your floor.</div>
+      <div class="scr-n"><strong>Mechanics that matter:</strong> negotiate only after the written offer exists, never on the verbal call. Enthusiasm first, then one number, then one reason, then silence — filling your own silence is how candidates negotiate against themselves. Ask for your highest-priority item first and concede downward in a planned order. And negotiate <strong>fixed pay</strong>: an Indian CTC headline bundles variable pay, benefits and notional ESOP value, so two identical-looking offers can differ substantially in what reaches your account. Your in-hand is typically 20–30% below the headline.</div>
+    </div>
+  </div>
+
+  <div class="scr">
+    <div class="scr-h"><span class="scr-t">Creating honest urgency across parallel processes</span><span class="scr-u">Day 74 · leverage without lying</span><button class="cpy">Copy</button></div>
+    <div class="scr-b">
+      <div class="scr-x">"Quick note on timing so I can be straightforward with you: I'm in final stages with two other companies and expect written offers by [date]. [Company] is genuinely my first choice — the [specific reason] is exactly what I want to work on.
+
+Is there any way to compress the remaining rounds so I can make one decision with everything in front of me? I'd rather choose you on the merits than by whoever moves first."</div>
+      <div class="scr-n"><strong>Only send this if it is true.</strong> Fabricated offers get discovered — recruiters in the same city talk, and some will ask to see the letter. Real parallel offers are the only genuine leverage in a salary negotiation, which is the actual reason this plan pushes application volume for all 90 days instead of stopping when the first process gets serious. Offers that land in the same week are worth several lakh more than the same offers landing a month apart.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ================= RESUME ================= -->
+<section id="resume">
+<div class="wrap">
+  <div class="lab">09 · Résumé Surgery</div>
+  <h2>Your material, rewritten to price correctly</h2>
+  <p class="lead">You have genuinely strong raw material and it is almost certainly described in a way that hides its value. The formula is: <span class="mn hl">[strong verb] + [what you built] + [named tech] + [measurable outcome]</span>. Every bullet. No exceptions. Here are yours, both ways.</p>
+
+  <div class="ba">
+    <div class="ba-c bad"><div class="ba-k">✗ How it usually reads</div><div class="ba-x">Responsible for training new joiners on Java and Angular technologies as a technical faculty member.</div></div>
+    <div class="ba-c good"><div class="ba-k">✓ How it should read</div><div class="ba-x">Designed and delivered five technical curricula — Core Java, JDBC, Servlets, Spring Boot, Angular — to multiple full engineer batches solo, on a compressed timeline, and interviewed candidates on Spring Boot and Angular for team placement.</div></div>
+  </div>
+
+  <div class="ba">
+    <div class="ba-c bad"><div class="ba-k">✗ How it usually reads</div><div class="ba-x">Worked on a train ticket booking application using microservices and Angular.</div></div>
+    <div class="ba-c good"><div class="ba-k">✓ How it should read</div><div class="ba-x">Built a 7-service train ticketing platform (Spring Boot, Angular 17, REST) covering booking, payments and scheduling; diagnosed and resolved cross-service CORS and inter-service communication failures spanning all seven services.</div></div>
+  </div>
+
+  <div class="ba">
+    <div class="ba-c bad"><div class="ba-k">✗ How it usually reads</div><div class="ba-x">Personal project: AnimaFlow, a SaaS application built with Java and Spring Boot.</div></div>
+    <div class="ba-c good"><div class="ba-k">✓ How it should read</div><div class="ba-x">Shipped AnimaFlow, a solo-built SaaS on Spring Boot (69 source files) with a verified MP4 rendering pipeline, Stripe subscription billing, security hardening and a 27-step end-to-end suite passing in CI.</div></div>
+  </div>
+
+  <div class="ba">
+    <div class="ba-c bad"><div class="ba-k">✗ How it usually reads</div><div class="ba-x">Machine learning project on Indian Sign Language recognition using ResNet50.</div></div>
+    <div class="ba-c good"><div class="ba-k">✓ How it should read</div><div class="ba-x">Trained a ResNet50 classifier for Indian Sign Language recognition to 99.96% validation accuracy; also built a fake-news detection ensemble and a RoBERTa-based question-answering system.</div></div>
+  </div>
+
+  <div class="ba">
+    <div class="ba-c bad"><div class="ba-k">✗ What is missing entirely</div><div class="ba-x">Nothing about AI in production. This is the gap that costs you the premium — and it is the one the next 90 days exists to close.</div></div>
+    <div class="ba-c good"><div class="ba-k">✓ The bullet you are building</div><div class="ba-x">Built and deployed a production RAG and agent service (Java 21, Spring Boot 3, Spring AI, PostgreSQL + pgvector, Redis, Kafka): hybrid retrieval with reranking, tool-calling agent, SSE streaming, semantic caching that cut inference spend by X%, a 30-question evaluation harness tracking retrieval hit rate and answer faithfulness, and per-request token-cost metering exposed through OpenTelemetry and Grafana.</div></div>
+  </div>
+
+  <div class="box am">
+    <div class="bt">Structural rules for the document itself</div>
+    <ul>
+      <li><strong>One page. Single column. No tables, no text boxes, no photo, no skill bar charts.</strong> Multi-column layouts get scrambled by applicant tracking systems, which is how strong candidates vanish before a human ever looks.</li>
+      <li><strong>Order: Summary → Skills → Experience → Projects → Research → Education.</strong> Projects go above education for you, because your projects are stronger than your degree.</li>
+      <li><strong>The summary is three lines and names the niche.</strong> "Java/Spring Boot engineer building production GenAI systems on the JVM" is a position. "Passionate developer seeking opportunities" is noise.</li>
+      <li><strong>Put the live links in.</strong> Deployed URL and GitHub, as actual clickable links, in the header and next to each project. A recruiter who clicks is a recruiter who calls.</li>
+      <li><strong>Mirror the job description's vocabulary.</strong> If they write "event-driven microservices", do not write "message-based services". Same concept, failed keyword match.</li>
+      <li><strong>File name: <span class="mn">Purvam-Prajapati-Java-Backend-GenAI.pdf</span></strong>. Not <span class="mn">resume_final_v3.pdf</span>. It is the first thing a hiring manager sees in a crowded folder.</li>
+      <li><strong>Three versions by Day 49:</strong> one backend-weighted, one AI-weighted, one balanced. Send the one that matches the JD. This takes ten minutes and materially changes response rate.</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ================= CHECKPOINTS ================= -->
+<section id="rules">
+<div class="wrap">
+  <div class="lab">10 · Checkpoints &amp; Hard Rules</div>
+  <h2>Decide now what will make you change course</h2>
+  <p class="lead">Pre-commit while you are thinking clearly. Four checkpoints, each with a pass condition and a specific corrective action — so that when a week goes badly you adjust a variable instead of re-litigating the whole plan.</p>
+
+  <div class="cp">
+    <div class="cp-i">
+      <div class="cp-w">Checkpoint 1 · Day 21 · Wed 14 October</div>
+      <div class="cp-q">Is the machine running? 60+ applications sent, résumé and all three profiles live, 30+ DSA problems solved, Project 1 answering questions over your own documents.</div>
+      <div class="cp-a"><b>If yes:</b> the hardest part is behind you. Momentum now does the work.<br><b>If no — and specifically if applications are the thing that slipped:</b> that is the failure that matters. Skills can be learned late; a pipeline started late cannot be caught up, because interview loops take four to six weeks to run. Drop one study block and spend it applying, every day, until you are back on count.</div>
+    </div>
+    <div class="cp-i">
+      <div class="cp-w">Checkpoint 2 · Day 42 · Wed 4 November</div>
+      <div class="cp-q">Have you had at least two first-round interviews?</div>
+      <div class="cp-a"><b>If yes:</b> your positioning works. Keep volume up and start converting.<br><b>If no:</b> the problem is your résumé or your targeting, not the market — 120+ applications with zero screens is a document problem, essentially always. Get three engineers <em>outside</em> TCS to tear it apart before you send another one, and check that you are not applying only to senior requisitions.</div>
+    </div>
+    <div class="cp-i">
+      <div class="cp-w">Checkpoint 3 · Day 63 · Wed 25 November</div>
+      <div class="cp-q">Is Project 1 deployed and public, and are you in at least one late-stage process?</div>
+      <div class="cp-a"><b>If yes:</b> you are on track for an offer inside the window. Shift weight from learning to closing.<br><b>If the project is not deployed:</b> stop adding features today and ship what exists. An imperfect live system beats a perfect local one by an enormous margin — nobody can interview a localhost URL.<br><b>If loops are stalling at the technical round:</b> the gap is interview performance, not knowledge. Book three paid mocks in the next ten days. It is the highest-return money in this entire plan.</div>
+    </div>
+    <div class="cp-i">
+      <div class="cp-w">Checkpoint 4 · Day 90 · Tue 22 December</div>
+      <div class="cp-q">Do you have a signed written offer above ₹10L?</div>
+      <div class="cp-a"><b>If yes:</b> you tripled your income in 90 days at 22. Bank the lesson: your pay was never about your ability, it was about your position and your proof. Then immediately write the next 90-day plan — that is where the following multiple comes from.<br><b>If you have offers but all below ₹10L:</b> take the best one anyway <em>if</em> the stack and the team are stronger. Breaking out of the services band is worth more than the last ₹2 lakh, because your next raise compounds off the new base.<br><b>If you have no offer:</b> you are not back where you started. You have two deployed systems, 250+ DSA problems, a real network and a live pipeline. Run a 30-day extension focused purely on conversion — mocks and closing, no new learning. Almost nobody who reaches Day 90 of this with the artefacts built stays at ₹3.4L for another year.</div>
+    </div>
+  </div>
+
+  <h3>Nine hard rules</h3>
+  <div class="box rd">
+    <div class="bt">Break these and the plan stops working</div>
+    <ol>
+      <li><strong>Never stop applying, not even while interviewing.</strong> The moment your pipeline empties you lose the ability to walk away, and the ability to walk away <em>is</em> your negotiating power. This is the most commonly broken rule and the most expensive.</li>
+      <li><strong>Never take a certification instead of shipping something.</strong> Certifications feel like progress and are the highest-risk way to lose six weeks. Your cancelled Wings T15 roadmap already cost you that once — do not rebuild it under a new name.</li>
+      <li><strong>Never reveal your current CTC before stating your expectation.</strong> Section 08 has the words. Rehearse them out loud, not in your head.</li>
+      <li><strong>Never accept an offer on the phone.</strong> Always: "thank you, I'm excited — please send the written breakup, I'll respond within 48 hours." Then negotiate. Accepting verbally forfeits the only moment the number is actually movable.</li>
+      <li><strong>Never ship a project without a README that sells it.</strong> Architecture diagram, the evaluation numbers, the cost numbers, a demo GIF, and a short "why I made these decisions" section. Unexplained code is invisible code.</li>
+      <li><strong>Never badmouth TCS in an interview.</strong> Your network there is a twenty-year asset, and interviewers hear a complaint about a past employer as a preview of you complaining about them.</li>
+      <li><strong>Never skip the back protocol.</strong> 50/10 blocks and daily extensions. You have documented disc damage at 22 and this plan adds several hundred hours of sitting. A back that fails ends every career plan you have, not just this one.</li>
+      <li><strong>Never go more than 48 hours without a commit.</strong> The public contribution graph is read as a proxy for consistency, and consistency is what you are selling to a company deciding whether one year of experience is enough.</li>
+      <li><strong>Never re-run the whole decision when a week goes badly.</strong> You have a plan with checkpoints. Between checkpoints, execute. Reopening the strategy every fortnight is itself the thing that has cost you the most time — adjust one variable at the checkpoint, then get back to work.</li>
+    </ol>
+  </div>
+
+  <div class="box gr">
+    <div class="bt">What success actually looks like on Day 90</div>
+    <p>A signed offer between ₹10L and ₹18L. Two deployed systems with public URLs and READMEs a stranger can follow. Roughly 250 DSA problems with pattern notes you wrote yourself. Two or three technical posts published under your name. A résumé that prices you correctly. Around 400 applications and a network of engineers at 60 companies who know who you are. And a clean exit from TCS with your references intact.</p>
+    <p>None of that depends on luck, a visa, an exam result, or anyone's permission. It depends on opening this file tomorrow morning and doing Day 1.</p>
+  </div>
+
+  <div class="pull">You spent a year fighting for a raise inside a band whose ceiling was set before you arrived. The same effort, pointed outward for 90 days, is worth several times more. Change the target, not the intensity.</div>
+</div>
+</section>
+
+<!-- ================= SOURCES ================= -->
+<section id="sources">
+<div class="wrap">
+  <div class="lab">11 · Evidence</div>
+  <h2>Where the market numbers come from</h2>
+  <p class="lead">Every salary range, premium and hiring statistic in this document traces to one of the sources below, gathered on 23 September 2026. All content has been paraphrased and summarised rather than quoted, for licensing compliance. These are secondary market reports, not audited data — treat them as directional benchmarks and verify against the live offers you collect.</p>
+
+  <h4>Salary benchmarks — services vs product vs GCC</h4>
+  <ul class="srcs">
+    <li><a href="https://www.scaler.com/topics/java-developer-salary-in-india/">Scaler — Java developer salary in India by experience and employer type, 2026</a></li>
+    <li><a href="https://supersourcing.com/blog/gcc-salary-benchmark-india-2026/">Supersourcing — India GCC salary benchmark 2026</a></li>
+    <li><a href="https://www.help.intervue.io/blog/backend-developer-salary-india">Intervue — backend developer salary bands in India by company type</a></li>
+    <li><a href="https://www.recrew.ai/salary-guides/senior-backend-engineer">Recrew — senior backend engineer salary in India 2026</a></li>
+    <li><a href="https://futurense.com/blog/backend-developer-salary-in-india">Futurense — backend developer salary range and stack effects</a></li>
+    <li><a href="https://www.guvi.in/blog/java-developer-salary/">GUVI — Java developer salary in India 2026</a></li>
+  </ul>
+
+  <h4>AI skills premium and AI engineering pay</h4>
+  <ul class="srcs">
+    <li><a href="https://etedge-insights.com/industry/hr/the-ai-skills-premium-in-india-what-2026-salary-data-reveals/">ET Edge Insights — the AI skills premium in India, 2026 salary data (25–40%)</a></li>
+    <li><a href="https://www.careerindia.com/news/microsoft-india-south-central-ai-hub-top-jobs-azure-skills-salary-premiums-2026-011-65979.html">CareerIndia — AI role salary premiums, 2026 (38% figure)</a></li>
+    <li><a href="https://kalvium.com/blog/ai-engineer-india-skill-stack">Kalvium — the AI engineer skill stack that gets hired in India, 2026</a></li>
+    <li><a href="https://intellipaat.com/blog/ai-engineer-salary-in-india/">Intellipaat — AI engineer salary in India 2026 and year-on-year growth</a></li>
+    <li><a href="https://vlinkinfo.com/blog/hiring-ai-ml-engineers-guide">VLink — India AI/ML engineer 2026 CTC benchmarks by level</a></li>
+    <li><a href="https://ecorpit.hashnode.dev/indias-gccs-report-a-40-ai-talent-gap-why-reskilling-beat-hiring-in-2026">eCorpIT — India GCC AI talent gap and GenAI engineer pay by experience</a></li>
+    <li><a href="https://economictimes.indiatimes.com/wealth/earn/top-ai-jobs-paying-up-to-80-lpa-in-india-heres-a-6-month-plan-to-land-one/slideshow/132276348.cms">Economic Times — India AI talent demand-to-supply ratio</a></li>
+    <li><a href="https://www.analytixlabs.co.in/blog/ai-skills-in-demand/">AnalytixLabs — mapping AI skills in demand in India</a></li>
+  </ul>
+
+  <h4>Hiring patterns and the GCC experience skew</h4>
+  <ul class="srcs">
+    <li><a href="https://timesofindia.indiatimes.com/business/india-business/gccs-shift-towards-mid-career-ai-talent-leaner-teams/articleshow/134417832.cms">Times of India — GCC hiring concentrated at 3–8 years, median 6 years</a></li>
+    <li><a href="https://devxritesh.medium.com/how-to-actually-get-a-software-engineering-job-in-2026-9942205811f3">Medium — software engineering job search channels and response rates, 2026</a></li>
+    <li><a href="https://ciela.ai/blogs/linkedin-job-search-strategy-2026">Ciela — active LinkedIn job search strategy, 2026</a></li>
+    <li><a href="https://faceprep.in/article/top-networking-tips-for-job-seekers/">FacePrep — networking and referral conversion for Indian engineers</a></li>
+  </ul>
+
+  <h4>The Java AI stack</h4>
+  <ul class="srcs">
+    <li><a href="https://dev.to/devvarsha/the-java-ai-stack-just-crystallized-heres-the-architecture-that-emerged-3d7m">dev.to — the JVM AI stack in 2026: Spring AI 2.0 GA, LangChain4j, MCP, AgentCore SDK</a></li>
+    <li><a href="https://dev.to/hrsvd/building-production-ai-agents-on-the-jvm-a-practical-guide-to-java-spring-ai-in-2026-4997">dev.to — building production AI agents on the JVM with Spring AI</a></li>
+    <li><a href="https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html">Spring AI — official RAG reference documentation</a></li>
+    <li><a href="https://www.javacodegeeks.com/2026/04/rag-architecture-on-the-jvm-building-a-production-ready-pipeline-with-langchain4j.html">Java Code Geeks — production RAG architecture on the JVM</a></li>
+    <li><a href="https://techoral.com/spring/spring-ai-vs-langchain4j.html">Techoral — Spring AI vs LangChain4j for LLM integration, 2026</a></li>
+    <li><a href="https://github.com/arvindand/spring-ai-rag-demo">GitHub — Spring AI RAG reference implementation with pgvector and tool calling</a></li>
+  </ul>
+
+  <h4>Interviews, offers and negotiation</h4>
+  <ul class="srcs">
+    <li><a href="https://goodspace.ai/guides/salary-negotiation">GoodSpace — salary negotiation in India: CTC break-up and the three negotiation moments</a></li>
+    <li><a href="https://www.greatfrontend.com/blog/how-to-evaluate-tech-job-offer-india">GreatFrontEnd — evaluating an Indian tech offer: CTC, conditional components, what to watch</a></li>
+    <li><a href="http://economictimes.indiatimes.com/wealth/earn/ctc-vs-in-hand-salary-how-you-can-negotiate-smarter-and-boost-long-term-earnings-in-india/slideshow/128494498.cms">Economic Times — CTC vs in-hand salary in India</a></li>
+    <li><a href="https://www.placementpreparation.io/blog/how-to-negotiate-salary-offer/">PlacementPreparation — negotiating with HR: wait for the written offer, one counter, then silence</a></li>
+    <li><a href="https://in.indeed.com/career-advice/interviewing/how-to-answer-your-expected-ctc">Indeed India — answering the expected CTC question</a></li>
+    <li><a href="https://dev.to/akashguptasky/how-to-actually-prepare-for-a-backend-developer-interview-in-2026-4h57">dev.to — what backend interviews actually test in 2026</a></li>
+    <li><a href="https://dglearning.substack.com/p/the-free-2026-coding-interview-prep">DG Learning — 2026 coding interview pattern map and readiness checklist</a></li>
+    <li><a href="https://www.testmuai.com/learning-hub/spring-interview-questions/">TestmuAI — Spring interview question scope: IoC, bean lifecycle, AOP, transactions</a></li>
+  </ul>
+
+  <div class="box pl">
+    <div class="bt">Scope and limits</div>
+    <p>This is a personal execution plan, not professional career, financial or legal advice. Salary figures are reported market observations from the secondary sources above and vary by city, employer, interview performance and negotiation — they are not predictions of what you will be offered. Nothing here guarantees an outcome. What it does is remove every excuse about not knowing what to do next.</p>
+    <p>Personal details, existing skills and project history were taken from your own records. The market research, skill selection, sequencing and all 90 days of tasks were assembled independently for this document.</p>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-r"></div>
+    <div class="f-t">
+      90 Days · No Looking Back<br>
+      Day 1 · 24 September 2026 &nbsp;→&nbsp; Day 90 · 22 December 2026<br>
+      Progress saves in this browser · Compiled 23 September 2026<br>
+      <span style="color:var(--am)">Close this file. Open Day 1.</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+/* ============================================================
+   90-DAY SALARY UPGRADE — EXECUTION ENGINE
+   Day 1 = Thu 24 Sep 2026 · Day 90 = Tue 22 Dec 2026
+   Tracks: A=ARSENAL P=PROOF M=MARKET R=ARENA B=BASE
+   ============================================================ */
+
+const START = new Date(2026, 8, 24);   // 24 September 2026
+const TRK = {A:'ARSENAL', P:'PROOF', M:'MARKET', R:'ARENA', B:'BASE'};
+const DW  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MO  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function dateOf(n){ const d = new Date(START); d.setDate(d.getDate() + (n-1)); return d; }
+function fmt(d){ return d.getDate() + ' ' + MO[d.getMonth()]; }
+
+/* ---------- PHASES ---------- */
+const PHASES = [
+  {n:'Phase 01', t:'Foundation & Launch', from:1, to:21,
+   g:'Get the market machine running before you are good enough to feel ready — because interview loops take four to six weeks and a pipeline started late cannot be caught up. Résumé, three profiles and the first sixty applications go out while you simultaneously start the daily DSA habit and modernise off Java 8.'},
+  {n:'Phase 02', t:'The Differentiator', from:22, to:49,
+   g:'Build and ship the thing that justifies the number. A production RAG and agent service in Spring Boot with evaluation, cost metering, observability and real tests — then Kafka, Redis, Postgres tuning and the second flagship. First interviews land in this phase.'},
+  {n:'Phase 03', t:'Depth & Conversion', from:50, to:70,
+   g:'Stop learning new things and start converting. Peak interviewing, mock loops, system design under time pressure, and the negotiation groundwork most candidates skip entirely and then regret in a single twenty-minute phone call.'},
+  {n:'Phase 04', t:'Close', from:71, to:90,
+   g:'Offers, comparison, negotiation, decision, resignation, clean exit — and the next plan written before this one goes stale.'}
+];
+
+/* ---------- WEEK THEMES ---------- */
+const WEEKS = {
+  1:'Arm the market', 2:'The differentiator begins', 3:'Release week — tools and agents',
+  4:'Ship it in public', 5:'Event-driven and async', 6:'Containers, cloud and design',
+  7:'Second flagship', 8:'Peak interviewing', 9:'Negotiation-ready',
+  10:'Close the loops', 11:'Offers on the table', 12:'Decide and exit',
+  13:'Lock in the next multiple'
+};
+
+/* ---------- THE 90 DAYS ---------- */
+const DAYS = [
+/* ===== WEEK 1 ===== */
+{d:1, tag:'DAY ONE', t:[
+ ['M','Create the Career Ledger spreadsheet. Six tabs: Applications, Referrals, Interviews, Offers, Skills, Daily Log. Applications tab columns: company, role, date, channel, referrer, status, next action, date of next action. This file is the single source of truth for 90 days — without it you will be double-applying by week four.','45m'],
+ ['M','Raw achievement dump. One document, no formatting, no modesty: every technology you taught, batch sizes, timelines, the 7-service ticketing platform, the grocery microservices, AnimaFlow file count and test count, the three research models and their metrics, the candidates you interviewed. Numbers wherever they exist. You will paste from this for the next five years.','60m'],
+ ['R','Install the habit before the content. Create LeetCode account, open the NeetCode 150 list, solve Two Sum and Valid Anagram — in Java, not Python, because you will interview in Java. Start a notes file where every problem gets one line naming its pattern.','45m'],
+ ['B','Set up a workstation your spine can survive: screen at eye height, feet flat, lumbar support, and a 50/10 timer app installed and actually running. Do your first set of McKenzie extensions today. This is not wellness filler — you have documented disc damage and 90 days of added desk time ahead.','30m'],
+ ['B','Financial reality check, written down: current in-hand, monthly expenses, total savings, and how many months you could survive on zero income. You need this number before you can credibly walk away from a lowball offer.','20m']
+]},
+{d:2, t:[
+ ['M','Build résumé v1. Single column, ATS-safe, one page, no tables or graphics. Order: Summary, Skills, Experience, Projects, Research, Education. Rewrite every bullet with the formula in Section 09 — strong verb, what you built, named tech, measurable outcome. Delete the phrase "responsible for" everywhere it appears.','2h'],
+ ['M','Write the three-line summary that names your niche: Java/Spring Boot engineer building production GenAI systems on the JVM. Not "passionate developer seeking opportunities". Position, not adjectives.','30m'],
+ ['R','2 problems — hashing pattern: Contains Duplicate, Group Anagrams. Write your own note on when a hash map is the answer.','45m'],
+ ['A','Read the Java 17 and 21 release notes and write down every feature that did not exist in Java 8: records, sealed types, pattern matching for switch, text blocks, virtual threads, enhanced instanceof. Most services-firm candidates are mentally on Java 8 and it shows within two minutes of an interview.','45m']
+]},
+{d:3, t:[
+ ['B','Harvest your evidence while you still have system access — release is in six days. Written appreciation from batch participants, teaching colleagues and seniors; feedback scores if exportable; your own training artefacts. Save to personal storage. Keep only what you are entitled to under TCS policy: this is a record of your own work, not company material.','2h'],
+ ['M','LinkedIn overhaul. Headline: Java · Spring Boot · Microservices · Production GenAI on the JVM. Rewrite the About section in first person around the niche. Fill Experience with the new bullets. Pin your top three skills. Turn on Open To Work, recruiters-only.','2h'],
+ ['R','3 problems — two pointers: Valid Palindrome, Two Sum II, 3Sum. Note the pattern trigger: sorted array, or pairs that sum to a target.','1.5h'],
+ ['B','Run or long walk plus two extension sets. Keep the streak — it is what makes 28-hour weeks survivable, and you already have proof the habit holds.','45m']
+]},
+{d:4, tag:'DECIDE LOCATION', t:[
+ ['M','Naukri profile to 100% completion. This is where Indian in-house recruiters actively source, and an incomplete profile is effectively invisible. Upload the résumé, set expected CTC to ₹14L, fill key skills with the exact keywords from target job descriptions, set notice period.','1.5h'],
+ ['M','Build the 60-company target list in the ledger, using the four buckets in Section 06. Weight it: 24 product companies, 12 GCCs, 18 AI-first, 6 Gujarat/remote. Find the careers page URL for each one now so applying later takes two minutes instead of ten.','1h'],
+ ['B','Decide your location answer and write it down. Which cities will you actually relocate to? Bengaluru, Hyderabad, Pune, Gurgaon, Chennai are where the money is; Ahmedabad and GIFT City are the local option at a lower ceiling. Every recruiter asks this in the first three minutes and undecided candidates lose to decided ones.','45m'],
+ ['B','Rest properly. Mobility work only, no screens after 9pm, plan the week ahead. Sundays in this plan are deliberately light for the next 13 weeks — that is what makes it finishable.','—']
+]},
+{d:5, tag:'FIRST APPLICATIONS', t:[
+ ['M','Apply to your first 8 roles. Every single one gets a row in the ledger before you move on. Pair each Bucket A or B application with one human being identified for outreach.','1.5h'],
+ ['M','Send 10 LinkedIn connection requests to engineers at target companies with a one-line note. Do not ask for anything yet — you are building the surface you will ask across next Sunday. Cold referral requests to strangers convert far worse than requests to a week-old connection.','45m'],
+ ['R','2 problems — sliding window: Best Time to Buy and Sell Stock, Longest Substring Without Repeating Characters.','1h'],
+ ['A','Create a fresh Spring Boot 3.5 project on Java 21 and get it running. Write down every difference you hit versus the setup you used at TCS — Jakarta namespace instead of javax, the new configuration properties, observability defaults. These differences are interview questions.','1h']
+]},
+{d:6, t:[
+ ['A','Java 21 hands-on. Take an old class from your grocery or ticketing project and rewrite it using records for DTOs, a sealed interface for a closed type hierarchy, pattern matching for switch, and text blocks for SQL or JSON. Commit it. You now have a concrete answer to "what have you done with modern Java?"','1.5h'],
+ ['A','Virtual threads. Write a demo that fires 10,000 concurrent HTTP calls on platform threads, then on virtual threads, and measure both. Record the actual numbers. This is a two-minute interview story that instantly separates you from candidates who have only read about it.','1.5h'],
+ ['R','2 problems — sliding window continued: Longest Repeating Character Replacement, Permutation in String.','1h'],
+ ['M','8 applications, logged. Reply to any recruiter message within 12 hours — speed of response is the cheapest edge available and most candidates give it away.','45m']
+]},
+{d:7, tag:'WEEK 1 REVIEW', t:[
+ ['M','8 applications, logged. Running total should be 24.','45m'],
+ ['R','2 problems — stack: Valid Parentheses, Min Stack.','1h'],
+ ['A','Spring Boot 3 changes worth knowing cold: Jakarta EE migration, Problem Details for error responses, Micrometer observability built in, native image support. Write four short notes in your own words.','1h'],
+ ['B','Week 1 retrospective in the ledger. Applications sent, DSA solved, hours worked, what slipped and why. Then set next week targets. Honest numbers only — this file is for you, not for anyone else.','45m']
+]},
+
+/* ===== WEEK 2 ===== */
+{d:8, tag:'PROJECT 1 STARTS', t:[
+ ['A','Spring AI first contact. Read the ChatClient and Advisors documentation, add the dependency, and make a working LLM call from a Spring Boot REST endpoint. Your Spring muscle means this is an afternoon, not a career change — that is the entire thesis of this plan.','2h'],
+ ['B','Get an LLM API key and set a hard monthly spend cap immediately. Read the pricing page properly and understand input versus output token cost. Budget ₹2,000 for the whole 90 days; that is genuinely enough for this project.','30m'],
+ ['R','2 problems — binary search: Binary Search, Search a 2D Matrix.','1h'],
+ ['M','8 applications, logged.','45m']
+]},
+{d:9, t:[
+ ['A','PostgreSQL with pgvector running in Docker Compose. Create a table with a vector column, insert some embeddings, and run a similarity query by hand in raw SQL. Understanding retrieval at the SQL level is what separates a backend engineer who does AI from a prompt engineer — and the pay difference between those two is the premium you are chasing.','2.5h'],
+ ['R','2 problems — binary search continued: Find Minimum in Rotated Sorted Array, Search in Rotated Sorted Array.','1h'],
+ ['M','8 applications, logged. Running total 40.','45m']
+]},
+{d:10, t:[
+ ['P','Scaffold Project 1 properly — treat it as production code from commit one. Package by feature, not by layer. Real README from the start. Conventional commit messages. A recruiter or engineer will read this repository; make the commit history part of the argument.','2h'],
+ ['P','Build the ingestion pipeline: upload a PDF, parse it, chunk with overlap, embed each chunk, store in pgvector. Use your own documents — your training decks and MCQ banks are a perfect corpus, and using real material you know well makes retrieval quality obvious to you.','3h'],
+ ['R','3 problems — linked lists: Reverse Linked List, Merge Two Sorted Lists, Linked List Cycle.','1.5h'],
+ ['B','Long walk, two extension sets, gym. Seventh straight day of desk load — take the movement seriously.','1h']
+]},
+{d:11, tag:'REFERRAL CAMPAIGN OPENS', t:[
+ ['M','Referral batch 1. Message 10 of the connections who accepted last week, using the referral script in Section 08. Each message names a specific role and job ID, includes the live project link, and gives them a graceful way to say no. Log every one with the date.','1.5h'],
+ ['P','Retrieval endpoint: query in, embed it, top-k similarity search, build the prompt with retrieved context, return an answer with citations back to the source chunk. Citations matter — an answer you cannot trace is a demo, not a system.','2h'],
+ ['B','Rest. Plan the week. Time with Shivani and family — 90 days of absence has a cost and pretending otherwise is how plans collapse in week six.','—']
+]},
+{d:12, t:[
+ ['A','Chunking strategies. Implement fixed-size and recursive chunking, run both over the same documents, and compare what comes back for ten real questions. Write down what you observed. Almost nobody can speak concretely about chunking trade-offs, and it is the first question a serious AI interviewer asks.','2h'],
+ ['R','2 problems — trees: Invert Binary Tree, Maximum Depth of Binary Tree.','1h'],
+ ['M','8 applications plus follow-ups on anything older than 7 days. One polite follow-up per application, then let it go.','1h']
+]},
+{d:13, tag:'THE RARE ONE', t:[
+ ['A','Build an evaluation harness. Write 30 golden questions over your own documents with known correct answers, then measure retrieval hit rate and answer faithfulness automatically. This is the single most senior-signalling thing in the entire project, because almost every candidate builds a RAG demo and essentially none of them can tell you whether it actually works. Being able to say "retrieval hit rate went from 0.61 to 0.84 when I added reranking" ends the conversation in your favour.','3h'],
+ ['R','2 problems — trees: Same Tree, Subtree of Another Tree.','1h']
+]},
+{d:14, tag:'WEEK 2 REVIEW', t:[
+ ['R','2 problems — trees: Lowest Common Ancestor in a BST, Binary Tree Level Order Traversal.','1h'],
+ ['P','Add hybrid search: combine vector similarity with PostgreSQL full-text search, then rerank the merged results. Measure the change against your 30-question golden set and record the before and after numbers in the README.','3h'],
+ ['B','Week 2 retrospective. Applications should be at 56. DSA at roughly 26. Project 1 answering questions over real documents with measurable retrieval quality.','30m']
+]},
+
+/* ===== WEEK 3 ===== */
+{d:15, t:[
+ ['B','Release is tomorrow. Write your handover document before anyone asks for it, and do a final backup of your own artefacts. Ask your reporting manager and two seniors to connect on LinkedIn today, while you are still a current colleague rather than a former one.','1.5h'],
+ ['A','Tool calling. Give the agent two real tools — one that does arithmetic and one that queries your database — and trace the full loop: model decides, tool executes, result returns, model responds. Understanding this loop is what "agentic" actually means underneath the marketing.','2.5h'],
+ ['R','2 problems — trees and tries: Validate BST, Implement Trie.','1h']
+]},
+{d:16, tag:'RELEASE DAY', t:[
+ ['B','Release effective today. Go into RMG deliberately, not passively: message five project managers directly, today, with your one-page achievement summary, asking about openings on higher-billing projects. An internal move to a better-paying allocation costs nothing and forecloses nothing in this plan.','2h'],
+ ['B','Get three things in writing: how long your bench period runs, what the policy is when it ends, and your exact notice period in days. You need the notice-period number for every single recruiter conversation from here on, and "I will have to check" reads as unserious.','1h'],
+ ['R','2 problems — heaps: Kth Largest Element in a Stream, Last Stone Weight.','1h'],
+ ['M','8 applications, logged. Total 64.','45m']
+]},
+{d:17, t:[
+ ['P','Convert the answer endpoint to server-sent-event token streaming. Users will not wait eight seconds for a blank screen, and knowing why streaming matters for perceived latency is a product-sense signal as much as a technical one.','2h'],
+ ['A','Token and cost metering. Record prompt tokens, completion tokens, model name, latency and rupee cost for every single request into Postgres, and expose it on an endpoint. Controlling inference cost at production scale is explicitly what 2026 hiring managers say they now test for, and it is the part hobby projects never have.','3h'],
+ ['R','3 problems — heaps and intervals: K Closest Points to Origin, Merge Intervals, Insert Interval.','1.5h']
+]},
+{d:18, t:[
+ ['M','Referral batch 2 — 10 more messages, new companies. Log every one.','1.5h'],
+ ['R','Write your two deep project stories in STAR form: Project 1, and the 7-service ticketing platform including the cross-service failures you actually debugged. Then say each one out loud in under three minutes, record it, and listen back. You will hate it and you will fix three things immediately.','2h'],
+ ['B','Rest, and plan the week. Do one thing today that has nothing to do with this plan — the people who finish 90-day plans are the ones who kept one day a week that was not about them.','—']
+]},
+{d:19, t:[
+ ['A','Semantic caching. Cache responses by embedding similarity rather than exact string match, so that "what is the refund policy" hits the cache entry for "how do refunds work". Measure the cost reduction against your metering data. This is a genuinely uncommon thing for a one-year engineer to have built.','2.5h'],
+ ['R','2 problems — backtracking: Subsets, Combination Sum.','1h'],
+ ['M','8 applications, logged.','45m']
+]},
+{d:20, t:[
+ ['A','Guardrails and structured output. Force schema-valid JSON responses, validate both input and output, and add basic prompt-injection defences. Then write a short note on what you would do differently if this handled customer data — enterprise interviewers care far more about this than about model choice.','2.5h'],
+ ['R','2 problems — graphs: Number of Islands, Clone Graph. Graphs are the pattern most candidates under-prepare and most interviewers reach for.','1.5h']
+]},
+{d:21, tag:'CHECKPOINT 1', t:[
+ ['R','2 problems — graphs: Pacific Atlantic Water Flow, Course Schedule.','1h'],
+ ['P','Security layer on Project 1: JWT authentication, per-user rate limiting, API keys read from environment variables and never committed. Add a .env.example. A public project with a leaked key in the history is worse than no project.','2.5h'],
+ ['B','Checkpoint 1 review against Section 10. Target: 64+ applications, all three profiles live, 30+ problems solved, Project 1 answering real questions with measured retrieval quality. Be honest, and if applications are what slipped, fix that before anything else — skills can be learned late, a pipeline cannot.','45m']
+]},
+
+/* ===== WEEK 4 ===== */
+{d:22, t:[
+ ['A','Docker properly. Multi-stage Dockerfile for the Spring Boot app with a slim runtime image, plus docker-compose bringing up app, Postgres and Redis together. Anyone should be able to clone and run your project with one command — and if they cannot, they will not.','2.5h'],
+ ['R','2 problems — graphs and advanced: Number of Connected Components, Graph Valid Tree.','1h'],
+ ['M','8 applications, logged. Total 72.','45m']
+]},
+{d:23, t:[
+ ['A','Observability, which is where senior engineers are separated from mid ones. OpenTelemetry plus Micrometer, tracing a full RAG request end to end across ingestion, embedding, retrieval and generation, feeding a Grafana dashboard showing p95 latency, token cost per request and cache hit rate. Screenshot the dashboard — it goes in the README and it is the image that gets you callbacks.','3h'],
+ ['R','2 problems — 1-D dynamic programming begins: Climbing Stairs, Min Cost Climbing Stairs.','1h']
+]},
+{d:24, t:[
+ ['A','Tests that actually impress. JUnit 5 plus Testcontainers so your tests run against a real PostgreSQL instance, and a deterministic fake LLM client so the suite does not cost money or flake. Get meaningful coverage on the core paths. Testcontainers on a résumé signals someone who has worked on a codebase that mattered.','3h'],
+ ['A','GitHub Actions CI: build, test and Docker image push on every commit to main. Put the passing badge at the top of the README. Green badge, public repo, real tests — that combination does more for credibility than any certificate you could buy.','2h'],
+ ['R','3 problems — dynamic programming: House Robber, House Robber II, Longest Palindromic Substring.','1.5h']
+]},
+{d:25, t:[
+ ['M','Referral batch 3 — 10 messages. You should now have roughly 30 outreach messages logged; expect a response rate somewhere in the 15–30% range, which means real conversations are starting about now.','1.5h'],
+ ['M','Résumé v2. Add Project 1 with the actual numbers — retrieval hit rate, cost reduction from caching, p95 latency. Re-upload to Naukri and LinkedIn. Refresh Naukri weekly from here so you keep resurfacing in recruiter searches.','1.5h'],
+ ['B','Rest. Three and a half weeks in, and the machine is running. Look back at the ledger and notice how much exists now that did not exist on 24 September — that recognition is fuel, and you are bad at giving it to yourself.','—']
+]},
+{d:26, tag:'DEPLOY DAY', t:[
+ ['A','Deploy Project 1 to a real public URL — Railway, Render, Fly.io or a small Hetzner or DigitalOcean box. HTTPS, a demo account seeded with sample documents, and it must work for a stranger with zero setup. Budget about ₹500 a month. An imperfect live system beats a perfect local one by an enormous margin, because nobody can interview a localhost URL.','3h'],
+ ['M','8 applications, logged. Total 80.','45m'],
+ ['R','2 problems — dynamic programming: Coin Change, Longest Increasing Subsequence.','1h']
+]},
+{d:27, t:[
+ ['P','Write the README that sells. Architecture diagram, the evaluation numbers, the cost numbers, a 60-second demo GIF at the very top, a "design decisions and why" section, and a short "what I would do differently at 100× scale". Most engineers ship a README that says how to run the build. Yours is the interview happening before the interview.','3h'],
+ ['R','Low-level design begins. SOLID principles with your own Java examples — not definitions copied from a blog, but a class of yours that violated each principle and how you fixed it. At one to three years of experience this round is often weighted more heavily than system design.','1.5h']
+]},
+{d:28, tag:'WEEK 4 REVIEW', t:[
+ ['P','Publish technical post 1 on the hardest problem you solved in Project 1 — semantic caching and what it did to cost, or evaluation-driven retrieval tuning. Post to LinkedIn and dev.to. Java-plus-AI is an underserved niche, which means a competent post gets read and sometimes gets you found.','2.5h'],
+ ['R','Low-level design: Strategy, Factory, Observer and Builder implemented in Java, each in a context where it is genuinely the right choice. Being able to say why you picked a pattern matters more than knowing its name.','1.5h'],
+ ['B','Week 4 retrospective. Project 1 should be live and public. Applications around 80. Problems around 50.','30m']
+]},
+
+/* ===== WEEK 5 ===== */
+{d:29, t:[
+ ['A','Kafka fundamentals, running locally in Docker: topics, partitions, consumer groups, offsets, and what actually happens during a rebalance. Produce and consume from Spring Boot. Kafka appears in a large share of the job descriptions that pay what you want and is reported among the highest-earning individual backend skills.','3h'],
+ ['R','2 problems plus your first full low-level design: design a parking lot, in code, 45 minutes, timed.','2h']
+]},
+{d:30, t:[
+ ['A','Make ingestion asynchronous through Kafka: upload returns immediately, a worker consumes the topic, embeds and stores, and failures land in a dead letter queue. Now you can honestly say you have built event-driven architecture rather than only read about it.','3h'],
+ ['M','8 applications plus a follow-up on every application older than 10 days. Total 88.','1h'],
+ ['R','2 problems — greedy: Maximum Subarray, Jump Game.','1h']
+]},
+{d:31, t:[
+ ['A','Reliability patterns that get asked about constantly and answered badly: idempotency keys, retries with exponential backoff, and the transactional outbox pattern. Implement the outbox in your own code. This is genuinely senior material and having built it at one year of experience is disproportionate signal.','3.5h'],
+ ['R','3 problems plus a second low-level design: design an elevator system, 45 minutes, timed. Say your reasoning out loud as you go — the talking is the skill being tested.','2.5h']
+]},
+{d:32, tag:'FIRST MOCK', t:[
+ ['M','Referral batch 4 — 10 messages.','1.5h'],
+ ['R','Mock interview 1. Book a real one — a paid platform, a senior engineer you know, or a friend with a question list. Core Java plus Spring plus one coding problem. Record it. Watching yourself is unpleasant and is the fastest feedback available anywhere in this plan.','1.5h'],
+ ['B','Rest. Protect this day properly: no laptop, no LeetCode, no refreshing your inbox for recruiter replies. Week five is where the novelty wears off and discipline has to take over, and discipline runs on recovery.','—']
+]},
+{d:33, t:[
+ ['A','Redis beyond "we use it for caching": cache-aside versus write-through, TTL and eviction strategy, distributed locks, and rate limiting implemented in Redis. Wire it into your app for real.','3h'],
+ ['R','2 problems — bit manipulation and maths: Single Number, Number of 1 Bits.','1h'],
+ ['M','8 applications, logged.','45m']
+]},
+{d:34, tag:'WHERE CANDIDATES FOLD', t:[
+ ['A','PostgreSQL performance, which is where most backend candidates collapse and you will not. EXPLAIN ANALYZE until you can read a plan comfortably; B-tree versus GIN versus HNSW and when each applies; find and fix a real N+1 in your own code; understand HikariCP pool sizing. Interviewers love this topic precisely because it cannot be faked.','3h'],
+ ['R','2 problems plus a third low-level design: design a rate limiter, 45 minutes, in code.','2h']
+]},
+{d:35, tag:'WEEK 5 REVIEW', t:[
+ ['R','2 problems — matrix and simulation: Spiral Matrix, Rotate Image.','1h'],
+ ['R','Build your Core Java question bank by writing your own answers to 40 questions: collections internals, equals and hashCode contracts, immutability, string interning, concurrency primitives, JVM memory regions, garbage collection basics, and the modern Java features from Day 6. Written in your own words, not read. Writing is what makes it retrievable under pressure.','3h'],
+ ['B','Week 5 retrospective. Applications around 96. Problems around 62. Kafka, Redis and Postgres tuning done hands-on.','30m']
+]},
+
+/* ===== WEEK 6 ===== */
+{d:36, t:[
+ ['A','Kubernetes from first principles: pods, deployments, services, configmaps, secrets, liveness and readiness probes. Deploy your app to a local kind or minikube cluster. Write plain manifests you fully understand rather than copying a Helm chart you do not.','3.5h'],
+ ['R','2 problems — advanced graphs: Pacific Atlantic revisited, Rotting Oranges.','1h']
+]},
+{d:37, t:[
+ ['A','Kubernetes continued: horizontal pod autoscaling, resource requests and limits, rolling updates and rollback, and how to actually diagnose CrashLoopBackOff and ImagePullBackOff. Break your own deployment on purpose and fix it — that is the story an interviewer wants.','3h'],
+ ['M','8 applications, logged. Total 104.','45m'],
+ ['R','2 problems — trees revisited: Binary Tree Maximum Path Sum, Serialize and Deserialize Binary Tree.','1h']
+]},
+{d:38, t:[
+ ['A','AWS hands-on, explicitly not certification. Deploy the container to ECS Fargate or an EC2 instance, use RDS for Postgres, S3 for document storage, IAM roles rather than hardcoded keys, CloudWatch for logs and Secrets Manager for credentials. Stay inside free tier and set a billing alarm on day one. Having deployed it beats having a badge that says you could.','4h'],
+ ['R','3 problems plus a fourth low-level design: design Splitwise or a food-delivery order flow, 45 minutes.','2.5h']
+]},
+{d:39, t:[
+ ['M','Referral batch 5, plus one polite re-ping to anyone who went quiet. Once only — a second chase costs you the relationship.','1.5h'],
+ ['R','High-level system design begins, and the framework matters more than any single answer: requirements, then scale estimation, then API surface, then data model, then the high-level diagram, then deep dive and name your own bottlenecks. Practise the whole frame on a URL shortener.','2h'],
+ ['B','Rest. Halfway through the build phase. Check in with Shivani and your parents about how the next six weeks look, so the interview scheduling does not collide with everything else in your life.','—']
+]},
+{d:40, t:[
+ ['R','System design building blocks in your own words: caching layers and invalidation, load balancing strategies, CAP in practice, consistency models, sharding versus partitioning, replication and read replicas. Notes you wrote, not a video you watched.','2.5h'],
+ ['M','8 applications, logged.','45m'],
+ ['R','2 problems — maintain the daily habit even on heavy design days.','1h']
+]},
+{d:41, t:[
+ ['R','Two timed system design problems, 40 minutes each, spoken aloud at a whiteboard or on paper: design a news feed, then design a chat system. Record yourself on the second one. Your unfair advantage here is that you have actually built and debugged a seven-service system — speak from that rather than from a course.','3h'],
+ ['R','2 problems.','1h']
+]},
+{d:42, tag:'CHECKPOINT 2', t:[
+ ['R','2 problems.','1h'],
+ ['R','Spring and microservices question bank: 40 written answers on IoC and bean lifecycle, bean scopes, transaction propagation including what REQUIRES_NEW does inside a failing outer transaction, AOP, circuit breakers, the saga pattern, service discovery, centralised config, and API gateways. The transaction propagation question in particular is one almost nobody answers cleanly.','3h'],
+ ['B','Checkpoint 2 review. The test: at least two first-round interviews completed. If zero after 100+ applications, the problem is the résumé or your targeting — get three engineers outside TCS to tear it apart before sending another one.','45m']
+]},
+
+/* ===== WEEK 7 ===== */
+{d:43, tag:'FLAGSHIP 2', t:[
+ ['P','AnimaFlow audit. Run the 27-step suite, then list precisely what stands between today and a public launch that can take money. Time-box every remaining item. You are roughly 70% done on a real SaaS — finishing something that already exists is far cheaper than starting something new, and a product that can accept a payment is a different category of evidence from a demo.','2h'],
+ ['R','2 problems plus one low-level design, timed.','2h'],
+ ['M','8 applications, logged. Total 112.','45m']
+]},
+{d:44, t:[
+ ['P','AnimaFlow — close the single highest-risk remaining integration. Pick the one you have been avoiding; it is almost certainly the one that matters.','3.5h'],
+ ['R','2 problems.','1h']
+]},
+{d:45, t:[
+ ['P','AnimaFlow — get payments working end to end, test mode first and then live. Take one real payment, even ₹10 from your own card, so you can say the words "it has processed real transactions" without qualification.','4h'],
+ ['R','3 problems plus one timed system design.','2.5h']
+]},
+{d:46, t:[
+ ['M','Referral batch 6 — 10 messages.','1.5h'],
+ ['R','Mock interview 2, full loop simulation: coding, then low-level design, then behavioural, back to back with no breaks. Fatigue across a loop is a real variable that almost nobody trains for and it is why strong candidates fail the fourth round.','2h'],
+ ['B','Rest. Two flagships nearly live, seven weeks down. If you are tempted to work today, reread the back protocol instead — the plan is designed to be finished, not survived.','—']
+]},
+{d:47, t:[
+ ['P','Deploy AnimaFlow with monitoring, plus a landing page that explains what it does in ten seconds. Two live products with public URLs at 22 puts you in a very small group.','3.5h'],
+ ['M','8 applications, logged.','45m'],
+ ['R','2 problems.','1h']
+]},
+{d:48, t:[
+ ['R','Write eight behavioural stories in STAR form: hardest bug, a conflict, teaching something difficult, a failure, taking ownership, disagreeing with someone senior, a tight deadline, and handling ambiguity. You have unusually strong raw material — solo-delivering five curricula, interviewing candidates, shipping AnimaFlow alone, and handling the stolen-laptop matter properly end to end.','3h'],
+ ['R','2 problems.','1h']
+]},
+{d:49, tag:'WEEK 7 REVIEW', t:[
+ ['R','2 problems.','1h'],
+ ['R','Script and rehearse the "why are you leaving TCS" answer using Section 08. Say it out loud ten times until it sounds like you. Rules: no mention of the refused raise, no manager named, no trace of grievance. This question decides more offers than any coding round.','1.5h'],
+ ['M','Résumé v3, and split it into three versions: backend-weighted, AI-weighted, and balanced. Send whichever matches the job description. Ten minutes of work that measurably changes response rate.','1.5h'],
+ ['B','Week 7 retrospective. Two flagships live. Applications around 120. Problems around 90.','30m']
+]},
+
+/* ===== WEEK 8 ===== */
+{d:50, t:[
+ ['R','Coding under contest conditions: 3 problems in 75 minutes, no hints, no breaks. Online assessments are a throughput test and throughput has to be trained separately from correctness.','1.5h'],
+ ['R','Design your own Project 1 at 1000× scale — millions of documents, thousands of concurrent users. Interviewers ask this about your own project constantly, and having the real answer ready is the easiest strong impression available to you.','2.5h'],
+ ['M','8 applications, logged. Total 128.','45m']
+]},
+{d:51, t:[
+ ['R','Timed low-level design: a notification service, in code, 60 minutes. Multiple channels, retries, templating, user preferences.','2h'],
+ ['R','2 problems — dynamic programming, 2-D: Unique Paths, Longest Common Subsequence.','1.5h'],
+ ['M','Ledger hygiene and follow-ups. Every live process should have a named next action with a date against it.','45m']
+]},
+{d:52, t:[
+ ['R','Dynamic programming block: 0/1 knapsack, Word Break, Decode Ways. DP appears less often than people fear but folding completely on it is fatal when it does.','3h'],
+ ['R','Mock interview 3 — system design specifically, with someone more senior than you.','1.5h'],
+ ['P','Make one real open-source contribution: a pull request to Spring AI, LangChain4j, or any library you actually used this quarter. Documentation fixes count. A merged PR in a recognised repository is disproportionate credibility for a one-year engineer.','2h']
+]},
+{d:53, t:[
+ ['M','Referral batch 7. Also post Project 1 properly on LinkedIn: the architecture, the real numbers, what broke and what you learned. Write it well and do not tag anyone — good technical writing travels on its own.','2h'],
+ ['B','Rest, and an honest back check. You are eight weeks into heavy desk load. If the pain has returned, book physiotherapy this week rather than pushing through — this is the failure mode that ends careers rather than plans.','—']
+]},
+{d:54, t:[
+ ['R','2 problems plus targeted drilling on whichever pattern you keep failing. Your notes file tells you which one; do not guess.','2h'],
+ ['A','Concurrency for interviews: synchronized versus explicit locks, CompletableFuture composition, ExecutorService sizing, a race condition you can describe from your own code, and virtual threads revisited now that you have measured them. Depth here reads as seniority faster than almost anything else.','2.5h'],
+ ['M','8 applications, logged.','45m']
+]},
+{d:55, t:[
+ ['R','Two timed system designs, 45 minutes each: a distributed rate limiter, then a payment system with idempotency. Name your own bottlenecks before the interviewer does — doing that is the single clearest seniority signal in the round.','3h'],
+ ['R','2 problems.','1h']
+]},
+{d:56, tag:'WEEK 8 REVIEW', t:[
+ ['R','2 problems.','1h'],
+ ['M','Direct recruiter outreach: 15 in-house technical recruiters at target companies, using the script in Section 08. Recruiters are measured on filled requisitions, so a message that hands them stack, experience, notice period, expectation and location in one go is a gift rather than an imposition.','2h'],
+ ['B','Week 8 retrospective. Applications around 136. Problems around 110. Three mocks done.','30m']
+]},
+
+/* ===== WEEK 9 ===== */
+{d:57, t:[
+ ['M','Compensation research, properly. Build a real benchmark table for your exact target roles and cities using levels.fyi, AmbitionBox, Glassdoor, Blind and every number a recruiter has quoted you so far. You cannot negotiate a number you have not researched, and "I read it somewhere" collapses instantly under a follow-up question.','2.5h'],
+ ['R','2 problems.','1h']
+]},
+{d:58, tag:'LEARN THE MONEY', t:[
+ ['M','Learn Indian CTC anatomy until you can compute it cold: fixed versus variable, basic, HRA, PF, gratuity, joining bonus, retention bonus, and ESOPs including strike price, vesting schedule and cliff. Then calculate the actual monthly in-hand on a hypothetical ₹16L offer. Your in-hand typically runs 20–30% below the headline, and two offers with identical CTC can differ substantially in what reaches your account.','2.5h'],
+ ['R','2 problems plus one low-level design.','2h']
+]},
+{d:59, tag:'REHEARSE THE MONEY', t:[
+ ['R','Rehearse every negotiation script in Section 08 out loud, ten times each, including the hardest one: "your current CTC is ₹3.4L, why would we pay ₹14L?" Practise stopping after your number and letting the silence sit. Filling your own silence is how candidates negotiate against themselves.','2h'],
+ ['R','Mock interview 4 — full loop, hardest you can arrange.','2h'],
+ ['R','3 problems.','1.5h']
+]},
+{d:60, tag:'DAY 60 AUDIT', t:[
+ ['M','Referral batch 8.','1.5h'],
+ ['M','Day 60 audit, brutally honest. Zero interviews by now means the document or the targeting is wrong, not the market — get three engineers outside TCS to tear the résumé apart and check you are not only applying to senior requisitions. Interviews but no second rounds means interview performance, so book paid mocks. Second rounds but no offers means you are close, and it is usually the behavioural round or the salary conversation.','2h'],
+ ['B','Rest. Day 60 is the psychological low point of any long plan: the work is done, the offer is not in yet, and nothing feels like it is moving. It is moving. Interview loops take four to six weeks and you started them in week one.','—']
+]},
+{d:61, t:[
+ ['R','2 problems plus drilling on your weakest pattern.','2h'],
+ ['A','Close the single biggest remaining technical gap on your own honest list. You know what it is. Not a new topic — the one you have been avoiding.','2.5h'],
+ ['M','8 applications, logged. Total 144.','45m']
+]},
+{d:62, t:[
+ ['R','Two timed system designs: design a search autocomplete, then design a metrics and monitoring system.','3h'],
+ ['R','2 problems.','1h']
+]},
+{d:63, tag:'CHECKPOINT 3', t:[
+ ['P','Publish technical post 2: what it is actually like building agentic services in Java rather than Python. This niche is underserved, which is exactly why it gets read — and being findable is how inbound opportunities start arriving without you applying.','2.5h'],
+ ['R','2 problems.','1h'],
+ ['B','Checkpoint 3 review. Project 1 deployed and public, and at least one late-stage process live. If the project is still not deployed, stop adding features today and ship what exists. If loops keep stalling at the technical round, book three paid mocks in the next ten days — it is the highest-return money in this plan.','45m']
+]},
+
+/* ===== WEEK 10 ===== */
+{d:64, t:[
+ ['M','Chase every live process and get actual dates. Ask each recruiter directly: what rounds remain, who conducts them, and what is the expected timeline? Recruiters answer this readily and almost no candidate asks.','1.5h'],
+ ['R','2 problems plus one low-level design.','2h'],
+ ['A','Read the job description of every company you are live with and close the specific gaps each one names. If three of them mention GraphQL, spend an evening on GraphQL. Targeted beats general at this stage.','1.5h']
+]},
+{d:65, t:[
+ ['R','Company-specific preparation for your top three live processes: read their engineering blog, use their product properly, and read interview reports on Glassdoor and LeetCode discuss. Prepare two specific questions per company that prove you looked. This converts more offers than another twenty DSA problems.','3h'],
+ ['R','2 problems.','1h']
+]},
+{d:66, t:[
+ ['R','Mock interview 5 — the hardest one you can arrange, ideally with an engineer from a company in your target bucket.','2h'],
+ ['R','3 problems plus one timed system design.','2.5h'],
+ ['P','Polish both repositories: pinned on your GitHub profile, a profile README that positions you in three lines, clean commit history, working links everywhere. Someone is going to look at this on their phone between meetings.','1.5h']
+]},
+{d:67, t:[
+ ['M','Referral batch 9, plus thank every single person who helped you — whether their referral worked or not. This is the network that gets you the ₹40L role in 2029, and the only cost of maintaining it is remembering to say thank you.','1.5h'],
+ ['B','Rest, and an honest energy check. If you are running on empty, cut something this week rather than collapsing next week. Ten weeks is where most 90-day plans die.','—']
+]},
+{d:68, t:[
+ ['R','2 problems plus weak-pattern drilling.','2h'],
+ ['M','8 applications. Keep the pipeline full while interviewing — especially while interviewing. The moment it empties you lose the ability to walk away, and that ability is the whole of your negotiating power.','45m'],
+ ['A','Gap closing on whatever the live job descriptions keep naming.','2h']
+]},
+{d:69, t:[
+ ['R','Full-loop dry run, alone and back to back: 45 minutes coding, 45 minutes low-level design, 45 minutes system design, 30 minutes behavioural. No breaks. You are training endurance, not knowledge — the fourth round is where prepared candidates lose.','3h'],
+ ['R','2 problems.','1h']
+]},
+{d:70, tag:'WEEK 10 REVIEW', t:[
+ ['R','2 problems.','1h'],
+ ['M','Get your references ready: three people who will vouch for you, asked in advance, each briefed on what you would like emphasised. Being asked for references cold, and scrambling, has cost people offers at the final step.','1.5h'],
+ ['B','Week 10 retrospective. Applications around 152. Problems around 140. Five mocks done. Late-stage processes live.','30m']
+]},
+
+/* ===== WEEK 11 ===== */
+{d:71, t:[
+ ['M','Build the offer comparison sheet before you have offers, so you judge them on criteria you set while calm rather than criteria you invent while excited. Columns: fixed pay, variable, ESOP value at a realistic outcome, actual monthly in-hand, learning value, manager quality, tech stack, remote policy, and city cost of living.','2h'],
+ ['R','2 problems plus live interview rounds.','2h']
+]},
+{d:72, t:[
+ ['M','If an offer arrives: do not accept on the call. The words are "thank you, I am genuinely excited — please send the written break-up and I will come back within 48 hours." Accepting verbally forfeits the only moment the number is actually movable.','30m'],
+ ['R','Preparation for remaining loops.','3h']
+]},
+{d:73, tag:'NEGOTIATE', t:[
+ ['M','Run the negotiation using the script in Section 08. Enthusiasm first, then one number, then one reason, then silence. Anchor on market data and the scope of the role, never on your current CTC. Ask in a planned order: fixed pay, then joining bonus, then an early review at six months.','2h'],
+ ['R','3 problems — do not let the habit lapse just because offers are moving.','1.5h'],
+ ['P','Keep shipping. A product you improved this week is a live talking point in a final round, and it signals that you build because you build, not because you are job-hunting.','2h']
+]},
+{d:74, t:[
+ ['M','Create honest urgency across every live process using the timing script, so offers land in the same week rather than a month apart. Parallel offers are the only real leverage in a salary negotiation, and they are worth several lakh. Only say it if it is true — recruiters in the same city talk.','1.5h'],
+ ['B','Rest, even now — especially now. Negotiation goes badly when you are exhausted and desperate, and well when you are rested and genuinely willing to walk away.','—']
+]},
+{d:75, t:[
+ ['M','6 applications. Yes, still. A full pipeline is what lets you say no, and saying no is what makes the number move.','45m'],
+ ['R','Live interviews plus 2 problems.','2.5h']
+]},
+{d:76, t:[
+ ['R','Live interviews and targeted preparation.','3h'],
+ ['M','Second negotiation round if applicable. Get every agreed change in writing before you sign anything — verbal promises about a six-month review have a way of evaporating.','1h']
+]},
+{d:77, tag:'WEEK 11 REVIEW', t:[
+ ['R','2 problems plus live rounds.','2.5h'],
+ ['B','Week 11 retrospective. Where are the offers, what is each worth on the comparison sheet, and what is the deadline on each one?','30m']
+]},
+
+/* ===== WEEK 12 ===== */
+{d:78, t:[
+ ['M','Score every offer on the comparison sheet. At 22, weight learning, manager quality and tech stack heavily — the jump after this one is worth far more than the last ₹2 lakh of this one, and it comes from what you will be allowed to build.','2h'],
+ ['R','Continue any live loops.','2h']
+]},
+{d:79, t:[
+ ['M','Backchannel your top choice: message two current engineers there and ask what they would change about the team. Ten minutes that can save you two years, and people answer this question honestly far more often than you would expect.','1.5h'],
+ ['R','2 problems.','1h']
+]},
+{d:80, tag:'DECIDE', t:[
+ ['M','Decide, and write down the decision with the reasoning and the date. The reason to write it is that in March, when a bad week makes you doubt it, you will be able to read what you decided and why instead of re-running the whole deliberation from zero.','1.5h'],
+ ['P','Ship one more improvement to a project.','2h'],
+ ['B','Long walk. Back work. This has been eleven hard weeks.','1h']
+]},
+{d:81, t:[
+ ['B','Rest properly. You have earned it.','—'],
+ ['M','Draft the resignation email: factual, grateful, short, no grievance. One paragraph of thanks, one line of notice, one offer to hand over cleanly.','45m']
+]},
+{d:82, t:[
+ ['M','Accept in writing. Confirm the joining date, how they will handle your notice period, and whether they will buy it out if TCS will not release you early. Get all of it in the letter rather than in an email thread.','1.5h'],
+ ['B','Understand your exit mechanics properly: notice period, any service agreement obligations, relieving letter, full and final settlement, PF transfer versus withdrawal, and Form 16. A messy exit follows you into background verification at the new job.','2h']
+]},
+{d:83, tag:'RESIGN', t:[
+ ['B','Resign, professionally. Your TCS network is a twenty-year asset and people remember exactly how you left. Say thank you and mean it — that role taught you to teach, and it handed you a production codebase at 22.','1h'],
+ ['M','Withdraw politely from the other live processes, and tell them honestly why. They will remember you as considerate, and some of them will be hiring again when you are looking in 2029.','45m']
+]},
+{d:84, tag:'WEEK 12 REVIEW', t:[
+ ['B','Draft your handover plan before anyone asks for it. Doing this unprompted is the single cheapest way to leave a reputation behind you.','1.5h'],
+ ['B','Week 12 retrospective. Offer signed, notice served, exit in motion.','30m']
+]},
+
+/* ===== WEEK 13 ===== */
+{d:85, t:[
+ ['A','Do not stop learning the day you sign — that is how the second jump gets delayed by two years. Pick your next depth area now: distributed systems, or ML systems engineering. One hour a day, permanently, starting today.','1.5h'],
+ ['B','Build the money system before the money arrives. Automatic allocation from day one: six months of expenses as an emergency fund first, then index investing, then everything else. Lifestyle inflation is how people go from ₹3.4L to ₹15L and remain just as broke, and it happens in the first three months.','2h']
+]},
+{d:86, t:[
+ ['M','Thank every person who referred you, mocked you, or reviewed your résumé — individually, not in a broadcast post. This is the network that produces your next role, and almost nobody does this step.','1.5h'],
+ ['A','Study your new company: their stack, their engineering blog, their codebase conventions if public. Arriving already oriented is how you get the good projects in month one instead of month six, and the projects you get decide your next raise.','2h']
+]},
+{d:87, t:[
+ ['P','Publish technical post 3: how you went from a services band to a multiple of it in 90 days, specifically and honestly, including what did not work. This becomes an inbound magnet, costs nothing, and will be read by people who are exactly where you were in September.','2.5h'],
+ ['B','Proper training session. Physiotherapy if the back needs it. You have a long career to protect and you are 22.','1.5h']
+]},
+{d:88, t:[
+ ['B','Rest. See Shivani, see your parents, be in Nadiad properly. They carried ninety days of your absence and that deserves acknowledging rather than just ending.','—']
+]},
+{d:89, t:[
+ ['M','Write the next 90-day plan, from your new salary to the next multiple. The compounding comes entirely from never letting the plan lapse — the gap between people who earn ₹15L at 23 and ₹50L at 28 is almost never talent, it is whether they kept a plan running.','2.5h'],
+ ['A','Continue the depth study. One hour, every day, forever.','1h']
+]},
+{d:90, tag:'DAY NINETY', t:[
+ ['B','Final review, filled in with real numbers: offers received, final CTC, multiple achieved on ₹3.4L, skills added, projects shipped, problems solved, applications sent, people met. Write it down. You will want the evidence the next time something feels impossible.','1.5h'],
+ ['M','Set your Day 180 and Day 365 targets with actual dates against them. Then close this file and open the next one.','1h'],
+ ['B','Celebrate properly, with the people who put up with this. Then get back to work — being 22 with a tripled salary and real momentum is a rare position, and momentum is perishable.','—']
+]}
+];
+
+
+/* ---------- THE ARSENAL ---------- */
+const SKILLS = [
+{id:'S01', n:'Java 21 — off Java 8, permanently', pr:'must', days:'Days 2, 5, 6, 54',
+ what:'You almost certainly write Java 8 habits. Interviewers detect this in about two minutes and it silently marks you as a services-firm engineer, which is exactly the label costing you money.',
+ scope:['Records for DTOs and value types','Sealed interfaces and closed hierarchies','Pattern matching for switch and enhanced instanceof','Text blocks','Virtual threads — and the measured difference against platform threads','Optional used properly rather than as a null wrapper','Streams beyond map and filter: flatMap, collectors, grouping'],
+ proves:'A commit rewriting an old class of yours in modern Java, plus a benchmark showing 10,000 concurrent calls on platform versus virtual threads with real numbers.',
+ pays:'Not a premium on its own — it is the credibility gate. Fail it and nothing else you say lands.'},
+
+{id:'S02', n:'Spring Boot 3.x at depth', pr:'must', days:'Days 5, 7, 42',
+ what:'This is your existing moat. The job is to convert working familiarity into the kind of depth that survives a 45-minute interrogation.',
+ scope:['IoC container, bean lifecycle, bean scopes','Transaction management and propagation — especially REQUIRES_NEW inside a failing outer transaction','AOP and where proxying breaks down','Jakarta namespace migration and what broke','Problem Details for error responses','Configuration, profiles, externalised config','Actuator and built-in Micrometer observability'],
+ proves:'Forty written answers in your own words, not read. Plus the ability to explain a decision in your own codebase and why you took it.',
+ pays:'Your baseline. Every ₹12L+ Java job description assumes all of this.'},
+
+{id:'S03', n:'Spring AI — GenAI without leaving the JVM', pr:'edge', days:'Days 8, 15, 19, 20',
+ what:'The highest-leverage single item in this document. Between May and July 2026 the Java AI stack settled: Spring AI reached 2.0 GA, LangChain4j shipped agent support, the AgentCore SDK went GA. Meanwhile nearly everyone chasing the AI premium is doing it in Python, and nearly every enterprise that needs AI in production runs on the JVM.',
+ scope:['ChatClient and the Advisors API','Prompt templating and versioning','Structured and schema-validated output','Tool and function calling','Chat memory and conversation state','Model routing and fallback between providers','LangChain4j as the alternative — know why you chose one'],
+ proves:'A deployed Spring Boot service doing real retrieval-augmented generation and agentic tool use, with a public URL anyone can try.',
+ pays:'This is the item that unlocks the reported 25–40% AI premium without abandoning the stack you already know. Almost nobody in the Indian market currently sits at this intersection.'},
+
+{id:'S04', n:'RAG engineering, properly', pr:'edge', days:'Days 9, 10, 11, 12, 14',
+ what:'Everyone builds a RAG demo. The difference between a demo and engineering is whether you can explain and measure your retrieval choices.',
+ scope:['Embedding models and dimensionality trade-offs','Chunking: fixed, recursive, semantic — and measured differences','Vector storage in pgvector, with HNSW indexing','Hybrid search: vector similarity plus full-text, merged','Reranking, and what it buys you','Citation and traceability back to source chunks','Context window budgeting'],
+ proves:'Before-and-after retrieval metrics on a golden question set, documented in your README with the actual numbers.',
+ pays:'The single most requested skill in GenAI job descriptions in India right now, and the one most candidates can only discuss superficially.'},
+
+{id:'S05', n:'Agents and tool calling', pr:'edge', days:'Days 15, 20',
+ what:'"Agentic" is the word in every 2026 job description and the thing almost no candidate has actually built. Underneath the marketing it is a loop: the model decides, a tool executes, the result returns, the model continues.',
+ scope:['The tool-calling loop, traced end to end','Tool schema design and description quality','Multi-step planning and when it fails','Human-in-the-loop approval gates','Audit trails for every agent action','MCP — what it is and why stateless matters','Failure modes: loops, hallucinated tool arguments, runaway cost'],
+ proves:'An agent in your service with at least two real tools, one of which touches your database, plus a written note on how you stopped it looping.',
+ pays:'Reported as the thing hiring managers now specifically test for, rather than framework familiarity.'},
+
+{id:'S06', n:'Evaluation and inference cost control', pr:'edge', days:'Days 13, 17, 19',
+ what:'The rarest item on this list, and therefore the most valuable per hour spent. Essentially every candidate builds something that produces plausible output. Almost none can tell you whether it is correct, or what it costs per thousand requests.',
+ scope:['Golden datasets and regression testing for AI output','Retrieval hit rate and answer faithfulness as measured numbers','Per-request token accounting: prompt, completion, model, latency, rupee cost','Semantic caching by embedding similarity rather than exact match','Model routing for cost — cheap model first, escalate when needed','Prompt-injection defences and output validation'],
+ proves:'A dashboard showing cost per request and cache hit rate, and a sentence like "retrieval hit rate went from 0.61 to 0.84 after adding reranking, and semantic caching cut spend 43%."',
+ pays:'This is what turns "I built a chatbot" into "I own a production AI system." It is the difference between the ₹8L end and the ₹18L end of the reported entry range.'},
+
+{id:'S07', n:'PostgreSQL — including the part that hurts', pr:'must', days:'Days 9, 34',
+ what:'Where most backend candidates collapse. It cannot be faked, which is precisely why interviewers reach for it.',
+ scope:['EXPLAIN ANALYZE until you can read a plan without thinking','B-tree, GIN and HNSW indexes and when each applies','Finding and killing an N+1 in your own code','Connection pooling and HikariCP sizing','Transaction isolation levels and what each actually prevents','pgvector for similarity search','Joins, window functions, and query rewriting'],
+ proves:'A specific N+1 you found in your project, the query plan before and after, and the latency difference.',
+ pays:'Answering this round well can single-handedly move you up a level band, because the interviewer has watched five candidates fail it that week.'},
+
+{id:'S08', n:'Kafka and event-driven architecture', pr:'must', days:'Days 29, 30, 31',
+ what:'Appears in a large share of the job descriptions paying what you want, and reported as one of the highest-earning individual backend skills.',
+ scope:['Topics, partitions, consumer groups, offsets, rebalancing','Producing and consuming from Spring Boot','Dead letter queues and poison messages','Idempotency keys and exactly-once semantics in practice','Retries with exponential backoff','The transactional outbox pattern','When a queue is the wrong answer'],
+ proves:'Asynchronous ingestion in your own project running through Kafka, with a dead letter queue and an outbox implementation.',
+ pays:'Moves you from "CRUD developer" to "distributed systems engineer" in the reader\'s mind, which is a band difference.'},
+
+{id:'S09', n:'Redis beyond "we cache things"', pr:'must', days:'Day 33',
+ what:'Easy to claim, easy to expose. Know the patterns, not just the commands.',
+ scope:['Cache-aside versus write-through versus write-behind','TTL and eviction policy choices','Cache invalidation — the actual hard part','Distributed locks and their failure modes','Rate limiting implemented in Redis','Data structure choice: strings, hashes, sorted sets'],
+ proves:'Caching and rate limiting wired into your live service, with a measured cache hit rate on the dashboard.',
+ pays:'Table stakes for any backend role above ₹12L.'},
+
+{id:'S10', n:'Docker and Kubernetes', pr:'must', days:'Days 22, 36, 37',
+ what:'Named in almost every backend job description in India. You need genuine working comfort, not a certificate.',
+ scope:['Multi-stage Dockerfiles and slim runtime images','docker-compose for a full local stack','Pods, deployments, services, configmaps, secrets','Liveness and readiness probes','Resource requests and limits','Horizontal pod autoscaling','Rolling updates and rollback','Diagnosing CrashLoopBackOff and ImagePullBackOff from scratch'],
+ proves:'One-command local startup for your project, plus manifests you wrote and understand, plus a story about a deployment you broke deliberately and fixed.',
+ pays:'Not a premium — an absence disqualifier. Missing it removes you from consideration silently.'},
+
+{id:'S11', n:'AWS, hands-on and not certified', pr:'must', days:'Day 38',
+ what:'Use the services. Do not study for the exam. A deployed system beats a badge in every interview you will sit, and the exam costs weeks you do not have.',
+ scope:['ECS Fargate or EC2 for compute','RDS for managed Postgres','S3 for object storage','IAM roles rather than hardcoded credentials','Secrets Manager','CloudWatch logs and alarms','VPC basics and security groups','A billing alarm, set on day one'],
+ proves:'Your project running on real AWS infrastructure with IAM roles and no keys in the repository.',
+ pays:'Cloud experience is assumed at this band. "I have used AWS in a personal project and here is the URL" is an entirely adequate answer at one year.'},
+
+{id:'S12', n:'Observability', pr:'edge', days:'Day 23',
+ what:'The clearest available signal that you have thought about production rather than only about features — and it is the thing least likely to be on a competing candidate\'s résumé.',
+ scope:['OpenTelemetry tracing across service boundaries','Micrometer metrics from Spring Boot','Prometheus scraping and Grafana dashboards','Structured logging with correlation IDs','p50, p95 and p99 latency and why the mean is a lie','Alerting thresholds that do not cry wolf'],
+ proves:'A Grafana screenshot in your README showing p95 latency, token cost per request and cache hit rate. This single image gets callbacks.',
+ pays:'Reads as one to two years more senior than your tenure, which is exactly the arbitrage you are running.'},
+
+{id:'S13', n:'Testing that signals real codebases', pr:'must', days:'Day 24',
+ what:'Everybody claims tests. Testcontainers specifically signals someone who has worked on a codebase that mattered.',
+ scope:['JUnit 5 and meaningful assertions','Mockito, and knowing when not to mock','Testcontainers for real Postgres, Kafka and Redis in tests','A deterministic fake LLM client so the suite is free and stable','Integration tests through the real HTTP layer','GitHub Actions running the suite on every commit'],
+ proves:'A green CI badge on a public repository with tests that genuinely exercise the system, not just the getters.',
+ pays:'Strongly correlated with the engineering quality bar of the companies that pay well.'},
+
+{id:'S14', n:'Interview capability as a trained skill', pr:'must', days:'Every day, Days 1–70',
+ what:'The gating function on all of the above. The market does not pay for what you know; it pays for what you can demonstrate inside 45 minutes under observation, which is a separate skill that has to be trained separately.',
+ scope:['~150 DSA problems across the standard patterns, with your own pattern notes','Low-level design: SOLID, patterns, five problems solved timed','High-level design: the six-step frame, eight problems practised aloud','Core Java question bank — 40 written answers','Spring and microservices bank — 40 written answers','Eight behavioural stories in STAR form','Five mock interviews with recorded playback','Endurance for a four-round loop'],
+ proves:'Offers. It is the only proof that counts here.',
+ pays:'Everything. Two candidates with identical skill and different interview training get offers that differ by lakhs.'}
+];
+
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+const KEY = 'p90.purvam.v1';
+let done = {};
+try { done = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ done = {}; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){} }
+
+let filter = 'all';
+let hideDone = false;
+
+/* ---- today ---- */
+function todayDay(){
+  const now = new Date(); now.setHours(0,0,0,0);
+  const s = new Date(START); s.setHours(0,0,0,0);
+  const n = Math.floor((now - s) / 86400000) + 1;
+  return (n >= 1 && n <= 90) ? n : (n < 1 ? 0 : 91);
+}
+const TD = todayDay();
+
+/* ---- helpers ---- */
+function tid(d, i){ return 'd' + d + 't' + i; }
+function dayTasks(day){
+  return filter === 'all' ? day.t : day.t.filter(x => TRK[x[0]] === filter);
+}
+function totals(){
+  let t = 0, c = 0, dc = 0;
+  DAYS.forEach(day => {
+    const ts = dayTasks(day);
+    if(!ts.length) return;
+    let all = true;
+    day.t.forEach((x, i) => {
+      if(filter !== 'all' && TRK[x[0]] !== filter) return;
+      t++;
+      if(done[tid(day.d, i)]) c++; else all = false;
+    });
+    if(all) dc++;
+  });
+  return {t, c, dc};
+}
+
+/* ---- render arsenal ---- */
+function renderSkills(){
+  const prn = {must:'Non-negotiable', edge:'The edge', plus:'Bonus'};
+  document.getElementById('ars').innerHTML = SKILLS.map(s => `
+    <div class="sk">
+      <div class="sk-h">
+        <span class="sk-id">${s.id}</span>
+        <span class="sk-n">${s.n}</span>
+        <span class="sk-pr p-${s.pr}">${prn[s.pr]}</span>
+        <span class="sk-cr">▸</span>
+      </div>
+      <div class="sk-b">
+        <p>${s.what}</p>
+        <div class="sk-g">
+          <div class="sg"><div class="sg-k">Proves it</div><div class="sg-v">${s.proves}</div></div>
+          <div class="sg"><div class="sg-k">Why it pays</div><div class="sg-v">${s.pays}</div></div>
+          <div class="sg"><div class="sg-k">Covered on</div><div class="sg-v">${s.days}</div></div>
+        </div>
+        <h4 style="margin-top:6px">Exact scope — this and no more</h4>
+        <ul>${s.scope.map(x => `<li>${x}</li>`).join('')}</ul>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('.sk-h').forEach(h =>
+    h.addEventListener('click', () => h.parentElement.classList.toggle('open')));
+}
+
+/* ---- render board ---- */
+function renderBoard(){
+  let html = '';
+  PHASES.forEach(ph => {
+    html += `<div class="phase">
+      <span class="ph-n">${ph.n}</span>
+      <span class="ph-t">${ph.t}</span>
+      <span class="ph-d">Day ${ph.from}–${ph.to} · ${fmt(dateOf(ph.from))} → ${fmt(dateOf(ph.to))}</span>
+      <div class="ph-g">${ph.g}</div>
+    </div>`;
+
+    const wFrom = Math.ceil(ph.from / 7), wTo = Math.ceil(ph.to / 7);
+    for(let w = wFrom; w <= wTo; w++){
+      const ds = DAYS.filter(x => Math.ceil(x.d / 7) === w);
+      if(!ds.length) continue;
+      const visible = ds.filter(x => dayTasks(x).length);
+      if(!visible.length) continue;
+
+      const isNow = TD >= (w-1)*7+1 && TD <= w*7;
+      let inner = '';
+      visible.forEach(day => {
+        const dt = dateOf(day.d);
+        const dw = DW[dt.getDay()];
+        const shown = day.t.map((x,i) => ({x, i})).filter(o => filter === 'all' || TRK[o.x[0]] === filter);
+        const allDone = shown.every(o => done[tid(day.d, o.i)]);
+        if(hideDone && allDone) return;
+        const isToday = day.d === TD;
+
+        inner += `<div class="day${isToday?' today':''}${allDone?' alldone':''}" id="day${day.d}">
+          <div class="day-h">
+            <span class="day-n">Day ${day.d}</span>
+            <span class="day-dt">${fmt(dt)}</span>
+            <span class="day-dw${dw==='Sun'?' sun':''}">${dw}</span>
+            ${isToday ? '<span class="day-tag">Today</span>' : (day.tag ? `<span class="day-tag">${day.tag}</span>` : '')}
+            <span class="day-hr">${shown.filter(o => done[tid(day.d,o.i)]).length}/${shown.length} done</span>
+          </div>
+          <div class="day-b">
+            ${shown.map(o => {
+              const id = tid(day.d, o.i);
+              const dn = !!done[id];
+              return `<label class="task${dn?' done':''}" for="${id}">
+                <input type="checkbox" class="cbx" id="${id}" data-id="${id}" ${dn?'checked':''}>
+                <span class="tk-main">
+                  <span class="tk-tx">${o.x[1]}</span>
+                  <span class="tk-meta">
+                    <span class="trk ${TRK[o.x[0]]}">${TRK[o.x[0]]}</span>
+                    <span class="tk-hr">${o.x[2]}</span>
+                  </span>
+                </span>
+              </label>`;
+            }).join('')}
+          </div>
+        </div>`;
+      });
+
+      let wt = 0, wc = 0;
+      ds.forEach(day => day.t.forEach((x,i) => {
+        if(filter !== 'all' && TRK[x[0]] !== filter) return;
+        wt++; if(done[tid(day.d,i)]) wc++;
+      }));
+      const pct = wt ? Math.round(wc/wt*100) : 0;
+
+      html += `<div class="wk${isNow?' open':''}${pct===100?' done':''}" data-w="${w}">
+        <div class="wk-h">
+          <span class="wk-cr">▸</span>
+          <span class="wk-id">WK ${w}</span>
+          <span class="wk-t">${WEEKS[w] || ''}</span>
+          <span class="wk-dt">${fmt(dateOf((w-1)*7+1))} → ${fmt(dateOf(Math.min(w*7, 90)))}</span>
+          <span class="wk-pw"><span class="wk-pf" style="width:${pct}%"></span></span>
+          <span class="wk-pc">${pct}%</span>
+        </div>
+        <div class="wk-b">${inner || '<p style="padding:14px 4px;color:var(--tx-f);font-size:14px">All tasks in this week are complete.</p>'}</div>
+      </div>`;
+    }
+  });
+
+  document.getElementById('brd').innerHTML = html;
+
+  document.querySelectorAll('.wk-h').forEach(h =>
+    h.addEventListener('click', e => {
+      if(e.target.closest('.cbx')) return;
+      h.parentElement.classList.toggle('open');
+    }));
+
+  document.querySelectorAll('.cbx').forEach(c =>
+    c.addEventListener('change', e => {
+      const id = e.target.dataset.id;
+      if(e.target.checked) done[id] = 1; else delete done[id];
+      save();
+      const lbl = e.target.closest('.task');
+      if(lbl) lbl.classList.toggle('done', e.target.checked);
+      refreshDay(e.target.closest('.day'));
+      refreshWeek(e.target.closest('.wk'));
+      updateStats();
+    }));
+}
+
+/* ---- incremental refresh (no full re-render, so nothing jumps) ---- */
+function refreshDay(el){
+  if(!el) return;
+  const b = [...el.querySelectorAll('.cbx')];
+  const c = b.filter(x => x.checked).length;
+  const hr = el.querySelector('.day-hr');
+  if(hr) hr.textContent = c + '/' + b.length + ' done';
+  const all = b.length > 0 && c === b.length;
+  el.classList.toggle('alldone', all);
+  el.style.display = (hideDone && all) ? 'none' : '';
+}
+function refreshWeek(el){
+  if(!el) return;
+  const b = [...el.querySelectorAll('.cbx')];
+  const pct = b.length ? Math.round(b.filter(x => x.checked).length / b.length * 100) : 0;
+  const pf = el.querySelector('.wk-pf'), pc = el.querySelector('.wk-pc');
+  if(pf) pf.style.width = pct + '%';
+  if(pc) pc.textContent = pct + '%';
+  el.classList.toggle('done', pct === 100);
+}
+
+/* ---- stats ---- */
+function updateStats(){
+  const {t, c, dc} = totals();
+  const pct = t ? Math.round(c/t*100) : 0;
+  const C = 2 * Math.PI * 32;
+  document.getElementById('rgC').setAttribute('stroke-dasharray', C);
+  document.getElementById('rgC').setAttribute('stroke-dashoffset', C - (C * pct / 100));
+  document.getElementById('rgP').textContent = pct + '%';
+  document.getElementById('kTask').innerHTML = c + '<small> / ' + t + '</small>';
+  document.getElementById('kDay').innerHTML = dc + '<small> / ' + DAYS.filter(d => dayTasks(d).length).length + '</small>';
+
+  const kt = document.getElementById('kToday');
+  if(TD === 0) kt.innerHTML = '<small>starts 24 Sep</small>';
+  else if(TD === 91) kt.innerHTML = '<small>plan complete</small>';
+  else kt.innerHTML = 'Day ' + TD;
+
+  const bl = document.getElementById('barLive');
+  if(TD >= 1 && TD <= 90) bl.innerHTML = 'Day <b>' + TD + '</b>/90 · <b>' + pct + '%</b> complete';
+  else if(TD === 0) bl.innerHTML = 'Begins <b>24 Sep 2026</b>';
+  else bl.innerHTML = '<b>' + pct + '%</b> complete';
+}
+
+/* ---- controls ---- */
+document.getElementById('chips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if(!b) return;
+  filter = b.dataset.t;
+  document.querySelectorAll('#chips .chip').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  renderBoard(); updateStats();
+});
+
+document.getElementById('bToday').addEventListener('click', () => {
+  const target = (TD >= 1 && TD <= 90) ? TD : 1;
+  const w = Math.ceil(target / 7);
+  const wk = document.querySelector('.wk[data-w="'+w+'"]');
+  if(wk) wk.classList.add('open');
+  setTimeout(() => {
+    const el = document.getElementById('day' + target);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    else document.getElementById('board').scrollIntoView({behavior:'smooth'});
+  }, 90);
+});
+
+document.getElementById('bHide').addEventListener('click', e => {
+  hideDone = !hideDone;
+  e.target.textContent = hideDone ? 'Show completed' : 'Hide completed';
+  e.target.classList.toggle('pri', hideDone);
+  const openW = [...document.querySelectorAll('.wk.open')].map(x => x.dataset.w);
+  renderBoard();
+  openW.forEach(w => { const el = document.querySelector('.wk[data-w="'+w+'"]'); if(el) el.classList.add('open'); });
+});
+
+document.getElementById('bAll').addEventListener('click', e => {
+  const wks = document.querySelectorAll('.wk');
+  const anyClosed = [...wks].some(w => !w.classList.contains('open'));
+  wks.forEach(w => w.classList.toggle('open', anyClosed));
+  e.target.textContent = anyClosed ? 'Collapse all' : 'Expand all';
+});
+
+document.getElementById('bReset').addEventListener('click', () => {
+  if(!confirm('Clear all progress on all 90 days? This cannot be undone.')) return;
+  done = {}; save();
+  const openW = [...document.querySelectorAll('.wk.open')].map(x => x.dataset.w);
+  renderBoard();
+  openW.forEach(w => { const el = document.querySelector('.wk[data-w="'+w+'"]'); if(el) el.classList.add('open'); });
+  updateStats();
+});
+
+/* ---- copy buttons ---- */
+document.querySelectorAll('.cpy').forEach(b =>
+  b.addEventListener('click', () => {
+    const txt = b.closest('.scr').querySelector('.scr-x').innerText;
+    navigator.clipboard.writeText(txt).then(() => {
+      b.textContent = 'Copied'; b.classList.add('ok');
+      setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('ok'); }, 1600);
+    }).catch(() => { b.textContent = 'Select manually'; });
+  }));
+
+/* ---- scroll progress ---- */
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('sb').style.width = (h > 0 ? (window.scrollY / h * 100) : 0) + '%';
+}, {passive:true});
+
+/* ---- boot ---- */
+renderSkills();
+renderBoard();
+updateStats();
+</script>
+</body>
+</html>
