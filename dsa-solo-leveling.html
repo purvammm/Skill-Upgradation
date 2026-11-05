@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Solo Leveling — 60-Day Java Hunter System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#040912; --bg2:#081324; --panel:rgba(9,22,44,.86); --panel2:rgba(14,32,62,.75);
+  --line:rgba(84,170,255,.38); --line-soft:rgba(84,170,255,.16);
+  --glow:#4fb3ff; --glow2:#8fd3ff; --text:#dbe8f7; --dim:#8ea3bd; --faint:#5d728c;
+  --ok:#3ee59a; --warn:#ffb547; --bad:#ff5468; --violet:#a78bfa;
+  --E:#9aa4b2; --D:#4ade80; --C:#38bdf8; --B:#a78bfa; --A:#fb923c; --S:#f43f5e;
+  --head:'Rajdhani','Segoe UI',system-ui,sans-serif;
+  --body:'Inter','Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.6;min-height:100vh;
+  background-image:radial-gradient(ellipse 70% 45% at 50% -5%,rgba(60,140,255,.16),transparent 70%),
+  radial-gradient(ellipse 50% 40% at 100% 100%,rgba(120,80,255,.08),transparent 70%);background-attachment:fixed}
+a{color:var(--glow2)}
+code{font-family:var(--mono);font-size:.86em;background:rgba(79,179,255,.1);border:1px solid var(--line-soft);padding:1px 5px;border-radius:4px;color:#cfe8ff}
+.wrap{max-width:1180px;margin:0 auto;padding:18px}
+.win{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 0 0 1px rgba(79,179,255,.06) inset,0 0 28px rgba(40,130,255,.12);position:relative}
+.win-title{font-family:var(--head);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--glow2);font-size:13px;padding:10px 16px;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;gap:10px}
+.win-title::before{content:"";width:8px;height:8px;border:1px solid var(--glow);transform:rotate(45deg);box-shadow:0 0 8px var(--glow)}
+.win-body{padding:16px}
+h1,h2,h3{font-family:var(--head);letter-spacing:.04em}
+h2{font-size:26px;color:#fff;margin-bottom:6px}
+h3{font-size:18px;color:var(--glow2);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.1em}
+p{margin:6px 0}
+ul.clean{list-style:none;padding:0}
+ul.clean li{padding:4px 0 4px 20px;position:relative}
+ul.clean li::before{content:"▸";position:absolute;left:2px;color:var(--glow)}
+ol.steps{padding-left:22px}
+ol.steps li{margin:5px 0}
+.muted{color:var(--dim)}
+.small{font-size:13px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+
+/* status */
+.status{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:18px}
+@media(max-width:860px){.status{grid-template-columns:1fr}}
+.lvl{display:flex;align-items:center;gap:16px}
+.lvl-num{font-family:var(--head);font-size:64px;font-weight:700;line-height:1;color:#fff;text-shadow:0 0 18px rgba(79,179,255,.75)}
+.lvl-lab{font-family:var(--head);letter-spacing:.3em;color:var(--dim);font-size:12px}
+.rank{display:inline-block;font-family:var(--head);font-weight:700;font-size:20px;padding:0 10px;border:1px solid currentColor;border-radius:4px;box-shadow:0 0 12px currentColor inset}
+.name-in{background:transparent;border:none;border-bottom:1px dashed var(--line);color:#fff;font-family:var(--head);font-size:22px;font-weight:600;width:100%;max-width:260px;outline:none}
+.bar{height:10px;background:rgba(255,255,255,.06);border:1px solid var(--line-soft);border-radius:6px;overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#2a7fff,var(--glow2));box-shadow:0 0 10px var(--glow);transition:width .4s}
+.stat{display:grid;grid-template-columns:44px 1fr 56px;gap:8px;align-items:center;font-family:var(--head);font-weight:600;font-size:15px;margin:5px 0}
+.stat .bar{height:7px}
+.kv{display:flex;justify-content:space-between;border-bottom:1px solid var(--line-soft);padding:5px 0;font-size:14px}
+.kv b{font-family:var(--head);font-size:17px;color:#fff}
+
+/* tabs */
+.tabs{position:sticky;top:0;z-index:20;background:rgba(4,9,18,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft);margin:16px -18px 18px;padding:8px 18px;display:flex;gap:6px;flex-wrap:wrap}
+.tabs a{font-family:var(--head);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:14px;text-decoration:none;color:var(--dim);padding:6px 12px;border:1px solid transparent;border-radius:5px}
+.tabs a:hover{color:#fff;border-color:var(--line-soft)}
+.tabs a.on{color:#fff;border-color:var(--line);background:rgba(79,179,255,.1);box-shadow:0 0 12px rgba(79,179,255,.2)}
+
+/* buttons */
+.btn{font-family:var(--head);font-weight:600;letter-spacing:.08em;font-size:14px;background:rgba(79,179,255,.08);color:var(--glow2);border:1px solid var(--line);border-radius:5px;padding:5px 12px;cursor:pointer;transition:.15s}
+.btn:hover{background:rgba(79,179,255,.2);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ok{color:var(--ok);border-color:rgba(62,229,154,.5);background:rgba(62,229,154,.08)}
+.btn.warn{color:var(--warn);border-color:rgba(255,181,71,.5);background:rgba(255,181,71,.06)}
+.btn.bad{color:var(--bad);border-color:rgba(255,84,104,.5);background:rgba(255,84,104,.06)}
+.btn.big{font-size:16px;padding:8px 18px}
+select,input[type=text],input[type=date],textarea{background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--text);border-radius:5px;padding:6px 9px;font-family:var(--body);font-size:14px}
+textarea{width:100%;min-height:64px;resize:vertical;font-family:var(--mono);font-size:13px}
+
+/* system messages */
+.sysmsg{border:1px solid var(--line);background:linear-gradient(180deg,rgba(20,50,95,.55),rgba(8,20,40,.6));border-radius:6px;padding:14px 16px;margin:12px 0}
+.sysmsg .tag{font-family:var(--head);font-weight:700;letter-spacing:.25em;color:var(--glow2);font-size:12px}
+.sysmsg.penalty{border-color:rgba(255,84,104,.6);background:linear-gradient(180deg,rgba(95,20,35,.5),rgba(40,8,16,.6))}
+.sysmsg.penalty .tag{color:var(--bad)}
+.quest{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line-soft);font-size:15px}
+.quest .done{color:var(--ok);font-family:var(--head);font-weight:700}
+.quest .todo{color:var(--warn);font-family:var(--head);font-weight:700}
+
+/* gates */
+.phase{margin:22px 0 10px;font-family:var(--head);letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-size:13px;border-bottom:1px solid var(--line-soft);padding-bottom:5px}
+.gate{cursor:pointer;padding:14px;transition:.15s;display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit}
+.gate:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(79,179,255,.25)}
+.gate .gno{font-family:var(--head);letter-spacing:.2em;font-size:12px;color:var(--faint)}
+.gate .gname{font-family:var(--head);font-weight:700;font-size:20px;color:#fff;line-height:1.15}
+.gate .gsub{font-size:13px;color:var(--dim)}
+.gate.cleared{border-color:rgba(62,229,154,.55)}
+.gate.current{border-color:var(--glow);box-shadow:0 0 22px rgba(79,179,255,.35)}
+.pill{font-family:var(--head);font-weight:600;font-size:12px;letter-spacing:.1em;padding:1px 8px;border-radius:20px;border:1px solid currentColor;display:inline-block}
+
+/* problems */
+.prob{border:1px solid var(--line-soft);border-radius:6px;background:var(--panel2);margin:8px 0}
+.prob.solved{border-color:rgba(62,229,154,.45)}
+.prob-h{display:flex;align-items:center;gap:10px;padding:9px 12px;flex-wrap:wrap}
+.chk{width:26px;height:26px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--ok);font-size:16px;cursor:pointer;flex:none}
+.prob.solved .chk{background:rgba(62,229,154,.15);border-color:var(--ok)}
+.ptitle{flex:1;min-width:200px;font-weight:600}
+.ptitle a{color:#fff;text-decoration:none}
+.ptitle a:hover{color:var(--glow2);text-decoration:underline}
+.pnum{font-family:var(--mono);color:var(--faint);font-size:12px;margin-right:6px}
+.dE{color:var(--ok)} .dM{color:var(--warn)} .dH{color:var(--bad)}
+.boss{color:var(--S);border-color:var(--S)} .side{color:var(--violet)}
+.reveal{padding:0 14px 12px 48px;display:none}
+.reveal.open{display:block}
+.reveal .lab{font-family:var(--head);font-weight:700;letter-spacing:.15em;font-size:12px;text-transform:uppercase;margin-top:8px}
+.lab.h{color:var(--glow2)} .lab.a{color:var(--warn)} .lab.j{color:var(--violet)} .lab.n{color:var(--ok)}
+
+/* code */
+pre.code{background:#020610;border:1px solid var(--line-soft);border-radius:6px;padding:14px;overflow:auto;font-family:var(--mono);font-size:13px;line-height:1.55;color:#cfe0f2;position:relative;margin:8px 0}
+pre.code .k{color:#ff7ab6} pre.code .t{color:#7fd8ff} pre.code .s{color:#a5e88f} pre.code .c{color:#5f7894;font-style:italic} pre.code .n{color:#ffc46b}
+.codewrap{position:relative}
+.codewrap .btn{position:absolute;top:8px;right:8px;font-size:12px;padding:2px 8px}
+
+table.t{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+table.t th{font-family:var(--head);letter-spacing:.1em;text-transform:uppercase;font-size:12.5px;color:var(--glow2);text-align:left;border-bottom:1px solid var(--line);padding:7px 8px}
+table.t td{border-bottom:1px solid var(--line-soft);padding:7px 8px;vertical-align:top}
+.scroll{overflow-x:auto}
+
+/* quiz */
+.qopt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;font-family:var(--body);font-size:15px;letter-spacing:0}
+.qopt.right{border-color:var(--ok);color:var(--ok);background:rgba(62,229,154,.1)}
+.qopt.wrong{border-color:var(--bad);color:var(--bad);background:rgba(255,84,104,.08)}
+
+/* overlay + toast */
+.overlay{position:fixed;inset:0;background:rgba(0,4,12,.8);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px)}
+.overlay .win{max-width:440px;width:92%;text-align:center;padding:26px;animation:pop .35s ease}
+.overlay .big{font-family:var(--head);font-size:46px;font-weight:700;color:#fff;text-shadow:0 0 22px var(--glow);letter-spacing:.12em}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+#toasts{position:fixed;right:16px;bottom:16px;z-index:90;display:flex;flex-direction:column;gap:8px;max-width:360px}
+.toast{background:rgba(10,26,52,.96);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:14px;box-shadow:0 0 18px rgba(79,179,255,.3);animation:pop .25s ease}
+.toast b{font-family:var(--head);letter-spacing:.15em;color:var(--glow2)}
+footer{color:var(--faint);font-size:12px;text-align:center;padding:30px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="win" id="status"></header>
+  <nav class="tabs" id="tabs">
+    <a href="#today" data-tab="today">Daily Quest</a>
+    <a href="#gates" data-tab="gates">Gates</a>
+    <a href="#codex" data-tab="codex">Pattern Codex</a>
+    <a href="#arsenal" data-tab="arsenal">Java Arsenal</a>
+    <a href="#mentor" data-tab="mentor">Mentor Protocol</a>
+    <a href="#system" data-tab="system">System</a>
+  </nav>
+  <main id="view"></main>
+  <footer>Progress is stored in this browser (localStorage). Use System → Export to back it up. Problems link to LeetCode.</footer>
+</div>
+<div id="toasts"></div>
+<script>
+/* =====================================================================
+   GATE DATA. Problem tuple: [lcNumber, slug, title, diff, hint, approach, javaTools, flag]
+   flag: "boss" = gate boss (Hard showcase), "side" = optional side quest
+   ===================================================================== */
+const GATES = [
+{
+ id:"g0", name:"Awakening", sub:"Java Collections Bootcamp", rank:"E", days:[1,3], stat:"STR",
+ what:"Before patterns, you need weapons. In Java, most of a DSA solution is choosing the right collection and knowing its methods without looking them up. This gate drills the collections every later gate uses.",
+ signals:["You need to count things → `HashMap` or `int[26]`","You need to know if you have seen something → `HashSet`","You need the most recent unfinished item → stack (`ArrayDeque` with push/pop)","You need items in arrival order → queue (`ArrayDeque` with offer/poll)","You need the smallest or largest item again and again → `PriorityQueue`","You need the nearest key below or above x → `TreeMap` / `TreeSet`"],
+ steps:["Before typing, say which collection you will use and why. If you cannot say why, you are guessing.","After Accepted, solve it again with a different structure (for example HashMap → int[26]) and compare runtime.","Type the template below from memory once a day for these 3 days. Speed with the API frees your brain for the actual problem."],
+ code:String.raw`// HashMap: counting and lookups
+Map<Integer, Integer> freq = new HashMap<>();
+for (int x : nums) freq.merge(x, 1, Integer::sum);   // freq[x]++
+int c = freq.getOrDefault(7, 0);
+for (Map.Entry<Integer, Integer> e : freq.entrySet()) { int k = e.getKey(), v = e.getValue(); }
+
+// Grouping: key -> list
+Map<String, List<String>> groups = new HashMap<>();
+groups.computeIfAbsent("key", k -> new ArrayList<>()).add("word");
+
+// HashSet: membership and dedupe
+Set<Integer> seen = new HashSet<>();
+if (!seen.add(x)) { /* x was already present */ }
+
+// Stack and queue: both are ArrayDeque (never use Stack or LinkedList)
+Deque<Integer> stack = new ArrayDeque<>();
+stack.push(1); stack.peek(); stack.pop();
+Deque<Integer> queue = new ArrayDeque<>();
+queue.offer(1); queue.peek(); queue.poll();
+
+// Heaps
+PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+PriorityQueue<int[]> byFirst = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+
+// Sorted map: floor / ceiling in O(log n)
+TreeMap<Integer, String> tm = new TreeMap<>();
+Integer below = tm.floorKey(10);     // largest key <= 10, or null
+Integer above = tm.ceilingKey(10);   // smallest key >= 10, or null
+
+// Sorting with comparators
+Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));   // int[][]
+Integer[] boxed = {3, 1, 2};
+Arrays.sort(boxed, (a, b) -> Integer.compare(b, a));             // descending needs boxed
+list.sort(Comparator.comparingInt(String::length).thenComparing(Comparator.naturalOrder()));`,
+ traps:["`Integer a == Integer b` compares references. It works for -128..127 and silently fails above. Use `.equals` or unbox to `int`.","`ArrayDeque` does not allow `null` elements.","For `List<Integer>`, `list.remove(3)` removes index 3. Use `list.remove(Integer.valueOf(3))` to remove the value.","Iterating a `PriorityQueue` is not sorted. Only `poll()` gives elements in order."],
+ problems:[
+  [1,"two-sum","Two Sum","E","For each number x you need exactly one partner: target - x. How do you check in O(1) whether you have already seen it?","Walk left to right. Before storing x, look up `target - x` in a HashMap of value → index. If found, return both indices; otherwise `put(x, i)`. Checking before inserting stops x pairing with itself.","`containsKey`, `get`, `put`"],
+  [217,"contains-duplicate","Contains Duplicate","E","Which collection tells you, in one call, whether an element was already present?","`HashSet.add` returns false when the element already exists. Return true the first time it returns false.","`if (!set.add(x)) return true;`"],
+  [242,"valid-anagram","Valid Anagram","E","Two strings are anagrams if every letter appears the same number of times in both.","If lengths differ, return false. Use `int[26]`: increment for s, decrement for t, then check that every entry is zero. An array beats a HashMap when the alphabet is small and fixed.","`s.charAt(i) - 'a'` as the index"],
+  [349,"intersection-of-two-arrays","Intersection of Two Arrays","E","You need the unique values present in both arrays. Which collection removes duplicates for you?","Put nums1 into a HashSet. For each value of nums2, if the set contains it, add it to a result set. Convert the result set to `int[]`.","`res.stream().mapToInt(Integer::intValue).toArray()`"],
+  [383,"ransom-note","Ransom Note","E","Count the letters the magazine gives you, then spend them.","Count magazine letters in `int[26]`. For each letter of the note, decrement; if a count goes below zero, return false.","`int[] cnt = new int[26];`"],
+  [20,"valid-parentheses","Valid Parentheses","E","The most recent unmatched opening bracket must close first. Last in, first out.","Push opening brackets. On a closing bracket the stack must be non-empty and its top must be the matching opener; pop it. At the end the stack must be empty.","`Deque<Character> st = new ArrayDeque<>();`"],
+  [933,"number-of-recent-calls","Number of Recent Calls","E","Old timestamps leave from the front, new ones join at the back.","Keep a queue. On `ping(t)`: offer t, then poll from the front while the front is less than t - 3000. Return the size.","`q.offer(t); q.peekFirst(); q.pollFirst();`"],
+  [1046,"last-stone-weight","Last Stone Weight","E","You repeatedly need the two largest values. Which structure gives you the max in O(log n)?","Push all stones into a max-heap. While size > 1, poll y and x; if they differ, offer y - x. Return the last stone or 0.","`new PriorityQueue<>(Collections.reverseOrder())`"],
+  [1636,"sort-array-by-increasing-frequency","Sort Array by Increasing Frequency","E","A comparator exercise: sort by frequency ascending, ties by value descending.","Count with a HashMap. Box to `Integer[]` because primitive `int[]` cannot take a comparator. Compare `Integer.compare(f.get(a), f.get(b))` first, then `Integer.compare(b, a)`. Unbox back. Do not compare two `Integer` frequencies with `==`.","`Arrays.sort(boxed, comparator)`"]
+ ]
+},
+{
+ id:"g1", name:"Arrays & Hashing", sub:"Trade memory for speed", rank:"E", days:[4,6], stat:"STR",
+ what:"A HashMap or HashSet turns the inner search loop of a brute-force solution (O(n)) into a single O(1) lookup, so O(n²) becomes O(n). This is the first optimisation to try on almost any array problem.",
+ signals:["The brute force has a nested loop where the inner loop searches for something","Words like count, frequency, duplicate, anagram, group, unique","Values are in the range 1..n, so the array can act as its own hash table","An O(n) solution is expected and sorting would be O(n log n)"],
+ steps:["Write the O(n²) brute force as a comment first.","Ask: what is the inner loop looking for? Store exactly that in a map or set.","Decide what the key is and what the value is before you write code. Most bugs here come from a fuzzy key."],
+ code:String.raw`// Pattern 1: complement lookup (Two Sum family)
+Map<Integer, Integer> seen = new HashMap<>();      // value -> index
+for (int i = 0; i < nums.length; i++) {
+    int need = target - nums[i];
+    if (seen.containsKey(need)) return new int[]{seen.get(need), i};
+    seen.put(nums[i], i);
+}
+
+// Pattern 2: frequency count with a fixed alphabet
+int[] cnt = new int[26];
+for (char ch : s.toCharArray()) cnt[ch - 'a']++;
+
+// Pattern 3: group by a canonical key
+Map<String, List<String>> groups = new HashMap<>();
+for (String w : words) {
+    char[] k = w.toCharArray();
+    Arrays.sort(k);
+    groups.computeIfAbsent(new String(k), x -> new ArrayList<>()).add(w);
+}`,
+ traps:["`int[]` as a HashMap key does not work: arrays use identity hashCode. Convert to a `String` or `List<Integer>`.","HashMap iteration order is not sorted. Use TreeMap when you need order."],
+ problems:[
+  [49,"group-anagrams","Group Anagrams","M","Anagrams become identical once you put their letters in a canonical form. What form?","For each word, sort its characters to build a key (or build a 26-count signature string). Group with `computeIfAbsent(key, k -> new ArrayList<>()).add(word)`. Return `new ArrayList<>(map.values())`.","`Arrays.sort(char[])`, `new String(chars)`"],
+  [347,"top-k-frequent-elements","Top K Frequent Elements","M","First count. Then you need the k largest counts, which does not require a full sort.","Count with a HashMap. Option A: min-heap of size k ordered by frequency; poll when the size exceeds k. Option B, O(n): bucket sort where `buckets[freq]` is a list of numbers, then walk from the highest frequency down.","`PriorityQueue` with `Integer.compare(cnt.get(a), cnt.get(b))`"],
+  [238,"product-of-array-except-self","Product of Array Except Self","M","The answer at i is (product of everything left of i) × (product of everything right of i).","Pass 1, left to right: `res[i]` = product of nums[0..i-1]. Pass 2, right to left with a running `suffix`: `res[i] *= suffix; suffix *= nums[i]`. No division, O(1) extra space.","Two plain loops"],
+  [128,"longest-consecutive-sequence","Longest Consecutive Sequence","M","They want O(n), so sorting is out. How can you tell that a number starts a run?","Put everything into a HashSet. x starts a run only if x - 1 is absent. From each start, count upward while x + 1 exists. Every number is visited at most twice, so the total is O(n).","`set.contains(x - 1)`"],
+  [36,"valid-sudoku","Valid Sudoku","M","Each row, column and 3×3 box needs its own memory of digits seen.","Keep `boolean[9][9]` tables for rows, columns and boxes. The box index is `(r / 3) * 3 + c / 3`. A repeat in any table means invalid.","`boolean[][] row = new boolean[9][9];`"],
+  [169,"majority-element","Majority Element","E","The majority appears more than n/2 times, so it survives even if every other element cancels one copy of it.","Boyer–Moore voting: keep `candidate` and `count`. When count is 0, take the current number as candidate. Add 1 if equal, subtract 1 otherwise. The final candidate is the answer.","Two ints, O(1) space"],
+  [448,"find-all-numbers-disappeared-in-an-array","Find All Numbers Disappeared in an Array","E","Values are in 1..n, so every value points to an index. Use the array itself as the seen-set.","For each x, make index `abs(x) - 1` negative. Indices that stay positive give the missing numbers (index + 1).","`Math.abs(nums[i])`"],
+  [380,"insert-delete-getrandom-o1","Insert Delete GetRandom O(1)","M","A HashSet gives O(1) insert and remove but no random index. An ArrayList gives a random index but slow removal. Combine them.","ArrayList of values plus a HashMap value → index. To remove, move the last element into the removed slot, update its index in the map, then remove the last position. getRandom picks a random index.","`list.set(i, last); list.remove(list.size() - 1);`"],
+  [41,"first-missing-positive","First Missing Positive","H","The answer is always in 1..n+1. Try to put each value v at index v - 1.","Cyclic sort: for each i, while `1 <= nums[i] <= n` and `nums[nums[i] - 1] != nums[i]`, swap nums[i] into its home. Then the first index i with `nums[i] != i + 1` gives i + 1; if there is none, n + 1. O(n) time, O(1) space.","A `swap` helper on `int[]`","boss"]
+ ]
+},
+{
+ id:"g2", name:"Two Pointers", sub:"Converging and chasing indices", rank:"E", days:[7,9], stat:"STR",
+ what:"Two indices move through the data so that each move rules out options you never need to check. It works when the input is sorted (or can be sorted), or when you read and write within the same array.",
+ signals:["Sorted array plus a pair or triplet with a target sum","Palindrome checks","Remove, move or deduplicate in place with O(1) extra space","Compare or merge from both ends"],
+ steps:["Pick the pointer style: opposite ends (converging) or same direction (read/write, slow/fast).","Write down the rule for moving each pointer and why that move cannot skip the answer.","With duplicates, skip equal values after recording a result."],
+ code:String.raw`// Opposite ends (sorted input)
+int l = 0, r = nums.length - 1;
+while (l < r) {
+    int sum = nums[l] + nums[r];
+    if (sum == target) { /* record */ l++; r--; }
+    else if (sum < target) l++;     // need a bigger sum
+    else r--;                       // need a smaller sum
+}
+
+// Same direction: read pointer i, write pointer w
+int w = 0;
+for (int i = 0; i < nums.length; i++) {
+    if (keep(nums[i])) nums[w++] = nums[i];
+}
+// the first w elements are the result`,
+ traps:["`l < r` versus `l <= r`: decide whether one element may pair with itself.","3Sum: sort first, and skip duplicates for i, l and r separately."],
+ problems:[
+  [125,"valid-palindrome","Valid Palindrome","E","Compare from both ends and skip anything that is not a letter or digit.","l = 0, r = n - 1. Move l right past non-alphanumerics, move r left the same way, compare lowercased characters, then step both inward.","`Character.isLetterOrDigit`, `Character.toLowerCase`"],
+  [167,"two-sum-ii-input-array-is-sorted","Two Sum II – Input Array Is Sorted","M","The array is sorted. If the sum is too small, which pointer should move?","Sum too small → l++. Too large → r--. Equal → return 1-based indices. Sorted order guarantees you never skip the answer.","Plain int indices"],
+  [283,"move-zeroes","Move Zeroes","E","One pointer reads, another marks where the next non-zero goes.","For each non-zero, swap it with index w and increment w. Zeros drift to the end.","In-place swap"],
+  [26,"remove-duplicates-from-sorted-array","Remove Duplicates from Sorted Array","E","In a sorted array, a new value is one that differs from the last value you kept.","k = 1. For i from 1: if `nums[i] != nums[k - 1]`, write `nums[k++] = nums[i]`. Return k.","Read/write pointers"],
+  [977,"squares-of-a-sorted-array","Squares of a Sorted Array","E","The largest square is at one of the two ends.","Pointers at both ends; fill the result from the back with the larger square and move that pointer inward.","Fill `res[pos--]`"],
+  [15,"3sum","3Sum","M","Fix one number and the rest is Two Sum II on a sorted array. The hard part is skipping duplicates.","Sort. For each i (skip if `nums[i] == nums[i-1]`), run two pointers on i+1..n-1 for target -nums[i]. After recording a triplet, move l and r past equal values. Stop early when nums[i] > 0.","`Arrays.asList(a, b, c)`"],
+  [11,"container-with-most-water","Container With Most Water","M","The shorter wall limits the area. Moving the taller wall inward can never help.","Area = `min(h[l], h[r]) * (r - l)`. Track the max, then move the pointer at the shorter wall.","`Math.min`, `Math.max`"],
+  [75,"sort-colors","Sort Colors","M","Three regions: 0s on the left, 2s on the right, unknown in the middle.","Dutch national flag with low, mid, high. 0 → swap with low, low++, mid++. 1 → mid++. 2 → swap with high, high-- (do not move mid, the swapped-in value is unchecked).","One pass, O(1) space"],
+  [881,"boats-to-save-people","Boats to Save People","M","The heaviest person must ride in some boat. Who is their best partner?","Sort. If lightest + heaviest fit, move both pointers; otherwise the heavy one goes alone. Count one boat per step.","`Arrays.sort`"],
+  [42,"trapping-rain-water","Trapping Rain Water","H","Water above i is `min(maxLeft, maxRight) - height[i]`. Can you know which side is smaller without precomputing both arrays?","Two pointers with leftMax and rightMax. If `height[l] < height[r]`, the left side limits: update leftMax, add `leftMax - height[l]`, l++. Otherwise do the same on the right. O(n) time, O(1) space.","Four int variables","boss"]
+ ]
+},
+{
+ id:"g3", name:"Sliding Window", sub:"Contiguous ranges in O(n)", rank:"D", days:[10,12], stat:"STR",
+ what:"A window is a contiguous range [l, r]. Extend r to include more, and move l forward to restore a rule. Each index enters and leaves the window once, so the whole scan is O(n).",
+ signals:["Contiguous subarray or substring","Longest, shortest, or count of windows that satisfy a condition","Phrases like at most K, no repeats, contains all of","A fixed window size k","Not for: target sums with negative numbers (use prefix sums)"],
+ steps:["State the window's rule in one sentence, for example: at most k zeros.","Decide what you track so the rule can be checked in O(1): a count array, a map, a sum.","Loop: expand r, shrink l while invalid, record the answer."],
+ code:String.raw`int l = 0, best = 0;
+int[] cnt = new int[128];               // state of the current window
+for (int r = 0; r < s.length(); r++) {
+    cnt[s.charAt(r)]++;                 // 1. expand: add s[r]
+    while (windowInvalid(cnt)) {        // 2. shrink until valid again
+        cnt[s.charAt(l)]--;
+        l++;
+    }
+    best = Math.max(best, r - l + 1);   // 3. record
+}
+// Shortest window that satisfies X: shrink WHILE valid and record inside that loop.
+// Exactly K: atMost(K) - atMost(K - 1).`,
+ traps:["Shrinking with `if` instead of `while` leaves the window invalid.","When removing a key from a HashMap window, call `remove` once its count reaches 0, otherwise `size()` is wrong."],
+ problems:[
+  [643,"maximum-average-subarray-i","Maximum Average Subarray I","E","Fixed window of size k. When it slides one step, what changes?","Sum the first k. Then for each i ≥ k add nums[i] and subtract nums[i - k]. Track the max sum and divide by k at the end.","`double` only at the end"],
+  [121,"best-time-to-buy-and-sell-stock","Best Time to Buy and Sell Stock","E","For each selling day, the best buying day is the cheapest day before it.","Track `minPrice`. For each price: profit = price - minPrice; keep the max; then update minPrice.","Single pass"],
+  [3,"longest-substring-without-repeating-characters","Longest Substring Without Repeating Characters","M","Grow the window right. When a repeat enters, jump l past the previous copy.","Keep `last[c]`, the last index of each char (`int[128]` filled with -1). For each r: `l = max(l, last[c] + 1)`, set last[c] = r, track r - l + 1.","`Arrays.fill(last, -1)`"],
+  [424,"longest-repeating-character-replacement","Longest Repeating Character Replacement","M","A window is valid if (length - count of its most common letter) ≤ k.","Expand r, update counts and `maxFreq`. While `len - maxFreq > k`, shrink l. You never need to lower maxFreq: a stale value only stops the window growing, it never gives a wrong bigger answer.","`int[26]`"],
+  [567,"permutation-in-string","Permutation in String","M","A permutation of s1 is a window of length |s1| in s2 with the same letter counts.","Count s1. Slide a fixed window of length |s1| over s2, updating counts, and compare. For O(1) per step, keep a `matches` counter over the 26 letters.","`Arrays.equals(a, b)`"],
+  [209,"minimum-size-subarray-sum","Minimum Size Subarray Sum","M","All numbers are positive, so adding elements only grows the sum. That makes shrinking safe.","Expand r adding to sum. While sum ≥ target: record r - l + 1, subtract nums[l++]. Return 0 if nothing was recorded.","`Integer.MAX_VALUE` as the start"],
+  [1004,"max-consecutive-ones-iii","Max Consecutive Ones III","M","Rephrase it: the longest window with at most k zeros.","Expand r and count zeros. While zeros > k, shrink l (decrement zeros if nums[l] was 0). Track the length.","Expand, fix, record"],
+  [904,"fruit-into-baskets","Fruit Into Baskets","M","Rephrase it: the longest window with at most 2 distinct values.","HashMap value → count. Expand r. While map size > 2, decrement nums[l], remove it at 0, l++.","`merge`, `remove`"],
+  [992,"subarrays-with-k-different-integers","Subarrays with K Different Integers","H","Exactly K is awkward to count. At most K is easy. Can you subtract?","`exactly(K) = atMost(K) - atMost(K - 1)`. In atMost, after shrinking, add `r - l + 1` (all subarrays ending at r inside the window). You will reuse this trick.","Helper `atMost(nums, k)`","side"],
+  [76,"minimum-window-substring","Minimum Window Substring","H","Expand until the window covers t, then shrink as far as possible while it still covers t.","need[] from t, `missing = t.length()`. Expand r: if need[c] > 0 before decrementing, missing--. While missing == 0: record, then increment need[s[l]]; if it becomes > 0, missing++; l++. Track best start and length.","`int[128] need`","boss"]
+ ]
+},
+{
+ id:"g4", name:"Prefix Sums", sub:"Range sums and difference arrays", rank:"D", days:[13,14], stat:"STR",
+ what:"pre[i] is the sum of the first i elements, so any subarray sum is one subtraction. Combined with a HashMap, it counts subarrays with a property in O(n), even when numbers are negative. The reverse trick, a difference array, applies many range updates in O(1) each.",
+ signals:["Many range-sum queries","Subarray sum equals k, or divisible by k","Negative numbers present, so sliding window fails","Add v to a whole range many times, then read the result"],
+ steps:["Write it out: sum(i..j) = pre[j+1] - pre[i].","Rearrange: at the current j, which earlier prefix value do I need?","Store earlier prefixes in a map, seeded with the empty prefix (0 → count 1, or 0 → index -1)."],
+ code:String.raw`// Count subarrays with sum == k
+Map<Integer, Integer> count = new HashMap<>();
+count.put(0, 1);                       // the empty prefix
+int sum = 0, ans = 0;
+for (int x : nums) {
+    sum += x;
+    ans += count.getOrDefault(sum - k, 0);
+    count.merge(sum, 1, Integer::sum);
+}
+
+// Difference array: add v to every index in [l, r]
+int[] diff = new int[n + 1];
+diff[l] += v;
+diff[r + 1] -= v;
+// running sum over diff gives the final array`,
+ traps:["Java `%` can return negatives. Use `((x % k) + k) % k`.","Forgetting the seed `count.put(0, 1)` misses subarrays that start at index 0.","Large sums overflow `int`; use `long`."],
+ problems:[
+  [303,"range-sum-query-immutable","Range Sum Query – Immutable","E","Precompute once so each query is O(1).","`pre[i + 1] = pre[i] + nums[i]`. Sum of l..r is `pre[r + 1] - pre[l]`. The leading 0 removes edge cases.","`int[] pre = new int[n + 1]`"],
+  [724,"find-pivot-index","Find Pivot Index","E","left + nums[i] + right = total.","Compute the total. Walk with leftSum: right = total - leftSum - nums[i]. If equal, return i. Then add nums[i] to leftSum.","One pass after the total"],
+  [560,"subarray-sum-equals-k","Subarray Sum Equals K","M","sum(i..j) = pre[j] - pre[i-1]. You want pre[j] - k to have appeared earlier. Sliding window fails because of negatives.","Running sum plus a HashMap prefix → times seen, seeded with `{0: 1}`. For each element, add `getOrDefault(sum - k, 0)` to the answer, then record sum.","`merge(sum, 1, Integer::sum)`"],
+  [523,"continuous-subarray-sum","Continuous Subarray Sum","M","If two prefix sums have the same remainder mod k, the subarray between them is divisible by k.","Map remainder → earliest index, seeded `{0: -1}`. If the remainder was seen at j and `i - j >= 2`, return true. Store only the first occurrence.","`putIfAbsent(rem, i)`"],
+  [974,"subarray-sums-divisible-by-k","Subarray Sums Divisible by K","M","Same remainder idea, but count pairs. Java `%` can be negative.","Count remainders `((sum % k) + k) % k` in an array seeded with cnt[0] = 1. For each prefix, add how many earlier prefixes share its remainder.","`int[] cnt = new int[k]`"],
+  [525,"contiguous-array","Contiguous Array","M","Turn 0 into -1. Equal counts of 0 and 1 means the subarray sums to 0.","Running sum with a map sum → first index, seeded `{0: -1}`. If sum was seen at j, length i - j. Keep the max.","`putIfAbsent`"],
+  [304,"range-sum-query-2d-immutable","Range Sum Query 2D – Immutable","M","Extend prefix sums to 2D with inclusion–exclusion.","`P[r+1][c+1] = M[r][c] + P[r][c+1] + P[r+1][c] - P[r][c]`. Rectangle = `P[r2+1][c2+1] - P[r1][c2+1] - P[r2+1][c1] + P[r1][c1]`.","`int[m + 1][n + 1]`"],
+  [1109,"corporate-flight-bookings","Corporate Flight Bookings","M","Adding to a whole range many times is slow. Mark only where each range starts and ends.","Difference array: `diff[first - 1] += seats`, `diff[last] -= seats` (if in range). The running sum is the answer.","`int[] diff = new int[n + 1]`"],
+  [1094,"car-pooling","Car Pooling","M","Passengers board at `from` and leave at `to`. Is capacity ever exceeded?","Difference array over locations 0..1000: add at from, subtract at to. Walk the running sum and fail if it ever exceeds capacity.","`int[1001]`","boss"]
+ ]
+},
+{
+ id:"g5", name:"Binary Search", sub:"Including binary search on the answer", rank:"D", days:[15,18], stat:"AGI",
+ what:"Halve the search space every step. It works on sorted arrays, and on any yes/no question whose answers flip exactly once (false, false, true, true). The second form, binary search on the answer, solves many problems that look unrelated to searching.",
+ signals:["Sorted or rotated sorted input","Find the minimum value such that something is possible (or the maximum)","The answer lives in a huge numeric range like 1..10⁹","The problem demands O(log n)"],
+ steps:["Define a predicate ok(x) and convince yourself it is monotonic.","Pick lo and hi that definitely contain the answer.","Use one template and know exactly what lo means when the loop ends."],
+ code:String.raw`// Smallest x in [lo, hi] with ok(x) == true
+long lo = minPossible, hi = maxPossible;
+while (lo < hi) {
+    long mid = lo + (hi - lo) / 2;
+    if (ok(mid)) hi = mid;        // mid works, maybe something smaller works too
+    else lo = mid + 1;            // mid fails, the answer is to the right
+}
+return lo;
+
+// Largest x with ok(x) == true (note the +1, or the loop never ends)
+// while (lo < hi) { long mid = lo + (hi - lo + 1) / 2; if (ok(mid)) lo = mid; else hi = mid - 1; }
+
+// Lower bound on an array: first index with a[i] >= target
+int lo2 = 0, hi2 = a.length;
+while (lo2 < hi2) { int mid = (lo2 + hi2) >>> 1; if (a[mid] < target) lo2 = mid + 1; else hi2 = mid; }`,
+ traps:["`(lo + hi) / 2` overflows for large ints. Use `lo + (hi - lo) / 2` or `>>> 1`.","In the largest-x version, mid must round up or the loop can spin forever.","Feasibility checks often sum large values; use `long`."],
+ problems:[
+  [704,"binary-search","Binary Search","E","Learn one template and use it everywhere.","lo = 0, hi = n - 1; while lo ≤ hi: mid; equal → return; smaller → lo = mid + 1; larger → hi = mid - 1. Return -1.","`lo + (hi - lo) / 2`"],
+  [35,"search-insert-position","Search Insert Position","E","You want the first index whose value is ≥ target. This is called the lower bound.","Lower bound template: lo = 0, hi = n; while lo < hi: if nums[mid] < target, lo = mid + 1, else hi = mid. Return lo.","Lower bound"],
+  [34,"find-first-and-last-position-of-element-in-sorted-array","Find First and Last Position of Element in Sorted Array","M","Two lower bounds: one for target, one for target + 1.","first = lowerBound(target). If first == n or nums[first] != target, return [-1, -1]. last = lowerBound(target + 1) - 1.","One helper, used twice"],
+  [74,"search-a-2d-matrix","Search a 2D Matrix","M","Read row by row, the matrix is one sorted array.","Binary search 0..m·n - 1 and map an index to `matrix[mid / n][mid % n]`.","Index math"],
+  [153,"find-minimum-in-rotated-sorted-array","Find Minimum in Rotated Sorted Array","M","Compare the middle with the right end. Which half contains the drop?","While lo < hi: if `nums[mid] > nums[hi]` the minimum is right of mid (lo = mid + 1), else hi = mid. Return nums[lo].","`while (lo < hi)` form"],
+  [33,"search-in-rotated-sorted-array","Search in Rotated Sorted Array","M","At any mid, at least one half is sorted. Is the target inside that half?","If `nums[lo] <= nums[mid]` the left half is sorted: go left if target is in [nums[lo], nums[mid]), else go right. Otherwise the right half is sorted: go right if target is in (nums[mid], nums[hi]], else left.","Careful inclusive bounds"],
+  [162,"find-peak-element","Find Peak Element","M","If you are walking uphill, a peak must exist ahead of you.","If `nums[mid] < nums[mid + 1]`, lo = mid + 1, else hi = mid. Return lo.","Binary search without sorted input"],
+  [875,"koko-eating-bananas","Koko Eating Bananas","M","Do not search the array. Search the speed k. If speed k works, every faster speed works too.","Binary search k in [1, max(piles)]. ok(k) sums `(p + k - 1) / k` hours as a long. Find the smallest k with hours ≤ h.","`long hours`"],
+  [1011,"capacity-to-ship-packages-within-d-days","Capacity To Ship Packages Within D Days","M","Same shape as Koko: a monotonic yes/no question over the capacity.","lo = heaviest package, hi = total weight. ok(cap) greedily fills days and counts them. Smallest cap with days ≤ D.","Greedy check + binary search"],
+  [981,"time-based-key-value-store","Time Based Key-Value Store","M","For each key you want the latest value with timestamp ≤ t. A sorted map answers that in one call.","`Map<String, TreeMap<Integer, String>>`. set → put. get → `floorEntry(t)`; return its value, or an empty string if it is null. (Timestamps arrive increasing, so binary search on a list also works.)","`TreeMap.floorEntry`"],
+  [4,"median-of-two-sorted-arrays","Median of Two Sorted Arrays","H","Binary search a cut in the smaller array so everything left of both cuts is ≤ everything right of them.","A is the smaller array. Cut i in A, j = (m + n + 1) / 2 - i in B. Valid when `A[i-1] <= B[j]` and `B[j-1] <= A[i]`, using ±infinity past the edges. Move i by binary search. Median from max(left side) and min(right side).","`Integer.MIN_VALUE` / `MAX_VALUE` sentinels","side"],
+  [410,"split-array-largest-sum","Split Array Largest Sum","H","Guess the answer X. Can you split into at most k parts with every part ≤ X? A bigger X is always easier.","Binary search X in [max, sum]. Greedy check: start a new part whenever adding the next number would exceed X, and count parts. Smallest X with parts ≤ k. Same pattern as LC 1011.","`long` sums","boss"]
+ ]
+},
+{
+ id:"g6", name:"Stack & Monotonic Stack", sub:"Unfinished work and next-greater", rank:"C", days:[19,21], stat:"AGI",
+ what:"A stack holds unfinished work, most recent on top. A monotonic stack keeps its elements in increasing or decreasing order; an element is popped exactly when the current element answers its question (next greater, next smaller). A monotonic deque does the same for sliding windows.",
+ signals:["Matching brackets or nested structure","Next greater / next smaller / previous smaller element","How far can this bar extend left or right","Maximum of every window of size k (monotonic deque)","Expressions and parsing"],
+ steps:["Ask: what is each element waiting for?","Elements still waiting stay on the stack. Store indices, not values, so you can compute distances.","When the current element answers the top, pop and record. Then push the current element."],
+ code:String.raw`// Next greater element to the right for every index
+int[] ans = new int[n];
+Arrays.fill(ans, -1);
+Deque<Integer> st = new ArrayDeque<>();      // indices, values decreasing from bottom to top
+for (int i = 0; i < n; i++) {
+    while (!st.isEmpty() && nums[st.peek()] < nums[i]) {
+        ans[st.pop()] = nums[i];             // i answers the waiting index
+    }
+    st.push(i);
+}
+
+// Monotonic deque: max of each window of size k
+Deque<Integer> dq = new ArrayDeque<>();
+for (int i = 0; i < n; i++) {
+    while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) dq.pollLast();
+    dq.offerLast(i);
+    if (dq.peekFirst() <= i - k) dq.pollFirst();
+    if (i >= k - 1) res[i - k + 1] = nums[dq.peekFirst()];
+}`,
+ traps:["Calling `peek()` on an empty ArrayDeque returns null, which then throws on unboxing. Check `isEmpty()` first.","For counting problems with equal values, use strict on one side and non-strict on the other to avoid double counting."],
+ problems:[
+  [155,"min-stack","Min Stack","M","Each element can remember the minimum at the moment it was pushed.","Push pairs `[val, minSoFar]` onto one stack, or keep a second stack of minimums. getMin reads the top.","`Deque<int[]>`"],
+  [150,"evaluate-reverse-polish-notation","Evaluate Reverse Polish Notation","M","Numbers wait on a stack until an operator consumes the top two.","For an operator: pop b, then pop a, push `a op b` (order matters for - and /). Otherwise push `Integer.parseInt(token)`.","`switch` on strings"],
+  [496,"next-greater-element-i","Next Greater Element I","E","Your first monotonic stack. Keep numbers that are still waiting for something bigger.","Walk nums2. While the top is smaller than x, pop it and record `next.put(top, x)`. Push x. Answer nums1 from the map (default -1).","`getOrDefault(x, -1)`"],
+  [739,"daily-temperatures","Daily Temperatures","M","For each day you want the next warmer day. Days without an answer yet wait on a stack.","Stack of indices with decreasing temperatures. For each i, while `t[i] > t[peek]`, pop j and set `ans[j] = i - j`. Push i.","Store indices"],
+  [503,"next-greater-element-ii","Next Greater Element II","M","Circular array: pretend you walk it twice.","Loop i over 0..2n-1 using `nums[i % n]`. Same monotonic stack of indices; push only during the first pass.","`i % n`"],
+  [853,"car-fleet","Car Fleet","M","Process cars from closest to the target. A car behind that would arrive sooner gets blocked and joins the fleet ahead.","Sort by position descending. time = (target - pos) / (double) speed. If time > current fleet time, it is a new fleet: update and count.","`Arrays.sort(cars, (a, b) -> Integer.compare(b[0], a[0]))`"],
+  [394,"decode-string","Decode String","M","Nested brackets: save your progress when you enter a bracket and restore it when you leave.","Two stacks: counts and StringBuilders. Digit → build k. '[' → push k and the current builder, start a new one. ']' → pop k and the previous builder; append current k times to it. Letter → append.","`Deque<StringBuilder>`"],
+  [907,"sum-of-subarray-minimums","Sum of Subarray Minimums","M","Flip the question: in how many subarrays is arr[i] the minimum?","Monotonic stacks give `left[i]` (distance to previous smaller) and `right[i]` (distance to next smaller-or-equal). Contribution = arr[i] × left × right. Sum mod 1e9+7 with long.","`long`, `MOD = 1_000_000_007`"],
+  [239,"sliding-window-maximum","Sliding Window Maximum","H","Keep a deque of indices whose values decrease. The front is always the window max.","For each i: pop the back while its value ≤ nums[i]; add i; pop the front if it left the window (≤ i - k); once i ≥ k - 1, record the front value.","`peekFirst`, `pollLast`","side"],
+  [84,"largest-rectangle-in-histogram","Largest Rectangle in Histogram","H","For each bar as the shortest bar, how far can the rectangle stretch?","Stack of indices with increasing heights. When the current height is lower than the top, pop it as height h; width = i - newTop - 1 (or i if the stack is empty). Run i to n with height 0 at i = n to flush the stack.","`int h = (i == n) ? 0 : heights[i]`","boss"]
+ ]
+},
+{
+ id:"g7", name:"Linked Lists", sub:"Pointer rewiring", rank:"C", days:[22,23], stat:"AGI",
+ what:"Linked list problems are about rewiring next pointers without losing nodes. Three tools cover most of them: a dummy head, fast/slow pointers, and in-place reversal.",
+ signals:["The input is a ListNode","Find the middle, detect a cycle, or find the kth from the end","Reverse all or part of the list","Merge sorted lists"],
+ steps:["Draw 3–4 nodes on paper with arrows, before and after.","Save `next` before you overwrite `cur.next`.","Use a dummy node whenever the head might change."],
+ code:String.raw`// Reverse
+ListNode prev = null, cur = head;
+while (cur != null) {
+    ListNode next = cur.next;
+    cur.next = prev;
+    prev = cur;
+    cur = next;
+}
+// prev is the new head
+
+// Fast / slow
+ListNode slow = head, fast = head;
+while (fast != null && fast.next != null) {
+    slow = slow.next;
+    fast = fast.next.next;
+    // if (slow == fast) there is a cycle
+}
+// slow is now the middle
+
+// Dummy head
+ListNode dummy = new ListNode(0, head), tail = dummy;
+// ... build after tail ...
+return dummy.next;`,
+ traps:["NullPointerException from `fast.next.next`: check both `fast` and `fast.next`.","Compare nodes with `==` (identity), values with `.val`."],
+ problems:[
+  [206,"reverse-linked-list","Reverse Linked List","E","You need three references: previous, current, next.","While cur != null: save next, point cur.next at prev, prev = cur, cur = next. Return prev. Then write the recursive version.","`ListNode prev = null`"],
+  [21,"merge-two-sorted-lists","Merge Two Sorted Lists","E","A dummy head removes the special case for the first node.","Attach the smaller head to tail each step and advance it. Attach the remainder at the end. Return dummy.next.","Dummy node"],
+  [141,"linked-list-cycle","Linked List Cycle","E","A fast runner on a circular track eventually laps a slow one.","slow moves 1, fast moves 2. If they meet, there is a cycle; if fast reaches null, there is none.","`while (fast != null && fast.next != null)`"],
+  [876,"middle-of-the-linked-list","Middle of the Linked List","E","When fast reaches the end, slow is halfway.","Same fast/slow loop; return slow.","Reused in Reorder List"],
+  [19,"remove-nth-node-from-end-of-list","Remove Nth Node From End of List","M","Keep two pointers exactly n nodes apart.","Both start at a dummy. Move fast n + 1 steps, then move both until fast is null. Delete with `slow.next = slow.next.next`.","Dummy handles deleting the head"],
+  [143,"reorder-list","Reorder List","M","Three problems you already solved: find the middle, reverse, merge.","Find the middle with fast/slow, cut, reverse the second half, then weave the two halves alternately.","Compose helpers"],
+  [2,"add-two-numbers","Add Two Numbers","M","School addition, digit by digit, carrying into the next node.","Loop while l1, l2 or carry remain: sum = carry + digits; append `sum % 10`; carry = sum / 10.","Dummy + carry"],
+  [138,"copy-list-with-random-pointer","Copy List with Random Pointer","M","You cannot set random pointers until every copy exists.","Pass 1: map every original to a new copy. Pass 2: `copy.next = map.get(orig.next)`, `copy.random = map.get(orig.random)`.","`Map<Node, Node>`"],
+  [146,"lru-cache","LRU Cache","M","You need O(1) lookup (HashMap) and O(1) move-to-front and evict-oldest (doubly linked list).","HashMap key → node, plus a doubly linked list with dummy head and tail. get: move the node to the front. put: update or insert at the front; over capacity → remove the node before tail and its key. Java also has `LinkedHashMap(cap, 0.75f, true)` with `removeEldestEntry`; build it by hand first.","Doubly linked list + HashMap"],
+  [25,"reverse-nodes-in-k-group","Reverse Nodes in k-Group","H","Check that k nodes exist, reverse exactly those k, reconnect, repeat.","Keep `groupPrev` (starts at dummy). Find the kth node from it; stop if missing. Reverse the group with prev starting at kth.next. Then link groupPrev.next to kth and move groupPrev to the old group start.","Draw it first","side"],
+  [23,"merge-k-sorted-lists","Merge k Sorted Lists","H","At each step you need the smallest head among k lists.","Put every non-null head into a min-heap by val. Poll the smallest, attach it, offer its next. O(N log k). Divide-and-conquer pairwise merging also works.","`new PriorityQueue<ListNode>((a, b) -> Integer.compare(a.val, b.val))`","boss"]
+ ]
+},
+{
+ id:"g8", name:"Binary Trees", sub:"DFS returns, BFS levels", rank:"C", days:[24,27], stat:"VIT",
+ what:"Trees are recursion. Decide what each call returns about its subtree, trust the recursive calls on the children, and combine. Use BFS with a queue when the problem talks about levels or rows.",
+ signals:["Height, depth, diameter, balance → post-order DFS that returns a value","Level, row, right side view, zigzag → BFS","Root-to-node paths → DFS carrying state downward","The answer through a node uses both children but the parent can use only one → return one thing, record another"],
+ steps:["Write the function's meaning in words, for example: returns the height of this subtree.","Write the null base case first.","Combine the children's results. If the real answer differs from what you return, keep it in a field."],
+ code:String.raw`// DFS that returns info upward and records a global answer
+int best = 0;
+int height(TreeNode node) {
+    if (node == null) return 0;
+    int l = height(node.left);
+    int r = height(node.right);
+    best = Math.max(best, l + r);      // answer may use both sides
+    return 1 + Math.max(l, r);         // parent can only use one side
+}
+
+// BFS by levels
+List<List<Integer>> levels = new ArrayList<>();
+Queue<TreeNode> q = new ArrayDeque<>();
+if (root != null) q.offer(root);
+while (!q.isEmpty()) {
+    int size = q.size();               // nodes in this level
+    List<Integer> level = new ArrayList<>();
+    for (int i = 0; i < size; i++) {
+        TreeNode cur = q.poll();
+        level.add(cur.val);
+        if (cur.left != null) q.offer(cur.left);
+        if (cur.right != null) q.offer(cur.right);
+    }
+    levels.add(level);
+}`,
+ traps:["`ArrayDeque` rejects null, so check children before offering them.","Recursion depth can reach n on a skewed tree; fine on LeetCode, but know the iterative versions."],
+ problems:[
+  [104,"maximum-depth-of-binary-tree","Maximum Depth of Binary Tree","E","Trust recursion: depth = 1 + the depth of the deeper subtree.","`return root == null ? 0 : 1 + Math.max(depth(root.left), depth(root.right));`","Base case first"],
+  [226,"invert-binary-tree","Invert Binary Tree","E","Swap the children, then let recursion handle each subtree.","Null → null. Swap left and right, recurse on both, return root.","Pre-order"],
+  [100,"same-tree","Same Tree","E","Two trees match if the roots match and both pairs of subtrees match.","Both null → true. One null or values differ → false. Else recurse on both pairs.","Boolean recursion"],
+  [572,"subtree-of-another-tree","Subtree of Another Tree","E","Run Same Tree at every node of the big tree.","If isSame(root, sub) return true, otherwise check root.left or root.right recursively.","Compose helpers"],
+  [543,"diameter-of-binary-tree","Diameter of Binary Tree","E","Each call returns one thing (height) but updates a global answer with another (left + right).","dfs returns height; at each node `best = max(best, hL + hR)`; return 1 + max(hL, hR). This return-one, record-another pattern drives many tree problems.","Field `int best`"],
+  [110,"balanced-binary-tree","Balanced Binary Tree","E","Compute heights bottom-up and signal failure with a special value.","dfs returns height, or -1 if unbalanced. If a child is -1 or `abs(hL - hR) > 1`, return -1.","Sentinel return"],
+  [102,"binary-tree-level-order-traversal","Binary Tree Level Order Traversal","M","BFS with a queue. How do you know where a level ends?","Read `size = q.size()` at the start of each level and poll exactly that many nodes into one list.","Template above"],
+  [199,"binary-tree-right-side-view","Binary Tree Right Side View","M","From the right you see the last node of each level.","Level-order BFS and record the last node of each level. DFS alternative: visit right first and record the first node at each new depth.","Reuse BFS"],
+  [236,"lowest-common-ancestor-of-a-binary-tree","Lowest Common Ancestor of a Binary Tree","M","Ask each subtree: did you find p or q?","If root is null, p or q, return root. Recurse left and right. Both non-null → root is the LCA. Otherwise return the non-null side.","Post-order"],
+  [105,"construct-binary-tree-from-preorder-and-inorder-traversal","Construct Binary Tree from Preorder and Inorder Traversal","M","Preorder tells you the root. Inorder tells you who is left and right of it.","Map inorder value → index. build(lo, hi) over an inorder range, consuming preorder with a global pointer: root = pre[p++]; mid = idx[root]; build(lo, mid - 1) then build(mid + 1, hi).","`Map<Integer, Integer> idx`"],
+  [437,"path-sum-iii","Path Sum III","M","This is Subarray Sum Equals K, but on downward paths.","DFS with a running sum and a map of prefix sums on the current path, seeded `{0: 1}`. Add `map.get(sum - target)`. Increment before visiting children, decrement after (backtrack). Use long.","`Map<Long, Integer>`"],
+  [297,"serialize-and-deserialize-binary-tree","Serialize and Deserialize Binary Tree","H","Preorder with explicit null markers fully describes a tree.","serialize: preorder, write `#` for null, comma separated. deserialize: split into a queue of tokens; build(): poll; `#` → null; else create the node, build left, build right.","`new ArrayDeque<>(Arrays.asList(data.split(\",\")))`","side"],
+  [124,"binary-tree-maximum-path-sum","Binary Tree Maximum Path Sum","H","Same as Diameter: return the best one-sided path, record the best two-sided path.","gain(node) = node.val + max(leftGain, rightGain), where each child gain is clamped with `Math.max(0, ...)`. Record `best = max(best, node.val + leftGain + rightGain)`. Start best at `Integer.MIN_VALUE`.","`Math.max(0, gain(node.left))`","boss"]
+ ]
+},
+{
+ id:"g9", name:"BST, Heaps & TreeMap", sub:"Order and priority", rank:"B", days:[28,30], stat:"VIT",
+ what:"A BST's inorder traversal is sorted, and its ordering tells you whether to go left or right. A heap gives the current min or max in O(log n). `TreeMap` and `TreeSet` are balanced BSTs that Java gives you for free, with floor and ceiling queries.",
+ signals:["Kth largest or smallest, top k","Running median","Always take the best available option (greedy + heap)","Merge k sorted things","Nearest value below or above x among a changing set → TreeSet / TreeMap"],
+ steps:["For the k largest, keep a min-heap of size k and evict the smallest. For the k smallest, the opposite.","Decide what the heap orders by, and write the comparator with `Integer.compare`.","For BST validity, pass allowed ranges down; for BST order, use inorder."],
+ code:String.raw`// k largest: min-heap of size k
+PriorityQueue<Integer> pq = new PriorityQueue<>();
+for (int x : nums) {
+    pq.offer(x);
+    if (pq.size() > k) pq.poll();     // drop the smallest
+}
+int kthLargest = pq.peek();
+
+// Heap of pairs: by distance, then by id
+PriorityQueue<int[]> h = new PriorityQueue<>(
+    (a, b) -> a[0] != b[0] ? Integer.compare(a[0], b[0]) : Integer.compare(a[1], b[1]));
+
+// Two heaps for a running median
+PriorityQueue<Integer> low = new PriorityQueue<>(Collections.reverseOrder()); // max-heap
+PriorityQueue<Integer> high = new PriorityQueue<>();                          // min-heap
+
+// TreeMap / TreeSet queries, all O(log n), all may return null
+TreeMap<Integer, Integer> tm = new TreeMap<>();
+Map.Entry<Integer, Integer> e = tm.floorEntry(x);   // largest key <= x
+Integer up = tm.ceilingKey(x);                       // smallest key >= x
+Integer strictlyBelow = tm.lowerKey(x), strictlyAbove = tm.higherKey(x);
+tm.firstKey(); tm.lastKey(); tm.pollFirstEntry();`,
+ traps:["Comparator `(a, b) -> a - b` overflows on large or negative values. Always use `Integer.compare`.","TreeMap methods return `null` when nothing qualifies; unboxing that into an `int` throws."],
+ problems:[
+  [98,"validate-binary-search-tree","Validate Binary Search Tree","M","Checking only parent versus child is wrong. Every node must sit inside a range set by all its ancestors.","dfs(node, low, high): value strictly between low and high. Left gets (low, val), right gets (val, high). Use `long` bounds so Integer.MIN/MAX node values work.","`Long.MIN_VALUE`, `Long.MAX_VALUE`"],
+  [230,"kth-smallest-element-in-a-bst","Kth Smallest Element in a BST","M","Inorder traversal of a BST visits values in sorted order.","Iterative inorder: push left as far as possible, pop, count; return when count == k; then go right.","`Deque<TreeNode>`"],
+  [235,"lowest-common-ancestor-of-a-binary-search-tree","Lowest Common Ancestor of a BST","M","Use the ordering. Where do p and q stop going the same way?","Both smaller → go left. Both larger → go right. Otherwise the current node is the split point and the LCA.","Loop, O(h)"],
+  [703,"kth-largest-element-in-a-stream","Kth Largest Element in a Stream","E","Keep only the k largest values. The smallest of them is the answer.","Min-heap of size k: offer, poll if size > k, return peek.","Default `PriorityQueue` is a min-heap"],
+  [215,"kth-largest-element-in-an-array","Kth Largest Element in an Array","M","Same size-k min-heap. Bonus: Quickselect averages O(n).","Min-heap of size k: O(n log k). Quickselect: partition around a random pivot and recurse only into the side holding index n - k.","`PriorityQueue` or a `Random` pivot"],
+  [973,"k-closest-points-to-origin","K Closest Points to Origin","M","You want the k smallest distances, so keep a max-heap of size k and evict the farthest.","Max-heap by x² + y². Offer each point; poll when size > k. Skip the square root, it does not change the order.","Comparator on `x*x + y*y`"],
+  [621,"task-scheduler","Task Scheduler","M","The most frequent task builds the skeleton: it forces idle gaps between its copies.","maxF = highest frequency, cnt = tasks with that frequency. Answer = `max(tasks.length, (maxF - 1) * (n + 1) + cnt)`. Also understand the max-heap + cooldown-queue simulation.","`int[26]`"],
+  [846,"hand-of-straights","Hand of Straights","M","The smallest remaining card must start a group. A sorted map gives you the smallest key fast.","TreeMap value → count. While not empty: x = `firstKey()`; remove one each of x..x+size-1; fail if one is missing.","`firstKey`, `merge`, `remove`"],
+  [220,"contains-duplicate-iii","Contains Duplicate III","H","Keep a sorted set of the last indexDiff values. For the new value x, what is the nearest value in the set?","Window with `TreeSet<Long>`. For x: c = `ceiling(x - valueDiff)`; if c != null and c ≤ x + valueDiff, return true. Add x; remove the value that left the window.","`TreeSet.ceiling`","side"],
+  [502,"ipo","IPO","H","Each round, among the projects you can afford, take the most profitable.","Sort projects by capital. For k rounds: push every newly affordable profit into a max-heap, poll the top, add it to capital. Stop when the heap is empty.","Sorted array + max-heap","side"],
+  [295,"find-median-from-data-stream","Find Median from Data Stream","H","Split numbers into a lower half and an upper half. The median sits at the boundary.","Max-heap low, min-heap high. Add to low, move low's top to high; if high is now bigger than low, move high's top back. Median = low.peek(), or the average of both tops.","Two `PriorityQueue`s","boss"]
+ ]
+},
+{
+ id:"g10", name:"Backtracking", sub:"Choose, explore, un-choose", rank:"B", days:[31,33], stat:"VIT",
+ what:"Explore a decision tree: make a choice, recurse, undo the choice. Use it when you must list all solutions, or search a space small enough to try (n roughly ≤ 15–20). Pruning keeps it fast.",
+ signals:["Return all subsets, permutations, combinations, partitions","Place items under constraints (N-Queens, Sudoku)","n is tiny (≤ 10–20)","Word search in a grid"],
+ steps:["Draw the decision tree for a 3-element input.","Define the state (start index, path, used[]) and when it is complete.","Add pruning: skip duplicates at the same depth, stop when over the target."],
+ code:String.raw`List<List<Integer>> res = new ArrayList<>();
+
+void backtrack(int[] nums, int start, List<Integer> path) {
+    res.add(new ArrayList<>(path));            // record a COPY (subsets record every node)
+    for (int i = start; i < nums.length; i++) {
+        if (i > start && nums[i] == nums[i - 1]) continue;   // dedupe (input sorted)
+        path.add(nums[i]);                     // choose
+        backtrack(nums, i + 1, path);          // explore  (use i instead of i + 1 to allow reuse)
+        path.remove(path.size() - 1);          // un-choose
+    }
+}`,
+ traps:["`res.add(path)` without copying stores the same list object every time; at the end all entries are empty.","Dedupe needs sorted input."],
+ problems:[
+  [78,"subsets","Subsets","M","Every element is in or out. That is a binary decision tree.","Backtrack with a start index: record a copy of path at every call, then for i from start choose nums[i], recurse with i + 1, undo. 2ⁿ subsets.","`new ArrayList<>(path)`"],
+  [90,"subsets-ii","Subsets II","M","Duplicates produce repeated subsets. Sorting puts them next to each other so you can skip them.","Sort. Skip when `i > start && nums[i] == nums[i-1]`, which stops the same value being chosen twice at the same depth.","Remember this dedupe line"],
+  [46,"permutations","Permutations","M","Order matters, so any unused element can fill the next position.","`boolean[] used`. When path size == n, record. Else for each unused i: mark, add, recurse, remove, unmark.","`boolean[] used`"],
+  [39,"combination-sum","Combination Sum","M","Numbers may be reused, so after choosing nums[i] you stay at i.","Backtrack(start, remaining). remaining == 0 → record. For i from start with c[i] ≤ remaining: choose, recurse with (i, remaining - c[i]), undo. Sort to break early.","Recurse with `i`"],
+  [40,"combination-sum-ii","Combination Sum II","M","Each number once, duplicates in the input. Combine Combination Sum with the Subsets II skip rule.","Sort. Recurse with i + 1, skip `i > start && c[i] == c[i-1]`, break when c[i] > remaining.","Same dedupe line"],
+  [17,"letter-combinations-of-a-phone-number","Letter Combinations of a Phone Number","M","One position per digit, several letters per position.","Map digits to letters. Backtrack over idx; for each letter of digits[idx], append to a StringBuilder, recurse, `deleteCharAt`.","`sb.deleteCharAt(sb.length() - 1)`"],
+  [22,"generate-parentheses","Generate Parentheses","M","Add '(' while some remain. Add ')' only if it closes an open one.","Backtrack(open, close): length 2n → record. open < n → add '('. close < open → add ')'.","Prune by rule"],
+  [79,"word-search","Word Search","M","DFS from every cell, matching one character per step, never reusing a cell.","dfs(r, c, i): fail out of bounds or on mismatch; succeed when i == len - 1. Mark the cell ('#'), recurse 4 ways, restore it.","In-place marking"],
+  [131,"palindrome-partitioning","Palindrome Partitioning","M","Choose where the first piece ends. It must be a palindrome; then solve the rest.","Backtrack(start): for end ≥ start, if s[start..end] is a palindrome, add it, recurse at end + 1, remove. Optionally precompute `isPal[i][j]`.","`s.substring(start, end + 1)`"],
+  [37,"sudoku-solver","Sudoku Solver","H","Find an empty cell, try every digit that fits, recurse, undo when stuck.","Row/col/box boolean tables. solve(): find the next empty cell (none → true); for d in 1..9 if allowed: place, mark, if solve() return true; unmark. Return false.","Box index from Valid Sudoku","side"],
+  [51,"n-queens","N-Queens","H","One queen per row. Track which columns and diagonals are attacked.","Backtrack(row). Column c is free if `cols[c]`, `diag[r - c + n]` and `anti[r + c]` are all false. Mark, recurse to row + 1, unmark. Build the board strings when row == n.","Three `boolean[]`","boss"]
+ ]
+},
+{
+ id:"g11", name:"Graphs I", sub:"DFS, BFS, topological sort", rank:"B", days:[34,37], stat:"SEN",
+ what:"A graph is nodes plus edges, and a grid is a graph too. DFS explores connected components. BFS finds shortest paths when every edge costs the same. Topological sort orders tasks that depend on each other and detects cycles.",
+ signals:["Islands, regions, connected cells in a grid","Connected / reachable / components","Minimum number of steps or moves → BFS","Prerequisites, dependencies, build order → topological sort","Transform one word or state into another one step at a time → BFS over states"],
+ steps:["Name the nodes and the edges explicitly before writing code.","Build an adjacency list `List<List<Integer>>`.","In BFS, mark visited when you enqueue, not when you poll, or nodes get queued many times."],
+ code:String.raw`// Adjacency list (undirected). For directed graphs add only adj.get(e[0]).add(e[1]).
+List<List<Integer>> adj = new ArrayList<>();
+for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+for (int[] e : edges) { adj.get(e[0]).add(e[1]); adj.get(e[1]).add(e[0]); }
+
+// BFS on a grid: fewest steps from (sr, sc) to (tr, tc)
+int[][] DIRS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+Deque<int[]> q = new ArrayDeque<>();
+boolean[][] seen = new boolean[m][n];
+q.offer(new int[]{sr, sc});
+seen[sr][sc] = true;
+for (int steps = 0; !q.isEmpty(); steps++) {
+    for (int size = q.size(); size > 0; size--) {
+        int[] cur = q.poll();
+        if (cur[0] == tr && cur[1] == tc) return steps;
+        for (int[] d : DIRS) {
+            int nr = cur[0] + d[0], nc = cur[1] + d[1];
+            if (nr < 0 || nc < 0 || nr >= m || nc >= n || seen[nr][nc] || grid[nr][nc] == 1) continue;
+            seen[nr][nc] = true;               // mark on enqueue
+            q.offer(new int[]{nr, nc});
+        }
+    }
+}
+
+// Kahn's topological sort (directed adj)
+int[] indeg = new int[n];
+for (int u = 0; u < n; u++) for (int v : adj.get(u)) indeg[v]++;
+Deque<Integer> ready = new ArrayDeque<>();
+for (int i = 0; i < n; i++) if (indeg[i] == 0) ready.offer(i);
+List<Integer> order = new ArrayList<>();
+while (!ready.isEmpty()) {
+    int u = ready.poll();
+    order.add(u);
+    for (int v : adj.get(u)) if (--indeg[v] == 0) ready.offer(v);
+}
+// order.size() < n means there is a cycle`,
+ traps:["BFS gives shortest paths only when all edges have equal cost. Weighted edges need Dijkstra (next gate).","Deep recursive DFS on a 300×300 grid is fine on LeetCode; on Codeforces with 10⁶ cells use iterative BFS."],
+ problems:[
+  [200,"number-of-islands","Number of Islands","M","Every time you find unvisited land you found a new island. Then sink the whole island.","Loop over cells; on '1', count++ and DFS/BFS to turn the connected land into '0'.","`int[][] DIRS`"],
+  [695,"max-area-of-island","Max Area of Island","M","Same flood fill, but the DFS returns how many cells it covered.","dfs returns 0 on water or out of bounds; otherwise marks the cell and returns 1 + the sum of its 4 neighbours.","int-returning DFS"],
+  [133,"clone-graph","Clone Graph","M","Same issue as copying a random list: you need original → clone to handle cycles.","DFS: if the node is in the map, return its clone. Otherwise create the clone, store it before recursing, then clone each neighbour into its list.","`Map<Node, Node>`"],
+  [994,"rotting-oranges","Rotting Oranges","M","All rotten oranges spread at the same time. That is BFS from many sources at once.","Queue every rotten cell and count fresh ones. BFS level by level (one level = one minute). Return minutes if fresh reaches 0, else -1.","Multi-source BFS"],
+  [1091,"shortest-path-in-binary-matrix","Shortest Path in Binary Matrix","M","Unweighted shortest path means BFS.","BFS from (0,0) in 8 directions, counting levels. Return the level when you reach (n-1, n-1); check the start cell is 0.","8-direction DIRS"],
+  [417,"pacific-atlantic-water-flow","Pacific Atlantic Water Flow","M","Checking every cell forward is slow. Search backwards from each ocean, moving uphill.","BFS/DFS from all Pacific border cells into neighbours with height ≥ current; same for Atlantic. Cells reached by both are the answer.","Two `boolean[][]`"],
+  [130,"surrounded-regions","Surrounded Regions","M","An 'O' survives only if it connects to the border. Find the survivors first.","DFS from every border 'O', marking 'S'. Then flip remaining 'O' to 'X' and 'S' back to 'O'.","Search from the safe side"],
+  [547,"number-of-provinces","Number of Provinces","M","Count connected components.","DFS from each unvisited city over the matrix, counting starts. Then solve it again with Union-Find, which the next gate needs.","`boolean[] visited`"],
+  [207,"course-schedule","Course Schedule","M","Every course can be finished only if the prerequisite graph has no cycle.","Kahn's algorithm: build adjacency and in-degrees, queue in-degree 0 nodes, pop and decrement neighbours. Possible if n nodes were popped.","Template above"],
+  [210,"course-schedule-ii","Course Schedule II","M","Same as Course Schedule, but output the pop order.","Kahn's algorithm, recording pop order. Fewer than n popped → return an empty array.","Topological order"],
+  [329,"longest-increasing-path-in-a-matrix","Longest Increasing Path in a Matrix","H","Strictly increasing moves never form a cycle, so DFS results can be cached.","memo[r][c] = 1 + max over larger neighbours of dfs(neighbour). Compute for every cell and take the max. Each cell is solved once: O(mn).","DFS + memo","side"],
+  [127,"word-ladder","Word Ladder","H","Words are nodes; words one letter apart are neighbours. Shortest transformation means BFS.","Put the word list in a HashSet. BFS from beginWord; for each word try every position with 'a'..'z'; if the new word is in the set, remove it (marks visited) and enqueue. Return the level at endWord, or 0.","`char[]` edit and restore","boss"]
+ ]
+},
+{
+ id:"g12", name:"Graphs II", sub:"Dijkstra, Union-Find, MST", rank:"A", days:[38,40], stat:"SEN",
+ what:"Weighted shortest paths (Dijkstra; Bellman-Ford when the number of edges is limited), connectivity with Union-Find (DSU), and minimum spanning trees (Prim, Kruskal).",
+ signals:["Minimum cost, time or effort with weighted edges → Dijkstra","At most k stops or edges → Bellman-Ford rounds","Merge groups, are x and y connected, redundant edge → Union-Find","Connect everything at minimum total cost → MST"],
+ steps:["Check edge weights: all equal → BFS; non-negative → Dijkstra; edge-count limit → Bellman-Ford.","In Dijkstra, skip stale heap entries (`d > dist[u]`).","For DSU, always use path compression; add union by size for safety."],
+ code:String.raw`// Dijkstra (non-negative weights). adj.get(u) holds int[]{v, w}
+int[] dist = new int[n];
+Arrays.fill(dist, Integer.MAX_VALUE);
+dist[src] = 0;
+PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+pq.offer(new int[]{0, src});
+while (!pq.isEmpty()) {
+    int[] top = pq.poll();
+    int d = top[0], u = top[1];
+    if (d > dist[u]) continue;                 // stale entry
+    for (int[] e : adj.get(u)) {
+        int v = e[0], nd = d + e[1];
+        if (nd < dist[v]) { dist[v] = nd; pq.offer(new int[]{nd, v}); }
+    }
+}
+
+// Union-Find with path compression and union by size
+int[] parent, size;
+void init(int n) {
+    parent = new int[n]; size = new int[n];
+    for (int i = 0; i < n; i++) { parent[i] = i; size[i] = 1; }
+}
+int find(int x) {
+    while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; }
+    return x;
+}
+boolean union(int a, int b) {
+    int ra = find(a), rb = find(b);
+    if (ra == rb) return false;                // already connected
+    if (size[ra] < size[rb]) { int t = ra; ra = rb; rb = t; }
+    parent[rb] = ra;
+    size[ra] += size[rb];
+    return true;
+}`,
+ traps:["Dijkstra fails with negative edges.","Distances that sum many weights may need `long[]` and `PriorityQueue<long[]>`."],
+ problems:[
+  [743,"network-delay-time","Network Delay Time","M","Weighted shortest paths from one source with non-negative weights: Dijkstra.","Adjacency of [to, w]; min-heap of [dist, node]; skip stale entries; relax neighbours. Answer = max distance, or -1 if some node is unreachable.","Template above"],
+  [1631,"path-with-minimum-effort","Path With Minimum Effort","M","A path's cost is its largest step, not the sum. Dijkstra still works with that rule.","Dijkstra on the grid with new cost = `max(cost, abs(h1 - h2))`. Return when the target is popped. (Alternative: binary search the effort + BFS.)","`int[]{cost, r, c}`"],
+  [787,"cheapest-flights-within-k-stops","Cheapest Flights Within K Stops","M","A limit on edges breaks plain Dijkstra. Bellman-Ford naturally works one edge per round.","Run k + 1 rounds. Each round copy dist and relax every flight from the old array into the copy, so a round adds at most one edge.","`int[] tmp = dist.clone()`"],
+  [684,"redundant-connection","Redundant Connection","M","Add edges one by one. The first edge whose ends are already connected closes the cycle.","DSU: for each edge, if `find(u) == find(v)` return it; else union.","DSU template"],
+  [1584,"min-cost-to-connect-all-points","Min Cost to Connect All Points","M","Minimum spanning tree on a complete graph.","Prim in O(n²): keep `minDist[]` to the tree; repeatedly add the closest unvisited point and update the others with Manhattan distance. Kruskal (sort edges + DSU) also works.","`Math.abs(x1 - x2) + Math.abs(y1 - y2)`"],
+  [721,"accounts-merge","Accounts Merge","M","Accounts sharing any email are one person: connected components over emails.","Give each email an id and remember its owner. Union all emails of an account with its first email. Group emails by root, sort each group, put the name first.","DSU + `Map<String, Integer>`"],
+  [1976,"number-of-ways-to-arrive-at-destination","Number of Ways to Arrive at Destination","M","Run Dijkstra and also count how many shortest paths reach each node.","Strictly shorter → ways[v] = ways[u]. Equal → ways[v] += ways[u] (mod 1e9+7). Distances need long.","`long[] dist`, `PriorityQueue<long[]>`"],
+  [332,"reconstruct-itinerary","Reconstruct Itinerary","H","Use every ticket exactly once: an Eulerian path. Smallest lexical order means always fly to the smallest destination first.","Map airport → min-heap of destinations. Hierholzer: dfs(a) polls and recurses while destinations remain; after the loop, add a to the front of the result.","`Map<String, PriorityQueue<String>>`, `LinkedList.addFirst`","side"],
+  [778,"swim-in-rising-water","Swim in Rising Water","H","The time to reach a cell is the highest elevation on the best path to it.","Dijkstra with cost = max(cost, grid[nr][nc]); always expand the lowest available cell. Return when the bottom-right is popped.","Same idea as LC 1631","boss"]
+ ]
+},
+{
+ id:"g13", name:"Greedy & Intervals", sub:"Best local choice, sort first", rank:"A", days:[41,43], stat:"SEN",
+ what:"Make the locally best choice and never undo it. Greedy is correct only when you can argue the greedy choice is never worse than any alternative (an exchange argument). Interval problems almost always start with a sort.",
+ signals:["Intervals, meetings, schedules, balloons","Minimum number of removals, arrows, rooms, groups","How far can you reach / jump","Assign or pair items to minimise or maximise something"],
+ steps:["Try the greedy idea on 3 small examples and actively try to break it.","Sort by start to merge; sort by end to keep the maximum number of non-overlapping intervals.","If you can break the greedy, the problem is probably DP."],
+ code:String.raw`// Merge intervals
+Arrays.sort(iv, (a, b) -> Integer.compare(a[0], b[0]));
+List<int[]> res = new ArrayList<>();
+for (int[] cur : iv) {
+    if (res.isEmpty() || res.get(res.size() - 1)[1] < cur[0]) res.add(cur);
+    else res.get(res.size() - 1)[1] = Math.max(res.get(res.size() - 1)[1], cur[1]);
+}
+int[][] merged = res.toArray(new int[0][]);
+
+// Maximum non-overlapping: sort by END and keep greedily
+Arrays.sort(iv, (a, b) -> Integer.compare(a[1], b[1]));
+int kept = 0;
+long lastEnd = Long.MIN_VALUE;
+for (int[] cur : iv) {
+    if (cur[0] >= lastEnd) { kept++; lastEnd = cur[1]; }
+}`,
+ traps:["`(a, b) -> a[1] - b[1]` overflows when values reach ±2³¹ (LC 452 tests this).","Decide whether touching intervals ([1,2] and [2,3]) overlap; problems differ."],
+ problems:[
+  [53,"maximum-subarray","Maximum Subarray","M","At each index: extend the previous subarray, or start fresh here?","Kadane: `cur = max(x, cur + x); best = max(best, cur)`.","Start best at nums[0]"],
+  [55,"jump-game","Jump Game","M","Track the farthest index you can reach.","For each i: if i > reach return false; `reach = max(reach, i + nums[i])`. Return true.","One variable"],
+  [45,"jump-game-ii","Jump Game II","M","Think in BFS levels: the indices reachable with j jumps form one level.","Keep `end` (edge of the current level) and `far`. For i in 0..n-2: far = max(far, i + nums[i]); when i == end, jumps++ and end = far.","Implicit BFS"],
+  [134,"gas-station","Gas Station","M","If total gas ≥ total cost, an answer exists. If you run dry at i starting from s, no start between s and i works.","Track total and tank. When tank < 0 at i, reset tank = 0 and start = i + 1. Return start if total ≥ 0, else -1.","Understand the proof"],
+  [763,"partition-labels","Partition Labels","M","A part cannot end before the last occurrence of every letter inside it.","Record each letter's last index. Walk with `end = max(end, last[c])`; when i == end, close a part.","`int[26] last`"],
+  [56,"merge-intervals","Merge Intervals","M","After sorting by start, overlapping intervals are neighbours.","Sort by start. If the start ≤ the last merged end, extend the end; otherwise add a new interval.","`res.toArray(new int[0][])`"],
+  [57,"insert-interval","Insert Interval","M","Three phases: intervals fully before, overlapping, fully after.","Add those ending before newInterval starts. Merge every overlapping one into newInterval (min start, max end). Add it, then add the rest.","`List<int[]>`"],
+  [435,"non-overlapping-intervals","Non-overlapping Intervals","M","To keep the most intervals, always keep the one that ends first.","Sort by end; keep an interval if its start ≥ the last kept end. Answer = n - kept.","Sort by end"],
+  [452,"minimum-number-of-arrows-to-burst-balloons","Minimum Number of Arrows to Burst Balloons","M","Same greedy: shoot at the end of the earliest-ending balloon.","Sort by end. arrows = 1, pos = first end. For each balloon with start > pos: arrows++, pos = its end. Use `Integer.compare`, subtraction overflows here.","Overflow trap"],
+  [2406,"divide-intervals-into-minimum-number-of-groups","Divide Intervals Into Minimum Number of Groups","M","This is the meeting rooms problem: how many intervals overlap at the busiest moment?","Sort by start. Min-heap of group end times. If the smallest end < current start, reuse that group (poll). Offer the current end. Answer = heap size. A sweep line over +1/-1 events also works.","`PriorityQueue<Integer>` of ends"],
+  [630,"course-schedule-iii","Course Schedule III","H","Take courses in deadline order. When one does not fit, drop the longest course taken so far.","Sort by lastDay. Add each duration to time and to a max-heap. If time > lastDay, subtract the heap's largest duration and poll it. Answer = heap size.","Greedy with regret","side"],
+  [135,"candy","Candy","H","Handle the left-neighbour rule and the right-neighbour rule in separate passes.","Everyone starts at 1. Left to right: higher than left → left + 1. Right to left: higher than right → max(current, right + 1). Sum.","Two passes","boss"]
+ ]
+},
+{
+ id:"g14", name:"Dynamic Programming I", sub:"1D states and knapsack", rank:"A", days:[44,47], stat:"INT",
+ what:"DP is recursion plus memory. If the brute-force recursion solves the same subproblem many times, cache it. Then, optionally, turn it into a loop. Most interview DP problems are 1D: one index of state.",
+ signals:["Number of ways","Minimum or maximum cost / profit","Can you reach / can you build","Each choice affects future options, and greedy fails on some example"],
+ steps:["State: write `dp[i] = ...` as one full sentence.","Transition: how does dp[i] come from smaller states?","Base cases.","Order: memoized recursion, or loops that fill smaller states first.","Answer location, then compress space if the transition only looks back a few steps."],
+ code:String.raw`// Top-down: start here. Recursion + memo (House Robber)
+int[] memo;
+int solve(int[] nums, int i) {
+    if (i >= nums.length) return 0;                 // base case
+    if (memo[i] != -1) return memo[i];
+    int take = nums[i] + solve(nums, i + 2);        // choice 1
+    int skip = solve(nums, i + 1);                  // choice 2
+    return memo[i] = Math.max(take, skip);
+}
+// memo = new int[n]; Arrays.fill(memo, -1); solve(nums, 0);
+
+// Bottom-up: same recurrence, filled in order
+int[] dp = new int[n + 2];
+for (int i = n - 1; i >= 0; i--) dp[i] = Math.max(nums[i] + dp[i + 2], dp[i + 1]);
+
+// Knapsack loop directions
+// 0/1 (each item once):  for (int s = target; s >= w; s--) dp[s] |= dp[s - w];
+// unbounded (reuse):     for (int s = w; s <= target; s++) dp[s] += dp[s - w];`,
+ traps:["Memo arrays filled with 0 confuse a real answer of 0 with not computed. Fill with -1.","Coin Change II: loop order (coins outer vs amount outer) changes combinations into permutations."],
+ problems:[
+  [70,"climbing-stairs","Climbing Stairs","E","To stand on step n, your last move came from n - 1 or n - 2.","dp[n] = dp[n-1] + dp[n-2], dp[0] = dp[1] = 1. Keep two variables.","Recursion → memo → loop"],
+  [746,"min-cost-climbing-stairs","Min Cost Climbing Stairs","E","The cost to reach i is the cheaper of reaching i - 1 or i - 2, plus what you pay at i.","dp[i] = cost[i] + min(dp[i-1], dp[i-2]). Answer = min(dp[n-1], dp[n-2]).","Two rolling variables"],
+  [198,"house-robber","House Robber","M","At each house: rob it and skip the previous one, or skip it.","dp[i] = max(dp[i-1], dp[i-2] + nums[i]).","Template above"],
+  [213,"house-robber-ii","House Robber II","M","In a circle, the first and last houses cannot both be robbed.","max(rob(0..n-2), rob(1..n-1)) with the House Robber helper. Handle n == 1.","Reuse with ranges"],
+  [91,"decode-ways","Decode Ways","M","The last step uses one digit (1–9) or two digits (10–26).","dp[i] = ways to decode the first i chars. Add dp[i-1] if s[i-1] != '0'. Add dp[i-2] if the two-digit value is 10..26.","Char math"],
+  [322,"coin-change","Coin Change","M","The best way to make amount a ends with some coin c, so look at a - c.","dp[0] = 0, others amount + 1 (infinity). For a in 1..amount, for each coin ≤ a: dp[a] = min(dp[a], dp[a - c] + 1). Still infinity → -1.","Unbounded knapsack"],
+  [518,"coin-change-ii","Coin Change II","M","Count combinations, not orderings. The loop order decides which one you count.","dp[0] = 1. Coins in the outer loop, amounts ascending inside: dp[a] += dp[a - c]. Swapping the loops counts permutations, which is wrong here.","Loop order is the lesson"],
+  [300,"longest-increasing-subsequence","Longest Increasing Subsequence","M","dp[i] = length of the longest increasing subsequence ending at i. Then learn the O(n log n) version.","O(n²): dp[i] = 1 + max dp[j] for j < i with nums[j] < nums[i]. O(n log n): keep `tails`; for each x, replace the first tail ≥ x (lower bound) or append. tails length = answer.","Binary search on `tails`"],
+  [139,"word-break","Word Break","M","dp[i] = can the first i characters be split into dictionary words?","dp[0] = true. For each i and each j < i: if dp[j] and s[j..i) is in the set, dp[i] = true.","`new HashSet<>(wordDict)`"],
+  [152,"maximum-product-subarray","Maximum Product Subarray","M","A negative number turns the smallest product into the largest. Track both.","Keep curMax and curMin. For each x, candidates are x, x·curMax, x·curMin; compute the new max and min from the old values, update the answer.","Use temp variables"],
+  [416,"partition-equal-subset-sum","Partition Equal Subset Sum","M","Can some subset reach total / 2? That is 0/1 knapsack.","Odd total → false. `boolean[] dp` with dp[0] = true. For each num, loop s from target down to num: dp[s] |= dp[s - num]. Going down stops a number being reused.","Backward loop"],
+  [309,"best-time-to-buy-and-sell-stock-with-cooldown","Best Time to Buy and Sell Stock with Cooldown","M","Describe each day by a state: holding, just sold, resting.","hold = max(hold, rest - p); sold = prevHold + p; rest = max(rest, prevSold). Answer = max(sold, rest). This state-machine style handles every stock problem.","Update from previous values"],
+  [1235,"maximum-profit-in-job-scheduling","Maximum Profit in Job Scheduling","H","Sort jobs by end. For each job: skip it, or take it plus the best result among jobs ending by its start.","dp[i] = max(dp[i-1], profit[i] + dp[j]) where j is the last job with end ≤ start[i], found by binary search. Or TreeMap end → best profit with `floorEntry(start)`.","Sort + binary search","boss"]
+ ]
+},
+{
+ id:"g15", name:"Dynamic Programming II", sub:"Grids, two strings, palindromes", rank:"A", days:[48,51], stat:"INT",
+ what:"Two indices of state: a grid cell (r, c), a pair of string prefixes (i, j), or an interval [i, j] of one string. The recipe is the same as 1D; only the table grows.",
+ signals:["Compare or transform two strings (LCS, edit distance)","Count or optimise paths in a grid","Palindromic substrings or subsequences","Subsequence matching"],
+ steps:["For two strings, dp[i][j] covers prefixes of length i and j. Look at their last characters.","Size the table (m + 1) × (n + 1) so row 0 and column 0 mean the empty prefix.","For interval DP on one string, fill by increasing length or with i descending."],
+ code:String.raw`// Two-string DP skeleton: Longest Common Subsequence
+int m = a.length(), n = b.length();
+int[][] dp = new int[m + 1][n + 1];            // row 0 / col 0 = empty prefix
+for (int i = 1; i <= m; i++) {
+    for (int j = 1; j <= n; j++) {
+        if (a.charAt(i - 1) == b.charAt(j - 1)) dp[i][j] = dp[i - 1][j - 1] + 1;
+        else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+    }
+}
+return dp[m][n];
+
+// Palindrome centre expansion
+int expand(String s, int l, int r) {
+    while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) { l--; r++; }
+    return r - l - 1;                          // length of the palindrome
+}`,
+ traps:["Off-by-one between dp indices and string indices: dp[i] uses `charAt(i - 1)`.","Interval DP filled in the wrong order reads cells that are not computed yet."],
+ problems:[
+  [62,"unique-paths","Unique Paths","M","You reach a cell only from above or from the left.","dp[r][c] = dp[r-1][c] + dp[r][c-1], first row and column = 1. One row is enough: dp[c] += dp[c-1].","1D rolling array"],
+  [64,"minimum-path-sum","Minimum Path Sum","M","Same grid, but take the cheaper incoming path.","dp[r][c] = grid[r][c] + min(top, left), handling the first row and column.","In place is fine"],
+  [1143,"longest-common-subsequence","Longest Common Subsequence","M","Compare the last characters of both prefixes.","Equal → 1 + dp[i-1][j-1]. Else max(dp[i-1][j], dp[i][j-1]).","Template above"],
+  [72,"edit-distance","Edit Distance","M","The three operations map to three neighbouring cells.","Equal chars → dp[i-1][j-1]. Else 1 + min(delete dp[i-1][j], insert dp[i][j-1], replace dp[i-1][j-1]). Base: dp[i][0] = i, dp[0][j] = j.","Classic 2D string DP"],
+  [5,"longest-palindromic-substring","Longest Palindromic Substring","M","Every palindrome has a centre: a character or a gap between two.","Expand around each centre for odd (i, i) and even (i, i + 1) lengths; track the longest. O(n²) time, O(1) space.","`expand` helper"],
+  [647,"palindromic-substrings","Palindromic Substrings","M","Same centre expansion, counting each successful expansion.","For each of the 2n - 1 centres, expand and add 1 for every matching step.","Reuse `expand`"],
+  [516,"longest-palindromic-subsequence","Longest Palindromic Subsequence","M","Interval DP: dp[i][j] covers s[i..j].","s[i] == s[j] → 2 + dp[i+1][j-1]; else max(dp[i+1][j], dp[i][j-1]). Fill i from n - 1 down, j from i up. (Equals LCS of s and reverse(s).)","i descending"],
+  [97,"interleaving-string","Interleaving String","M","dp[i][j]: can the first i chars of s1 and first j of s2 form the first i + j of s3?","dp[i][j] = (dp[i-1][j] && s1[i-1] == s3[i+j-1]) || (dp[i][j-1] && s2[j-1] == s3[i+j-1]). Check lengths first.","`boolean[m + 1][n + 1]`"],
+  [494,"target-sum","Target Sum","M","Signs split the numbers into P and N with P - N = target and P + N = sum.","So P = (sum + target) / 2. Count subsets with that sum (0/1 knapsack counting, backward loop, dp[0] = 1). Odd or negative (sum + target) → 0.","Reduce to a known DP"],
+  [221,"maximal-square","Maximal Square","M","The largest square ending at (r, c) is limited by its top, left and top-left neighbours.","On '1': dp[r][c] = 1 + min(top, left, topLeft). Track the max side; answer side².","Three-way min"],
+  [115,"distinct-subsequences","Distinct Subsequences","H","Count ways. When characters match you can use the match or skip it.","dp[i][j] = ways to form t[0..j) from s[0..i) = dp[i-1][j] + (s[i-1] == t[j-1] ? dp[i-1][j-1] : 0). dp[i][0] = 1.","Counting DP","side"],
+  [85,"maximal-rectangle","Maximal Rectangle","H","Turn each row into a histogram of consecutive 1s above it. You already solved histograms.","Maintain heights[c] (reset to 0 on '0'). For every row, run Largest Rectangle in Histogram (LC 84) and track the max.","Reuse LC 84","side"],
+  [10,"regular-expression-matching","Regular Expression Matching","H","'*' means zero or more of the previous char: use it zero times, or consume one more char.","dp[i][j]: does s[0..i) match p[0..j)? If p[j-1] == '*': dp[i][j-2] (zero uses) or (prev char matches s[i-1] and dp[i-1][j]). Else the chars match (or '.') and dp[i-1][j-1]. Initialise dp[0][j] for patterns like a*b*.","Draw the table first","boss"]
+ ]
+},
+{
+ id:"g16", name:"Dynamic Programming III", sub:"Interval, tree, bitmask, digit DP", rank:"S", days:[52,54], stat:"INT",
+ what:"Advanced state design. Interval DP picks the last action inside a range. Tree DP returns several values per node. Bitmask DP stores a set of used items in an int when n ≤ 20. Digit DP counts numbers up to N with a digit property.",
+ signals:["n ≤ 16–20 and you choose or order items → bitmask","Burst, cut, merge inside a range → interval DP","Choose nodes in a tree with neighbour rules → tree DP","Count integers in [1, N] with a digit rule → digit DP"],
+ steps:["Ask: what is the smallest information that describes the remaining problem? That is your state.","For interval DP, think about which action happens last in [i, j].","Estimate states × transitions before coding to make sure it fits."],
+ code:String.raw`// Interval DP: dp[i][j] over a range, filled by length
+for (int len = 2; len < m; len++) {
+    for (int i = 0; i + len < m; i++) {
+        int j = i + len;
+        dp[i][j] = Integer.MAX_VALUE;
+        for (int k = i + 1; k < j; k++) {
+            dp[i][j] = Math.min(dp[i][j], dp[i][k] + dp[k][j] + cost(i, j));
+        }
+    }
+}
+
+// Bitmask basics
+boolean has = ((mask >> i) & 1) == 1;
+int with = mask | (1 << i);
+int without = mask & ~(1 << i);
+int full = (1 << n) - 1;
+for (int sub = mask; sub > 0; sub = (sub - 1) & mask) { /* every non-empty submask */ }
+
+// Tree DP: return several answers per node
+int[] dfs(TreeNode node) {                     // {bestIfTaken, bestIfSkipped}
+    if (node == null) return new int[]{0, 0};
+    int[] L = dfs(node.left), R = dfs(node.right);
+    int take = node.val + L[1] + R[1];
+    int skip = Math.max(L[0], L[1]) + Math.max(R[0], R[1]);
+    return new int[]{take, skip};
+}`,
+ traps:["`1 << 31` is negative in Java; use `1L << i` for masks past 30 bits.","Interval DP is O(n³); fine for n ≤ 500, too slow beyond that."],
+ problems:[
+  [337,"house-robber-iii","House Robber III","M","Tree DP: each node returns two answers, robbed and not robbed.","dfs returns {rob, skip}. rob = val + left.skip + right.skip. skip = max(left) + max(right). Answer = max of the root's pair.","Return `int[]`"],
+  [698,"partition-to-k-equal-sum-subsets","Partition to K Equal Sum Subsets","M","n ≤ 16 is the hint: 2¹⁶ subsets fit in memory. Use a bitmask of used numbers.","dp[mask] = fill of the current bucket, or -1 if unreachable. For each reachable mask and unused i with dp[mask] + nums[i] ≤ target: dp[mask | 1<<i] = (dp[mask] + nums[i]) % target. Answer dp[full] == 0.","`1 << i`"],
+  [354,"russian-doll-envelopes","Russian Doll Envelopes","H","Sort by width so only heights matter. Equal widths must not nest.","Sort width ascending and, for equal widths, height descending. Then O(n log n) LIS on heights.","Comparator with tie-break"],
+  [1547,"minimum-cost-to-cut-a-stick","Minimum Cost to Cut a Stick","H","Interval DP. Instead of the first cut, choose which cut in a segment happens first and split there.","Add 0 and n to the cuts, sort. dp[i][j] = min over k in (i, j) of dp[i][k] + dp[k][j] + (cuts[j] - cuts[i]). Fill by increasing length.","Template above"],
+  [1335,"minimum-difficulty-of-a-job-schedule","Minimum Difficulty of a Job Schedule","H","dp(i, d) = minimum difficulty to schedule jobs i..end in d days.","Day d starts at job i; try ending it at each j while tracking the running max: dp(i, d) = min(max(i..j) + dp(j + 1, d - 1)). Leave enough jobs for the remaining days.","Memo `int[][]` filled with -1"],
+  [188,"best-time-to-buy-and-sell-stock-iv","Best Time to Buy and Sell Stock IV","H","The stock state machine again, with a transaction counter.","For t in 1..k: buy[t] = max(buy[t], sell[t-1] - p); sell[t] = max(sell[t], buy[t] + p). buy starts at -infinity. Answer sell[k].","Arrays of size k + 1"],
+  [968,"binary-tree-cameras","Binary Tree Cameras","H","Greedy from the leaves up: a leaf's parent should hold the camera.","dfs returns 0 = not covered, 1 = has camera, 2 = covered. Any child 0 → place a camera, count++, return 1. Any child 1 → return 2. Else return 0. Null → 2. If the root returns 0, add one.","State-returning DFS"],
+  [847,"shortest-path-visiting-all-nodes","Shortest Path Visiting All Nodes","H","n ≤ 12. The state is (current node, set of visited nodes).","BFS over (node, mask) starting from every node with its own bit. visited[node][mask]. The first state with mask == full gives the answer.","`boolean[n][1 << n]`"],
+  [233,"number-of-digit-one","Number of Digit One","H","Count position by position: how often is the digit at place p a 1?","For p = 1, 10, 100...: high = n / (p·10), cur = (n / p) % 10, low = n % p. Ones = high·p + (cur > 1 ? p : cur == 1 ? low + 1 : 0). Your entry point to digit DP.","`long p`","side"],
+  [312,"burst-balloons","Burst Balloons","H","Choosing the first balloon changes neighbours unpredictably. Choose the last one instead.","Pad with 1 on both ends. dp[l][r] (exclusive bounds) = max over k in (l, r) of dp[l][k] + dp[k][r] + a[l]·a[k]·a[r], where k bursts last.","Interval DP in reverse","boss"]
+ ]
+},
+{
+ id:"g17", name:"Tries, Bits & Math", sub:"Prefix trees and number tricks", rank:"S", days:[55,56], stat:"INT",
+ what:"A trie stores strings character by character, so prefix questions cost O(length). Bit manipulation and a little number theory (sieve, fast power, modular arithmetic) appear in contests constantly.",
+ signals:["Many words, prefix search, wildcard match → trie","Maximum XOR → binary trie","Single / missing number with O(1) space → XOR","Answer modulo 1e9+7 with huge exponents → fast power","Primes up to n → sieve"],
+ steps:["For tries, write the Node class first and keep it tiny.","For bits, test each trick on paper with 4-bit numbers.","For modular arithmetic, reduce after every multiply and use long."],
+ code:String.raw`class Trie {
+    Trie[] next = new Trie[26];
+    boolean end;
+
+    void insert(String w) {
+        Trie node = this;
+        for (char c : w.toCharArray()) {
+            if (node.next[c - 'a'] == null) node.next[c - 'a'] = new Trie();
+            node = node.next[c - 'a'];
+        }
+        node.end = true;
+    }
+}
+
+// Bit tricks (expression  ->  meaning)
+// x & 1          odd?
+// x & (x - 1)    drop the lowest set bit
+// x & -x         lowest set bit alone
+// Integer.bitCount(x), Integer.numberOfTrailingZeros(x), Integer.highestOneBit(x)
+
+// Fast modular power
+long modPow(long b, long e, long mod) {
+    long r = 1;
+    b %= mod;
+    while (e > 0) {
+        if ((e & 1) == 1) r = r * b % mod;
+        b = b * b % mod;
+        e >>= 1;
+    }
+    return r;
+}`,
+ traps:["`>>` keeps the sign, `>>>` shifts in zeros.","`-Integer.MIN_VALUE` is still negative; convert to long before negating."],
+ problems:[
+  [208,"implement-trie-prefix-tree","Implement Trie (Prefix Tree)","M","Each node has up to 26 children and a flag for whether a word ends there.","insert walks and creates children; search walks and checks `end`; startsWith only walks.","Template above"],
+  [211,"design-add-and-search-words-data-structure","Design Add and Search Words Data Structure","M","A trie, where '.' means try every child.","Recursive search(word, i, node): on '.', try each non-null child; otherwise follow the single child.","DFS in a trie"],
+  [421,"maximum-xor-of-two-numbers-in-an-array","Maximum XOR of Two Numbers in an Array","M","Build the answer from the top bit down. For each bit you want the opposite bit in the partner.","Insert all numbers into a binary trie (bits 30..0). For each number, walk preferring the opposite bit and build the XOR.","`(x >> b) & 1`"],
+  [136,"single-number","Single Number","E","x ^ x = 0 and x ^ 0 = x.","XOR everything; pairs cancel, the single one remains.","`res ^= x`"],
+  [191,"number-of-1-bits","Number of 1 Bits","E","`n & (n - 1)` removes the lowest set bit.","Count how many times `n &= n - 1` runs before n is 0. Library: `Integer.bitCount(n)`.","`Integer.bitCount`"],
+  [338,"counting-bits","Counting Bits","E","The bit count of i is the bit count of i / 2 plus its last bit.","`dp[i] = dp[i >> 1] + (i & 1)`.","Bit DP"],
+  [268,"missing-number","Missing Number","E","XOR all indices 0..n with all values; everything pairs up except the missing one.","res = n; for each i: res ^= i ^ nums[i]. (Sum formula also works.)","XOR"],
+  [371,"sum-of-two-integers","Sum of Two Integers","M","XOR adds without carrying; AND shifted left is the carry.","While b != 0: carry = (a & b) << 1; a ^= b; b = carry. Java ints wrap correctly for negatives.","`^`, `&`, `<<`"],
+  [204,"count-primes","Count Primes","M","Sieve of Eratosthenes: cross out multiples of each prime.","`boolean[] composite`. For i while i·i < n: if prime, mark i·i, i·i + i, ... Count unmarked numbers from 2 to n - 1.","Start at `i * i`"],
+  [50,"powx-n","Pow(x, n)","M","x¹⁰ = (x⁵)². Halve the exponent each step.","long N = n (MIN_VALUE cannot be negated as an int). If N < 0: x = 1 / x, N = -N. Loop: odd N → res *= x; x *= x; N >>= 1.","Fast exponentiation"],
+  [1922,"count-good-numbers","Count Good Numbers","M","Even positions have 5 choices, odd positions 4. n reaches 10¹⁵, so you need modular fast power.","Answer = 5^ceil(n/2) · 4^floor(n/2) mod 1e9+7 using `modPow`.","`modPow` above"],
+  [212,"word-search-ii","Word Search II","H","Running Word Search per word is too slow. Put every word into a trie and search the grid once.","Trie that stores the full word at its end node. DFS from each cell following trie children; on a node with a word, add it and clear it to avoid duplicates. Prune empty nodes for speed.","Trie + grid backtracking","boss"]
+ ]
+},
+{
+ id:"g18", name:"Range Queries", sub:"Fenwick tree, segment tree, merge-sort counting", rank:"S", days:[57,58], stat:"INT",
+ what:"When values change between queries, prefix sums break. A Fenwick tree (BIT) gives O(log n) point updates and prefix sums. A segment tree handles any associative operation (sum, min, max). Merge sort can count ordered pairs while it sorts.",
+ signals:["Range sum / min / max with updates","Count elements smaller than x to the right (inversions)","dp over values where you need max over a value range","n up to 10⁵ and O(n²) pair counting is too slow"],
+ steps:["Ask: what do I query, and what do I update? Point or range?","If values are large, coordinate-compress them to ranks 1..m.","Process elements in an order (often right to left) so the tree holds exactly the elements you want to count."],
+ code:String.raw`// Fenwick tree (Binary Indexed Tree), 1-indexed
+class BIT {
+    int[] t;
+    BIT(int n) { t = new int[n + 1]; }
+    void add(int i, int delta) { for (; i < t.length; i += i & -i) t[i] += delta; }
+    int sum(int i) { int s = 0; for (; i > 0; i -= i & -i) s += t[i]; return s; }   // sum of [1..i]
+    int range(int l, int r) { return sum(r) - sum(l - 1); }
+}
+
+// Coordinate compression: values -> ranks 1..m
+int[] sorted = Arrays.stream(nums).distinct().sorted().toArray();
+int rank = Arrays.binarySearch(sorted, x) + 1;
+
+// Iterative segment tree, range max with point updates
+int size = 1;
+while (size < n) size <<= 1;
+int[] seg = new int[2 * size];
+void update(int i, int v) {
+    i += size; seg[i] = v;
+    for (i >>= 1; i > 0; i >>= 1) seg[i] = Math.max(seg[2 * i], seg[2 * i + 1]);
+}
+int query(int l, int r) {                      // inclusive [l, r]
+    int res = 0;
+    for (l += size, r += size + 1; l < r; l >>= 1, r >>= 1) {
+        if ((l & 1) == 1) res = Math.max(res, seg[l++]);
+        if ((r & 1) == 1) res = Math.max(res, seg[--r]);
+    }
+    return res;
+}`,
+ traps:["Fenwick indices start at 1; index 0 loops forever in `add`.","Counting pairs can exceed int range; use long counters."],
+ problems:[
+  [307,"range-sum-query-mutable","Range Sum Query – Mutable","M","Prefix sums break when values change. A Fenwick tree gives O(log n) updates and prefix sums.","BIT with add and sum. update stores delta = val - old (keep a copy of nums). sumRange = sum(r + 1) - sum(l).","BIT template"],
+  [493,"reverse-pairs","Reverse Pairs","H","Merge sort: while both halves are sorted, count cross pairs with two pointers.","In each merge, for each i in the left half advance j in the right half while `nums[i] > 2L * nums[j]`; add (j - mid - 1). Then merge normally.","`2L *` avoids overflow"],
+  [327,"count-of-range-sum","Count of Range Sum","H","Range sums are differences of prefix sums. Count pairs i < j with lower ≤ pre[j] - pre[i] ≤ upper.","Merge sort over the long prefix array. For each left element, two pointers in the sorted right half find the window [pre[i] + lower, pre[i] + upper]; add its size.","`long[] pre`","side"],
+  [2407,"longest-increasing-subsequence-ii","Longest Increasing Subsequence II","H","dp[v] = longest valid subsequence ending in value v. You need max dp over [v - k, v - 1] fast.","Segment tree over values with point update and range max. For x: best = query(x - k, x - 1) + 1; update(x, best).","Segment tree above","side"],
+  [315,"count-of-smaller-numbers-after-self","Count of Smaller Numbers After Self","H","Walk from the right. For each number: how many numbers already seen are smaller?","Coordinate-compress to ranks 1..m. Right to left: ans[i] = bit.sum(rank - 1), then bit.add(rank, 1). Merge-sort counting also works.","BIT + compression","boss"]
+ ]
+},
+{
+ id:"g19", name:"The Monarch's Trial", sub:"Mixed hard problems and contests", rank:"S", days:[59,60], stat:"INT",
+ what:"No new pattern here. Every problem combines two patterns you already know, and the hints are deliberately short. Identify the patterns yourself before opening anything. Pair this gate with LeetCode contests (see Mentor Protocol).",
+ signals:["You cannot match a single pattern → look for two: preprocessing (prefix sum, sort, topo order) plus a query structure (map, deque, heap, BFS)","Constraints point at the complexity; the complexity points at the pattern"],
+ steps:["Timebox 45 minutes per hard problem before opening the hint.","Before coding, write three lines: pattern(s), target complexity, edge cases.","After Accepted, write which two patterns combined. That sentence is the real XP."],
+ code:String.raw`// Codeforces-style Java template (LeetCode does not need this)
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        FastReader in = new FastReader();
+        PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+        int t = in.nextInt();
+        while (t-- > 0) {
+            int n = in.nextInt();
+            long[] a = new long[n];
+            for (int i = 0; i < n; i++) a[i] = in.nextLong();
+            out.println(solve(n, a));
+        }
+        out.flush();                      // never forget this
+    }
+
+    static long solve(int n, long[] a) { return 0; }
+
+    static class FastReader {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        String next() throws IOException {
+            while (st == null || !st.hasMoreTokens()) st = new StringTokenizer(br.readLine());
+            return st.nextToken();
+        }
+        int nextInt() throws IOException { return Integer.parseInt(next()); }
+        long nextLong() throws IOException { return Long.parseLong(next()); }
+    }
+}`,
+ traps:["`Scanner` and `System.out.println` in a loop are too slow for 10⁵+ lines of I/O.","On Codeforces, `Arrays.sort(int[])` can be forced to O(n²); sort `Integer[]`/ArrayList or shuffle first."],
+ problems:[
+  [32,"longest-valid-parentheses","Longest Valid Parentheses","H","Stack of indices, with the index just before the current valid run at the bottom.","Push -1 first. '(' → push i. ')' → pop; if empty, push i as the new base; else length = i - peek().","Base-index trick"],
+  [862,"shortest-subarray-with-sum-at-least-k","Shortest Subarray with Sum at Least K","H","Negatives break the sliding window. Prefix sums plus a monotonic deque fix it.","For each prefix P[j]: while P[j] - P[front] ≥ k, record j - front and pop the front. While P[j] ≤ P[back], pop the back. Push j. Use long.","Deque over `long[] P`"],
+  [1074,"number-of-submatrices-that-sum-to-target","Number of Submatrices That Sum to Target","H","Fix two rows, collapse the columns into 1D, then run Subarray Sum Equals K.","For each top row, reset colSum; for each bottom row from top down, add that row into colSum and count target-sum subarrays with the prefix map. O(m²·n).","Prefix sums twice"],
+  [480,"sliding-window-median","Sliding Window Median","H","Find Median from Data Stream, but elements also leave.","Two TreeSets of indices (compare by value, then index) so removal is O(log n), or two heaps with lazy deletion. Rebalance after each move.","`TreeSet<Integer>` with a comparator"],
+  [30,"substring-with-concatenation-of-all-words","Substring with Concatenation of All Words","H","All words share length L, so run L separate windows, each stepping L characters.","For each offset 0..L-1, slide word by word with a count map; shrink from the left when a word appears too often. Record the start when the window holds every word.","`s.substring(j, j + L)`"],
+  [1293,"shortest-path-in-a-grid-with-obstacles-elimination","Shortest Path in a Grid with Obstacles Elimination","H","BFS, but the state must include how many eliminations remain.","BFS over (r, c, remaining) with visited[r][c][remaining]. Entering a wall needs remaining > 0. Shortcut: if k ≥ m + n - 2, return m + n - 2.","3D visited"],
+  [2050,"parallel-courses-iii","Parallel Courses III","H","A course starts when all prerequisites finish. Its finish time is its duration plus the latest prerequisite finish.","Kahn's topological order. Init finish[v] = time[v]; for edge u → v: finish[v] = max(finish[v], finish[u] + time[v]). Answer = max finish.","Topo sort + DP"],
+  [834,"sum-of-distances-in-tree","Sum of Distances in Tree","H","Compute the answer for the root, then move the root to a child and adjust in O(1). This is called rerooting.","DFS 1: subtree sizes count[] and ans[root]. DFS 2: ans[child] = ans[parent] - count[child] + (n - count[child]).","Two DFS passes","boss"]
+ ]
+}
+];
+
+/* =====================================================================
+   PATTERN CODEX + QUIZ
+   ===================================================================== */
+const CODEX = [
+ ["Find a partner / complement, count frequency, detect duplicates","HashMap / HashSet","g1"],
+ ["Sorted array, pair or triplet with a target","Two pointers (opposite ends)","g2"],
+ ["Remove / move / dedupe in place, O(1) space","Two pointers (read / write)","g2"],
+ ["Cycle in a list, middle of a list","Fast and slow pointers","g7"],
+ ["Longest / shortest contiguous range with a rule (positives only)","Sliding window","g3"],
+ ["Subarray sum equals / divisible by k, negatives allowed","Prefix sum + HashMap","g4"],
+ ["Add a value to many ranges, read once","Difference array","g4"],
+ ["Sorted or rotated input, O(log n)","Binary search","g5"],
+ ["Minimum speed / capacity / largest-minimum such that it works","Binary search on the answer","g5"],
+ ["Next greater / smaller, how far a bar extends","Monotonic stack","g6"],
+ ["Max or min of every window of size k","Monotonic deque","g6"],
+ ["Brackets, nesting, undo, expression parsing","Stack","g6"],
+ ["Height, diameter, path sums in a tree","Tree DFS (return + record)","g8"],
+ ["Level by level, right view","Tree BFS","g8"],
+ ["Kth largest, top k, merge k sorted","Heap (PriorityQueue)","g9"],
+ ["Running median","Two heaps","g9"],
+ ["Nearest key ≤ x or ≥ x in a changing set","TreeMap / TreeSet","g9"],
+ ["Return all subsets / permutations / combinations; n ≤ 20","Backtracking","g10"],
+ ["Islands, regions, connected components","DFS / BFS flood fill","g11"],
+ ["Fewest steps, every move costs 1","BFS","g11"],
+ ["Prerequisites, order of tasks, cycle in a directed graph","Topological sort","g11"],
+ ["Cheapest path with non-negative weights","Dijkstra","g12"],
+ ["Merge groups, are x and y connected, redundant edge","Union-Find","g12"],
+ ["Intervals: merge, remove fewest, rooms needed","Sort + greedy","g13"],
+ ["Number of ways, min / max cost, greedy fails","Dynamic programming (1D)","g14"],
+ ["Two strings, grid paths, palindromes","Dynamic programming (2D)","g15"],
+ ["n ≤ 16–20 and a set of used items","Bitmask DP","g16"],
+ ["Prefix search over many words","Trie","g17"],
+ ["Single / missing number in O(1) space, XOR maximum","Bit manipulation","g17"],
+ ["Range sum or max with updates, count smaller after self","Fenwick / segment tree","g18"]
+];
+
+const COMPLEXITY = [
+ ["n ≤ 10","O(n!) — permutations, brute force"],
+ ["n ≤ 20","O(2ⁿ · n) — subsets, bitmask DP"],
+ ["n ≤ 100","O(n³) or O(n⁴) — interval DP, Floyd–Warshall"],
+ ["n ≤ 1 000 – 5 000","O(n²) — 2D DP, all pairs"],
+ ["n ≤ 10⁵ – 2·10⁵","O(n log n) or O(n) — sort, heap, binary search, two pointers, prefix sums"],
+ ["n ≤ 10⁶ – 10⁷","O(n) — single pass, sieve"],
+ ["n ≤ 10⁹ – 10¹⁸","O(log n) or O(1) — binary search on answer, fast power, math"]
+];
+
+const QUIZ = [
+ ["Given a sorted array, find two numbers that add to a target using O(1) extra space.","Two pointers (opposite ends)","Sorted input lets you move l up or r down based on the sum; no map needed."],
+ ["Find the longest substring that contains at most K distinct characters.","Sliding window","Contiguous + longest + at most K is the sliding-window signature."],
+ ["Count subarrays whose sum equals K. The array contains negative numbers.","Prefix sum + HashMap","Negatives break the window's shrink rule; prefix sums with a count map work."],
+ ["Find the minimum eating speed so all piles are finished within H hours.","Binary search on the answer","If speed k works, every faster speed works too: a monotonic yes/no."],
+ ["For each day, how many days until a warmer temperature?","Monotonic stack","Each day waits for its next greater element."],
+ ["Return every possible combination of numbers that sums to a target.","Backtracking","Return all solutions → explore the decision tree."],
+ ["Fewest moves for a knight to reach a square on an empty board.","BFS","Unweighted shortest path."],
+ ["Cheapest route between two cities where roads have different non-negative tolls.","Dijkstra","Weighted shortest path with non-negative weights."],
+ ["Order the build steps so every step comes after its dependencies.","Topological sort","Dependencies form a directed graph; order it with Kahn's algorithm."],
+ ["People join friend groups over time; answer whether two people are in the same group.","Union-Find","Merging groups and connectivity queries."],
+ ["Return the k most frequent words.","Heap (PriorityQueue)","Top k → heap of size k."],
+ ["Count the ways to decode a digit string where 1–26 map to letters.","Dynamic programming (1D)","Number of ways with overlapping subproblems."],
+ ["Autocomplete: given a prefix, list dictionary words that start with it.","Trie","Prefix queries over many words."],
+ ["Remove the fewest meetings so that none overlap.","Sort + greedy","Sort by end time and keep greedily."],
+ ["Assign 15 workers to 15 jobs to minimise total cost.","Bitmask DP","n ≤ 20 with a set of used workers in the state."],
+ ["Array values change often; answer range-sum queries between updates.","Fenwick / segment tree","Prefix sums break with updates; BIT gives O(log n) both ways."],
+ ["Detect a cycle in a linked list using O(1) memory.","Fast and slow pointers","Fast laps slow on a cycle."],
+ ["Find the maximum of every window of size k in O(n).","Monotonic deque","The front of a decreasing deque is the window max."],
+ ["Report the median after every new number in a stream.","Two heaps","Max-heap for the lower half, min-heap for the upper half."],
+ ["Get the value for a key at the latest timestamp ≤ t.","TreeMap / TreeSet","`floorEntry(t)` answers it directly."],
+ ["Minimum number of edits to turn one word into another.","Dynamic programming (2D)","Two strings → dp over prefix pairs."],
+ ["Count separate land masses in a grid of 0s and 1s.","DFS / BFS flood fill","Each flood fill covers one component."],
+ ["Find the contiguous subarray with the largest sum.","Dynamic programming (1D)","Kadane: extend or restart at every index."],
+ ["Add v to every index in [l, r] for 10⁵ updates, then print the array once.","Difference array","Mark start and end+1, then one prefix sum."],
+ ["Find the one number that appears once when all others appear twice, O(1) space.","Bit manipulation","XOR cancels pairs."],
+ ["Merge overlapping time ranges into the minimum set of ranges.","Sort + greedy","Sort by start; overlapping intervals become neighbours."],
+ ["Find the largest rectangle under a histogram.","Monotonic stack","Each bar needs its previous and next smaller bar."],
+ ["Is the string of brackets correctly nested?","Stack","The most recent opener must close first."]
+];
+const QUIZ_POOL = [...new Set(CODEX.map(c => c[1]).concat(QUIZ.map(q => q[1])))];
+
+/* =====================================================================
+   JAVA ARSENAL
+   ===================================================================== */
+const ARSENAL = [
+ ["Fixed size, index access","<code>int[]</code>, <code>long[]</code>, <code>int[][]</code>","<code>Arrays.fill</code>, <code>Arrays.sort</code>, <code>Arrays.copyOfRange</code>, <code>.clone()</code>","O(1) access"],
+ ["Growing list","<code>ArrayList</code>","<code>add</code>, <code>get</code>, <code>set</code>, <code>remove(size-1)</code>, <code>size</code>","O(1) amortised add; <code>remove(i)</code> O(n)"],
+ ["Key → value","<code>HashMap</code>","<code>put</code>, <code>get</code>, <code>getOrDefault</code>, <code>merge</code>, <code>computeIfAbsent</code>, <code>containsKey</code>, <code>remove</code>, <code>entrySet</code>","O(1) average"],
+ ["Seen / unique","<code>HashSet</code>","<code>add</code> (returns boolean), <code>contains</code>, <code>remove</code>","O(1) average"],
+ ["Sorted keys, nearest key","<code>TreeMap</code>, <code>TreeSet</code>","<code>floorKey</code>, <code>ceilingKey</code>, <code>lowerKey</code>, <code>higherKey</code>, <code>firstKey</code>, <code>lastKey</code>, <code>pollFirst</code>, <code>headMap</code>, <code>tailMap</code>","O(log n)"],
+ ["Stack (LIFO)","<code>ArrayDeque</code>","<code>push</code>, <code>pop</code>, <code>peek</code>, <code>isEmpty</code>","O(1)"],
+ ["Queue (FIFO)","<code>ArrayDeque</code>","<code>offer</code>, <code>poll</code>, <code>peek</code>","O(1)"],
+ ["Both ends","<code>ArrayDeque</code>","<code>offerFirst/Last</code>, <code>pollFirst/Last</code>, <code>peekFirst/Last</code>","O(1)"],
+ ["Repeated min / max","<code>PriorityQueue</code>","<code>offer</code>, <code>poll</code>, <code>peek</code>, <code>size</code>","O(log n), peek O(1)"],
+ ["Build strings","<code>StringBuilder</code>","<code>append</code>, <code>insert</code>, <code>deleteCharAt</code>, <code>setCharAt</code>, <code>reverse</code>, <code>toString</code>","O(1) amortised append"],
+ ["Insertion / access order, LRU","<code>LinkedHashMap</code>","<code>new LinkedHashMap&lt;&gt;(cap, 0.75f, true)</code>, override <code>removeEldestEntry</code>","O(1)"]
+];
+const CONVERSIONS = String.raw`// int[] -> List<Integer>
+List<Integer> list = Arrays.stream(arr).boxed().collect(Collectors.toList());
+// List<Integer> -> int[]
+int[] back = list.stream().mapToInt(Integer::intValue).toArray();
+// List<int[]> -> int[][]
+int[][] grid = rows.toArray(new int[0][]);
+// String <-> char[]
+char[] cs = s.toCharArray();
+String s2 = new String(cs);          // or String.valueOf(cs)
+// char <-> int
+int d = ch - '0';                    // digit value
+int idx = ch - 'a';                  // 0..25
+char c2 = (char) ('a' + idx);
+// Sort descending
+Integer[] boxed = Arrays.stream(arr).boxed().toArray(Integer[]::new);
+Arrays.sort(boxed, Collections.reverseOrder());
+list.sort(Collections.reverseOrder());
+// Fill a 2D array
+int[][] memo = new int[n][m];
+for (int[] row : memo) Arrays.fill(row, -1);
+// Overflow-safe product and midpoint
+long prod = 1L * a * b;
+int mid = lo + (hi - lo) / 2;`;
+const JAVA_TRAPS = [
+ "`Integer == Integer` compares references and fails above 127. Use `.equals` or `int`.",
+ "Comparator `a - b` overflows. Use `Integer.compare(a, b)`.",
+ "`list.remove(3)` on `List<Integer>` removes index 3. Use `list.remove(Integer.valueOf(3))` for the value.",
+ "Use `ArrayDeque` for stacks and queues. `Stack` is synchronized and slow; `ArrayDeque` rejects `null`.",
+ "`int` overflows past about 2.1·10⁹. Sums of 10⁵ values up to 10⁹ need `long`; write `1L * a * b` for products.",
+ "Negative modulo: `((x % m) + m) % m`.",
+ "String `+=` in a loop is O(n²). Use `StringBuilder`.",
+ "`s.substring` copies characters: O(length) each call.",
+ "`Arrays.asList(int[])` returns `List<int[]>` with one element, not `List<Integer>`.",
+ "Changing a collection inside a for-each loop over it throws `ConcurrentModificationException`.",
+ "`HashMap` iteration order is arbitrary. `PriorityQueue` iteration is not sorted.",
+ "`Arrays.sort(int[])` uses quicksort and can be forced to O(n²) by Codeforces hacks. LeetCode is fine."
+];
+
+/* =====================================================================
+   MENTOR PROTOCOL
+   ===================================================================== */
+const SOLVE_LOOP = [
+ ["Read and restate (2 min)","Write the input, the output and the constraints in your own words. Write two examples, one of them an edge case."],
+ ["Constraints → target complexity (1 min)","Use the table below. n = 10⁵ means O(n log n) or better, so an O(n²) idea is dead before you code it."],
+ ["Brute force first (5 min)","Say the simplest correct solution and its complexity out loud. If nothing better comes, code it; a working brute force beats a broken clever idea."],
+ ["Find the bottleneck","What repeated work does the brute force do? Which gate's tool removes it? Use the Pattern Codex."],
+ ["Unlock hints in order","Stuck for 20 min on a Medium or 30 min on a Hard: open the Hint (free) and give it 10 more minutes. Still stuck: open the Approach (−40% XP) and write the code yourself. Never paste code."],
+ ["Before Submit","Run the edge-case checklist. Trace one example by hand through your code."],
+ ["After Accepted (5 min)","Write a one-line key insight in the problem's note. Skim one top solution and note anything cleaner."],
+ ["Re-clear","The Review Queue brings each problem back after 3, 7 and 21 days. Solve it from scratch without looking at your old code."]
+];
+const EDGE_CASES = ["Empty input, or a single element","All elements equal","Already sorted, and reverse sorted","Negative numbers and zero","Maximum values: does anything overflow int?","Duplicates","Target not present / no valid answer","Disconnected graph, self loops, a cycle"];
+const PHASES = [
+ ["Phase 1 · Foundations","Days 1–14","E → D","Gates 0–4","Solve a new Easy in under 15 min and a sliding-window or hashing Medium in under 30 min."],
+ ["Phase 2 · Core Structures","Days 15–30","D → C","Gates 5–9","Binary search, stack and tree Mediums in under 30 min. Solve Q1 and Q2 in a weekly contest."],
+ ["Phase 3 · Search & Graphs","Days 31–43","C → B/A","Gates 10–13","Graph and backtracking Mediums in under 35 min. Solve 3 of 4 in a contest at least once."],
+ ["Phase 4 · DP & Advanced","Days 44–60","A → S","Gates 14–19","DP Mediums in under 40 min. Attempt Q4 in every contest and upsolve it afterwards."]
+];
+const WEEK = [
+ ["Mon–Fri","2–2.5 hours: 25 min on the gate lesson and template, 90 min on 3 new problems, 15 min on the Review Queue."],
+ ["Saturday","Catch up on missed problems. Every other week, take the LeetCode biweekly contest (or a virtual one)."],
+ ["Sunday","LeetCode weekly contest, live or virtual. Then upsolve the first problem you could not solve. Log it in the Contest Log for XP."]
+];
+
+/* =====================================================================
+   ENGINE
+   ===================================================================== */
+const KEY = "sl-dsa-java-v1";
+const XPV = {E:10, M:25, H:50};
+const REVIEW_GAPS = [3, 7, 21];
+const PLAN_DAYS = 60;
+const RANKS = [["E",1],["D",10],["C",20],["B",30],["A",40],["S",50]];
+const TITLES = {E:"E-Rank Hunter",D:"D-Rank Hunter",C:"C-Rank Hunter",B:"B-Rank Hunter",A:"A-Rank Hunter",S:"S-Rank Hunter"};
+const STATS = [["STR","Strength","Arrays, pointers, windows, prefix sums"],["AGI","Agility","Binary search, stacks, linked lists"],["VIT","Vitality","Trees, heaps, backtracking"],["SEN","Sense","Graphs, greedy"],["INT","Intelligence","DP, tries, bits, range queries"]];
+
+const PMAP = {};
+GATES.forEach((g, gi) => {
+  g.idx = gi;
+  g.problems = g.problems.map(t => {
+    const p = {num:t[0], slug:t[1], title:t[2], diff:t[3], hint:t[4], appr:t[5], java:t[6], flag:t[7] || "", gate:g};
+    PMAP[p.num] = p;
+    return p;
+  });
+});
+const ALL = GATES.flatMap(g => g.problems);
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2, "0");
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function md(s){ return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>"); }
+function todayStr(){ const d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function dnum(s){ const [y, m, d] = s.split("-").map(Number); return Math.round(Date.UTC(y, m - 1, d) / 864e5); }
+function fromDnum(n){ const d = new Date(n * 864e5); return d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate()); }
+function addDays(s, k){ return fromDnum(dnum(s) + k); }
+
+const KW = new Set("abstract boolean break byte case catch char class continue default do double else enum extends final finally float for if implements import int interface long new null package private protected public return short static super switch this throw throws true false try void while var".split(" "));
+function hl(code){
+  const re = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')|\b([A-Za-z_]\w*)\b|\b(\d[\d_]*[lLfFdD]?)\b/g;
+  let out = "", last = 0, m;
+  while ((m = re.exec(code))) {
+    out += esc(code.slice(last, m.index));
+    if (m[1]) out += '<span class="c">' + esc(m[1]) + "</span>";
+    else if (m[2]) out += '<span class="s">' + esc(m[2]) + "</span>";
+    else if (m[3]) out += KW.has(m[3]) ? '<span class="k">' + m[3] + "</span>" : /^[A-Z]/.test(m[3]) ? '<span class="t">' + m[3] + "</span>" : m[3];
+    else out += '<span class="n">' + m[4] + "</span>";
+    last = re.lastIndex;
+  }
+  return out + esc(code.slice(last));
+}
+let CODE_BLOCKS = [];
+function codeBlock(src){
+  CODE_BLOCKS.push(src);
+  return '<div class="codewrap"><button class="btn" data-act="copy" data-i="' + (CODE_BLOCKS.length - 1) + '">Copy</button><pre class="code">' + hl(src) + "</pre></div>";
+}
+
+/* ---------- state ---------- */
+function freshState(){ return {name:"Hunter", start:todayStr(), solved:{}, ap:{}, notes:{}, quiz:{}, bonus:{}, contests:[], lv:1}; }
+let S;
+try { S = Object.assign(freshState(), JSON.parse(localStorage.getItem(KEY) || "{}")); } catch(e) { S = freshState(); }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
+
+/* ---------- derived values ---------- */
+function computeXP(){
+  let xp = 0;
+  for (const id in S.solved) {
+    const p = PMAP[id], s = S.solved[id];
+    if (!p) continue;
+    xp += Math.round(XPV[p.diff] * (s.a ? 0.6 : 1)) + (s.r ? s.r.length : 0) * 5;
+  }
+  xp += Object.keys(S.quiz).length * 3;
+  xp += Object.keys(S.bonus).length * 30;
+  for (const c of S.contests) xp += 20 + 20 * c.n;
+  return xp;
+}
+const levelOf = xp => Math.floor(Math.sqrt(xp / 3)) + 1;
+const xpForLevel = L => 3 * (L - 1) * (L - 1);
+function rankOf(L){ let r = "E"; for (const [k, min] of RANKS) if (L >= min) r = k; return r; }
+function dayNo(){ return dnum(todayStr()) - dnum(S.start) + 1; }
+function currentGate(){
+  const d = Math.max(1, Math.min(dayNo(), PLAN_DAYS));
+  return GATES.find(g => d >= g.days[0] && d <= g.days[1]) || GATES[GATES.length - 1];
+}
+const isSolved = n => !!S.solved[n];
+const core = g => g.problems.filter(p => p.flag !== "side");
+const gateCleared = g => core(g).every(p => isSolved(p.num));
+function nextDue(s){
+  const st = s.r ? s.r.length : 0;
+  if (st >= REVIEW_GAPS.length) return null;
+  return addDays(st === 0 ? s.d : s.r[st - 1], REVIEW_GAPS[st]);
+}
+function dueList(){
+  const t = todayStr();
+  return Object.keys(S.solved).filter(id => PMAP[id]).map(id => ({p:PMAP[id], due:nextDue(S.solved[id])}))
+    .filter(x => x.due && x.due <= t).sort((a, b) => a.due < b.due ? -1 : 1);
+}
+function activeDates(){
+  const set = new Set();
+  for (const id in S.solved) { const s = S.solved[id]; set.add(s.d); (s.r || []).forEach(d => set.add(d)); }
+  S.contests.forEach(c => set.add(c.d));
+  return set;
+}
+function streak(){
+  const set = activeDates();
+  let d = todayStr();
+  if (!set.has(d)) d = addDays(d, -1);
+  let n = 0;
+  while (set.has(d)) { n++; d = addDays(d, -1); }
+  return n;
+}
+function penaltyActive(){
+  const y = addDays(todayStr(), -1);
+  return dnum(S.start) <= dnum(y) - 1 && !activeDates().has(y);
+}
+function todayCounts(){
+  const t = todayStr();
+  let clears = 0, reviews = 0;
+  for (const id in S.solved) { const s = S.solved[id]; if (s.d === t) clears++; (s.r || []).forEach(d => { if (d === t) reviews++; }); }
+  const note = Object.values(S.notes).some(n => n.d === t && n.t.trim());
+  return {clears, reviews, note};
+}
+function statValues(){
+  const out = {};
+  STATS.forEach(([k]) => out[k] = {done:0, total:0});
+  ALL.forEach(p => { const o = out[p.gate.stat]; o.total++; if (isSolved(p.num)) o.done++; });
+  return out;
+}
+
+/* ---------- toasts and overlays ---------- */
+function toast(html){
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.innerHTML = html;
+  $("#toasts").appendChild(el);
+  setTimeout(() => el.remove(), 4200);
+}
+function overlay(html){
+  const el = document.createElement("div");
+  el.className = "overlay";
+  el.innerHTML = '<div class="win">' + html + '<div style="margin-top:18px"><button class="btn big" data-act="close-ov">Continue</button></div></div>';
+  document.body.appendChild(el);
+}
+function commit(){
+  const L = levelOf(computeXP());
+  if (L > S.lv) {
+    const oldR = rankOf(S.lv), newR = rankOf(L);
+    overlay('<div class="tag" style="font-family:var(--head);letter-spacing:.3em;color:var(--glow2)">[ SYSTEM ]</div><div class="big">LEVEL UP</div><p style="font-size:18px">Level ' + S.lv + " → <b>" + L + "</b></p>" +
+      (oldR !== newR ? '<p style="margin-top:10px">Rank re-evaluation complete. You are now <span class="rank" style="color:var(--' + newR + ')">' + newR + "</span> rank.</p>" : ""));
+  }
+  S.lv = L;
+  save();
+  render();
+}
+
+/* =====================================================================
+   RENDERING
+   ===================================================================== */
+function renderStatus(){
+  const xp = computeXP(), L = levelOf(xp), R = rankOf(L);
+  const lo = xpForLevel(L), hi = xpForLevel(L + 1);
+  const pct = Math.min(100, Math.round((xp - lo) / (hi - lo) * 100));
+  const solved = Object.keys(S.solved).filter(id => PMAP[id]).length;
+  const day = dayNo();
+  const sv = statValues();
+  const bossTotal = ALL.filter(p => p.flag === "boss").length;
+  const bossDone = ALL.filter(p => p.flag === "boss" && isSolved(p.num)).length;
+  const title = bossDone === bossTotal ? "Shadow Monarch" : TITLES[R];
+  $("#status").innerHTML =
+    '<div class="win-title">Status Window</div><div class="win-body status">' +
+    '<div><div class="lvl"><div><div class="lvl-num">' + L + '</div><div class="lvl-lab">LEVEL</div></div>' +
+    '<div style="flex:1"><input class="name-in" id="hname" value="' + esc(S.name) + '" aria-label="Hunter name">' +
+    '<div class="muted small" style="margin:4px 0">Title: <b style="color:#fff">' + title + "</b> · Job: Java Hunter</div>" +
+    '<div>Rank <span class="rank" style="color:var(--' + R + ')">' + R + "</span></div></div></div>" +
+    '<div style="margin-top:12px" class="small muted">XP ' + xp + " / " + hi + ' (next level)</div><div class="bar"><i style="width:' + pct + '%"></i></div></div>' +
+    "<div>" +
+    '<div class="kv"><span>Day</span><b>' + (day > PLAN_DAYS ? PLAN_DAYS + "+ (" + day + ")" : day) + " / " + PLAN_DAYS + "</b></div>" +
+    '<div class="kv"><span>Current gate</span><b>' + esc(currentGate().name) + "</b></div>" +
+    '<div class="kv"><span>Problems cleared</span><b>' + solved + " / " + ALL.length + "</b></div>" +
+    '<div class="kv"><span>Bosses defeated</span><b>' + bossDone + " / " + bossTotal + "</b></div>" +
+    '<div class="kv"><span>Streak</span><b>' + streak() + " day" + (streak() === 1 ? "" : "s") + "</b></div>" +
+    '<div class="kv"><span>Reviews due</span><b>' + dueList().length + "</b></div></div>" +
+    "<div>" + STATS.map(([k, name, desc]) => {
+      const v = sv[k], p = v.total ? Math.round(v.done / v.total * 100) : 0;
+      return '<div class="stat" title="' + name + ": " + desc + '"><span>' + k + '</span><div class="bar"><i style="width:' + p + '%"></i></div><span class="small muted">' + v.done + "/" + v.total + "</span></div>";
+    }).join("") + '<div class="small muted" style="margin-top:6px">Stats grow as you clear problems in each family. Hover a stat for details.</div></div></div>';
+}
+
+function problemRow(p, opts = {}){
+  const s = S.solved[p.num];
+  const base = XPV[p.diff];
+  const xpNow = Math.round(base * (S.ap[p.num] && !s ? 0.6 : 1));
+  const tags = (p.flag === "boss" ? '<span class="pill boss">BOSS</span>' : p.flag === "side" ? '<span class="pill side">SIDE QUEST</span>' : "") +
+    (opts.showGate ? ' <a class="pill" style="color:var(--dim);text-decoration:none" href="#gate-' + p.gate.id + '">Gate ' + p.gate.idx + "</a>" : "") +
+    (opts.extra || "");
+  const note = (S.notes[p.num] && S.notes[p.num].t) || "";
+  return '<div class="prob' + (s ? " solved" : "") + '" id="p' + p.num + '">' +
+    '<div class="prob-h"><button class="chk" data-act="solve" data-n="' + p.num + '" title="' + (s ? "Cleared on " + s.d + " (click to undo)" : "Mark cleared on LeetCode") + '">' + (s ? "✓" : "") + "</button>" +
+    '<div class="ptitle"><span class="pnum">#' + p.num + '</span><a href="https://leetcode.com/problems/' + p.slug + '/" target="_blank" rel="noopener">' + esc(p.title) + "</a></div>" +
+    tags + ' <span class="pill d' + p.diff + '">' + {E:"Easy",M:"Medium",H:"Hard"}[p.diff] + "</span>" +
+    '<span class="small muted" style="min-width:52px;text-align:right">+' + (s ? Math.round(base * (s.a ? 0.6 : 1)) : xpNow) + " XP</span>" +
+    (opts.review ? '<button class="btn ok" data-act="review" data-n="' + p.num + '">Re-cleared</button>' : "") +
+    '<button class="btn" data-act="tog" data-t="h" data-n="' + p.num + '">Hint</button>' +
+    '<button class="btn warn" data-act="tog" data-t="a" data-n="' + p.num + '">' + (S.ap[p.num] || s ? "Approach" : "Approach −40%") + "</button>" +
+    '<button class="btn" data-act="tog" data-t="n" data-n="' + p.num + '">Note' + (note ? " •" : "") + "</button></div>" +
+    '<div class="reveal" data-r="h"><div class="lab h">Mentor hint</div><p>' + md(p.hint) + "</p></div>" +
+    '<div class="reveal" data-r="a"><div class="lab a">Approach</div><p>' + md(p.appr) + '</p><div class="lab j">Java tools</div><p>' + md(p.java) + "</p></div>" +
+    '<div class="reveal" data-r="n"><div class="lab n">Your key insight (one line, in your words)</div><textarea data-act="note" data-n="' + p.num + '" placeholder="e.g. prefix sum + map seeded with {0:1}; negatives break sliding window">' + esc(note) + "</textarea></div>" +
+    "</div>";
+}
+
+function viewToday(){
+  const t = todayStr(), day = dayNo(), g = currentGate();
+  const pen = penaltyActive();
+  const need = pen ? 4 : 3;
+  const c = todayCounts(), due = dueList();
+  const reviewOk = c.reviews >= 1 || due.length === 0;
+  const allOk = c.clears >= need && reviewOk && c.note;
+  const claimed = !!S.bonus[t];
+  const q = (label, ok, txt) => '<div class="quest"><span>' + label + '</span><span class="' + (ok ? "done" : "todo") + '">' + txt + "</span></div>";
+
+  // next problems: unsolved core problems from all gates up to the current one, earliest first
+  const queue = [];
+  for (const gg of GATES) {
+    if (gg.idx > g.idx) break;
+    core(gg).forEach(p => { if (!isSolved(p.num)) queue.push(p); });
+  }
+  if (queue.length < 4) for (const gg of GATES.slice(g.idx + 1)) { core(gg).forEach(p => { if (!isSolved(p.num) && queue.length < 4) queue.push(p); }); if (queue.length >= 4) break; }
+  const next = queue.slice(0, 4);
+  const side = g.problems.find(p => p.flag === "side" && !isSolved(p.num));
+  const isContestDay = day % 7 === 0;
+
+  let h = "";
+  if (pen) h += '<div class="sysmsg penalty"><div class="tag">[ PENALTY QUEST ]</div><p>Yesterday ended with no activity. Today\'s quest requires <b>4</b> clears instead of 3. Missing one day is fine; missing the habit is not.</p></div>';
+  h += '<div class="grid2"><div class="win"><div class="win-title">Daily Quest · ' + t + "</div><div class=\"win-body\">" +
+    '<p class="muted small">[SYSTEM] Daily Quest: Preparing to become strong. Complete every item for +30 XP.</p>' +
+    q("Clear " + need + " new problems", c.clears >= need, Math.min(c.clears, need) + " / " + need) +
+    q("Re-clear 1 problem from the Review Queue", reviewOk, due.length === 0 && c.reviews === 0 ? "none due ✓" : Math.min(c.reviews, 1) + " / 1") +
+    q("Write a key-insight note on any problem", c.note, c.note ? "1 / 1" : "0 / 1") +
+    '<div style="margin-top:12px">' + (claimed ? '<span class="done" style="color:var(--ok);font-family:var(--head);font-weight:700;letter-spacing:.1em">REWARD CLAIMED +30 XP</span>' :
+      '<button class="btn ok big" data-act="claim"' + (allOk ? "" : " disabled") + ">Claim reward</button>") + "</div></div></div>" +
+    '<div class="win"><div class="win-title">Day ' + Math.min(day, PLAN_DAYS) + " · Gate " + g.idx + "</div><div class=\"win-body\">" +
+    '<h2 style="margin:0">' + esc(g.name) + ' <span class="rank" style="color:var(--' + g.rank + ');font-size:15px">' + g.rank + "</span></h2>" +
+    '<p class="muted">' + esc(g.sub) + " · Days " + g.days[0] + "–" + g.days[1] + "</p><p>" + md(g.what) + '</p><p style="margin-top:10px"><a class="btn" href="#gate-' + g.id + '" style="text-decoration:none">Open gate lesson and template →</a></p>' +
+    (day > PLAN_DAYS ? '<p class="small muted" style="margin-top:8px">The 60-day plan is over. Keep clearing side quests, reviews and contests.</p>' : "") + "</div></div></div>";
+
+  if (isContestDay) h += '<div class="sysmsg"><div class="tag">[ RANK-UP EXAM ]</div><p>Day ' + day + ' is an exam day. Take a LeetCode weekly contest (live or virtual) and log it below. Upsolve the first problem you missed.</p></div>';
+
+  h += '<h3>Today\'s targets</h3><p class="muted small">Unsolved core problems in plan order. Anything from an earlier gate is marked as behind schedule.</p>' +
+    (next.length ? next.map(p => problemRow(p, {showGate:true, extra: p.gate.idx < g.idx ? ' <span class="pill" style="color:var(--warn)">BEHIND</span>' : ""})).join("") : '<p class="muted">All core problems cleared up to this gate. Take a side quest or review.</p>') +
+    (side ? '<h3>Optional side quest</h3>' + problemRow(side, {showGate:true}) : "");
+
+  h += "<h3>Review Queue (" + due.length + ")</h3>" +
+    (due.length ? '<p class="muted small">Solve these again from scratch on LeetCode without looking at your old code, then press Re-cleared (+5 XP). Spaced at 3, 7 and 21 days.</p>' + due.map(x => problemRow(x.p, {showGate:true, review:true, extra:' <span class="small muted">due ' + x.due + "</span>"})).join("") : '<p class="muted">Nothing due today.</p>');
+
+  h += '<h3>Contest log</h3><div class="win"><div class="win-body"><div class="row">' +
+    '<input type="text" id="cname" placeholder="e.g. Weekly Contest 476" style="flex:1;min-width:200px">' +
+    '<select id="csolved">' + [0,1,2,3,4].map(n => '<option value="' + n + '">' + n + " solved</option>").join("") + "</select>" +
+    '<button class="btn" data-act="contest">Log contest (+20, +20 per solve)</button></div>' +
+    (S.contests.length ? '<table class="t" style="margin-top:10px"><tr><th>Date</th><th>Contest</th><th>Solved</th><th></th></tr>' +
+      S.contests.map((c, i) => ({c, i})).reverse().slice(0, 8).map(({c, i}) => "<tr><td>" + c.d + "</td><td>" + esc(c.name || "Contest") + "</td><td>" + c.n + ' / 4</td><td><button class="btn bad" data-act="delc" data-i="' + i + '">×</button></td></tr>').join("") + "</table>" : "") +
+    "</div></div>";
+  return h;
+}
+
+function viewGates(){
+  const cur = currentGate();
+  const phases = [[0,4,PHASES[0]],[5,9,PHASES[1]],[10,13,PHASES[2]],[14,19,PHASES[3]]];
+  return '<h2>Gates</h2><p class="muted">Twenty gates over 60 days. Each gate has a lesson, a Java template, and problems ordered easiest to hardest, ending in a boss. Side quests are optional. Gates are never locked, but the recommended rank shows how ready you should be.</p>' +
+    phases.map(([a, b, ph]) => '<div class="phase">' + ph[0] + " · " + ph[1] + " · target rank " + ph[2] + '</div><div class="grid3">' +
+      GATES.slice(a, b + 1).map(g => {
+        const total = core(g).length, done = core(g).filter(p => isSolved(p.num)).length;
+        const boss = g.problems.find(p => p.flag === "boss");
+        const cls = gateCleared(g) ? " cleared" : g === cur ? " current" : "";
+        return '<a class="win gate' + cls + '" href="#gate-' + g.id + '"><div class="row" style="justify-content:space-between"><span class="gno">GATE ' + pad(g.idx) + " · DAYS " + g.days[0] + "–" + g.days[1] + '</span><span class="rank" style="color:var(--' + g.rank + ');font-size:14px">' + g.rank + "</span></div>" +
+          '<div class="gname">' + esc(g.name) + '</div><div class="gsub">' + esc(g.sub) + "</div>" +
+          '<div class="bar"><i style="width:' + Math.round(done / total * 100) + '%"></i></div>' +
+          '<div class="row small muted" style="justify-content:space-between"><span>' + done + " / " + total + " core</span><span>" +
+          (gateCleared(g) ? '<b style="color:var(--ok)">CLEARED</b>' : g === cur ? '<b style="color:var(--glow2)">ACTIVE</b>' : "") +
+          (boss ? " · Boss " + (isSolved(boss.num) ? "☠" : "○") : "") + "</span></div></a>";
+      }).join("") + "</div>").join("");
+}
+
+function viewGate(id){
+  const g = GATES.find(x => x.id === id);
+  if (!g) return viewGates();
+  const total = core(g).length, done = core(g).filter(p => isSolved(p.num)).length;
+  const prev = GATES[g.idx - 1], next = GATES[g.idx + 1];
+  return '<p><a href="#gates">← All gates</a></p>' +
+    '<div class="win"><div class="win-title">Gate ' + pad(g.idx) + " · Recommended rank " + g.rank + " · Days " + g.days[0] + "–" + g.days[1] + " · Stat " + g.stat + '</div><div class="win-body">' +
+    '<h2>' + esc(g.name) + '</h2><p class="muted">' + esc(g.sub) + " · " + done + " / " + total + " core cleared</p>" +
+    '<div class="bar" style="margin:8px 0 4px"><i style="width:' + Math.round(done / total * 100) + '%"></i></div>' +
+    "<h3>What it is</h3><p>" + md(g.what) + "</p>" +
+    '<div class="grid2"><div><h3>Recognise it when</h3><ul class="clean">' + g.signals.map(s => "<li>" + md(s) + "</li>").join("") + "</ul></div>" +
+    '<div><h3>Mentor\'s approach</h3><ol class="steps">' + g.steps.map(s => "<li>" + md(s) + "</li>").join("") + "</ol></div></div>" +
+    "<h3>Java template</h3>" + codeBlock(g.code) +
+    '<h3>Traps</h3><ul class="clean">' + g.traps.map(s => "<li>" + md(s) + "</li>").join("") + "</ul></div></div>" +
+    '<h3>Problems</h3><p class="muted small">Open the problem on LeetCode, follow the Mentor Protocol, and tick the box once it is Accepted. Hints are free. Opening the Approach before you clear a problem lowers its XP by 40%.</p>' +
+    g.problems.map(p => problemRow(p)).join("") +
+    '<div class="row" style="justify-content:space-between;margin-top:18px">' +
+    (prev ? '<a class="btn" style="text-decoration:none" href="#gate-' + prev.id + '">← Gate ' + prev.idx + ": " + esc(prev.name) + "</a>" : "<span></span>") +
+    (next ? '<a class="btn" style="text-decoration:none" href="#gate-' + next.id + '">Gate ' + next.idx + ": " + esc(next.name) + " →</a>" : "") + "</div>";
+}
+
+let QZ = null;
+function newQuiz(){
+  const order = QUIZ.map((_, i) => i).sort(() => Math.random() - .5);
+  QZ = {order, pos:0, score:0, answered:null, opts:null};
+  buildOpts();
+}
+function buildOpts(){
+  const q = QUIZ[QZ.order[QZ.pos]];
+  const wrong = QUIZ_POOL.filter(x => x !== q[1]).sort(() => Math.random() - .5).slice(0, 3);
+  QZ.opts = wrong.concat([q[1]]).sort(() => Math.random() - .5);
+  QZ.answered = null;
+}
+function viewCodex(){
+  if (!QZ) newQuiz();
+  const qi = QZ.order[QZ.pos], q = QUIZ[qi];
+  const done = QZ.pos >= QUIZ.length;
+  let quiz;
+  if (done) quiz = '<p style="font-size:18px">Trial complete: <b>' + QZ.score + " / " + QUIZ.length + '</b>.</p><button class="btn big" data-act="qrestart">Run the trial again</button>';
+  else quiz = '<p class="muted small">Question ' + (QZ.pos + 1) + " / " + QUIZ.length + " · Score " + QZ.score + " · First correct answer per question gives +3 XP (" + Object.keys(S.quiz).length + "/" + QUIZ.length + ' earned)</p><p style="font-size:17px;margin:10px 0"><b>' + md(q[0]) + "</b></p>" +
+    QZ.opts.map((o, i) => {
+      let cls = "";
+      if (QZ.answered !== null) { if (o === q[1]) cls = " right"; else if (i === QZ.answered) cls = " wrong"; }
+      return '<button class="btn qopt' + cls + '" data-act="qans" data-i="' + i + '"' + (QZ.answered !== null ? " disabled" : "") + ">" + esc(o) + "</button>";
+    }).join("") +
+    (QZ.answered !== null ? '<div class="sysmsg"><div class="tag">' + (QZ.opts[QZ.answered] === q[1] ? "[ CORRECT ]" : "[ INCORRECT ]") + "</div><p>" + md(q[2]) + '</p></div><button class="btn big" data-act="qnext">Next</button>' : "");
+  return "<h2>Pattern Codex</h2><p class=\"muted\">How many types of problems are there? About 20–30 patterns cover nearly every LeetCode interview problem. The skill is recognising which one a problem is from its wording and constraints. Read the table, then run the trial.</p>" +
+    '<div class="win" style="margin-top:12px"><div class="win-title">Gate Identification Trial</div><div class="win-body">' + quiz + "</div></div>" +
+    '<h3>If the problem says… think…</h3><div class="scroll"><table class="t"><tr><th>Signal in the problem</th><th>Pattern</th><th>Gate</th></tr>' +
+    CODEX.map(r => { const g = GATES.find(x => x.id === r[2]); return "<tr><td>" + md(r[0]) + "</td><td><b>" + esc(r[1]) + '</b></td><td><a href="#gate-' + g.id + '">' + g.idx + " · " + esc(g.name) + "</a></td></tr>"; }).join("") + "</table></div>" +
+    '<h3>Constraints tell you the complexity</h3><p class="muted small">Roughly 10⁸ simple operations run in about a second. Read n first and rule out ideas that are too slow.</p><table class="t"><tr><th>Input size</th><th>Target complexity and typical technique</th></tr>' +
+    COMPLEXITY.map(r => "<tr><td><b>" + r[0] + "</b></td><td>" + esc(r[1]) + "</td></tr>").join("") + "</table>";
+}
+
+function viewArsenal(){
+  return '<h2>Java Arsenal</h2><p class="muted">The collections you will use in every gate, when to pick each one, and the mistakes that cost Java users the most time. For the full method-by-method reference, see the Java DSA API Codex in <a href="https://github.com/purvammm/Skill-Upgradation/pull/3" target="_blank" rel="noopener">PR #3</a>.</p>' +
+    '<h3>Which collection?</h3><div class="scroll"><table class="t"><tr><th>You need</th><th>Use</th><th>Key methods</th><th>Cost</th></tr>' +
+    ARSENAL.map(r => "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td><td>" + r[3] + "</td></tr>").join("") + "</table></div>" +
+    "<h3>Starter kit (Gate 0 template)</h3>" + codeBlock(GATES[0].code) +
+    "<h3>Conversions you will type constantly</h3>" + codeBlock(CONVERSIONS) +
+    '<h3>Java traps</h3><ul class="clean">' + JAVA_TRAPS.map(s => "<li>" + md(s) + "</li>").join("") + "</ul>" +
+    '<h3>Template index</h3><ul class="clean">' + GATES.slice(1).map(g => '<li><a href="#gate-' + g.id + '">Gate ' + g.idx + " · " + esc(g.name) + "</a> — " + esc(g.sub) + "</li>").join("") + "</ul>";
+}
+
+function viewMentor(){
+  return '<h2>Mentor Protocol</h2><p class="muted">The rules of training. Solving 190 problems badly teaches less than solving 120 with this loop.</p>' +
+    '<div class="win" style="margin-top:12px"><div class="win-title">The solve loop · use it on every problem</div><div class="win-body"><ol class="steps">' +
+    SOLVE_LOOP.map(s => "<li><b>" + esc(s[0]) + ".</b> " + md(s[1]) + "</li>").join("") + "</ol></div></div>" +
+    '<div class="grid2"><div><h3>Edge-case checklist</h3><ul class="clean">' + EDGE_CASES.map(s => "<li>" + esc(s) + "</li>").join("") + "</ul></div>" +
+    '<div><h3>Weekly rhythm</h3><table class="t">' + WEEK.map(w => "<tr><td><b>" + w[0] + "</b></td><td>" + esc(w[1]) + "</td></tr>").join("") + "</table></div></div>" +
+    '<h3>The 60-day plan</h3><div class="scroll"><table class="t"><tr><th>Phase</th><th>Days</th><th>Rank</th><th>Gates</th><th>Exit test</th></tr>' +
+    PHASES.map(p => "<tr><td><b>" + p[0] + "</b></td><td>" + p[1] + "</td><td>" + p[2] + "</td><td>" + p[3] + "</td><td>" + esc(p[4]) + "</td></tr>").join("") + "</table></div>" +
+    '<h3>Competitive programming track</h3><ul class="clean">' +
+    "<li><b>LeetCode weekly contest</b>: Sundays, usually 02:30 UTC (8:00 AM IST). <b>Biweekly</b>: alternate Saturdays, usually 14:30 UTC (8:00 PM IST). Check the <a href=\"https://leetcode.com/contest/\" target=\"_blank\" rel=\"noopener\">contest page</a> for current times. Missed one? Use Virtual Contest.</li>" +
+    "<li>Contest goals: Phase 1–2 solve Q1–Q2, Phase 3 solve Q3, Phase 4 attempt Q4. Upsolve one missed problem after every contest.</li>" +
+    "<li><b>Optional Codeforces ladder</b> (3 problems a week, Div. 3 / Div. 4 rounds): weeks 1–2 rating " + cf("800-1000") + ", weeks 3–4 " + cf("1000-1200") + ", weeks 5–6 " + cf("1200-1400") + ", weeks 7–8 " + cf("1400-1600") + ". Use the fast I/O template in <a href=\"#gate-g19\">Gate 19</a>.</li></ul>" +
+    '<h3>A straight word from your mentor</h3><p>Advanced level in two months is aggressive: about 190 problems at roughly 3 a day. If you fall behind, drop side quests first. Never drop the Review Queue; re-solving from memory is what makes patterns stick. Stuck is the training. Read the hint only after you have actually been stuck.</p>';
+}
+function cf(r){ return '<a href="https://codeforces.com/problemset?tags=' + r + '" target="_blank" rel="noopener">' + r + "</a>"; }
+
+function viewSystem(){
+  return '<h2>System</h2><div class="win"><div class="win-body">' +
+    '<div class="row"><label>Plan start date (Day 1): <input type="date" id="sdate" value="' + S.start + '"></label><button class="btn" data-act="setstart">Save</button></div>' +
+    '<p class="muted small" style="margin-top:6px">Changing the start date moves today\'s gate. It does not change any cleared problems.</p>' +
+    '<h3>Backup</h3><div class="row"><button class="btn" data-act="export">Export progress (JSON)</button>' +
+    '<label class="btn" style="display:inline-block">Import progress<input type="file" id="imp" accept="application/json" style="display:none"></label></div>' +
+    '<p class="muted small">Progress lives in this browser only. Export regularly if you switch devices or clear browser data.</p>' +
+    '<h3>XP rules</h3><table class="t"><tr><td>Easy / Medium / Hard clear</td><td>10 / 25 / 50 XP (60% if you opened the Approach first)</td></tr>' +
+    "<tr><td>Review Queue re-clear</td><td>5 XP each, at 3, 7 and 21 days</td></tr><tr><td>Daily Quest reward</td><td>30 XP</td></tr>" +
+    "<tr><td>Pattern trial, first correct answer</td><td>3 XP per question</td></tr><tr><td>Contest logged</td><td>20 XP + 20 per problem solved</td></tr>" +
+    "<tr><td>Level</td><td>Level L needs 3·(L−1)² XP. Ranks: E 1–9, D 10–19, C 20–29, B 30–39, A 40–49, S 50+</td></tr>" +
+    "<tr><td>Title “Shadow Monarch”</td><td>Defeat every gate boss</td></tr></table>" +
+    '<h3>Danger zone</h3><button class="btn bad" data-act="reset">Reset all progress</button></div></div>';
+}
+
+function render(){
+  CODE_BLOCKS = [];
+  renderStatus();
+  const h = (location.hash || "#today").slice(1);
+  const tab = h.startsWith("gate-") ? "gates" : h;
+  document.querySelectorAll("#tabs a").forEach(a => a.classList.toggle("on", a.dataset.tab === tab));
+  const v = $("#view");
+  const open = [...v.querySelectorAll(".reveal.open")].map(el => el.closest(".prob").id + ":" + el.dataset.r);
+  if (h.startsWith("gate-")) v.innerHTML = viewGate(h.slice(5));
+  else v.innerHTML = ({today:viewToday, gates:viewGates, codex:viewCodex, arsenal:viewArsenal, mentor:viewMentor, system:viewSystem}[h] || viewToday)();
+  open.forEach(k => { const [pid, r] = k.split(":"); v.querySelectorAll("#" + pid + ' .reveal[data-r="' + r + '"]').forEach(el => el.classList.add("open")); });
+}
+
+/* =====================================================================
+   EVENTS
+   ===================================================================== */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b) return;
+  const act = b.dataset.act, n = b.dataset.n;
+  if (act === "tog") {
+    const box = b.closest(".prob").querySelector('.reveal[data-r="' + b.dataset.t + '"]');
+    if (b.dataset.t === "a" && !box.classList.contains("open") && !S.solved[n] && !S.ap[n]) {
+      S.ap[n] = true; save();
+      b.textContent = "Approach";
+      toast("<b>[SYSTEM]</b> Approach revealed. Clearing #" + n + " now gives 60% XP.");
+    }
+    box.classList.toggle("open");
+    if (b.dataset.t === "n" && box.classList.contains("open")) box.querySelector("textarea").focus();
+  } else if (act === "solve") {
+    if (S.solved[n]) {
+      if (!confirm("Undo the clear for #" + n + "? Its XP and review history will be removed.")) return;
+      delete S.solved[n];
+    } else {
+      const p = PMAP[n];
+      S.solved[n] = {d:todayStr(), a:!!S.ap[n], r:[]};
+      const xp = Math.round(XPV[p.diff] * (S.ap[n] ? 0.6 : 1));
+      toast("<b>[SYSTEM]</b> Quest cleared: " + esc(p.title) + ". +" + xp + " XP");
+      if (p.flag === "boss") toast("<b>[SYSTEM]</b> Boss defeated in Gate " + p.gate.idx + ".");
+      if (gateCleared(p.gate)) toast("<b>[SYSTEM]</b> Gate " + p.gate.idx + " · " + esc(p.gate.name) + " cleared.");
+    }
+    commit();
+  } else if (act === "review") {
+    S.solved[n].r = (S.solved[n].r || []).concat([todayStr()]);
+    toast("<b>[SYSTEM]</b> Re-clear recorded. +5 XP");
+    commit();
+  } else if (act === "claim") {
+    S.bonus[todayStr()] = true;
+    toast("<b>[SYSTEM]</b> Daily Quest complete. +30 XP");
+    commit();
+  } else if (act === "contest") {
+    S.contests.push({d:todayStr(), name:$("#cname").value.trim().slice(0, 80), n:+$("#csolved").value});
+    toast("<b>[SYSTEM]</b> Contest logged.");
+    commit();
+  } else if (act === "delc") {
+    if (confirm("Delete this contest entry?")) { S.contests.splice(+b.dataset.i, 1); commit(); }
+  } else if (act === "copy") {
+    navigator.clipboard && navigator.clipboard.writeText(CODE_BLOCKS[+b.dataset.i]).then(() => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1200); });
+  } else if (act === "qans") {
+    if (QZ.answered !== null) return;
+    QZ.answered = +b.dataset.i;
+    const qi = QZ.order[QZ.pos];
+    if (QZ.opts[QZ.answered] === QUIZ[qi][1]) { QZ.score++; if (!S.quiz[qi]) { S.quiz[qi] = true; toast("<b>[SYSTEM]</b> Pattern identified. +3 XP"); } }
+    commit();
+  } else if (act === "qnext") {
+    QZ.pos++; if (QZ.pos < QUIZ.length) buildOpts(); render();
+  } else if (act === "qrestart") {
+    newQuiz(); render();
+  } else if (act === "close-ov") {
+    b.closest(".overlay").remove();
+  } else if (act === "setstart") {
+    const v = $("#sdate").value;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(v)) { S.start = v; commit(); toast("<b>[SYSTEM]</b> Start date updated."); }
+  } else if (act === "export") {
+    const blob = new Blob([JSON.stringify(S, null, 2)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "dsa-solo-leveling-progress-" + todayStr() + ".json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } else if (act === "reset") {
+    if (confirm("Reset ALL progress? This cannot be undone.") && confirm("Really reset? Consider exporting first.")) { S = freshState(); commit(); }
+  }
+});
+
+let noteTimer = null;
+document.addEventListener("input", e => {
+  if (e.target.id === "hname") { S.name = e.target.value.slice(0, 40); save(); return; }
+  if (e.target.dataset.act === "note") {
+    const n = e.target.dataset.n, val = e.target.value.slice(0, 2000);
+    S.notes[n] = {t:val, d:todayStr()};
+    save();
+    clearTimeout(noteTimer);
+    noteTimer = setTimeout(() => renderStatus(), 400);
+  }
+});
+document.addEventListener("change", e => {
+  if (e.target.id === "imp" && e.target.files[0]) {
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const data = JSON.parse(r.result);
+        if (typeof data !== "object" || !data || typeof data.solved !== "object") throw new Error("bad file");
+        S = Object.assign(freshState(), data);
+        commit();
+        toast("<b>[SYSTEM]</b> Progress imported.");
+      } catch(err) { alert("That file is not a valid progress export."); }
+    };
+    r.readAsText(e.target.files[0]);
+  }
+  if (e.target.dataset && e.target.dataset.act === "note") render();
+});
+window.addEventListener("hashchange", () => { render(); window.scrollTo({top: document.getElementById("tabs").offsetTop, behavior:"smooth"}); });
+
+S.lv = Math.max(S.lv || 1, levelOf(computeXP()));
+save();
+render();
+if (!localStorage.getItem(KEY + "-welcomed")) {
+  localStorage.setItem(KEY + "-welcomed", "1");
+  overlay('<div style="font-family:var(--head);letter-spacing:.3em;color:var(--glow2)">[ SYSTEM ]</div><div class="big" style="font-size:30px">You have been chosen</div>' +
+    '<p style="margin-top:10px">You have acquired the qualifications to be a Player. Sixty days, twenty gates, about ' + ALL.length + " LeetCode problems in Java.</p>" +
+    '<p class="muted small" style="margin-top:8px">Start with the Mentor Protocol tab, then open Gate 0. Today is Day 1.</p>');
+}
+</script>
+</body>
+</html>
