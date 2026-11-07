@@ -22,158 +22,178 @@
       --mac-mono: "SF Mono", ui-monospace, "Menlo", "Cascadia Mono", "Consolas", "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 150px; }
+    /* Every size on the page is in rem, so the whole layout scales with this one value.
+       16px up to a 1280px-wide screen, then grows with the width (about 20px at 1920, 22px max),
+       which keeps the window at the same share of the screen and the same shape on every monitor. */
+    html { font-size: clamp(1rem, calc(0.6vw + 0.53rem), 1.375rem); }
+    html { scroll-behavior: smooth; scroll-padding-top: 8rem; }
     html, body { margin: 0; padding: 0; }
-    body { font-family: var(--mac-font); color: var(--mac-text); background: var(--mac-bg); min-height: 100vh; padding: 12px; }
+    body { font-family: var(--mac-font); color: var(--mac-text); background: var(--mac-bg); min-height: 100vh; padding: 0.75rem; }
 
     /* ---------- Window chrome ---------- */
-    .mac-window { width: 100%; max-width: 1180px; margin: 0 auto; background: var(--mac-window);
-      border: 1px solid var(--mac-border); border-radius: 10px; box-shadow: 0 18px 50px rgba(0,0,0,0.22); }
-    .mac-titlebar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--mac-titlebar);
-      border-bottom: 1px solid var(--mac-border); border-top-left-radius: 10px; border-top-right-radius: 10px; }
-    .traffic-light { display: inline-block; width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+    .mac-window { width: 100%; max-width: 73.75rem; margin: 0 auto; background: var(--mac-window);
+      border: 1px solid var(--mac-border); border-radius: 0.625rem; box-shadow: 0 1.125rem 3.125rem rgba(0,0,0,0.22); }
+    .mac-titlebar { display: flex; align-items: center; gap: 0.5rem; padding: 0.625rem 0.875rem; background: var(--mac-titlebar);
+      border-bottom: 1px solid var(--mac-border); border-top-left-radius: 0.625rem; border-top-right-radius: 0.625rem; }
+    .traffic-light { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 50%; flex: 0 0 auto; }
     .tl-red { background: var(--tl-red); } .tl-yellow { background: var(--tl-yellow); } .tl-green { background: var(--tl-green); }
-    .mac-title { flex: 1 1 auto; text-align: center; font-size: 13px; font-weight: 500; color: var(--mac-text-muted);
-      margin-right: 48px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .mac-content { padding: 22px 26px 40px; }
+    .mac-title { flex: 1 1 auto; text-align: center; font-size: 0.8125rem; font-weight: 500; color: var(--mac-text-muted);
+      margin-right: 3rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mac-content { padding: 1.375rem 1.625rem 2.5rem; }
 
     /* ---------- Typography ---------- */
-    h1 { margin: 0 0 6px; font-size: 34px; letter-spacing: -0.01em; }
-    h2 { font-size: 25px; margin: 26px 0 8px; }
-    h3 { font-size: 20px; margin: 22px 0 8px; }
-    p, li { line-height: 1.65; font-size: 16.5px; }
+    h1 { margin: 0 0 0.375rem; font-size: 2.125rem; letter-spacing: -0.01em; }
+    h2 { font-size: 1.5625rem; margin: 1.625rem 0 0.5rem; }
+    h3 { font-size: 1.25rem; margin: 1.375rem 0 0.5rem; }
+    p, li { line-height: 1.65; font-size: 1.0312rem; }
     a { color: var(--mac-accent); }
-    code:not(pre code) { font-family: var(--mac-mono); font-size: 14px; background: rgba(10,132,255,0.1);
-      color: #0066cc; padding: 1px 6px; border-radius: 5px; }
+    code:not(pre code) { font-family: var(--mac-mono); font-size: 0.875rem; background: rgba(10,132,255,0.1);
+      color: #0066cc; padding: 1px 0.375rem; border-radius: 0.3125rem; }
     .muted { color: var(--mac-text-muted); }
     .mono { font-family: var(--mac-mono); }
     .nowrap { white-space: nowrap; }
 
     /* ---------- Hero ---------- */
-    .hero { display: flex; align-items: center; gap: 22px; background: linear-gradient(135deg, #0a84ff 0%, #5e5ce6 60%, #bf5af2 100%);
-      color: #fff; border-radius: 16px; padding: 28px 30px; margin-bottom: 14px; box-shadow: 0 8px 22px rgba(10,132,255,0.25); }
-    .hero .hero-icon { font-size: 50px; line-height: 1; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 16px; padding: 12px 16px; flex: 0 0 auto; }
+    .hero { display: flex; align-items: center; gap: 1.375rem; background: linear-gradient(135deg, #0a84ff 0%, #5e5ce6 60%, #bf5af2 100%);
+      color: #fff; border-radius: 1rem; padding: 1.75rem 1.875rem; margin-bottom: 0.875rem; box-shadow: 0 0.5rem 1.375rem rgba(10,132,255,0.25); }
+    .hero .hero-icon { font-size: 3rem; line-height: 1; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 1rem; flex: 0 0 auto; width: 5rem; aspect-ratio: 1 / 1;
+      display: flex; align-items: center; justify-content: center; }
     .hero .hero-main { flex: 1 1 auto; min-width: 0; }
-    .hero h1 { color: #fff; font-size: 32px; }
-    .hero p { margin: 0; font-size: 16.5px; color: rgba(255,255,255,0.95); }
+    .hero h1 { color: #fff; font-size: 2rem; }
+    .hero p { margin: 0; font-size: 1.0312rem; color: rgba(255,255,255,0.95); }
     .hero a { color: #fff; font-weight: 700; }
-    .hero .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .hero .hero-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
     .hero .hero-meta span { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 20px; padding: 4px 12px; font-size: 13.5px; font-weight: 600; }
+      border-radius: 1.25rem; padding: 0.25rem 0.75rem; font-size: 0.8438rem; font-weight: 600; }
     .hero-clock { flex: 0 0 auto; text-align: center; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 14px; padding: 14px 20px; min-width: 150px; }
-    .hero-clock b { display: block; font-size: 44px; line-height: 1.05; }
-    .hero-clock span { display: block; font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.95; }
-    .hero-clock small { display: block; margin-top: 8px; font-size: 13px; font-weight: 600; border-top: 1px solid rgba(255,255,255,0.35); padding-top: 8px; }
+      border-radius: 0.875rem; padding: 0.875rem 1.25rem; min-width: 9.375rem; }
+    .hero-clock b { display: block; font-size: 2.75rem; line-height: 1.05; }
+    .hero-clock span { display: block; font-size: 0.7812rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.95; }
+    .hero-clock small { display: block; margin-top: 0.5rem; font-size: 0.8125rem; font-weight: 600; border-top: 1px solid rgba(255,255,255,0.35); padding-top: 0.5rem; }
 
     /* ---------- Sticky bar ---------- */
-    .stickybar { position: sticky; top: 8px; z-index: 50; background: rgba(255,255,255,0.96);
-      backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px);
-      border: 1px solid var(--mac-border); border-radius: 12px; padding: 10px 16px; margin-bottom: 18px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
-    .sb-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .sb-track { flex: 1 1 160px; height: 12px; background: var(--mac-bg); border: 1px solid var(--mac-border); border-radius: 7px; overflow: hidden; }
+    .stickybar { position: sticky; top: 0.5rem; z-index: 50; background: rgba(255,255,255,0.96);
+      backdrop-filter: saturate(180%) blur(0.75rem); -webkit-backdrop-filter: saturate(180%) blur(0.75rem);
+      border: 1px solid var(--mac-border); border-radius: 0.75rem; padding: 0.625rem 1rem; margin-bottom: 1.125rem;
+      box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.10); }
+    .sb-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    .sb-track { flex: 1 1 10rem; height: 0.75rem; background: var(--mac-bg); border: 1px solid var(--mac-border); border-radius: 0.4375rem; overflow: hidden; }
     .sb-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #0a84ff, #28c840); transition: width 0.35s ease; }
-    .sb-pct { font-weight: 800; color: var(--mac-accent); font-size: 16px; min-width: 44px; }
-    .sb-count { color: var(--mac-text-muted); font-weight: 600; font-size: 13.5px; white-space: nowrap; }
-    .btn { border: 1px solid var(--mac-border); background: #fff; border-radius: 8px; padding: 5px 11px;
-      font-size: 12.5px; cursor: pointer; color: var(--mac-text); font-family: var(--mac-font); font-weight: 600; white-space: nowrap; }
+    .sb-pct { font-weight: 800; color: var(--mac-accent); font-size: 1rem; min-width: 2.75rem; }
+    .sb-count { color: var(--mac-text-muted); font-weight: 600; font-size: 0.8438rem; white-space: nowrap; }
+    .btn { border: 1px solid var(--mac-border); background: #fff; border-radius: 0.5rem; padding: 0.3125rem 0.6875rem;
+      font-size: 0.7812rem; cursor: pointer; color: var(--mac-text); font-family: var(--mac-font); font-weight: 600; white-space: nowrap; }
     .btn:hover { border-color: var(--mac-accent); color: var(--mac-accent); }
     .btn.on { background: var(--mac-accent); border-color: var(--mac-accent); color: #fff; }
     .btn.danger:hover { border-color: var(--tl-red); color: #c9302c; }
     .btn input[type=file] { display: none; }
 
     /* ---------- Section bands ---------- */
-    .band { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mac-accent);
-      margin: 38px 2px 6px; padding-bottom: 6px; border-bottom: 2px solid rgba(10,132,255,0.2); }
+    .band { font-size: 0.875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mac-accent);
+      margin: 2.375rem 2px 0.375rem; padding-bottom: 0.375rem; border-bottom: 2px solid rgba(10,132,255,0.2); }
 
     /* ---------- Callouts ---------- */
-    .concept, .observe, .expected, .askai, .stretch, .warn, .tip { border-radius: 10px; padding: 13px 18px; margin: 14px 0; font-size: 16px; }
+    .concept, .observe, .expected, .askai, .stretch, .warn, .tip { border-radius: 0.625rem; padding: 0.8125rem 1.125rem; margin: 0.875rem 0; font-size: 1rem; }
     .concept { background: #f3f8ff; border: 1px solid #cfe4ff; }
-    .observe { background: rgba(254,188,46,0.10); border-left: 4px solid var(--tl-yellow); border-radius: 0 10px 10px 0; }
-    .expected { background: rgba(40,200,64,0.07); border-left: 4px solid #28c840; border-radius: 0 10px 10px 0; }
-    .warn { background: rgba(255,95,87,0.08); border-left: 4px solid var(--tl-red); border-radius: 0 10px 10px 0; }
+    .observe { background: rgba(254,188,46,0.10); border-left: 0.25rem solid var(--tl-yellow); border-radius: 0 0.625rem 0.625rem 0; }
+    .expected { background: rgba(40,200,64,0.07); border-left: 0.25rem solid #28c840; border-radius: 0 0.625rem 0.625rem 0; }
+    .warn { background: rgba(255,95,87,0.08); border-left: 0.25rem solid var(--tl-red); border-radius: 0 0.625rem 0.625rem 0; }
     .tip { background: #f6f6f8; border: 1px dashed var(--mac-border); }
-    .askai { background: linear-gradient(135deg,#faf2ff,#f3e8ff); border: 1px solid #d8b4fe; border-left: 5px solid #bf5af2; border-radius: 0 10px 10px 0; }
-    .stretch { background: linear-gradient(135deg,#fff0f3,#ffe7ec); border: 1px solid #ffc2cf; border-left: 5px solid #ff375f; border-radius: 0 10px 10px 0; }
-    .lbl { font-weight: 700; display: block; margin-bottom: 6px; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .askai { background: linear-gradient(135deg,#faf2ff,#f3e8ff); border: 1px solid #d8b4fe; border-left: 0.3125rem solid #bf5af2; border-radius: 0 0.625rem 0.625rem 0; }
+    .stretch { background: linear-gradient(135deg,#fff0f3,#ffe7ec); border: 1px solid #ffc2cf; border-left: 0.3125rem solid #ff375f; border-radius: 0 0.625rem 0.625rem 0; }
+    .lbl { font-weight: 700; display: block; margin-bottom: 0.375rem; font-size: 0.8438rem; text-transform: uppercase; letter-spacing: 0.05em; }
     .concept .lbl { color: var(--mac-accent); } .observe .lbl { color: #9a6b00; } .expected .lbl { color: #1a7f31; }
     .warn .lbl { color: #c9302c; } .askai .lbl { color: #8e2fd6; } .stretch .lbl { color: #c20d38; } .tip .lbl { color: var(--mac-text-muted); }
     .concept p:first-of-type, .observe p:first-of-type { margin-top: 0; }
     .concept p:last-child, .observe p:last-child, .warn p:last-child, .expected p:last-child, .tip p:last-child, .stretch p:last-child, .askai p:last-child { margin-bottom: 0; }
     .concept ul, .observe ul, .stretch ul, .askai ul, .warn ul, .expected ul, .tip ul,
-    .concept ol, .observe ol, .stretch ol, .askai ol, .warn ol, .expected ol, .tip ol { margin: 4px 0; padding-left: 22px; }
-    .concept li, .observe li, .stretch li, .askai li, .warn li, .expected li, .tip li { font-size: 15.5px; }
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .concept ol, .observe ol, .stretch ol, .askai ol, .warn ol, .expected ol, .tip ol { margin: 0.25rem 0; padding-left: 1.375rem; }
+    .concept li, .observe li, .stretch li, .askai li, .warn li, .expected li, .tip li { font-size: 0.9688rem; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; }
     .grid2 > div { margin: 0; }
 
     /* ---------- Hint ladder ---------- */
-    details.hint { border: 1px solid var(--mac-border); border-radius: 10px; margin: 10px 0; overflow: hidden; background: #fff; }
-    details.hint > summary { list-style: none; cursor: pointer; padding: 10px 16px; font-weight: 700; font-size: 15.5px;
-      display: flex; align-items: center; gap: 10px; user-select: none; }
+    details.hint { border: 1px solid var(--mac-border); border-radius: 0.625rem; margin: 0.625rem 0; overflow: hidden; background: #fff; }
+    details.hint > summary { list-style: none; cursor: pointer; padding: 0.625rem 1rem; font-weight: 700; font-size: 0.9688rem;
+      display: flex; align-items: center; gap: 0.625rem; user-select: none; }
     details.hint > summary::-webkit-details-marker { display: none; }
     details.hint > summary::after { content: "▸"; margin-left: auto; transition: transform 0.2s ease; color: var(--mac-text-muted); }
     details.hint[open] > summary::after { transform: rotate(90deg); }
     details.hint[open] > summary { border-bottom: 1px solid var(--mac-border); }
-    details.hint > .h-body { padding: 8px 18px 12px; }
+    details.hint > .h-body { padding: 0.5rem 1.125rem 0.75rem; }
     details.hint.h1 > summary { background: #f0f7ff; color: #0060df; }
     details.hint.h2 > summary { background: #fff7e8; color: #9a5a00; }
     details.hint.sol > summary { background: #effbf1; color: #1a7f31; }
-    details.hint.sol > summary .peek { font-weight: 500; font-size: 13px; color: var(--mac-text-muted); }
+    details.hint.sol > summary .peek { font-weight: 500; font-size: 0.8125rem; color: var(--mac-text-muted); }
     details.hint.spoil > summary { background: #fff0f3; color: #c20d38; }
     details.hint.qa > summary { background: #f6f6f8; color: var(--mac-text); font-weight: 600; }
 
     /* ---------- Code blocks ---------- */
-    .codewrap { position: relative; margin: 12px 0; }
-    .codewrap pre { margin: 0; padding: 14px 16px; background: var(--mac-code-bg); border: 1px solid var(--mac-border);
-      border-radius: 8px; overflow-x: auto; white-space: pre; max-height: 640px; }
-    .codewrap pre code { font-family: var(--mac-mono); font-size: 13.5px; line-height: 1.55; color: var(--mac-code-text); white-space: pre; }
+    .codewrap { position: relative; margin: 0.75rem 0; }
+    .codewrap pre { margin: 0; padding: 0.875rem 1rem; background: var(--mac-code-bg); border: 1px solid var(--mac-border);
+      border-radius: 0.5rem; overflow-x: auto; white-space: pre; max-height: min(40rem, 70vh); }
+    .codewrap pre code { font-family: var(--mac-mono); font-size: 0.8438rem; line-height: 1.55; color: var(--mac-code-text); white-space: pre; }
     .codewrap.out pre { background: #f6f8fa; max-height: none; }
     .codewrap.out pre code { color: #24292f; }
     .code-comment { color: #8c93b5; font-style: italic; }
-    .copy-btn { position: absolute; top: 7px; right: 7px; background: rgba(255,255,255,0.12); color: #f8f8f2;
-      border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4px 11px; font-size: 12.5px;
+    .copy-btn { position: absolute; top: 0.4375rem; right: 0.4375rem; background: rgba(255,255,255,0.12); color: #f8f8f2;
+      border: 1px solid rgba(255,255,255,0.25); border-radius: 0.375rem; padding: 0.25rem 0.6875rem; font-size: 0.7812rem;
       font-family: var(--mac-font); cursor: pointer; }
     .codewrap.out .copy-btn { display: none; }
     .copy-btn:hover { background: rgba(255,255,255,0.22); }
     .copy-btn.ok { background: #28c840; border-color: #28c840; color: #fff; }
     .copy-btn.err { background: var(--tl-red); border-color: var(--tl-red); color: #fff; }
-    .filebar { display: flex; align-items: center; gap: 10px; background: #2a2a3c; color: #f8f8f2; border-radius: 8px 8px 0 0;
-      padding: 8px 14px; margin: 16px 0 0; font-family: var(--mac-mono); font-size: 13.5px; border: 1px solid var(--mac-border); border-bottom: none; }
+    .filebar { display: flex; align-items: center; gap: 0.625rem; background: #2a2a3c; color: #f8f8f2; border-radius: 0.5rem 0.5rem 0 0;
+      padding: 0.5rem 0.875rem; margin: 1rem 0 0; font-family: var(--mac-mono); font-size: 0.8438rem; border: 1px solid var(--mac-border); border-bottom: none; }
     .filebar .fb-name { font-weight: 700; color: #a6e22e; overflow-wrap: anywhere; }
-    .filebar .fb-tag { margin-left: auto; font-family: var(--mac-font); font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
-      text-transform: uppercase; background: rgba(255,255,255,0.14); color: #fff; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+    .filebar .fb-tag { margin-left: auto; font-family: var(--mac-font); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; background: rgba(255,255,255,0.14); color: #fff; padding: 3px 0.5625rem; border-radius: 1.25rem; white-space: nowrap; }
     .filebar .fb-tag.new { background: #1f9d42; } .filebar .fb-tag.memo { background: #0a84ff; } .filebar .fb-tag.opt { background: #8e8e93; }
     .filebar + .codewrap { margin-top: 0; }
-    .filebar + .codewrap pre { border-radius: 0 0 8px 8px; }
+    .filebar + .codewrap pre { border-radius: 0 0 0.5rem 0.5rem; }
 
     /* ---------- Tables ---------- */
-    .tbl-wrap { overflow-x: auto; margin: 12px 0; }
-    table.tbl { width: 100%; border-collapse: collapse; font-size: 15px; }
-    table.tbl th, table.tbl td { border: 1px solid var(--mac-border); padding: 9px 12px; text-align: left; vertical-align: top; }
-    table.tbl thead th { background: var(--mac-titlebar); font-size: 14px; }
+    .tbl-wrap { overflow-x: auto; margin: 0.75rem 0; }
+    table.tbl { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+    table.tbl th, table.tbl td { border: 1px solid var(--mac-border); padding: 0.5625rem 0.75rem; text-align: left; vertical-align: top; }
+    table.tbl thead th { background: var(--mac-titlebar); font-size: 0.875rem; }
     table.tbl tbody tr:nth-child(even) { background: #fafafc; }
     table.tbl td code { white-space: nowrap; }
 
     /* ---------- Small pills ---------- */
-    .diff { font-size: 12px; font-weight: 700; border-radius: 20px; padding: 2px 9px; white-space: nowrap; }
+    .diff { font-size: 0.75rem; font-weight: 700; border-radius: 1.25rem; padding: 2px 0.5625rem; white-space: nowrap; }
     .diff.e { background: #e3f6e8; color: #1a7f31; } .diff.m { background: #fff1d6; color: #8a5300; }
     .diff.h { background: #ffe3e6; color: #b3132f; } .diff.n { background: #eef0f3; color: #555; }
-    .kbd { font-family: var(--mac-mono); font-size: 13px; background: #fff; border: 1px solid var(--mac-border); border-bottom-width: 2px;
-      border-radius: 6px; padding: 1px 7px; }
+    .kbd { font-family: var(--mac-mono); font-size: 0.8125rem; background: #fff; border: 1px solid var(--mac-border); border-bottom-width: 2px;
+      border-radius: 0.375rem; padding: 1px 0.4375rem; }
 
-    footer { margin-top: 30px; text-align: center; color: var(--mac-text-muted); font-size: 13.5px; border-top: 1px solid var(--mac-border); padding-top: 16px; }
+    footer { margin-top: 1.875rem; text-align: center; color: var(--mac-text-muted); font-size: 0.8438rem; border-top: 1px solid var(--mac-border); padding-top: 1rem; }
 
+    /* compact "jump to" menu used in the sticky bars */
+    .jump { border: 1px solid var(--mac-border); background: #fff; border-radius: 0.5rem; padding: 0.3125rem 0.5rem;
+      font-size: 0.7813rem; font-weight: 600; font-family: var(--mac-font); color: var(--mac-text); cursor: pointer; max-width: 100%; }
+    .jump:hover, .jump:focus { border-color: var(--mac-accent); }
+
+    /* medium widths (tablets, small laptops): give the text the room the icon was taking */
+    @media (max-width: 1000px) {
+      .hero .hero-icon { display: none; }
+      .hero { padding: 1.5rem 1.5rem; }
+    }
+    /* short screens: the sticky bar would cover too much of the page, so it scrolls away */
+    @media (max-height: 620px) {
+      .stickybar { position: static; }
+      html { scroll-padding-top: 0.75rem; }
+    }
     @media (max-width: 760px) {
-      body { padding: 6px; }
-      .hero { flex-direction: column; text-align: center; padding: 22px 18px; }
+      body { padding: 0.375rem; }
+      .hero { flex-direction: column; text-align: center; padding: 1.375rem 1.125rem; }
       .hero .hero-meta { justify-content: center; }
       .hero-clock { width: 100%; }
-      .mac-content { padding: 14px; }
+      .mac-content { padding: 0.875rem; }
       .grid2 { grid-template-columns: 1fr; }
       .stickybar { position: static; }
-      html { scroll-padding-top: 12px; }
+      html { scroll-padding-top: 0.75rem; }
       .sb-count { display: none; }
     }
     @media print {
@@ -182,49 +202,49 @@
       .mac-window { box-shadow: none; border: none; }
     }
     /* ---------- plan page ---------- */
-    .daynav { display: flex; flex-wrap: wrap; gap: 5px 10px; margin-top: 9px; align-items: center; }
-    .daynav .wk { font-size: 11.5px; font-weight: 800; color: var(--mac-text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
-    .daynav .wk-days { display: inline-flex; gap: 4px; flex-wrap: wrap; }
-    .daynav a { text-decoration: none; font-size: 12.5px; font-weight: 700; color: var(--mac-text);
-      border: 1px solid var(--mac-border); border-radius: 20px; padding: 2px 8px; background: #fff; min-width: 28px; text-align: center; }
+    .daynav { display: flex; flex-wrap: wrap; gap: 0.375rem 0; margin-top: 0.5rem; align-items: center; }
+    .daynav .wk-days { display: inline-flex; gap: 0.1875rem; flex-wrap: wrap; align-items: center; }
+    .daynav .wk-days + .wk-days { margin-left: 0.4375rem; padding-left: 0.4375rem; border-left: 2px solid var(--mac-border); }
+    .daynav a { text-decoration: none; font-size: 0.7188rem; font-weight: 700; color: var(--mac-text); background: #fff;
+      border: 1px solid var(--mac-border); border-radius: 50%; width: 1.625rem; aspect-ratio: 1 / 1; padding: 0;
+      display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
     .daynav a:hover { border-color: var(--mac-accent); background: #f0f6ff; }
     .daynav a.mockd { border-color: #ffb3c1; color: #c20d38; }
     .daynav a.done { background: rgba(40,200,64,0.14); border-color: rgba(40,200,64,0.55); color: #1a7f31; }
     .daynav a.today { box-shadow: 0 0 0 2px var(--tl-yellow); }
-    .daynav .sect { margin-left: auto; display: inline-flex; gap: 4px; flex-wrap: wrap; }
-    .daynav .sect a { font-weight: 600; color: var(--mac-text-muted); }
+    .daynav .jump { margin-left: auto; }
 
-    .week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin: 14px 0; }
-    .week-grid a { text-decoration: none; color: var(--mac-text); border: 1px solid var(--mac-border); border-top: 5px solid var(--mac-accent);
-      border-radius: 12px; padding: 12px 16px; background: #fff; display: block; }
+    .week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15.625rem, 1fr)); gap: 0.75rem; margin: 0.875rem 0; }
+    .week-grid a { text-decoration: none; color: var(--mac-text); border: 1px solid var(--mac-border); border-top: 0.3125rem solid var(--mac-accent);
+      border-radius: 0.75rem; padding: 0.75rem 1rem; background: #fff; display: block; }
     .week-grid a:hover { background: #f8fbff; }
-    .week-grid .p-day { font-size: 12.5px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mac-text-muted); }
-    .week-grid .p-title { font-size: 17px; font-weight: 700; margin: 2px 0 4px; }
-    .week-grid .p-desc { font-size: 14px; color: var(--mac-text-muted); line-height: 1.45; }
+    .week-grid .p-day { font-size: 0.7812rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mac-text-muted); }
+    .week-grid .p-title { font-size: 1.0625rem; font-weight: 700; margin: 2px 0 0.25rem; }
+    .week-grid .p-desc { font-size: 0.875rem; color: var(--mac-text-muted); line-height: 1.45; }
 
-    .wk-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mac-text-muted);
-      margin: 30px 2px 4px; }
-    details.day { margin: 14px 0; border-radius: 14px; }
-    details.day > summary { list-style: none; cursor: pointer; border-radius: 14px; padding: 16px 22px; color: #fff;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+    .wk-title { font-size: 0.8125rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mac-text-muted);
+      margin: 1.875rem 2px 0.25rem; }
+    details.day { margin: 0.875rem 0; border-radius: 0.875rem; }
+    details.day > summary { list-style: none; cursor: pointer; border-radius: 0.875rem; padding: 1rem 1.375rem; color: #fff;
+      box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.12); }
     details.day > summary::-webkit-details-marker { display: none; }
-    details.day[open] > summary { border-radius: 14px 14px 0 0; }
-    details.day.today > summary { box-shadow: 0 0 0 3px var(--tl-yellow), 0 6px 18px rgba(0,0,0,0.12); }
-    .dh-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-    .dh-num { font-size: 13.5px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.95; }
-    .dh-tag { font-size: 11.5px; font-weight: 800; background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.45);
-      border-radius: 20px; padding: 1px 9px; text-transform: uppercase; letter-spacing: 0.06em; }
+    details.day[open] > summary { border-radius: 0.875rem 0.875rem 0 0; }
+    details.day.today > summary { box-shadow: 0 0 0 3px var(--tl-yellow), 0 0.375rem 1.125rem rgba(0,0,0,0.12); }
+    .dh-top { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+    .dh-num { font-size: 0.8438rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.95; }
+    .dh-tag { font-size: 0.7188rem; font-weight: 800; background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 1.25rem; padding: 1px 0.5625rem; text-transform: uppercase; letter-spacing: 0.06em; }
     .dh-tag.todaytag { background: var(--tl-yellow); color: #3a2a00; border-color: var(--tl-yellow); }
-    .dh-time { margin-left: auto; font-weight: 700; font-size: 13.5px; background: rgba(255,255,255,0.2); border-radius: 20px; padding: 3px 12px; }
-    details.day > summary h2 { margin: 4px 0 4px; color: #fff; font-size: 23px; }
-    details.day > summary p { margin: 0; color: rgba(255,255,255,0.95); font-size: 15.5px; line-height: 1.5; }
-    .dh-bottom { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
-    .dh-chip { font-size: 12.5px; font-weight: 700; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 20px; padding: 2px 10px; }
-    .dh-prog { margin-left: auto; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13.5px; }
-    .dh-prog .bar { width: 90px; height: 7px; background: rgba(255,255,255,0.3); border-radius: 4px; overflow: hidden; }
+    .dh-time { margin-left: auto; font-weight: 700; font-size: 0.8438rem; background: rgba(255,255,255,0.2); border-radius: 1.25rem; padding: 3px 0.75rem; }
+    details.day > summary h2 { margin: 0.25rem 0 0.25rem; color: #fff; font-size: 1.4375rem; }
+    details.day > summary p { margin: 0; color: rgba(255,255,255,0.95); font-size: 0.9688rem; line-height: 1.5; }
+    .dh-bottom { display: flex; align-items: center; gap: 0.625rem; margin-top: 0.625rem; flex-wrap: wrap; }
+    .dh-chip { font-size: 0.7812rem; font-weight: 700; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 1.25rem; padding: 2px 0.625rem; }
+    .dh-prog { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.8438rem; }
+    .dh-prog .bar { width: 5.625rem; height: 0.4375rem; background: rgba(255,255,255,0.3); border-radius: 0.25rem; overflow: hidden; }
     .dh-prog .bar i { display: block; height: 100%; width: 0; background: #fff; }
-    .dh-open { font-size: 12.5px; opacity: 0.9; }
+    .dh-open { font-size: 0.7812rem; opacity: 0.9; }
     details.day[open] .dh-open { display: none; }
     .ph0 > summary { background: linear-gradient(135deg, #8e8e93, #636366); }
     .ph1 > summary { background: linear-gradient(135deg, #0a84ff, #0060df); }
@@ -233,65 +253,65 @@
     .ph4 > summary { background: linear-gradient(135deg, #f58a07, #c96a00); }
     .phm > summary { background: linear-gradient(135deg, #ff375f, #c20d38); }
     .phr > summary { background: linear-gradient(135deg, #34c759, #1f8f3e); }
-    .day-body { border: 1px solid var(--mac-border); border-top: none; border-radius: 0 0 14px 14px; padding: 4px 22px 18px; background: #fff; }
-    .day-body h4 { margin: 18px 0 6px; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mac-text-muted); }
-    .hb-links { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
-    .hb-links a { text-decoration: none; font-size: 13px; font-weight: 700; color: #0060df; background: #f0f7ff; border: 1px solid #cfe4ff;
-      border-radius: 20px; padding: 3px 11px; }
+    .day-body { border: 1px solid var(--mac-border); border-top: none; border-radius: 0 0 0.875rem 0.875rem; padding: 0.25rem 1.375rem 1.125rem; background: #fff; }
+    .day-body h4 { margin: 1.125rem 0 0.375rem; font-size: 0.8438rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mac-text-muted); }
+    .hb-links { display: flex; flex-wrap: wrap; gap: 0.375rem; margin: 0.5rem 0 0; }
+    .hb-links a { text-decoration: none; font-size: 0.8125rem; font-weight: 700; color: #0060df; background: #f0f7ff; border: 1px solid #cfe4ff;
+      border-radius: 1.25rem; padding: 3px 0.6875rem; }
     .hb-links a:hover { border-color: var(--mac-accent); }
 
-    .probs { border: 1px solid var(--mac-border); border-radius: 12px; overflow: hidden; margin: 8px 0; background: #fff; }
-    .prob { display: grid; grid-template-columns: 24px 88px minmax(0, 1fr) auto auto; gap: 12px; align-items: start;
-      padding: 10px 14px; border-bottom: 1px solid #ececf0; }
+    .probs { border: 1px solid var(--mac-border); border-radius: 0.75rem; overflow: hidden; margin: 0.5rem 0; background: #fff; }
+    .prob { display: grid; grid-template-columns: 1.5rem 5.5rem minmax(0, 1fr) auto auto; gap: 0.75rem; align-items: start;
+      padding: 0.625rem 0.875rem; border-bottom: 1px solid #ececf0; }
     .prob:last-child { border-bottom: none; }
-    .prob > input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: #28c840; cursor: pointer; }
+    .prob > input { width: 1.25rem; height: 1.25rem; margin: 2px 0 0; accent-color: #28c840; cursor: pointer; }
     .prob.done { background: rgba(40,200,64,0.07); }
     .prob.done .pt a { color: #1a7f31; }
-    .pid { font-family: var(--mac-mono); font-size: 12px; font-weight: 700; border-radius: 6px; padding: 3px 6px; text-align: center; margin-top: 1px; }
+    .pid { font-family: var(--mac-mono); font-size: 0.75rem; font-weight: 700; border-radius: 0.375rem; padding: 3px 0.375rem; text-align: center; margin-top: 1px; }
     .pid.lc { background: #ffa116; color: #1d1d1f; } .pid.cf { background: #1f72b8; color: #fff; }
     .pid.gfg { background: #2f8d46; color: #fff; } .pid.infy { background: #8e2fd6; color: #fff; }
-    .pt a { font-weight: 650; font-size: 16px; color: var(--mac-text); text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.15); }
+    .pt a { font-weight: 650; font-size: 1rem; color: var(--mac-text); text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.15); }
     .pt a:hover { color: var(--mac-accent); border-bottom-color: var(--mac-accent); }
     .pt details { margin-top: 3px; }
-    .pt details summary { cursor: pointer; font-size: 13px; font-weight: 700; color: #9a5a00; list-style: none; display: inline-block; }
+    .pt details summary { cursor: pointer; font-size: 0.8125rem; font-weight: 700; color: #9a5a00; list-style: none; display: inline-block; }
     .pt details summary::-webkit-details-marker { display: none; }
     .pt details summary::before { content: "💡 "; }
     .pt details[open] summary { color: #6e6e73; }
-    .pt details div { font-size: 14.5px; color: #3a3a3c; background: #fff7e8; border-radius: 8px; padding: 6px 10px; margin-top: 4px; }
-    .pmin { font-size: 12.5px; color: var(--mac-text-muted); font-weight: 600; white-space: nowrap; margin-top: 3px; }
-    .bonus-box { margin: 14px 0 6px; }
+    .pt details div { font-size: 0.9062rem; color: #3a3a3c; background: #fff7e8; border-radius: 0.5rem; padding: 0.375rem 0.625rem; margin-top: 0.25rem; }
+    .pmin { font-size: 0.7812rem; color: var(--mac-text-muted); font-weight: 600; white-space: nowrap; margin-top: 3px; }
+    .bonus-box { margin: 0.875rem 0 0.375rem; }
     .bonus-box .probs { margin-bottom: 0; }
     body.hide-bonus .bonus-box { display: none; }
-    textarea.note { width: 100%; min-height: 64px; border: 1px solid var(--mac-border); border-radius: 8px; padding: 8px 10px;
-      font-family: var(--mac-font); font-size: 14.5px; resize: vertical; }
+    textarea.note { width: 100%; min-height: 4rem; border: 1px solid var(--mac-border); border-radius: 0.5rem; padding: 0.5rem 0.625rem;
+      font-family: var(--mac-font); font-size: 0.9062rem; resize: vertical; }
 
-    .mock { border: 1px solid var(--mac-border); border-radius: 12px; margin: 14px 0; background: #fff; overflow: hidden; }
-    .mock-h { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; padding: 12px 18px; background: #fff0f3; border-bottom: 1px solid #ffd0da; }
-    .mock-h b { font-size: 18px; } .mock-h span { margin-left: auto; font-size: 13.5px; color: #c20d38; font-weight: 700; }
-    .mock-b { padding: 4px 18px 14px; }
-    .scores { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 6px; }
-    .scores label { font-size: 13.5px; font-weight: 700; color: var(--mac-text-muted); }
-    .scores input { width: 70px; margin-left: 6px; border: 1px solid var(--mac-border); border-radius: 6px; padding: 4px 6px; font-size: 14px; }
+    .mock { border: 1px solid var(--mac-border); border-radius: 0.75rem; margin: 0.875rem 0; background: #fff; overflow: hidden; }
+    .mock-h { display: flex; gap: 0.625rem; align-items: baseline; flex-wrap: wrap; padding: 0.75rem 1.125rem; background: #fff0f3; border-bottom: 1px solid #ffd0da; }
+    .mock-h b { font-size: 1.125rem; } .mock-h span { margin-left: auto; font-size: 0.8438rem; color: #c20d38; font-weight: 700; }
+    .mock-b { padding: 0.25rem 1.125rem 0.875rem; }
+    .scores { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-top: 0.375rem; }
+    .scores label { font-size: 0.8438rem; font-weight: 700; color: var(--mac-text-muted); }
+    .scores input { width: 4.375rem; margin-left: 0.375rem; border: 1px solid var(--mac-border); border-radius: 0.375rem; padding: 0.25rem 0.375rem; font-size: 0.875rem; }
     .scores .tot { font-weight: 800; color: var(--mac-accent); }
 
-    .rep { border: 1px solid var(--mac-border); border-radius: 12px; margin: 14px 0; padding: 4px 18px 10px; background: #fff; }
-    .rep-h { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; padding-top: 10px; }
-    .rep-h b { font-size: 17.5px; } .rep-h span { margin-left: auto; font-size: 13px; color: var(--mac-text-muted); font-weight: 600; }
-    .rep p { margin: 8px 0; }
+    .rep { border: 1px solid var(--mac-border); border-radius: 0.75rem; margin: 0.875rem 0; padding: 0.25rem 1.125rem 0.625rem; background: #fff; }
+    .rep-h { display: flex; gap: 0.625rem; align-items: baseline; flex-wrap: wrap; padding-top: 0.625rem; }
+    .rep-h b { font-size: 1.0938rem; } .rep-h span { margin-left: auto; font-size: 0.8125rem; color: var(--mac-text-muted); font-weight: 600; }
+    .rep p { margin: 0.5rem 0; }
 
-    .logform { display: grid; grid-template-columns: 1.2fr 1fr 1fr 2fr auto; gap: 8px; margin: 10px 0; }
-    .logform input, .logform select { border: 1px solid var(--mac-border); border-radius: 8px; padding: 7px 9px; font-size: 14px; font-family: var(--mac-font); min-width: 0; }
-    .del { background: none; border: none; color: var(--mac-text-muted); cursor: pointer; font-size: 17px; }
+    .logform { display: grid; grid-template-columns: 1.2fr 1fr 1fr 2fr auto; gap: 0.5rem; margin: 0.625rem 0; }
+    .logform input, .logform select { border: 1px solid var(--mac-border); border-radius: 0.5rem; padding: 0.4375rem 0.5625rem; font-size: 0.875rem; font-family: var(--mac-font); min-width: 0; }
+    .del { background: none; border: none; color: var(--mac-text-muted); cursor: pointer; font-size: 1.0625rem; }
     .del:hover { color: #c9302c; }
 
     @media (max-width: 760px) {
-      .prob { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+      .prob { display: flex; flex-wrap: wrap; align-items: center; gap: 0.375rem 0.625rem; }
       .prob .pmin, .prob .pid, .prob > input { margin-top: 0; }
       .prob .pt { order: 5; flex: 1 1 100%; }
       .logform { grid-template-columns: 1fr; }
       .daynav .sect { margin-left: 0; }
-      .day-body { padding: 4px 12px 14px; }
-      details.day > summary { padding: 14px 16px; }
+      .day-body { padding: 0.25rem 0.75rem 0.875rem; }
+      details.day > summary { padding: 0.875rem 1rem; }
     }
   </style>
 </head>
@@ -335,13 +355,27 @@
           <label class="btn">Import<input type="file" id="bImp" accept="application/json"></label>
           <button class="btn danger" id="bReset" type="button">Reset</button>
         </div>
-        <nav class="daynav" id="dayNav">
-          <span class="wk">W1</span><span class="wk-days"><a href="#day-1" data-nav="1" title="Day 1: Set up, Java toolkit, fast input">1</a><a href="#day-2" data-nav="2" title="Day 2: Prefix sums, difference arrays, hashing">2</a><a href="#day-3" data-nav="3" title="Day 3: Two pointers and sliding window">3</a><a href="#day-4" data-nav="4" title="Day 4: Sorting and greedy: intervals">4</a><a href="#day-5" data-nav="5" title="Day 5: Greedy with heaps">5</a><a href="#day-6" data-nav="6" title="Day 6: Binary search, including on the answer">6</a><a href="#day-7" data-nav="7" title="Day 7: Monotonic stacks">7</a></span>
-          <span class="wk">W2</span><span class="wk-days"><a href="#day-8" data-nav="8" title="Day 8: Bits and XOR">8</a><a href="#day-9" data-nav="9" class="mockd" title="Day 9: Mock 1 + review">9</a><a href="#day-10" data-nav="10" title="Day 10: Number theory toolkit">10</a><a href="#day-11" data-nav="11" title="Day 11: DP I: states, transitions, knapsack">11</a><a href="#day-12" data-nav="12" title="Day 12: DP II: two-string DP">12</a><a href="#day-13" data-nav="13" title="Day 13: DP III: LIS and DP with an extra dimension">13</a><a href="#day-14" data-nav="14" title="Day 14: DP IV: divisor, interval and game DP">14</a></span>
-          <span class="wk">W3</span><span class="wk-days"><a href="#day-15" data-nav="15" title="Day 15: Graphs I: BFS, DFS, topological order">15</a><a href="#day-16" data-nav="16" class="mockd" title="Day 16: Mock 2 + review">16</a><a href="#day-17" data-nav="17" title="Day 17: Graphs II: Dijkstra, DSU, MST">17</a><a href="#day-18" data-nav="18" title="Day 18: Trees I: recursion, parent arrays, LCA">18</a><a href="#day-19" data-nav="19" title="Day 19: Trees II: tree DP, rerooting, small-to-large">19</a><a href="#day-20" data-nav="20" title="Day 20: Fenwick trees and segment trees">20</a><a href="#day-21" data-nav="21" title="Day 21: Lazy segment trees and the K-parts DP">21</a></span>
-          <span class="wk">W4</span><span class="wk-days"><a href="#day-22" data-nav="22" title="Day 22: Backtracking, bitmask DP, digit DP">22</a><a href="#day-23" data-nav="23" class="mockd" title="Day 23: Mock 3 (4 problems) + review">23</a><a href="#day-24" data-nav="24" title="Day 24: Infosys repeat problems I">24</a><a href="#day-25" data-nav="25" class="mockd" title="Day 25: Mock 4: the official Infosys sample paper">25</a><a href="#day-26" data-nav="26" title="Day 26: Repair day + the hard XOR repeat">26</a><a href="#day-27" data-nav="27" class="mockd" title="Day 27: Mock 5: dress rehearsal">27</a><a href="#day-28" data-nav="28" title="Day 28: Consolidate">28</a></span>
-          <span class="wk">W5</span><span class="wk-days"><a href="#day-29" data-nav="29" title="Day 29: Rest and logistics">29</a></span>
-          <span class="sect"><a href="#how">How</a><a href="#test">Test</a><a href="#java">Java kit</a><a href="#mocks">Mocks</a><a href="#repeats">Repeats</a><a href="#exam">Exam day</a><a href="#backup">Plan B</a></span>
+        <nav class="daynav" id="dayNav" aria-label="Days and sections">
+          <span class="wk-days" title="Week 1" aria-label="Week 1"><a href="#day-1" data-nav="1" title="Day 1: Set up, Java toolkit, fast input">1</a><a href="#day-2" data-nav="2" title="Day 2: Prefix sums, difference arrays, hashing">2</a><a href="#day-3" data-nav="3" title="Day 3: Two pointers and sliding window">3</a><a href="#day-4" data-nav="4" title="Day 4: Sorting and greedy: intervals">4</a><a href="#day-5" data-nav="5" title="Day 5: Greedy with heaps">5</a><a href="#day-6" data-nav="6" title="Day 6: Binary search, including on the answer">6</a><a href="#day-7" data-nav="7" title="Day 7: Monotonic stacks">7</a></span>
+          <span class="wk-days" title="Week 2" aria-label="Week 2"><a href="#day-8" data-nav="8" title="Day 8: Bits and XOR">8</a><a href="#day-9" data-nav="9" class="mockd" title="Day 9: Mock 1 + review">9</a><a href="#day-10" data-nav="10" title="Day 10: Number theory toolkit">10</a><a href="#day-11" data-nav="11" title="Day 11: DP I: states, transitions, knapsack">11</a><a href="#day-12" data-nav="12" title="Day 12: DP II: two-string DP">12</a><a href="#day-13" data-nav="13" title="Day 13: DP III: LIS and DP with an extra dimension">13</a><a href="#day-14" data-nav="14" title="Day 14: DP IV: divisor, interval and game DP">14</a></span>
+          <span class="wk-days" title="Week 3" aria-label="Week 3"><a href="#day-15" data-nav="15" title="Day 15: Graphs I: BFS, DFS, topological order">15</a><a href="#day-16" data-nav="16" class="mockd" title="Day 16: Mock 2 + review">16</a><a href="#day-17" data-nav="17" title="Day 17: Graphs II: Dijkstra, DSU, MST">17</a><a href="#day-18" data-nav="18" title="Day 18: Trees I: recursion, parent arrays, LCA">18</a><a href="#day-19" data-nav="19" title="Day 19: Trees II: tree DP, rerooting, small-to-large">19</a><a href="#day-20" data-nav="20" title="Day 20: Fenwick trees and segment trees">20</a><a href="#day-21" data-nav="21" title="Day 21: Lazy segment trees and the K-parts DP">21</a></span>
+          <span class="wk-days" title="Week 4" aria-label="Week 4"><a href="#day-22" data-nav="22" title="Day 22: Backtracking, bitmask DP, digit DP">22</a><a href="#day-23" data-nav="23" class="mockd" title="Day 23: Mock 3 (4 problems) + review">23</a><a href="#day-24" data-nav="24" title="Day 24: Infosys repeat problems I">24</a><a href="#day-25" data-nav="25" class="mockd" title="Day 25: Mock 4: the official Infosys sample paper">25</a><a href="#day-26" data-nav="26" title="Day 26: Repair day + the hard XOR repeat">26</a><a href="#day-27" data-nav="27" class="mockd" title="Day 27: Mock 5: dress rehearsal">27</a><a href="#day-28" data-nav="28" title="Day 28: Consolidate">28</a></span>
+          <span class="wk-days" title="Week 5" aria-label="Week 5"><a href="#day-29" data-nav="29" title="Day 29: Rest and logistics">29</a></span>
+          <select class="jump" id="jump" aria-label="Jump to a section">
+            <option value="">Jump to…</option>
+            <option value="how">How this plan works</option>
+            <option value="test">The test</option>
+            <option value="target">SP target</option>
+            <option value="java">Java kit: fast input</option>
+            <option value="plan">The 29-day plan</option>
+            <option value="mocks">Mocks</option>
+            <option value="repeats">Infosys repeats</option>
+            <option value="sample">Sample-paper walkthroughs</option>
+            <option value="exam">Exam day</option>
+            <option value="backup">Plan B</option>
+            <option value="log">Error log</option>
+            <option value="sources">Sources</option>
+          </select>
         </nav>
       </div>
 
@@ -350,7 +384,7 @@
       <p>You told me you're aiming for <strong>Specialist Programmer</strong>, you have no Codeforces rating yet, and you can give 3–4 hours a day, sometimes 5. So each day has a <strong>core</strong> block of about 4 hours and an optional <strong>bonus hour</strong>. The time shown on each day is an estimate: about 20 minutes for an Easy problem, 40 for a Medium and 60 for a Hard, plus the learning and review blocks.</p>
 
       <div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th style="width:150px">Block</th><th>What you do</th><th style="width:110px">Time</th></tr></thead>
+        <thead><tr><th style="width:9.375rem">Block</th><th>What you do</th><th style="width:6.875rem">Time</th></tr></thead>
         <tbody>
           <tr><td><strong>1. Handbook</strong></td><td>Open the <a href="infosys-dsa-daily-handbook.html">daily handbook</a>. Its "Today" list shows the patterns due for review. For each one, cover the code, write the template from memory on paper or in an editor, then compare and rate yourself.</td><td>15 min</td></tr>
           <tr><td><strong>2. Learn</strong></td><td>Read the day's notes and the handbook cards they link to. Type the new template once and run it.</td><td>30–45 min</td></tr>
@@ -429,7 +463,7 @@
           <tr><td>Mock 5 (Day 27)</td><td>Weighted score ≥ 65</td><td>On exam day, lock in Q1 and Q2 first and use partial marks on Q3.</td></tr>
         </tbody>
       </table></div>
-      <p class="muted" style="font-size:15px">Reported pay, for context: SP up to about ₹21 LPA depending on level, DSE about ₹6.25 LPA (<a href="https://www.mygreatlearning.com/blog/infosys-sp-dse-interview-guide-2026/">Great Learning</a>, <a href="https://prepinsta.com/infosys-sp-and-dse/digital-specialist-engineer/coding-questions/">PrepInsta DSE</a>).</p>
+      <p class="muted" style="font-size:0.9375rem">Reported pay, for context: SP up to about ₹21 LPA depending on level, DSE about ₹6.25 LPA (<a href="https://www.mygreatlearning.com/blog/infosys-sp-dse-interview-guide-2026/">Great Learning</a>, <a href="https://prepinsta.com/infosys-sp-and-dse/digital-specialist-engineer/coding-questions/">PrepInsta DSE</a>).</p>
 
       <!-- ===================================================== JAVA KIT -->
       <div class="band" id="java">Section 03 · Java exam kit: reading input fast</div>
@@ -646,7 +680,7 @@ public class Main {
         <a href="#day-15" style="border-top-color:#00a99d"><div class="p-day">Week 3 · 21–27 Nov</div><div class="p-title">Graphs, trees, segment trees</div><div class="p-desc">BFS, Dijkstra, DSU, Mock 2, tree DP, rerooting, Fenwick, lazy segment tree.</div></a>
         <a href="#day-22" style="border-top-color:#f58a07"><div class="p-day">Week 4 · 28 Nov–5 Dec</div><div class="p-title">Exam simulation</div><div class="p-desc">Bitmask and digit DP, Mocks 3–5, Infosys repeat problems, rest.</div></a>
       </div>
-      <p class="muted" style="font-size:15px">Click a day to open it. The current day opens by itself and has a yellow outline. Your ticks and notes are saved in this browser; use Export now and then to keep a backup.</p>
+      <p class="muted" style="font-size:0.9375rem">Click a day to open it. The current day opens by itself and has a yellow outline. Your ticks and notes are saved in this browser; use Export now and then to keep a backup.</p>
 
       <div id="planList"></div>
 
@@ -1042,7 +1076,7 @@ public class Main {
       <!-- ===================================================== EXAM -->
       <div class="band" id="exam">Exam day: the 180 minutes</div>
       <div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th style="width:110px">Minutes</th><th>Do</th></tr></thead>
+        <thead><tr><th style="width:6.875rem">Minutes</th><th>Do</th></tr></thead>
         <tbody>
           <tr><td class="mono">0–15</td><td>Read <strong>every</strong> problem with its limits and samples. On paper, write the idea, its complexity and the brute-force fallback for each. Rank them by how sure you are, not by their labels.</td></tr>
           <tr><td class="mono">15–60</td><td>Solve the surest problem fully. Run the samples, then 2 edge cases you write yourself (n = 1, all values equal, largest values). Submit.</td></tr>
@@ -1073,7 +1107,7 @@ public class Main {
       <div class="band" id="backup">Plan B: if Infosys assigns you 29 November</div>
       <p>You lose 7 days. Keep the mocks; on merged days do only the first two core problems of each day so the load stays near 4 hours. Mock 3 is dropped.</p>
       <div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th style="width:130px">Date</th><th>Do</th></tr></thead>
+        <thead><tr><th style="width:8.125rem">Date</th><th>Do</th></tr></thead>
         <tbody>
           <tr><td class="mono">7–14 Nov</td><td>Days 1–8 unchanged</td></tr>
           <tr><td class="mono">Sun 15 Nov</td><td>Mock 1 (Day 9)</td></tr>
@@ -1124,7 +1158,7 @@ public class Main {
         <li><a href="https://onecompiler.com/java">OneCompiler</a> (Java editor with a STDIN box) and the Codeforces <em>Submit</em> and <em>Custom test</em> pages were checked on 7 Nov 2026.</li>
         <li>Problem links were checked on 7 Nov 2026: every LeetCode problem through LeetCode's API (all free, none Premium), Codeforces names and ratings through the Codeforces API, and the GeeksforGeeks pages directly.</li>
       </ul>
-      <p class="muted" style="font-size:14px">Content from these sources was rephrased for compliance with licensing restrictions. Problem statements are paraphrased.</p>
+      <p class="muted" style="font-size:0.875rem">Content from these sources was rephrased for compliance with licensing restrictions. Problem statements are paraphrased.</p>
 
       <footer>
         Infosys SP/DSE · 29-day Java DSA plan &nbsp;·&nbsp; Prepared for <strong>Purvam Prajapati</strong> &nbsp;·&nbsp; Built 7 Nov 2026<br>
@@ -1343,6 +1377,11 @@ public class Main {
       if (tgt) { tgt.open = true; tgt.scrollIntoView({ block: 'start' }); }
     }
     window.addEventListener('hashchange', openFromHash);
+    document.getElementById('jump').addEventListener('change', function () {
+      var el = this.value && document.getElementById(this.value);
+      if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.replaceState(null, '', '#' + this.value); }
+      this.value = '';
+    });
     document.getElementById('bExp').addEventListener('click', function () {
       var blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });
       var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
