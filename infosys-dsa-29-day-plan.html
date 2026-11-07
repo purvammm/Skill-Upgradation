@@ -110,7 +110,7 @@ details.spoiler>summary{color:var(--crimson-lt)}
 .btn.danger:hover{border-color:var(--crimson);color:var(--crimson-lt)}
 
 /* plan controls */
-.ctl{position:sticky;top:46px;z-index:50;background:rgba(17,25,37,.97);border:1px solid var(--rule);border-radius:4px;padding:14px 18px;margin:22px 0;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.ctl{position:sticky;top:46px;z-index:50;isolation:isolate;background:#111925;box-shadow:0 8px 18px rgba(10,15,22,.85);border:1px solid var(--rule);border-radius:4px;padding:14px 18px;margin:22px 0;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .ctl-g{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .ctl-lab{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint);margin-right:4px}
 .pbar{flex:1;min-width:180px;height:6px;background:var(--ink-4);border-radius:3px;overflow:hidden}
@@ -188,6 +188,7 @@ footer{padding:50px 0 80px;color:var(--text-faint);font-size:14px}
   .cover-grid,.grid2{grid-template-columns:1fr}
   .clock{width:100%}
   .tb-nav{display:none}
+  .ctl{position:static;box-shadow:none}
   .day>summary{grid-template-columns:58px 1fr}
   .day-c{grid-column:2;text-align:left}
   .day-c .mini{margin-left:0}
