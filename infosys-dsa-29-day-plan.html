@@ -19,7 +19,7 @@
       --tl-yellow: #febc2e;
       --tl-green: #28c840;
       --mac-font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
-      --mac-mono: "SF Mono", ui-monospace, "Menlo", "Consolas", "Liberation Mono", monospace;
+      --mac-mono: "SF Mono", ui-monospace, "Menlo", "Cascadia Mono", "Consolas", "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 150px; }
@@ -285,10 +285,9 @@
     .del:hover { color: #c9302c; }
 
     @media (max-width: 760px) {
-      .prob { grid-template-columns: 24px minmax(0, 1fr); }
-      .prob .pid { grid-column: 2; justify-self: start; }
-      .prob .pt { grid-column: 1 / -1; }
-      .prob .diff, .prob .pmin { grid-column: 2; justify-self: start; }
+      .prob { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+      .prob .pmin, .prob .pid, .prob > input { margin-top: 0; }
+      .prob .pt { order: 5; flex: 1 1 100%; }
       .logform { grid-template-columns: 1fr; }
       .daynav .sect { margin-left: 0; }
       .day-body { padding: 4px 12px 14px; }
