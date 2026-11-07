@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infosys SP / DSE Coding Assessment: 29-Day Java DSA Plan (7 Nov to 6 Dec 2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,400;0,500;0,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0f16;--ink-2:#111925;--ink-3:#18222f;--ink-4:#1f2c3b;
+  --paper:#f2ece0;--rule:#2b3a4c;--rule-soft:#223042;
+  --brass:#c49a3a;--brass-dim:#8f6f27;--brass-glow:rgba(196,154,58,.14);
+  --seal:#2f7f68;--seal-lt:#54b096;--crimson:#a83a34;--crimson-lt:#d97b74;--sky:#5b8fc9;
+  --text:#dfe4ea;--text-dim:#98a5b5;--text-faint:#6b7a8c;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--ink);color:var(--text);font-family:var(--serif);font-size:17.5px;line-height:1.68;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(196,154,58,.055),transparent 70%),radial-gradient(ellipse 60% 40% at 90% 100%,rgba(47,127,104,.045),transparent 70%);background-attachment:fixed}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,22,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule-soft)}
+.topbar-inner{max-width:1180px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:18px}
+.tb-mark{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--brass);text-transform:uppercase;white-space:nowrap;font-weight:600}
+.tb-nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
+.tb-nav a{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--text-faint);text-decoration:none;text-transform:uppercase;padding:5px 8px;border-radius:3px;white-space:nowrap;border:none}
+.tb-nav a:hover{color:var(--brass);background:var(--brass-glow)}
+.tb-nav a.on{color:var(--paper);background:rgba(255,255,255,.06)}
+.readbar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--brass),var(--seal));z-index:101;width:0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+section{padding:70px 0;border-bottom:1px solid var(--rule-soft)}
+.sec-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--brass-dim);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:12px;font-weight:600}
+.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--rule),transparent)}
+h1{font-size:clamp(40px,6.6vw,78px);font-weight:300;line-height:1.04;letter-spacing:-.034em;color:var(--paper);margin-bottom:22px}
+h1 .it{font-style:italic;color:var(--brass)}
+h2{font-size:36px;font-weight:500;line-height:1.18;letter-spacing:-.016em;color:var(--paper);margin-bottom:14px}
+h3{font-size:24px;font-weight:500;line-height:1.3;color:var(--paper);margin:38px 0 12px}
+h4{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin:26px 0 10px}
+p{margin-bottom:15px;color:var(--text-dim);max-width:76ch}
+p.lead{font-size:20px;line-height:1.6;color:var(--text);max-width:72ch}
+strong{color:var(--paper);font-weight:600}
+em{color:var(--text)}
+a{color:var(--brass);text-decoration:none;border-bottom:1px solid rgba(196,154,58,.28)}
+a:hover{border-bottom-color:var(--brass)}
+ul,ol{margin:0 0 16px 22px;color:var(--text-dim);max-width:76ch}
+li{margin-bottom:7px}
+li::marker{color:var(--brass-dim)}
+code{font-family:var(--mono);font-size:.84em;background:rgba(255,255,255,.055);padding:1px 5px;border-radius:3px;color:var(--paper)}
+.mono{font-family:var(--mono);font-size:13px}
+.num{font-family:var(--mono);font-size:.92em;color:var(--paper);font-weight:500}
+.lv1{color:var(--brass)}
+.pos{color:var(--seal-lt)}.neg{color:var(--crimson-lt)}.warn{color:var(--brass)}
+
+/* cover */
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:96px 0 60px;border-bottom:1px solid var(--rule)}
+.cover-grid{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:start}
+.cover-class{font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;color:var(--crimson-lt);text-transform:uppercase;margin-bottom:22px;font-weight:600}
+.cover-sub{font-size:21px;line-height:1.55;color:var(--text-dim);max-width:62ch;margin-bottom:34px;font-weight:300}
+.meta-tbl{border-top:1px solid var(--rule);max-width:640px}
+.meta-row{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--rule-soft)}
+.meta-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;color:var(--text-faint);text-transform:uppercase;padding-top:3px}
+.meta-v{font-size:16px;color:var(--text)}
+.clock{width:200px;flex-shrink:0;border:1px solid var(--rule);border-radius:6px;background:var(--ink-2);padding:22px 18px;text-align:center}
+.clock-n{font-family:var(--serif);font-size:64px;line-height:1;color:var(--brass);font-weight:500}
+.clock-l{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--text-faint);text-transform:uppercase;margin-top:8px}
+.clock-d{font-family:var(--mono);font-size:12px;color:var(--text);margin-top:14px;padding-top:12px;border-top:1px solid var(--rule-soft)}
+
+/* boxes */
+.box{background:var(--ink-2);border:1px solid var(--rule);border-radius:4px;padding:22px 26px;margin:22px 0}
+.box p:last-child,.box ul:last-child,.box ol:last-child{margin-bottom:0}
+.box-t{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.box.brass{border-left:3px solid var(--brass);background:linear-gradient(90deg,var(--brass-glow),var(--ink-2) 55%)}.box.brass .box-t{color:var(--brass)}
+.box.seal{border-left:3px solid var(--seal);background:linear-gradient(90deg,rgba(47,127,104,.1),var(--ink-2) 55%)}.box.seal .box-t{color:var(--seal-lt)}
+.box.crimson{border-left:3px solid var(--crimson);background:linear-gradient(90deg,rgba(168,58,52,.1),var(--ink-2) 55%)}.box.crimson .box-t{color:var(--crimson-lt)}
+.box.plain .box-t{color:var(--text-faint)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:22px 0;border:1px solid var(--rule);border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:640px}
+thead th{background:var(--ink-3);font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);font-weight:600;text-align:left;padding:12px 14px;border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--rule-soft);color:var(--text-dim);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+
+/* code */
+.code-wrap{position:relative;margin:16px 0 22px}
+pre.code{background:#070b10;border:1px solid var(--rule);border-radius:4px;padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:12.6px;line-height:1.55;color:#cfd8e3;max-height:560px}
+pre.code code{background:none;padding:0;font-size:inherit;color:inherit}
+.copy{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink-3);color:var(--text-dim);border:1px solid var(--rule);border-radius:3px;padding:4px 9px;cursor:pointer}
+.copy:hover{color:var(--brass);border-color:var(--brass-dim)}
+
+/* details */
+details.fold{border:1px solid var(--rule);border-radius:4px;background:var(--ink-2);margin:12px 0}
+details.fold>summary{cursor:pointer;list-style:none;padding:13px 18px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--paper);display:flex;align-items:center;gap:10px}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{content:'▸';color:var(--brass);transition:transform .15s}
+details.fold[open]>summary::before{transform:rotate(90deg)}
+details.fold>.fold-b{padding:4px 20px 16px}
+details.spoiler>summary{color:var(--crimson-lt)}
+
+/* chips + buttons */
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border:1px solid var(--rule);border-radius:3px;background:transparent;color:var(--text-dim);cursor:pointer}
+.chip:hover{border-color:var(--brass-dim);color:var(--brass)}
+.chip.on{background:var(--brass);border-color:var(--brass);color:var(--ink);font-weight:600}
+.btn{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border:1px solid var(--rule);border-radius:3px;background:var(--ink-3);color:var(--text);cursor:pointer}
+.btn:hover{border-color:var(--brass-dim);color:var(--brass)}
+.btn.danger:hover{border-color:var(--crimson);color:var(--crimson-lt)}
+
+/* plan controls */
+.ctl{position:sticky;top:46px;z-index:50;background:rgba(17,25,37,.97);border:1px solid var(--rule);border-radius:4px;padding:14px 18px;margin:22px 0;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.ctl-g{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ctl-lab{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint);margin-right:4px}
+.pbar{flex:1;min-width:180px;height:6px;background:var(--ink-4);border-radius:3px;overflow:hidden}
+.pbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--seal),var(--brass));transition:width .25s}
+.pnum{font-family:var(--mono);font-size:12px;color:var(--paper);white-space:nowrap}
+
+/* day cards */
+.week{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin:34px 0 10px;padding-bottom:6px;border-bottom:1px dashed var(--rule)}
+.day{border:1px solid var(--rule);border-radius:5px;background:var(--ink-2);margin:12px 0;overflow:hidden}
+.day.today{border-color:var(--brass);box-shadow:0 0 0 1px var(--brass-dim),0 0 28px rgba(196,154,58,.12)}
+.day.past>summary{opacity:.82}
+.day>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:78px 1fr auto;gap:16px;align-items:center;padding:14px 18px}
+.day>summary::-webkit-details-marker{display:none}
+.day-n{font-family:var(--mono);text-align:center;border-right:1px solid var(--rule-soft);padding-right:14px}
+.day-n b{display:block;font-size:24px;color:var(--paper);font-weight:500;line-height:1.1}
+.day-n span{font-size:10px;letter-spacing:.1em;color:var(--text-faint);text-transform:uppercase}
+.day-t{font-size:19px;color:var(--paper);line-height:1.3}
+.day-f{font-size:14.5px;color:var(--text-dim);margin-top:3px;line-height:1.45}
+.day-tags{display:flex;gap:6px;margin-bottom:5px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid var(--rule)}
+.tag.ph0{color:var(--text-dim)}.tag.ph1{color:var(--sky);border-color:#2c4a6b}.tag.ph2{color:var(--brass);border-color:var(--brass-dim)}.tag.ph3{color:var(--seal-lt);border-color:var(--seal)}.tag.ph4{color:var(--crimson-lt);border-color:var(--crimson)}
+.tag.mock{background:rgba(168,58,52,.18);color:#f0b2ad;border-color:var(--crimson)}
+.tag.todaytag{background:var(--brass);color:var(--ink);border-color:var(--brass);font-weight:600}
+.day-c{font-family:var(--mono);font-size:12px;color:var(--text-dim);text-align:right;white-space:nowrap}
+.day-c .mini{width:84px;height:4px;background:var(--ink-4);border-radius:2px;margin-top:6px;overflow:hidden;margin-left:auto}
+.day-c .mini i{display:block;height:100%;background:var(--seal-lt);width:0}
+.day-b{padding:4px 22px 20px 112px;border-top:1px solid var(--rule-soft)}
+.day-b h4:first-child{margin-top:16px}
+.day-b ul{max-width:none}
+.infy{font-size:15px;color:var(--text);background:rgba(196,154,58,.07);border-left:2px solid var(--brass-dim);padding:9px 14px;margin:14px 0 4px;border-radius:0 3px 3px 0}
+.prob{display:grid;grid-template-columns:26px 18px 112px 1fr auto;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--rule-soft);font-size:15.5px}
+.prob:last-child{border-bottom:none}
+.prob:hover{background:rgba(255,255,255,.02)}
+.prob input{width:17px;height:17px;accent-color:var(--seal);cursor:pointer}
+.prob .lv{font-family:var(--mono);font-size:12px;text-align:center}
+.prob .lv1{color:var(--brass)}.prob .lv2{color:var(--text-faint)}.prob .lv3{color:var(--sky)}
+.prob .src{font-family:var(--mono);font-size:11px;color:var(--text-faint);white-space:nowrap}
+.prob .tt a{color:var(--paper);border-bottom-color:rgba(242,236,224,.18)}
+.prob .tt a:hover{color:var(--brass)}
+.prob .hint{display:block;font-size:13.5px;color:var(--text-faint);line-height:1.4;margin-top:1px}
+.prob .df{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:2px;white-space:nowrap}
+.df.e{color:var(--seal-lt);background:rgba(47,127,104,.12)}.df.m{color:var(--brass);background:rgba(196,154,58,.1)}.df.h{color:var(--crimson-lt);background:rgba(168,58,52,.12)}.df.n{color:var(--text-dim);background:rgba(255,255,255,.04)}
+.prob.done .tt a{color:var(--text-faint);text-decoration:line-through;text-decoration-color:rgba(152,165,181,.5)}
+.probs{border:1px solid var(--rule-soft);border-radius:4px;background:rgba(0,0,0,.14)}
+.plan[data-track="1"] .prob[data-l="2"],.plan[data-track="1"] .prob[data-l="3"],.plan[data-track="2"] .prob[data-l="3"]{display:none}
+.plan.showall .prob[data-l]{display:grid!important;opacity:.62}
+.plan.showall .prob[data-l].inTrack{opacity:1}
+.tasks li{margin-bottom:6px}
+textarea.note{width:100%;min-height:58px;background:#0b1118;border:1px solid var(--rule);border-radius:3px;color:var(--text);font-family:var(--mono);font-size:12.5px;padding:8px 10px;resize:vertical}
+
+/* repeats */
+.rep{border:1px solid var(--rule);border-radius:4px;background:var(--ink-2);padding:18px 22px;margin:14px 0}
+.rep-h{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between}
+.rep-h b{font-size:19px;color:var(--paper);font-weight:500}
+.rep-m{font-family:var(--mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.06em}
+.rep p{margin:8px 0}
+
+/* mocks */
+.mock{border:1px solid var(--rule);border-radius:4px;background:var(--ink-2);padding:18px 22px;margin:14px 0}
+.mock-h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.mock-h b{font-size:20px;color:var(--paper);font-weight:500}
+.scores{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;align-items:center}
+.scores label{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
+.scores input{width:64px;background:#0b1118;border:1px solid var(--rule);color:var(--paper);font-family:var(--mono);font-size:12px;padding:5px 7px;border-radius:3px;margin-left:5px}
+.scores .tot{font-family:var(--mono);font-size:13px;color:var(--brass)}
+
+/* error log */
+.logform{display:grid;grid-template-columns:1.2fr 1fr 1fr 2fr auto;gap:8px;margin:12px 0}
+.logform input,.logform select{background:#0b1118;border:1px solid var(--rule);color:var(--text);font-family:var(--mono);font-size:12px;padding:7px 8px;border-radius:3px;min-width:0}
+.del{background:none;border:none;color:var(--text-faint);cursor:pointer;font-size:15px}
+.del:hover{color:var(--crimson-lt)}
+
+footer{padding:50px 0 80px;color:var(--text-faint);font-size:14px}
+@media (max-width:900px){
+  .cover-grid,.grid2{grid-template-columns:1fr}
+  .clock{width:100%}
+  .tb-nav{display:none}
+  .day>summary{grid-template-columns:58px 1fr}
+  .day-c{grid-column:2;text-align:left}
+  .day-c .mini{margin-left:0}
+  .day-b{padding:4px 14px 18px}
+  .prob{grid-template-columns:24px 16px 1fr}
+  .prob .src{grid-column:3}
+  .prob .tt{grid-column:1/-1}
+  .prob .df{grid-column:3;justify-self:start}
+  .logform{grid-template-columns:1fr}
+  h2{font-size:30px}
+}
+@media print{
+  .topbar,.ctl,.copy,.readbar{display:none}
+  body{background:#fff;color:#111}
+}
+</style>
+</head>
+<body>
+<div class="readbar" id="readbar"></div>
+<header class="topbar"><div class="topbar-inner">
+  <div class="tb-mark">Infosys SP/DSE · 29 days</div>
+  <nav class="tb-nav" id="nav">
+    <a href="#test">The test</a><a href="#targets">Targets</a><a href="#java">Java kit</a><a href="#plan">Plan</a><a href="#mocks">Mocks</a><a href="#repeats">Repeats</a><a href="#sample">Sample paper</a><a href="#exam">Exam day</a><a href="#backup">Plan B</a>
+  </nav>
+</div></header>
+
+<!-- ============ COVER ============ -->
+<div class="wrap">
+<div class="cover" id="top">
+  <div class="cover-grid">
+    <div>
+      <div class="cover-class">Prepared for Purvam Prajapati · Language: Java · In-person proctored assessment</div>
+      <h1>29 days to the<br>Infosys <span class="it">coding</span> round</h1>
+      <p class="cover-sub">A day-by-day Java DSA plan for the Specialist Programmer (Trainee) and Digital Specialist Engineer (Trainee) assessment on Sunday 6 December 2026. It is built from Infosys's own sample paper and from recent candidates' reports.</p>
+      <div class="meta-tbl">
+        <div class="meta-row"><div class="meta-k">Assessment</div><div class="meta-v">Sun 6 Dec 2026, in person, proctored (fallback slot: Sun 29 Nov)</div></div>
+        <div class="meta-row"><div class="meta-k">Format</div><div class="meta-v">3 problems in 3 hours, worth 20 / 30 / 50 marks; some in-person rounds have had a 4th problem</div></div>
+        <div class="meta-row"><div class="meta-k">Prep window</div><div class="meta-v">Sat 7 Nov to Sat 5 Dec: 29 days, about 5 focused hours a day</div></div>
+        <div class="meta-row"><div class="meta-k">Practice on</div><div class="meta-v">LeetCode for patterns; CSES, AtCoder and Codeforces for stdin-style problems at Infosys difficulty</div></div>
+        <div class="meta-row"><div class="meta-k">Progress</div><div class="meta-v">Checkboxes, mock scores and your error log save in this browser. Use Export to back them up.</div></div>
+      </div>
+    </div>
+    <div class="clock" aria-live="polite">
+      <div class="clock-n" id="cdN">–</div>
+      <div class="clock-l" id="cdL">days to 6 Dec</div>
+      <div class="clock-d" id="cdD">–</div>
+    </div>
+  </div>
+  <div class="box crimson" style="margin-top:34px">
+    <div class="box-t">Do this first: deadline 8 November</div>
+    <p>Submit the date and location preference form from the Infosys email and choose <strong>6 December</strong>. It is the latest date, so it gives you the most preparation time. Infosys says seats are allocated subject to availability, so you might get 29 November instead. <a href="#backup">Plan B</a> compresses this plan to fit that date.</p>
+  </div>
+</div>
+</div>
+
+<!-- ============ 01 THE TEST ============ -->
+<section id="test"><div class="wrap">
+  <div class="sec-label">01 · What you are walking into</div>
+  <h2>The test, from Infosys's own sample paper</h2>
+  <p class="lead">Infosys publishes a sample SP/DSE paper. Its "Easy" problem needs techniques that most LeetCode Easy and Medium practice never covers. This plan is built around that gap.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Fact</th><th>What is reported</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Problems and time</td><td>3 coding problems, 3 hours, increasing difficulty. A 2026 off-campus candidate described an in-person proctored lab round with about 4 DSA problems. The official sample paper also has a 4th "Complex" problem.</td><td><a href="https://prepinsta.com/infosys-sp-and-dse/coding-questions/">PrepInsta</a>, <a href="https://takeuforward.org:2083/community/interview-experiences/infosys-sp-dse-off-campus-interview-experience-fresher-2026-batch">takeUforward (2026)</a>, <a href="https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf">Infosys sample PDF</a></td></tr>
+      <tr><td>Marks</td><td>Q1 = 20, Q2 = 30, Q3 = 50</td><td><a href="https://prepinsta.com/infosys-sp-and-dse/coding-questions/">PrepInsta</a></td></tr>
+      <tr><td>Scoring</td><td>Marks come from the test cases you pass, so partial solutions score. Sectional and overall cut-offs are reported. Negative marking applies only to plagiarism.</td><td><a href="https://www.placementpreparation.io/hackwithinfy/syllabus-and-test-pattern/">placementpreparation.io</a></td></tr>
+      <tr><td>Languages</td><td>C, C++, Java, Python, JavaScript</td><td><a href="https://prepinsta.com/infosys-sp-and-dse/specialist-programmer/coding-questions/">PrepInsta</a></td></tr>
+      <tr><td>Problem style</td><td>Long story-style statements. Input comes one value per line. You implement a function such as <code>get_ans(...)</code> that returns the answer. Typical limits are n ≤ 10⁵ with answers mod 10⁹+7.</td><td><a href="https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf">Infosys sample PDF</a></td></tr>
+      <tr><td>SP vs DSE</td><td>Both roles use one test, and your score decides the track. Candidates report that two full solutions usually lead to DSE and that SP needs more. One candidate solved 3 problems fully plus 6/12 tests of a 4th and was shortlisted for the SP L3 interview.</td><td><a href="https://github.com/thor149/Infosys-Prep/blob/main/deep-research-report%20(2).md">research summary</a>, <a href="https://leetcode.com/discuss/post/8433956/infosys-specialist-programmer-l3-intervi-mes3/">LeetCode Discuss (Jan 2026)</a></td></tr>
+      <tr><td>In-person conditions</td><td>Strict invigilation. No phones, calculators or smartwatches. The test ran in an application the officials had candidates download.</td><td><a href="https://www.geeksforgeeks.org/interview-experiences/infosys-oa-experience-for-specialist-programmer/">GeeksforGeeks OA experience</a></td></tr>
+      <tr><td>Problems get reused</td><td>Several reported SP problems are Codeforces problems with the same limits. For example, "gift boxes" is <a href="https://codeforces.com/problemset/problem/833/B">CF 833B The Bakery</a> and "k segments min cost" is <a href="https://codeforces.com/problemset/problem/1527/E">CF 1527E Partition Game</a>.</td><td><a href="https://prepinsta.com/infosys-sp-and-dse/specialist-programmer/coding-questions/">PrepInsta SP questions</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>The official sample paper, decoded</h3>
+  <p>I worked through the <a href="https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf">Infosys sample PDF</a> and wrote Java solutions that pass every sample. Each solution also matches a brute force on thousands of random inputs (<a href="#sample">Section 07</a>). The difficulty estimates are mine.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Label</th><th>Problem (paraphrased)</th><th>Limits</th><th>What it actually needs</th><th>Rough level</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Easy</strong></td><td>Rooted tree with values. For each node, count the pairs in its subtree whose product is a perfect square, then sum over all nodes.</td><td class="mono">n ≤ 1e5, a ≤ 1e9</td><td>Square-free kernel, small-to-large merging on a tree, traversal without recursion</td><td class="warn">Codeforces ~1800+</td></tr>
+      <tr><td><strong>Medium</strong></td><td>Point updates on an array. After each one, decide whether a subsequence shorter than n has gcd exactly p.</td><td class="mono">n, q ≤ 1e5</td><td>GCD segment tree, a counter, and one number-theory argument</td><td class="warn">~1800–2000</td></tr>
+      <tr><td><strong>Hard</strong></td><td>Longest non-decreasing subsequence whose XOR is at least M</td><td class="mono">N ≤ 1000, A ≤ N</td><td>DP with an extra XOR dimension (1024 states) and Fenwick trees of maxima</td><td class="warn">~1900–2100</td></tr>
+      <tr><td><strong>Complex</strong></td><td>Flip a matching of tree edges to maximise root-to-leaf paths that contain a query pattern, at minimum cost</td><td class="mono">N, Q ≤ 1e5</td><td>Tree DP on matchings plus string matching</td><td class="neg">2400+</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grid2">
+    <div class="box brass"><div class="box-t">Lesson 1 · "Easy" is not LeetCode Easy</div><p>The Easy problem combines a number-theory trick with a tree technique. This plan therefore targets Codeforces 1400–2100 problems by week 3, and LeetCode is used only to learn each pattern.</p></div>
+    <div class="box crimson"><div class="box-t">Lesson 2 · Trust the samples, not the format text</div><p>In the Medium problem, the written input format puts <code>p</code> after the array. All three samples only work if <code>p</code> is read right after <code>n</code>. I checked this by running both readings: the written order gives 1, 0, 0 against the expected 2, 3, 1. Always check your parsing against the samples before you write the logic.</p></div>
+    <div class="box seal"><div class="box-t">Lesson 3 · Partial marks are real marks</div><p>A brute force that is correct for small inputs passes the small test files. For the sample Hard problem, trying every subsequence works up to N ≈ 20. Never leave a problem blank.</p></div>
+    <div class="box plain"><div class="box-t">Lesson 4 · Java-specific traps</div><p>Trees arrive as parent arrays with up to 10⁵ nodes, so a recursive DFS on a chain crashes with StackOverflowError. Products of values up to 10⁹ overflow <code>int</code>. <a href="#java">Section 03</a> has the fixes.</p></div>
+  </div>
+</div></section>
+
+<!-- ============ 02 TARGETS ============ -->
+<section id="targets"><div class="wrap">
+  <div class="sec-label">02 · What score to aim for</div>
+  <h2>Targets and tracks</h2>
+  <p>Infosys does not publish its cut-offs. The targets below come from candidate reports, so treat them as estimates. Your Day 1 diagnostic decides your track. You can change track at any time in the plan's control bar.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Track</th><th>Pick it if your Day 1 diagnostic…</th><th>What you do each day</th><th>Exam-day target</th></tr></thead>
+    <tbody>
+      <tr><td><span class="lv1 mono">★</span> <strong>Foundation</strong></td><td>solved 0–1 of 4 in 90 min</td><td>★ problems only (about 4 a day, 3–4 h), plus every mock</td><td>Q1 + Q2 fully correct, which is the reported DSE level. Brute-force partial marks on Q3.</td></tr>
+      <tr><td><span class="mono">★ ●</span> <strong>Standard</strong></td><td>solved 2–3 of 4</td><td>★ + ● problems (6–7 a day, about 5 h)</td><td>Q1 + Q2 full, and a real attempt at Q3 (50%+ of tests). This is the borderline for SP.</td></tr>
+      <tr><td><span class="mono">★ ● ◆</span> <strong>SP</strong></td><td>solved all 4</td><td>Everything, including ◆ stretch problems (8–10 a day, 6 h)</td><td>3 full solutions plus partial marks on a 4th. This matches the SP L3 shortlist report.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box plain"><div class="box-t">Reported pay, for context</div><p>Reported packages: SP up to about ₹21 LPA depending on level, DSE about ₹6.25 LPA (<a href="https://www.mygreatlearning.com/blog/infosys-sp-dse-interview-guide-2026/">Great Learning</a>, <a href="https://prepinsta.com/infosys-sp-and-dse/digital-specialist-engineer/coding-questions/">PrepInsta DSE</a>). Both are above your current band, and SP is far above it, so solving Q3 is worth real money.</p></div>
+</div></section>
+
+<!-- ============ 03 JAVA KIT ============ -->
+<section id="java"><div class="wrap">
+  <div class="sec-label">03 · Java exam kit</div>
+  <h2>Templates you should be able to type from memory</h2>
+  <p>Every snippet below compiles with <code>javac --release 8</code>, so it works on older lab machines. Each data structure was checked against a brute force on random inputs. Type them from memory, don't paste them. By Day 28 the full set should take you under 25 minutes.</p>
+
+  <h3>1 · Input/output skeleton</h3>
+  <p>This reader skips spaces and newlines alike, so it handles Infosys's one-value-per-line input and ordinary space-separated input. If the platform gives you a <code>get_ans(...)</code> stub and does the I/O itself, keep its signature exactly as given and put your logic in helper methods.</p>
+  <div class="code-wrap"><pre class="code"><code>import java.io.*;
+import java.util.*;
+
+public class Main {
+    static final long MOD = 1_000_000_007L;
+
+    public static void main(String[] args) throws IOException {
+        FastReader in = new FastReader(System.in);
+        PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+
+        int n = in.nextInt();              // works whether values are on one line or one per line
+        long[] a = new long[n];
+        for (int i = 0; i &lt; n; i++) a[i] = in.nextLong();
+
+        long sum = 0;
+        for (long x : a) sum += x;
+        out.println(sum);
+
+        out.flush();                        // forgetting this = empty output = 0 marks
+    }
+
+    /** Token reader: skips spaces AND newlines, so "one value per line" input is handled. */
+    static final class FastReader {
+        private final DataInputStream in;
+        private final byte[] buf = new byte[1 &lt;&lt; 16];
+        private int len = 0, ptr = 0;
+
+        FastReader(InputStream is) { in = new DataInputStream(is); }
+
+        private int read() throws IOException {
+            if (ptr == len) {
+                len = in.read(buf, 0, buf.length);
+                ptr = 0;
+                if (len &lt;= 0) return -1;
+            }
+            return buf[ptr++];
+        }
+
+        long nextLong() throws IOException {
+            int c = read();
+            while (c != '-' &amp;&amp; (c &lt; '0' || c &gt; '9')) {
+                if (c == -1) throw new EOFException();
+                c = read();
+            }
+            boolean neg = c == '-';
+            if (neg) c = read();
+            long r = 0;
+            while (c &gt;= '0' &amp;&amp; c &lt;= '9') { r = r * 10 + (c - '0'); c = read(); }
+            return neg ? -r : r;
+        }
+
+        int nextInt() throws IOException { return (int) nextLong(); }
+
+        String next() throws IOException {
+            int c = read();
+            while (c != -1 &amp;&amp; c &lt;= ' ') c = read();
+            if (c == -1) throw new EOFException();
+            StringBuilder sb = new StringBuilder();
+            while (c &gt; ' ') { sb.append((char) c); c = read(); }
+            return sb.toString();
+        }
+    }
+}
+</code></pre></div>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Trap</th><th>What happens</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td><code>Scanner</code> on 10⁵+ numbers</td><td>Slow enough to time out</td><td>Use the FastReader above</td></tr>
+      <tr><td><code>System.out.println</code> in a loop</td><td>Slow output</td><td>One <code>PrintWriter</code> (or <code>StringBuilder</code>) and one <code>flush()</code> at the end</td></tr>
+      <tr><td><code>int</code> products and sums</td><td>Silent overflow and wrong answers (10⁹ × 10⁹)</td><td>Use <code>long</code> by default and cast before multiplying: <code>(long) a * b</code></td></tr>
+      <tr><td><code>%</code> on negative numbers</td><td><code>-3 % 5 == -3</code></td><td><code>Math.floorMod(x, m)</code></td></tr>
+      <tr><td>Comparator <code>(x, y) -&gt; x[0] - y[0]</code></td><td>Overflows for large values</td><td><code>Integer.compare(x[0], y[0])</code></td></tr>
+      <tr><td><code>==</code> on <code>Integer</code>/<code>Long</code> objects</td><td>False for values outside −128..127</td><td>Use <code>.equals()</code> or unbox to <code>int</code></td></tr>
+      <tr><td>Recursive DFS on 10⁵ nodes</td><td><code>StackOverflowError</code></td><td>Process nodes in BFS order (template 8), or use the big-stack thread below</td></tr>
+      <tr><td><code>Arrays.sort(int[])</code></td><td>Worst case O(n²) on specially built inputs</td><td>Shuffle first, or sort an <code>Integer[]</code>. The risk at Infosys is low, but shuffling is cheap.</td></tr>
+      <tr><td>Using <code>Stack</code> / <code>Vector</code></td><td>Synchronized, so slower</td><td><code>ArrayDeque</code>, or an <code>int[]</code> with a top pointer</td></tr>
+      <tr><td><code>new long[100000][100000]</code></td><td>Out of memory</td><td>Estimate memory before allocating: cells × 8 bytes</td></tr>
+      <tr><td>Newer Java syntax (<code>var</code>, records, switch expressions)</td><td>Compile error on an older JDK</td><td>Write Java 8 style. Imports: <code>java.util.*</code>, <code>java.io.*</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>2 · Library (expand each one)</h3>
+  <details class="fold"><summary>Modular arithmetic, nCr, gcd</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// Modular arithmetic + nCr
+static final long MOD = 1_000_000_007L;
+
+static long power(long b, long e, long m) {
+    long r = 1 % m;
+    b %= m;
+    if (b &lt; 0) b += m;
+    while (e &gt; 0) {
+        if ((e &amp; 1) == 1) r = r * b % m;
+        b = b * b % m;
+        e &gt;&gt;= 1;
+    }
+    return r;
+}
+
+static long inv(long a) { return power(a, MOD - 2, MOD); } // MOD must be prime
+
+static long[] fact, invFact;
+
+static void initFact(int n) {
+    fact = new long[n + 1];
+    invFact = new long[n + 1];
+    fact[0] = 1;
+    for (int i = 1; i &lt;= n; i++) fact[i] = fact[i - 1] * i % MOD;
+    invFact[n] = inv(fact[n]);
+    for (int i = n; i &gt; 0; i--) invFact[i - 1] = invFact[i] * i % MOD;
+}
+
+static long nCr(int n, int r) {
+    if (r &lt; 0 || r &gt; n) return 0;
+    return fact[n] * invFact[r] % MOD * invFact[n - r] % MOD;
+}
+
+static long gcd(long a, long b) { while (b != 0) { long t = a % b; a = b; b = t; } return Math.abs(a); }
+</code></pre></div><p>If the modulus is not prime (Infosys has used 10000), modular inverses don't exist. Build Pascal's triangle instead.</p></div></details>
+  <details class="fold"><summary>Smallest-prime-factor sieve</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// Sieve with smallest prime factor
+static int[] spf(int n) {
+    int[] s = new int[n + 1];
+    for (int i = 2; i &lt;= n; i++) {
+        if (s[i] == 0) {
+            for (int j = i; j &lt;= n; j += i) if (s[j] == 0) s[j] = i;
+        }
+    }
+    return s; // s[x] == x  &lt;=&gt; x is prime (x &gt;= 2)
+}
+</code></pre></div><p>To factorize x, repeat <code>p = s[x]; x /= p</code>. Each factorization takes O(log x).</p></div></details>
+  <details class="fold"><summary>DSU (union-find)</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// DSU
+static final class DSU {
+    final int[] p, sz;
+    DSU(int n) { p = new int[n]; sz = new int[n]; for (int i = 0; i &lt; n; i++) { p[i] = i; sz[i] = 1; } }
+    int find(int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; }
+    boolean union(int a, int b) {
+        a = find(a); b = find(b);
+        if (a == b) return false;
+        if (sz[a] &lt; sz[b]) { int t = a; a = b; b = t; }
+        p[b] = a; sz[a] += sz[b];
+        return true;
+    }
+}
+</code></pre></div></div></details>
+  <details class="fold"><summary>Fenwick tree (BIT)</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// Fenwick (1-indexed): point add, prefix sum
+static final class Fenwick {
+    final long[] t; final int n;
+    Fenwick(int n) { this.n = n; t = new long[n + 1]; }
+    void add(int i, long v) { for (; i &lt;= n; i += i &amp; -i) t[i] += v; }
+    long sum(int i) { long s = 0; for (; i &gt; 0; i -= i &amp; -i) s += t[i]; return s; }
+    long sum(int l, int r) { return sum(r) - sum(l - 1); }
+}
+</code></pre></div><p>For prefix <em>maximum</em>, which DP needs, change <code>+=</code> to <code>max</code>. This only works when values never decrease. The sample Hard solution uses this version.</p></div></details>
+  <details class="fold"><summary>Segment tree (iterative, any associative operation)</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// Iterative segment tree (0-indexed, half-open queries)
+// Change identity + combine for sum / min / max / gcd.
+static final class SegTree {
+    final int n; final long[] t;
+    static final long ID = 0;                              // gcd identity (sum: 0, min: +INF, max: -INF)
+    static long op(long a, long b) { return gcd(a, b); }   // swap for Math.min / Math.max / a + b
+    SegTree(long[] a) {
+        n = a.length; t = new long[2 * n];
+        for (int i = 0; i &lt; n; i++) t[n + i] = a[i];
+        for (int i = n - 1; i &gt; 0; i--) t[i] = op(t[2 * i], t[2 * i + 1]);
+    }
+    void set(int i, long v) { for (t[i += n] = v; i &gt; 1; i &gt;&gt;= 1) t[i &gt;&gt; 1] = op(t[i], t[i ^ 1]); }
+    long query(int l, int r) { // [l, r)
+        long resL = ID, resR = ID;
+        for (l += n, r += n; l &lt; r; l &gt;&gt;= 1, r &gt;&gt;= 1) {
+            if ((l &amp; 1) == 1) resL = op(resL, t[l++]);
+            if ((r &amp; 1) == 1) resR = op(t[--r], resR);
+        }
+        return op(resL, resR);
+    }
+}
+</code></pre></div></div></details>
+  <details class="fold"><summary>Lazy segment tree (range add, range max)</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// Lazy segment tree: range add, range max
+static final class LazyMax {
+    final int n; final long[] mx, lz;
+    LazyMax(int n) { this.n = n; mx = new long[4 * n]; lz = new long[4 * n]; }
+    private void push(int x) {
+        if (lz[x] != 0) {
+            for (int c = 2 * x; c &lt;= 2 * x + 1; c++) { mx[c] += lz[x]; lz[c] += lz[x]; }
+            lz[x] = 0;
+        }
+    }
+    void add(int l, int r, long v) { add(1, 0, n - 1, l, r, v); } // inclusive
+    private void add(int x, int lo, int hi, int l, int r, long v) {
+        if (r &lt; lo || hi &lt; l) return;
+        if (l &lt;= lo &amp;&amp; hi &lt;= r) { mx[x] += v; lz[x] += v; return; }
+        push(x);
+        int mid = (lo + hi) &gt;&gt;&gt; 1;
+        add(2 * x, lo, mid, l, r, v);
+        add(2 * x + 1, mid + 1, hi, l, r, v);
+        mx[x] = Math.max(mx[2 * x], mx[2 * x + 1]);
+    }
+    long max(int l, int r) { return max(1, 0, n - 1, l, r); } // inclusive
+    private long max(int x, int lo, int hi, int l, int r) {
+        if (r &lt; lo || hi &lt; l) return Long.MIN_VALUE;
+        if (l &lt;= lo &amp;&amp; hi &lt;= r) return mx[x];
+        push(x);
+        int mid = (lo + hi) &gt;&gt;&gt; 1;
+        return Math.max(max(2 * x, lo, mid, l, r), max(2 * x + 1, mid + 1, hi, l, r));
+    }
+}
+</code></pre></div><p>This is the structure behind the "split into K segments" DP problems (CF 833B, CF 1527E, AtCoder W).</p></div></details>
+  <details class="fold"><summary>Dijkstra</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// Dijkstra (adjacency as int[]{to, w})
+static long[] dijkstra(List&lt;int[]&gt;[] g, int src) {
+    long[] d = new long[g.length];
+    Arrays.fill(d, Long.MAX_VALUE);
+    d[src] = 0;
+    PriorityQueue&lt;long[]&gt; pq = new PriorityQueue&lt;&gt;((x, y) -&gt; Long.compare(x[0], y[0]));
+    pq.add(new long[]{0, src});
+    while (!pq.isEmpty()) {
+        long[] cur = pq.poll();
+        int u = (int) cur[1];
+        if (cur[0] != d[u]) continue;           // stale entry
+        for (int[] e : g[u]) {
+            long nd = d[u] + e[1];
+            if (nd &lt; d[e[0]]) { d[e[0]] = nd; pq.add(new long[]{nd, e[0]}); }
+        }
+    }
+    return d;
+}
+</code></pre></div></div></details>
+  <details class="fold"><summary>Tree from a parent array, without recursion</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// Tree from parent array: BFS order without recursion
+// par[v] = parent of v (1-indexed nodes), par[root] = 0. Returns nodes in BFS order.
+static int[] bfsOrder(int n, int[] par) {
+    int[] head = new int[n + 1], nxt = new int[n + 1];
+    Arrays.fill(head, -1);
+    int root = -1;
+    for (int v = 1; v &lt;= n; v++) {
+        if (par[v] == 0) root = v;
+        else { nxt[v] = head[par[v]]; head[par[v]] = v; }
+    }
+    int[] order = new int[n];
+    int qh = 0, qt = 0;
+    order[qt++] = root;
+    while (qh &lt; qt) {
+        int u = order[qh++];
+        for (int c = head[u]; c != -1; c = nxt[c]) order[qt++] = c;
+    }
+    return order; // iterate backwards for "children before parent" (post-order DP)
+}
+</code></pre></div><p>Loop over <code>order</code> backwards to compute subtree values (children before parents). Loop forwards to push values from parent to child, as in rerooting.</p></div></details>
+  <details class="fold"><summary>LCA with binary lifting</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// LCA with binary lifting (built from BFS order)
+static final class LCA {
+    final int LOG; final int[][] up; final int[] depth;
+    LCA(int n, int[] par, int[] order) {
+        int lg = 1; while ((1 &lt;&lt; lg) &lt;= n) lg++;
+        LOG = lg; up = new int[LOG][n + 1]; depth = new int[n + 1];
+        for (int v : order) {
+            int p = par[v] == 0 ? v : par[v];
+            up[0][v] = p;
+            depth[v] = par[v] == 0 ? 0 : depth[p] + 1;
+            for (int k = 1; k &lt; LOG; k++) up[k][v] = up[k - 1][up[k - 1][v]];
+        }
+    }
+    int lca(int a, int b) {
+        if (depth[a] &lt; depth[b]) { int t = a; a = b; b = t; }
+        int diff = depth[a] - depth[b];
+        for (int k = 0; k &lt; LOG; k++) if (((diff &gt;&gt; k) &amp; 1) == 1) a = up[k][a];
+        if (a == b) return a;
+        for (int k = LOG - 1; k &gt;= 0; k--) if (up[k][a] != up[k][b]) { a = up[k][a]; b = up[k][b]; }
+        return up[0][a];
+    }
+}
+</code></pre></div></div></details>
+  <details class="fold"><summary>Binary search on the answer</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>// Binary search on the answer
+// Smallest x in [lo, hi] with ok(x) true, assuming ok is false...false true...true.
+interface Check { boolean ok(long x); }
+static long firstTrue(long lo, long hi, Check c) {
+    while (lo &lt; hi) {
+        long mid = lo + (hi - lo) / 2;
+        if (c.ok(mid)) hi = mid; else lo = mid + 1;
+    }
+    return lo;
+}
+</code></pre></div></div></details>
+  <details class="fold"><summary>Deep recursion on a big-stack thread</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Run the real work on a thread with a 128 MB stack so deep recursion doesn't crash.
+        Thread t = new Thread(null, () -&gt; {
+            try { solve(); } catch (IOException e) { throw new UncheckedIOException(e); }
+        }, "solver", 1 &lt;&lt; 27);
+        t.start();
+    }
+
+    static void solve() throws IOException {
+        int n = 1_000_000;                                  // a path of 1e6 nodes
+        System.out.println(depth(n));
+    }
+
+    static int depth(int k) { return k == 0 ? 0 : 1 + depth(k - 1); }
+}
+</code></pre></div><p>Tested with recursion depth 10⁶. Use it only when an iterative version would take too long to write.</p></div></details>
+  <details class="fold"><summary>Stress tester: how you grade yourself without a judge</summary><div class="fold-b"><div class="code-wrap"><pre class="code"><code>import java.util.*;
+
+/** Compare a fast solve() with an obviously-correct brute() on thousands of tiny random inputs. */
+public class Stress {
+    public static void main(String[] args) {
+        Random rnd = new Random(1);
+        for (int iter = 1; iter &lt;= 100000; iter++) {
+            int n = 1 + rnd.nextInt(8);                    // tiny inputs expose bugs fastest
+            int[] a = new int[n];
+            for (int i = 0; i &lt; n; i++) a[i] = rnd.nextInt(21) - 10;
+            long fast = solve(a), slow = brute(a);
+            if (fast != slow) {
+                System.out.println("Mismatch on iteration " + iter + ": " + Arrays.toString(a));
+                System.out.println("fast=" + fast + "  brute=" + slow);
+                return;                                     // smallest failing case is now on screen
+            }
+        }
+        System.out.println("All random tests passed");
+    }
+
+    // Example: maximum subarray sum. Replace both methods with your problem.
+    static long solve(int[] a) {                           // Kadane, O(n)
+        long best = Long.MIN_VALUE, cur = 0;
+        for (int x : a) { cur = Math.max(x, cur + x); best = Math.max(best, cur); }
+        return best;
+    }
+
+    static long brute(int[] a) {                           // every subarray, O(n^2)
+        long best = Long.MIN_VALUE;
+        for (int l = 0; l &lt; a.length; l++) {
+            long s = 0;
+            for (int r = l; r &lt; a.length; r++) { s += a[r]; best = Math.max(best, s); }
+        }
+        return best;
+    }
+}
+</code></pre></div><p>Use this for every Infosys repeat problem that has no online judge. Write the brute force first; it takes 5 minutes and catches most bugs.</p></div></details>
+
+  <h3>3 · Reading constraints</h3>
+  <p>Java manages roughly 10⁸ to 3·10⁸ simple operations per second. Read the limits before you design anything.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Largest n</th><th>Complexity that fits</th><th>Usual technique</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">≤ 10–12</td><td>O(n!·n)</td><td>Permutations, brute force</td></tr>
+      <tr><td class="mono">≤ 20–22</td><td>O(2ⁿ·n)</td><td>Bitmask DP, subset enumeration</td></tr>
+      <tr><td class="mono">≤ 40</td><td>O(2^(n/2)·n)</td><td>Meet in the middle</td></tr>
+      <tr><td class="mono">≤ 500</td><td>O(n³)</td><td>Interval DP, Floyd–Warshall</td></tr>
+      <tr><td class="mono">≤ 5 000</td><td>O(n²)</td><td>2D DP, all pairs</td></tr>
+      <tr><td class="mono">≤ 2·10⁵</td><td>O(n log n), O(n log² n)</td><td>Sorting, heaps, segment tree, binary search, small-to-large</td></tr>
+      <tr><td class="mono">≤ 10⁶–10⁷</td><td>O(n)</td><td>Prefix sums, two pointers, sieve</td></tr>
+      <tr><td class="mono">≤ 10¹²–10¹⁸</td><td>O(√n) or O(log n)</td><td>Math, divisors up to √n, binary search, fast power</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>4 · Pattern spotting</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>If the problem says…</th><th>Try first</th></tr></thead>
+    <tbody>
+      <tr><td>count subarrays whose sum / XOR / remainder satisfies something</td><td>Prefix values + HashMap of counts</td></tr>
+      <tr><td>longest or shortest subarray where a condition holds (and shrinking keeps it valid)</td><td>Sliding window</td></tr>
+      <tr><td>minimise the maximum / maximise the minimum</td><td>Binary search on the answer with a greedy <code>ok(x)</code></td></tr>
+      <tr><td>order, schedule, intervals, "in any order"</td><td>Sort, then greedy (check with an exchange argument)</td></tr>
+      <tr><td>pick the best option among those currently unlocked</td><td>Sort by unlock key + PriorityQueue</td></tr>
+      <tr><td>next greater / smaller, "sum over all subarrays of min"</td><td>Monotonic stack, contribution counting</td></tr>
+      <tr><td>maximum XOR of a pair, XOR below K</td><td>Binary trie</td></tr>
+      <tr><td>maximum XOR of a subset</td><td>Linear XOR basis, or an XOR knapsack over 2²⁰ values</td></tr>
+      <tr><td>product is a perfect square</td><td>Square-free kernel: equal kernels ⇔ the product is a square</td></tr>
+      <tr><td>count ways, answer mod 10⁹+7</td><td>DP or combinatorics (factorials + inverses)</td></tr>
+      <tr><td>n ≤ 20</td><td>Bitmask DP</td></tr>
+      <tr><td>tree, answer for every node's subtree</td><td>Post-order DP over BFS order; small-to-large for "distinct / equal values"</td></tr>
+      <tr><td>tree, answer for every possible root</td><td>Rerooting</td></tr>
+      <tr><td>point updates + range queries (sum, min, gcd)</td><td>Fenwick / segment tree</td></tr>
+      <tr><td>split into K contiguous parts, each part has a cost</td><td><code>dp[k][i]</code>; add a lazy segment tree when n is large</td></tr>
+      <tr><td>subsequence (non-decreasing) plus a side condition with small values</td><td>DP indexed by value, with the side condition as an extra dimension; Fenwick of maxima</td></tr>
+      <tr><td>count numbers in [L, R] with a digit property</td><td>Digit DP: f(R) − f(L−1)</td></tr>
+      <tr><td>shortest path, weights 0/1 or non-negative</td><td>0-1 BFS / Dijkstra</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- ============ 04 PLAN ============ -->
+<section id="plan"><div class="wrap">
+  <div class="sec-label">04 · The 29-day plan</div>
+  <h2>Day by day, 7 November to 5 December</h2>
+  <p class="lead">There are five phases. Days 2–9 build the tools that Q1 and Q2 rely on. Days 10–16 cover DP, which is what Q3 usually is. Days 17–23 cover the trees and data structures that Infosys's harder problems use. Days 24–29 are Infosys's own problems under exam conditions.</p>
+
+  <div class="grid2">
+    <div class="box seal"><div class="box-t">Daily routine (about 5 h)</div>
+      <ol>
+        <li><strong>Learn (40 min).</strong> Read the day's notes. Type the related template from memory and compile it.</li>
+        <li><strong>Solve (3 h).</strong> ★ problems first, then ●. Time limits: 25 min for easy problems, 45 for medium, 60 for hard. When time runs out, read the hint or editorial, close it, and code the solution from scratch.</li>
+        <li><strong>Stretch (40 min).</strong> ◆ problems if you're on the SP track. Otherwise, redo one ★ problem using stdin input.</li>
+        <li><strong>Review (30 min).</strong> Log every mistake in the <a href="#log">error log</a>. Re-solve one problem from 3 days ago without looking at your old code.</li>
+      </ol>
+    </div>
+    <div class="box brass"><div class="box-t">Rules that make this work</div>
+      <ul>
+        <li>Practice in a plain editor and compile from the terminal (<code>javac Main.java &amp;&amp; java Main &lt; in.txt</code>). The exam lab may not have autocomplete.</li>
+        <li>For every CSES, AtCoder or Codeforces problem, read the input with FastReader, never Scanner.</li>
+        <li>Before coding, write one line: state / idea / complexity. If the complexity doesn't fit the limits, don't start coding.</li>
+        <li>Don't skip a mock day. Mocks are where the marks come from.</li>
+        <li>If you have a short day (3 h), do the ★ problems and the review only.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ctl" id="ctl">
+    <div class="ctl-g"><span class="ctl-lab">Track</span>
+      <button class="chip" data-track="1">★ Foundation</button>
+      <button class="chip" data-track="2">★● Standard</button>
+      <button class="chip" data-track="3">★●◆ SP</button>
+    </div>
+    <div class="ctl-g" style="flex:1;min-width:240px"><div class="pbar"><i id="pbar"></i></div><span class="pnum" id="pnum">0 / 0</span></div>
+    <div class="ctl-g">
+      <button class="btn" id="bToday">Today</button>
+      <button class="btn" id="bOpen">Expand all</button>
+      <button class="btn" id="bAll">Show other tracks</button>
+      <button class="btn" id="bExp">Export</button>
+      <label class="btn" style="display:inline-block">Import<input type="file" id="bImp" accept="application/json" hidden></label>
+      <button class="btn danger" id="bReset">Reset</button>
+    </div>
+  </div>
+  <p class="mono" style="font-size:12px;color:var(--text-faint)">Legend: <span class="lv1">★</span> must do · ● core · <span style="color:var(--sky)">◆</span> stretch. Difficulty is the LeetCode level or the Codeforces rating. CSES and AtCoder problems have no official rating.</p>
+
+  <div class="plan" id="planList" data-track="2"></div>
+</div></section>
+
+<!-- ============ 05 MOCKS ============ -->
+<section id="mocks"><div class="wrap">
+  <div class="sec-label">05 · Mock exams</div>
+  <h2>Five full mocks</h2>
+  <p>Every mock lasts 3 hours, in one sitting, under the same rules. The Codeforces problems were picked by rating to match the Q1/Q2/Q3 steps, and none of them appears in the daily lists. Codeforces doesn't give partial marks, but it does show the first failing test ("Wrong answer on test 7"). Use that as your partial-credit estimate.</p>
+  <div class="grid2">
+    <div class="box plain"><div class="box-t">Mock rules</div>
+      <ol>
+        <li>Timer set to 180 minutes, phone in another room, plain editor and terminal only.</li>
+        <li>Minutes 0–15: read every problem. On paper, write the limits, your idea and its complexity for each.</li>
+        <li>Solve the problem you're surest of first. That isn't always Q1.</li>
+        <li>By minute 150, every problem has a submission, even if it's only a brute force.</li>
+        <li>No edits in the last 10 minutes to code that already passes.</li>
+      </ol>
+    </div>
+    <div class="box plain"><div class="box-t">After the mock (60–90 min)</div>
+      <ol>
+        <li>Enter your scores below (estimated % of tests passed).</li>
+        <li>For each unsolved problem, read the editorial, close it, and code the solution from scratch.</li>
+        <li>Log the cause of each failure: misread, wrong idea, overflow, off-by-one, TLE, or I/O.</li>
+        <li>Pick the weakest topic and do 2 ◆ problems from it the next day.</li>
+      </ol>
+    </div>
+  </div>
+  <div id="mockList"></div>
+</div></section>
+
+<!-- ============ 06 REPEATS ============ -->
+<section id="repeats"><div class="wrap">
+  <div class="sec-label">06 · Infosys repeat problems</div>
+  <h2>Problems Infosys keeps reusing</h2>
+  <p>Frequencies come from a <a href="https://github.com/milinkanu/infosys-qb">community question bank</a> that counts independent reports from 2019 to 2026. The statements are paraphrased. The approaches are mine, and I checked each one against a brute force on random inputs. Hints and approaches are folded, so try each problem first. Problems without an online judge are graded with the stress tester.</p>
+  <div id="repList">
+
+  <div class="rep" id="rep-monsters"><div class="rep-h"><b>RPG: maximum monsters defeated</b><span class="rep-m">Very high (11 reports) · SP · 2022–2026</span></div>
+    <p>You start with <code>e</code> experience. Monster i requires experience ≥ power[i] and adds bonus[i] when defeated. You can fight them in any order, and losing a fight ends the run. Find the maximum number you can defeat. Input order: n, e, then n powers, then n bonuses, one value per line.</p>
+    <details class="fold"><summary>Hint</summary><div class="fold-b"><p>If you can beat a set of monsters, you can beat them in order of increasing power.</p></div></details>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>Sort the (power, bonus) pairs by power. Walk through them while <code>e ≥ power</code>, adding each bonus. Use <code>long</code> for e. O(n log n). This is correct when bonuses are non-negative; check the limits. Practice twin: <a href="https://leetcode.com/problems/ipo/">LC 502 IPO</a>.</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-divchain"><div class="rep-h"><b>Count arrays where each element divides the next</b><span class="rep-m">Very high (13) · DSE · 2021–2025</span></div>
+    <p>Count arrays of length K with values in 1..N where a[i] divides a[i+1]. Print the count mod <strong>10000</strong>. Samples: (N=2, K=1) → 2, (2, 2) → 3, (3, 2) → 5.</p>
+    <details class="fold"><summary>Hint</summary><div class="fold-b"><p>Small K and N: <code>dp[v]</code> pushed to every multiple of v, in O(K·N log N). Large K: an array has at most ⌊log₂N⌋+1 <em>distinct</em> values.</p></div></details>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>Count strictly increasing divisor chains with s distinct values ending at each v, using DP over multiples. Each chain extends to a length-K array in C(K−1, s−1) ways, depending on where the values change. 10000 is not prime, so build C with Pascal's triangle, not inverses. The same problem with mod 10⁹+7 is <a href="https://leetcode.com/problems/count-the-number-of-ideal-arrays/">LC 2338</a>.</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-lndsxor"><div class="rep-h"><b>Longest non-decreasing subsequence with XOR ≥ M</b><span class="rep-m">Very high (13) · DSE, SP · 2022–2026</span></div>
+    <p>This is the Hard problem of the official sample paper. The full solution is in <a href="#sample">Section 07</a>, which you should open only after Mock 4.</p>
+  </div>
+
+  <div class="rep" id="rep-halfxor"><div class="rep-h"><b>Maximum XOR choosing at most N/2 elements</b><span class="rep-m">Very high (13) · SP · 2021–2026</span></div>
+    <p>N is even (N ≤ 120) and A[i] ≤ 10⁶. Choose at most N/2 elements, not necessarily consecutive, to maximise their XOR. Samples: [1, 2] → 2 (not 3, because of the cap); [1, 2, 4, 7] → 7.</p>
+    <details class="fold"><summary>Hint</summary><div class="fold-b"><p>A ≤ 10⁶ &lt; 2²⁰, so there are only about a million possible XOR values. What is the fewest number of elements that produces each one?</p></div></details>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>XOR knapsack: <code>dp[x]</code> is the fewest elements whose XOR is x. For each element a, <code>new[x] = min(old[x], old[x ^ a] + 1)</code>. That is O(N·2²⁰) ≈ 1.3·10⁸ simple steps. The answer is the largest x with <code>dp[x] ≤ N/2</code>. A shortcut: a linear basis has at most 20 vectors, so when N ≥ 40 the cap never binds and <a href="https://cses.fi/problemset/task/3191">CSES 3191</a>'s answer is correct.</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-base"><div class="rep-h"><b>Smallest base where M has all identical digits</b><span class="rep-m">Very high (10) · SP · 2021–2026</span></div>
+    <p>M ≤ 10¹². Find the smallest base B in which every digit of M is the same. Samples: 41 → 40 ("11"), 34430 → 312 ("110 110").</p>
+    <details class="fold"><summary>Hint</summary><div class="fold-b"><p>For B &gt; 10⁶, B² &gt; 10¹² ≥ M, so M has at most two digits in that base.</p></div></details>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>Check bases 2..10⁶ directly; each check costs O(log M). If none works, M must be "dd" in base B, so M = d·(B+1). For each divisor d ≤ 10⁶ of M, B = M/d − 1 is valid when B &gt; d. Take the smallest such B. B = M − 1 ("11") always works for M ≥ 3. The all-ones version of this problem is <a href="https://leetcode.com/problems/smallest-good-base/">LC 483</a>.</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-bakery"><div class="rep-h"><b>Pack gifts into exactly K consecutive boxes, maximise the total of distinct counts</b><span class="rep-m">Very high (9) · SP · 2022–2026</span></div>
+    <p>N ≤ 35000, K ≤ 50. This is <a href="https://codeforces.com/problemset/problem/833/B">CF 833B The Bakery</a> with the same limits (Day 21). An O(K·N²) DP with a running distinct count gets the small tests.</p>
+  </div>
+
+  <div class="rep" id="rep-partition"><div class="rep-h"><b>Split into k segments, minimise the sum of (last − first occurrence)</b><span class="rep-m">PrepInsta SP set</span></div>
+    <p>n ≤ 35000, k ≤ 100. This is <a href="https://codeforces.com/problemset/problem/1527/E">CF 1527E Partition Game</a> (Day 21, ◆). When a[i] repeats, it adds <code>i − prev[a[i]]</code> to every split point before <code>prev[a[i]]</code>, which is a range add.</p>
+  </div>
+
+  <div class="rep" id="rep-vacation"><div class="rep-h"><b>Andy's vacation: cancel at most K obligations</b><span class="rep-m">High (5) · SP · 2021–2025</span></div>
+    <p>Days 1..N (N ≤ 10⁶) and M obligations on given days; several can fall on the same day. Cancel at most K of them and find the longest run of free consecutive days. Samples: (N=10, K=2, days 6 9 3 2 7) → 5; (N=7, K=0, days 3 4) → 3.</p>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>Count obligations per day, then slide a window over the days while the window's count is ≤ K. O(N + M). Pattern twin: <a href="https://leetcode.com/problems/max-consecutive-ones-iii/">LC 1004</a>. The trap: two obligations on one day both have to be cancelled to free that day.</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-wine"><div class="rep-h"><b>Minimum work to transport wine between houses</b><span class="rep-m">High (6) · SP · 2022–2026</span></div>
+    <p>Houses in a line each buy (+) or sell (−) bottles, and the total is zero. Moving one bottle one house costs 1. Find the minimum total work. Judge: <a href="https://www.geeksforgeeks.org/problems/wine-buying-and-selling/1">GfG Wine Buying and Selling</a>.</p>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>The answer is Σ |prefix sum| over every gap between neighbouring houses, because each gap carries exactly the imbalance to its left. Use <code>long</code>.</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-platforms"><div class="rep-h"><b>Minimum railway platforms</b><span class="rep-m">Very high (8) · SP · 2022–2026</span></div>
+    <p>Given arrival and departure times, find the fewest platforms so that no train waits. This is the maximum overlap, the same as <a href="https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups/">LC 2406</a> (Day 4). Check whether a train arriving at the exact minute another departs needs a new platform; the statement decides this.</p>
+  </div>
+
+  <div class="rep" id="rep-largest"><div class="rep-h"><b>Arrange numbers to form the largest number</b><span class="rep-m">High (4) · SP · 2023–2026</span></div>
+    <p>This is <a href="https://leetcode.com/problems/largest-number/">LC 179</a> (Day 4). Sort strings with the comparator <code>(b + a).compareTo(a + b)</code> and return "0" if every number is zero.</p>
+  </div>
+
+  <div class="rep" id="rep-xorx"><div class="rep-h"><b>Choose X in [0, K] to maximise Σ (X xor A[i])</b><span class="rep-m">High (6) · 2021–2025</span></div>
+    <details class="fold"><summary>Hint</summary><div class="fold-b"><p>Bits are independent in a sum of XORs. Setting bit b of X to 1 contributes (n − cnt₁[b])·2ᵇ, and setting it to 0 contributes cnt₁[b]·2ᵇ.</p></div></details>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>Walk K's bits from the top, as in digit DP. While you match K exactly, each 1-bit of K gives one candidate: put 0 there and choose freely below, taking the better contribution for each lower bit. Also count X = K itself. Take the best candidate. This is O(31·31) after counting bits. Use <code>long</code>.</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-gym"><div class="rep-h"><b>Gym: fewest exercises to drain energy E (each exercise usable at most twice)</b><span class="rep-m">High (5) · SP · 2020–2025</span></div>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>Sort the drains in descending order and use each one twice until E ≤ 0. If E is still positive after all of them, print −1. The greedy is correct because only the count matters, so the largest drains are always best.</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-lisbit"><div class="rep-h"><b>Longest increasing subsequence where every adjacent pair has (x &amp; y)·2 &lt; (x | y)</b><span class="rep-m">High (4) · SP</span></div>
+    <p>Samples: [15, 6, 5, 12, 1] → 2; [9, 17, 2, 15, 5, 2] → 2; [17, 16, 12, 2, 8, 17, 17] → 3.</p>
+    <details class="fold"><summary>Hint</summary><div class="fold-b"><p>Try the condition on pairs whose highest set bit is the same, and on pairs where it differs.</p></div></details>
+    <details class="fold"><summary>Approach</summary><div class="fold-b"><p>The condition holds exactly when x and y have different highest set bits (I checked every pair up to 600). So the highest bit must strictly increase along the subsequence, and its length is at most 31. Keep <code>best[b]</code> = the longest chain ending with highest bit b, so each element costs 1 + max(best[0..h−1]). O(31·n).</p></div></details>
+  </div>
+
+  <div class="rep" id="rep-terrain"><div class="rep-h"><b>Fewest days to make terrain strictly decreasing (day t allows changes of 2^(t−1))</b><span class="rep-m">High (6) · SP · 2021–2025</span></div>
+    <p>The core idea is the same as <a href="https://codeforces.com/problemset/problem/1338/A">CF 1338A Powered Addition</a>: find the largest deficit you must fix, and the answer is that deficit's bit length. Adjust for "strictly" and for the direction of the change.</p>
+  </div>
+
+  <div class="rep" id="rep-prod1"><div class="rep-h"><b>Largest subset of [1, N−1] whose product ≡ 1 (mod N)</b><span class="rep-m">High (4) · 2023–2025</span></div>
+    <p>This is <a href="https://codeforces.com/problemset/problem/1514/C">CF 1514C</a>. Take every number coprime to N. If their product mod N isn't 1, drop the element equal to that product.</p>
+  </div>
+
+  <div class="rep" id="rep-xorprime"><div class="rep-h"><b>Count pairs with XOR &lt; K whose sum is prime</b><span class="rep-m">Interview coding task, Oct 2026</span></div>
+    <p>The candidate's nested loops with trial-division primality timed out (<a href="https://takeuforward.org:2083/community/interview-experiences/infosys-sp-dse-off-campus-interview-experience-fresher-2026-batch">report</a>). Sieve up to 2·max(A) once, so every primality check is an array lookup, and read the limits before choosing O(n²).</p>
+  </div>
+  </div>
+</div></section>
+
+<!-- ============ 07 SAMPLE ============ -->
+<section id="sample"><div class="wrap">
+  <div class="sec-label">07 · Official sample paper (spoilers)</div>
+  <h2>Walkthroughs of the Infosys sample paper</h2>
+  <div class="box crimson"><div class="box-t">Don't open these before Mock 4 (Day 25)</div><p>Mock 4 is this paper. Download it from <a href="https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf">rec-test.infosys.com</a> and solve it under exam rules first.</p></div>
+  <p>How I checked these: each program passes all 3 samples in the PDF. Each matches a brute force on random inputs (Easy: 4,000 random trees; Medium and Hard: 20,000 cases each). On 10⁵-sized inputs, Easy finished 3 large cases in 0.5 s, and Medium and Hard each ran in under 0.1 s.</p>
+
+  <details class="fold spoiler"><summary>EASY · Tree beauty: perfect-square pairs per subtree</summary><div class="fold-b">
+    <ol>
+      <li>x·y is a perfect square exactly when x and y have the same <strong>square-free kernel</strong> (the product of the primes with odd exponent). So the problem becomes: count pairs with equal kernels in every subtree.</li>
+      <li>Computing the kernel for values up to 10⁹ is fast: divide out the primes ≤ 1000 (only 168 of them). What remains has no prime factor ≤ 1000 and is below 1009³, so it is 1, q, q² or q·r. q² drops out; anything else stays in the kernel.</li>
+      <li>Small-to-large: each node keeps a map kernel → count. When merging a child into its parent, always merge the smaller map into the larger one. Adding c copies of a key the big map already holds b times creates b·c new pairs. Total cost O(n log n).</li>
+      <li>Process nodes in reverse BFS order. A recursive DFS overflows the stack on a 10⁵-node chain.</li>
+    </ol>
+    <div class="code-wrap"><pre class="code"><code>import java.io.*;
+import java.util.*;
+
+/** Infosys sample paper, EASY: sum over u of (# pairs in subtree(u) whose product is a perfect square). */
+public class Main {
+    static final long MOD = 1_000_000_007L;
+    static int[] smallPrimes;
+
+    public static void main(String[] args) throws IOException {
+        FastReader in = new FastReader(System.in);
+        int n = in.nextInt();
+        int[] par = new int[n + 1];
+        for (int v = 1; v &lt;= n; v++) par[v] = in.nextInt();
+        long[] a = new long[n + 1];
+        for (int v = 1; v &lt;= n; v++) a[v] = in.nextLong();
+        System.out.println(solve(n, par, a));
+    }
+
+    static long solve(int n, int[] par, long[] a) {
+        buildSmallPrimes();
+        // children lists + BFS order (no recursion: a 1e5 chain would overflow the stack)
+        int[] head = new int[n + 1], nxt = new int[n + 1];
+        Arrays.fill(head, -1);
+        int root = 1;
+        for (int v = 1; v &lt;= n; v++) {
+            if (par[v] == 0) root = v;
+            else { nxt[v] = head[par[v]]; head[par[v]] = v; }
+        }
+        int[] order = new int[n];
+        int qh = 0, qt = 0;
+        order[qt++] = root;
+        while (qh &lt; qt) { int u = order[qh++]; for (int c = head[u]; c != -1; c = nxt[c]) order[qt++] = c; }
+
+        @SuppressWarnings("unchecked")
+        HashMap&lt;Long, Integer&gt;[] mp = new HashMap[n + 1];
+        long[] pairs = new long[n + 1];
+        for (int v = 1; v &lt;= n; v++) { mp[v] = new HashMap&lt;&gt;(); mp[v].put(kernel(a[v]), 1); }
+
+        long ans = 0;
+        for (int i = n - 1; i &gt;= 0; i--) {          // children are finished before their parent
+            int v = order[i];
+            ans += pairs[v];                          // beauty(v) is final now
+            int p = par[v];
+            if (p == 0) continue;
+            HashMap&lt;Long, Integer&gt; big = mp[p], small = mp[v];
+            if (big.size() &lt; small.size()) { HashMap&lt;Long, Integer&gt; t = big; big = small; small = t; }
+            long cross = 0;
+            for (Map.Entry&lt;Long, Integer&gt; e : small.entrySet()) {
+                int have = big.getOrDefault(e.getKey(), 0);
+                cross += (long) have * e.getValue();
+                big.put(e.getKey(), have + e.getValue());
+            }
+            pairs[p] += pairs[v] + cross;
+            mp[p] = big;
+            mp[v] = null;
+        }
+        return ans % MOD;
+    }
+
+    /** Square-free kernel: x*y is a perfect square  &lt;=&gt;  kernel(x) == kernel(y). */
+    static long kernel(long x) {
+        long k = 1;
+        for (int p : smallPrimes) {                  // primes &lt;= 1000 only (168 of them)
+            if ((long) p * p &gt; x) break;
+            int e = 0;
+            while (x % p == 0) { x /= p; e ^= 1; }
+            if (e == 1) k *= p;
+        }
+        // x has no prime factor &lt;= 1000 left (or x &lt; p*p, so x is 1 or prime)
+        // x &lt;= 1e9 &lt; 1009^3, so x is 1, q, q*q or q*r for primes q, r &gt; 1000
+        long s = (long) Math.sqrt((double) x);
+        while (s * s &gt; x) s--;
+        while ((s + 1) * (s + 1) &lt;= x) s++;
+        if (s * s != x) k *= x;                      // q or q*r stays in the kernel; q*q vanishes
+        return k;
+    }
+
+    static void buildSmallPrimes() {
+        if (smallPrimes != null) return;
+        List&lt;Integer&gt; ps = new ArrayList&lt;&gt;();
+        for (int i = 2; i &lt;= 1000; i++) {
+            boolean pr = true;
+            for (int d = 2; d * d &lt;= i; d++) if (i % d == 0) { pr = false; break; }
+            if (pr) ps.add(i);
+        }
+        smallPrimes = ps.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    static final class FastReader {
+        private final DataInputStream in; private final byte[] buf = new byte[1 &lt;&lt; 16]; private int len, ptr;
+        FastReader(InputStream is) { in = new DataInputStream(is); }
+        private int read() throws IOException {
+            if (ptr == len) { len = in.read(buf, 0, buf.length); ptr = 0; if (len &lt;= 0) return -1; }
+            return buf[ptr++];
+        }
+        long nextLong() throws IOException {
+            int c = read();
+            while (c != '-' &amp;&amp; (c &lt; '0' || c &gt; '9')) { if (c == -1) throw new EOFException(); c = read(); }
+            boolean neg = c == '-'; if (neg) c = read();
+            long r = 0; while (c &gt;= '0' &amp;&amp; c &lt;= '9') { r = r * 10 + (c - '0'); c = read(); }
+            return neg ? -r : r;
+        }
+        int nextInt() throws IOException { return (int) nextLong(); }
+    }
+}
+</code></pre></div>
+    <p>Partial-credit fallback: for each node, collect its subtree and test all pairs. That is O(n³) and passes only tiny tests, but it is far better than a blank submission.</p>
+  </div></details>
+
+  <details class="fold spoiler"><summary>MEDIUM · Good subsequence with gcd exactly p, under updates</summary><div class="fold-b">
+    <ol>
+      <li>Only multiples of p can be in the subsequence. Let g be the gcd of all multiples of p. If g ≠ p, every subset has gcd ≥ g &gt; p, so the answer is NO.</li>
+      <li>If g = p and at least one element isn't a multiple of p, take all the multiples. That subsequence is shorter than n, so the answer is YES.</li>
+      <li>If every element is a multiple of p: divide by p, so the gcd of everything is 1. Any value ≤ 10⁵ has at most 6 distinct primes (2·3·5·7·11·13·17 &gt; 10⁵). So some subset of at most 7 elements already has gcd 1. With n ≥ 8 the answer is YES; with n ≤ 7, try removing each element.</li>
+      <li>Maintain g with a gcd segment tree in which non-multiples are stored as 0 (gcd(0, x) = x), plus a counter of non-multiples. Each query costs O(log n).</li>
+      <li>Input order: n, <strong>p</strong>, the array, q, the column count (2), then the queries. This differs from the written format; see Lesson 2.</li>
+    </ol>
+    <div class="code-wrap"><pre class="code"><code>import java.io.*;
+import java.util.*;
+
+/**
+ * Infosys sample paper, MEDIUM: after each point update, does a non-empty subsequence
+ * of length &lt; n with gcd exactly p exist? Count YES answers.
+ * NOTE: the samples put p BEFORE the array (the PDF's written format says after it).
+ */
+public class Main {
+    public static void main(String[] args) throws IOException {
+        FastReader in = new FastReader(System.in);
+        int n = in.nextInt();
+        int p = in.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i &lt; n; i++) a[i] = in.nextInt();
+        int q = in.nextInt();
+        int cols = in.nextInt();                    // always 2, read and ignore
+        int[][] qs = new int[q][2];
+        for (int i = 0; i &lt; q; i++) { qs[i][0] = in.nextInt(); qs[i][1] = in.nextInt(); }
+        System.out.println(solve(n, p, a, qs));
+    }
+
+    static long solve(int n, int p, int[] a, int[][] qs) {
+        a = a.clone();
+        int size = 1; while (size &lt; n) size &lt;&lt;= 1;
+        int[] t = new int[2 * size];               // gcd of elements divisible by p (others stored as 0)
+        int notDiv = 0;
+        for (int i = 0; i &lt; n; i++) {
+            if (a[i] % p == 0) t[size + i] = a[i]; else notDiv++;
+        }
+        for (int i = size - 1; i &gt; 0; i--) t[i] = gcd(t[2 * i], t[2 * i + 1]);
+
+        long yes = 0;
+        for (int[] qu : qs) {
+            int i = qu[0] - 1, v = qu[1];
+            if (a[i] % p != 0) notDiv--;
+            a[i] = v;
+            if (a[i] % p != 0) notDiv++;
+            int pos = size + i;
+            t[pos] = (a[i] % p == 0) ? a[i] : 0;
+            for (pos &gt;&gt;= 1; pos &gt; 0; pos &gt;&gt;= 1) t[pos] = gcd(t[2 * pos], t[2 * pos + 1]);
+
+            int g = t[1];                            // gcd of all multiples of p (0 if none)
+            boolean ok;
+            if (g != p) ok = false;                  // every subset gcd is a multiple of g
+            else if (notDiv &gt; 0) ok = true;          // take all multiples: length &lt; n
+            else if (n &gt;= 8) ok = true;              // a/p &lt;= 1e5 has &lt;= 6 primes -&gt; gcd-1 subset of size &lt;= 7
+            else ok = existsDropOne(a, p);           // n &lt;= 7: try removing each element
+            if (ok) yes++;
+        }
+        return yes;
+    }
+
+    static boolean existsDropOne(int[] a, int p) {
+        int n = a.length;
+        for (int skip = 0; skip &lt; n; skip++) {
+            int g = 0;
+            for (int j = 0; j &lt; n; j++) if (j != skip) g = gcd(g, a[j]);
+            if (g == p) return true;
+        }
+        return false;
+    }
+
+    static int gcd(int x, int y) { while (y != 0) { int r = x % y; x = y; y = r; } return x; }
+
+    static final class FastReader {
+        private final DataInputStream in; private final byte[] buf = new byte[1 &lt;&lt; 16]; private int len, ptr;
+        FastReader(InputStream is) { in = new DataInputStream(is); }
+        private int read() throws IOException {
+            if (ptr == len) { len = in.read(buf, 0, buf.length); ptr = 0; if (len &lt;= 0) return -1; }
+            return buf[ptr++];
+        }
+        long nextLong() throws IOException {
+            int c = read();
+            while (c != '-' &amp;&amp; (c &lt; '0' || c &gt; '9')) { if (c == -1) throw new EOFException(); c = read(); }
+            boolean neg = c == '-'; if (neg) c = read();
+            long r = 0; while (c &gt;= '0' &amp;&amp; c &lt;= '9') { r = r * 10 + (c - '0'); c = read(); }
+            return neg ? -r : r;
+        }
+        int nextInt() throws IOException { return (int) nextLong(); }
+    }
+}
+</code></pre></div>
+  </div></details>
+
+  <details class="fold spoiler"><summary>HARD · Longest non-decreasing subsequence with XOR ≥ M</summary><div class="fold-b">
+    <ol>
+      <li>Values are ≤ N ≤ 1000 &lt; 1024, so any XOR fits in 10 bits. Add that XOR as a DP dimension.</li>
+      <li>Keep <code>fw[x]</code>, a Fenwick tree over values that stores the longest subsequence with XOR x ending in a value ≤ v.</li>
+      <li>For each element v, and for each target x, look up the best length with XOR <code>x ^ v</code> ending at a value ≤ v, then add 1. Compute all 1024 candidates <em>before</em> writing any of them, so v isn't used twice.</li>
+      <li>Cost: N · 1024 · log N ≈ 2·10⁷ steps. The answer is the maximum over x ≥ M.</li>
+    </ol>
+    <div class="code-wrap"><pre class="code"><code>import java.io.*;
+import java.util.*;
+
+/** Infosys sample paper, HARD: longest non-decreasing subsequence whose XOR is &gt;= M. */
+public class Main {
+    public static void main(String[] args) throws IOException {
+        FastReader in = new FastReader(System.in);
+        int n = in.nextInt();
+        int m = in.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i &lt; n; i++) a[i] = in.nextInt();
+        System.out.println(solve(a, m));
+    }
+
+    // fw[x] = Fenwick over values; prefix max of "longest subsequence with XOR x ending in value &lt;= v"
+    static int solve(int[] a, int m) {
+        int maxV = 1;
+        for (int x : a) maxV = Math.max(maxV, x);
+        int B = 1;
+        while (B &lt;= maxV) B &lt;&lt;= 1;                   // every XOR of values &lt;= maxV is &lt; B
+        int[][] fw = new int[B][maxV + 1];
+        int[] cand = new int[B];
+        for (int v : a) {
+            for (int x = 0; x &lt; B; x++) {
+                int best = query(fw[x ^ v], v);      // extend a subsequence whose XOR was x ^ v
+                cand[x] = best &gt; 0 ? best + 1 : 0;
+            }
+            cand[v] = Math.max(cand[v], 1);          // start a new subsequence with v alone
+            for (int x = 0; x &lt; B; x++) if (cand[x] &gt; 0) update(fw[x], v, cand[x]);
+        }
+        int ans = 0;
+        for (int x = m; x &lt; B; x++) ans = Math.max(ans, query(fw[x], maxV));
+        return ans;
+    }
+
+    static int query(int[] f, int i) { int r = 0; for (; i &gt; 0; i -= i &amp; -i) r = Math.max(r, f[i]); return r; }
+    static void update(int[] f, int i, int v) { for (; i &lt; f.length; i += i &amp; -i) if (f[i] &lt; v) f[i] = v; }
+
+    static final class FastReader {
+        private final DataInputStream in; private final byte[] buf = new byte[1 &lt;&lt; 16]; private int len, ptr;
+        FastReader(InputStream is) { in = new DataInputStream(is); }
+        private int read() throws IOException {
+            if (ptr == len) { len = in.read(buf, 0, buf.length); ptr = 0; if (len &lt;= 0) return -1; }
+            return buf[ptr++];
+        }
+        long nextLong() throws IOException {
+            int c = read();
+            while (c != '-' &amp;&amp; (c &lt; '0' || c &gt; '9')) { if (c == -1) throw new EOFException(); c = read(); }
+            boolean neg = c == '-'; if (neg) c = read();
+            long r = 0; while (c &gt;= '0' &amp;&amp; c &lt;= '9') { r = r * 10 + (c - '0'); c = read(); }
+            return neg ? -r : r;
+        }
+        int nextInt() throws IOException { return (int) nextLong(); }
+    }
+}
+</code></pre></div>
+    <p>Partial-credit fallback: enumerate all subsequences with a bitmask. That is O(2ᴺ·N) and fine up to N ≈ 20.</p>
+  </div></details>
+
+  <details class="fold spoiler"><summary>COMPLEX · Tree edge flipping with pattern matching (how to attack it)</summary><div class="fold-b">
+    <p>I did not write a full solution. The PDF's own explanations for this problem are not consistent with each other, so the samples can't fully pin down the intended rules. For a problem like this, aim for partial marks. Write a brute force over all matchings for N ≤ 15 (enumerate edge subsets and check that no two chosen edges share a node), then test every root-to-leaf path with <code>String.contains</code>. The building block to know is <a href="https://cses.fi/problemset/task/1130">CSES 1130 Tree Matching</a> (Day 19).</p>
+  </div></details>
+</div></section>
+
+<!-- ============ 08 EXAM ============ -->
+<section id="exam"><div class="wrap">
+  <div class="sec-label">08 · Exam day</div>
+  <h2>The 180 minutes</h2>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Minutes</th><th>Do</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">0–15</td><td>Read <strong>every</strong> problem with its limits and samples. On paper, write the idea, its complexity, and the brute-force fallback for each. Rank them by how sure you are, not by their labels.</td></tr>
+      <tr><td class="mono">15–60</td><td>Solve the surest problem fully. Run the samples, then 2 edge cases you write yourself (n = 1, all values equal, largest values). Submit.</td></tr>
+      <tr><td class="mono">60–120</td><td>Second problem, same routine. If you are stuck at minute 100, submit a brute force and move on.</td></tr>
+      <tr><td class="mono">120–165</td><td>Hard problem. If you have no full idea after 15 minutes, write the brute force for small limits and collect those marks, then try to optimise.</td></tr>
+      <tr><td class="mono">165–180</td><td>Make sure every problem has a submission that compiles. Don't touch code that already passes.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2">
+    <div class="box brass"><div class="box-t">Rules</div><ul>
+      <li>A correct brute force scores more than a fast wrong solution.</li>
+      <li>Default to <code>long</code>. Take the modulus after every multiplication.</li>
+      <li>Check your input parsing against the samples before writing the logic (Lesson 2).</li>
+      <li>If there's a function stub, don't change its name, parameters or return type.</li>
+      <li>Use the platform's custom-input run to test the largest limits for TLE.</li>
+      <li>Expect a story-style statement. Strip the story and look for a pattern from Section 03.</li>
+    </ul></div>
+    <div class="box plain"><div class="box-t">Night before and morning of</div><ul>
+      <li>Pack exactly what the Infosys invite asks for (ID, call letter, and so on). Check the venue route and reporting time the day before.</li>
+      <li>No new topics after Thursday 3 December. Saturday 5 December is a rest day.</li>
+      <li>Sleep 7–8 hours. Eat before the test; 3 hours is long.</li>
+      <li>Warm up in the morning by typing FastReader once from memory (5 minutes).</li>
+      <li>Phones, calculators and smartwatches have been banned at past in-person rounds, so plan to hand them in.</li>
+    </ul></div>
+  </div>
+  <div class="box seal"><div class="box-t">After 6 December</div><p>If you clear the test, the next stage is an in-person interview. Candidates report being asked to explain their test code, solve one problem on paper, and answer OOP, DBMS/SQL and OS questions (<a href="https://takeuforward.org:2083/community/interview-experiences/infosys-sp-dse-off-campus-interview-experience-fresher-2026-batch">takeUforward</a>, <a href="https://github.com/thor149/Infosys-Prep/blob/main/deep-research-report%20(2).md">research summary</a>). Keep your mock solutions, since you may need to explain them.</p></div>
+</div></section>
+
+<!-- ============ 09 BACKUP ============ -->
+<section id="backup"><div class="wrap">
+  <div class="sec-label">09 · Plan B</div>
+  <h2>If Infosys assigns you 29 November</h2>
+  <p>You lose 7 days. Keep the mocks and drop ● and ◆ problems in phases 2–3. On each merged day, do only the ★ problems.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Date</th><th>Do</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">7–14 Nov</td><td>Days 1–8 unchanged</td></tr>
+      <tr><td class="mono">Sun 15 Nov</td><td>Mock 1 (Day 9)</td></tr>
+      <tr><td class="mono">Mon 16 Nov</td><td>★ of Day 10 (number theory) + ★ of Day 11 (DP I)</td></tr>
+      <tr><td class="mono">Tue 17 Nov</td><td>★ of Day 12 + Day 13 (DP II and III)</td></tr>
+      <tr><td class="mono">Wed 18 Nov</td><td>★ of Day 14 (DP IV) + Day 15 (graphs I)</td></tr>
+      <tr><td class="mono">Thu 19 Nov</td><td>★ of Day 17 (graphs II) + Day 18 (trees I)</td></tr>
+      <tr><td class="mono">Fri 20 Nov</td><td>★ of Day 19 (trees II: small-to-large, rerooting)</td></tr>
+      <tr><td class="mono">Sat 21 Nov</td><td>★ of Day 20 (Fenwick, segment tree) + read the approach for CF 833B</td></tr>
+      <tr><td class="mono">Sun 22 Nov</td><td>Mock 2 (Day 16)</td></tr>
+      <tr><td class="mono">Mon 23 Nov</td><td>Day 24 (Infosys repeats I)</td></tr>
+      <tr><td class="mono">Tue 24 Nov</td><td>★ of Day 22 (bitmask DP)</td></tr>
+      <tr><td class="mono">Wed 25 Nov</td><td>Mock 4: the official sample paper (Day 25)</td></tr>
+      <tr><td class="mono">Thu 26 Nov</td><td>Error-log repair (Day 26)</td></tr>
+      <tr><td class="mono">Fri 27 Nov</td><td>Mock 5 (Day 27)</td></tr>
+      <tr><td class="mono">Sat 28 Nov</td><td>Day 29 rest routine</td></tr>
+      <tr><td class="mono">Sun 29 Nov</td><td>Exam</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 id="log">Error log</h3>
+  <p>Mistakes repeat. Write each one down with the rule that would have prevented it, and re-solve the problem 3 days later. The log saves in this browser and is included in Export.</p>
+  <div class="logform">
+    <input id="lgP" placeholder="Problem (e.g. CF 833B)" aria-label="Problem">
+    <input id="lgT" placeholder="Topic" aria-label="Topic">
+    <select id="lgK" aria-label="Cause"><option>Misread statement</option><option>Wrong idea</option><option>Overflow / mod</option><option>Off-by-one</option><option>TLE / complexity</option><option>Input parsing</option><option>Edge case</option><option>Stack overflow</option><option>Ran out of time</option></select>
+    <input id="lgR" placeholder="Rule for next time" aria-label="Rule for next time">
+    <button class="btn" id="lgAdd">Add</button>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Logged</th><th>Problem</th><th>Topic</th><th>Cause</th><th>Rule</th><th>Re-solve on</th><th></th></tr></thead>
+    <tbody id="lgBody"><tr><td colspan="7" style="color:var(--text-faint)">No entries yet.</td></tr></tbody>
+  </table></div>
+</div></section>
+
+<!-- ============ SOURCES ============ -->
+<section id="sources"><div class="wrap">
+  <div class="sec-label">Sources</div>
+  <h2>Where the facts come from</h2>
+  <ul>
+    <li><a href="https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf">Infosys: Sample Test SP/DSE (PDF)</a>. Official sample paper, problem format, input style.</li>
+    <li><a href="https://prepinsta.com/infosys-sp-and-dse/coding-questions/">PrepInsta: Infosys SP and DSE coding questions</a>, <a href="https://prepinsta.com/infosys-sp-and-dse/specialist-programmer/coding-questions/">SP questions</a>, <a href="https://prepinsta.com/infosys-sp-and-dse/digital-specialist-engineer/coding-questions/">DSE questions</a>. Pattern, marks, reported problems.</li>
+    <li><a href="https://www.placementpreparation.io/hackwithinfy/syllabus-and-test-pattern/">placementpreparation.io: HackWithInfy pattern</a>. Scoring by test cases, cut-offs, languages.</li>
+    <li><a href="https://takeuforward.org:2083/community/interview-experiences/infosys-sp-dse-off-campus-interview-experience-fresher-2026-batch">takeUforward: SP/DSE off-campus experience (2026 batch)</a>. Offline proctored round with about 4 problems, interview task.</li>
+    <li><a href="https://leetcode.com/discuss/post/8433956/infosys-specialist-programmer-l3-intervi-mes3/">LeetCode Discuss: SP L3 experience (Jan 2026)</a>. 3 full solutions plus partial on a 4th led to an L3 interview.</li>
+    <li><a href="https://www.geeksforgeeks.org/interview-experiences/infosys-oa-experience-for-specialist-programmer/">GeeksforGeeks: OA experience for Specialist Programmer</a>. In-person invigilation rules.</li>
+    <li><a href="https://github.com/milinkanu/infosys-qb">milinkanu/infosys-qb</a>. Question frequency counts, 2019–2026.</li>
+    <li><a href="https://github.com/thor149/Infosys-Prep/blob/main/deep-research-report%20(2).md">thor149/Infosys-Prep research report</a>. Process summary and role mapping.</li>
+    <li><a href="https://www.mygreatlearning.com/blog/infosys-sp-dse-interview-guide-2026/">Great Learning: Infosys SP and DSE guide 2026</a>. Reported pay.</li>
+    <li>Problem links were checked on 7 Nov 2026: 78 LeetCode problems (all free, not premium), plus Codeforces names and ratings from the Codeforces API and the CSES and AtCoder DP problem lists.</li>
+  </ul>
+  <p style="font-size:14px;color:var(--text-faint)">Content from these sources was rephrased for compliance with licensing restrictions. Problem statements are paraphrased.</p>
+</div></section>
+
+<footer><div class="wrap">Built 7 Nov 2026 for the 6 Dec 2026 Infosys SP/DSE assessment. All code is plain Java 8 and was tested before publishing.</div></footer>
+
+<script>
+const PLAN = [{"d": 1, "dow": "Sat", "label": "7 Nov", "iso": "2026-11-07", "phase": 0, "kind": "learn", "title": "Set up, then find your level", "focus": "Accounts, a terminal Java workflow, the I/O template, and a 90-minute diagnostic that picks your track.", "learn": ["Submit the Infosys date/location form (deadline <strong>8 Nov<\/strong>) and choose 6 Dec.", "Create accounts on LeetCode, Codeforces, CSES and AtCoder.", "Set up your workflow: a plain editor plus <code>javac Main.java &amp;&amp; java Main &lt; in.txt<\/code>. Turn autocomplete off while practising.", "Type the FastReader skeleton (Section 03) from memory until it compiles first time. Test it on input with one value per line.", "Read Sections 01–02 (15 minutes).", "<strong>Diagnostic:<\/strong> the 4 problems marked \"Diagnostic\" below, 90 minutes, one sitting, no hints. Solved 0–1 → Foundation track, 2–3 → Standard, 4 → SP. Set the track in the control bar above."], "infy": "The exam gives you a bare editor and a stdin format you haven't seen before. Fixing your setup today saves time on every later day.", "probs": [{"key": "CSES:1068", "plat": "CSES", "label": "CSES 1068", "title": "Weird Algorithm", "url": "https://cses.fi/problemset/task/1068", "diff": "", "l": 1, "h": "I/O warm-up: values overflow int, use long"}, {"key": "CSES:1083", "plat": "CSES", "label": "CSES 1083", "title": "Missing Number", "url": "https://cses.fi/problemset/task/1083", "diff": "", "l": 1, "h": "Warm-up: sum formula or XOR"}, {"key": "CSES:1640", "plat": "CSES", "label": "CSES 1640", "title": "Sum of Two Values", "url": "https://cses.fi/problemset/task/1640", "diff": "", "l": 1, "h": "Diagnostic 1: sorting or HashMap, print indices"}, {"key": "CSES:1661", "plat": "CSES", "label": "CSES 1661", "title": "Subarray Sums II", "url": "https://cses.fi/problemset/task/1661", "diff": "", "l": 1, "h": "Diagnostic 2: prefix sums with negative values"}, {"key": "CSES:1085", "plat": "CSES", "label": "CSES 1085", "title": "Array Division", "url": "https://cses.fi/problemset/task/1085", "diff": "", "l": 1, "h": "Diagnostic 3: minimise the maximum"}, {"key": "CSES:1158", "plat": "CSES", "label": "CSES 1158", "title": "Book Shop", "url": "https://cses.fi/problemset/task/1158", "diff": "", "l": 1, "h": "Diagnostic 4: 0/1 knapsack, n·x = 10⁸"}]}, {"d": 2, "dow": "Sun", "label": "8 Nov", "iso": "2026-11-08", "phase": 1, "kind": "learn", "title": "Prefix sums, difference arrays, hashing", "focus": "Count subarrays by storing earlier prefix values in a HashMap.", "learn": ["<code>P[i] = a[0] + … + a[i−1]<\/code>, so <code>sum(l..r) = P[r+1] − P[l]<\/code>. Use <code>long<\/code>.", "Counting subarrays with sum k: count earlier prefixes equal to <code>P − k<\/code>. Seed the map with <code>{0: 1}<\/code>.", "For \"divisible by k\", store <code>Math.floorMod(P, k)<\/code>; Java's <code>%<\/code> can be negative.", "Offline range add: <code>d[l] += v; d[r+1] −= v<\/code>, then take prefix sums.", "2D prefix: <code>P[i+1][j+1] = P[i][j+1] + P[i+1][j] − P[i][j] + a[i][j]<\/code>."], "infy": "Q1 is often an array problem with a counting twist. Prefix + HashMap is the most-reported Infosys pattern.", "probs": [{"key": "LC:subarray-sum-equals-k", "plat": "LeetCode", "label": "LC 560", "title": "Subarray Sum Equals K", "url": "https://leetcode.com/problems/subarray-sum-equals-k/", "diff": "Medium", "l": 1, "h": "prefix + HashMap seeded with {0:1}"}, {"key": "LC:subarray-sums-divisible-by-k", "plat": "LeetCode", "label": "LC 974", "title": "Subarray Sums Divisible by K", "url": "https://leetcode.com/problems/subarray-sums-divisible-by-k/", "diff": "Medium", "l": 1, "h": "floorMod of the prefix"}, {"key": "LC:number-of-sub-arrays-with-odd-sum", "plat": "LeetCode", "label": "LC 1524", "title": "Number of Sub-arrays With Odd Sum", "url": "https://leetcode.com/problems/number-of-sub-arrays-with-odd-sum/", "diff": "Medium", "l": 1, "h": "count odd and even prefixes"}, {"key": "CSES:1662", "plat": "CSES", "label": "CSES 1662", "title": "Subarray Divisibility", "url": "https://cses.fi/problemset/task/1662", "diff": "", "l": 1, "h": "the same idea with stdin and n = 2·10⁵"}, {"key": "LC:contiguous-array", "plat": "LeetCode", "label": "LC 525", "title": "Contiguous Array", "url": "https://leetcode.com/problems/contiguous-array/", "diff": "Medium", "l": 2, "h": "map 0 → −1, earliest index per prefix"}, {"key": "CSES:1652", "plat": "CSES", "label": "CSES 1652", "title": "Forest Queries", "url": "https://cses.fi/problemset/task/1652", "diff": "", "l": 2, "h": "2D prefix sums"}, {"key": "LC:corporate-flight-bookings", "plat": "LeetCode", "label": "LC 1109", "title": "Corporate Flight Bookings", "url": "https://leetcode.com/problems/corporate-flight-bookings/", "diff": "Medium", "l": 2, "h": "difference array"}, {"key": "CF:466C", "plat": "Codeforces", "label": "CF 466C", "title": "Number of Ways", "url": "https://codeforces.com/problemset/problem/466/C", "diff": "1700", "l": 3, "h": "split into 3 equal-sum parts"}, {"key": "CF:1398C", "plat": "Codeforces", "label": "CF 1398C", "title": "Good Subarrays", "url": "https://codeforces.com/problemset/problem/1398/C", "diff": "1600", "l": 3, "h": "shift each value by −1, then count equal prefixes"}]}, {"d": 3, "dow": "Mon", "label": "9 Nov", "iso": "2026-11-09", "phase": 1, "kind": "learn", "title": "Two pointers and sliding window", "focus": "Grow the window on the right and shrink it on the left while the window is invalid.", "learn": ["A sliding window works when shrinking a valid window keeps it valid (a monotone condition).", "Template: <code>for r: add(a[r]); while (bad) remove(a[l++]); best = max(best, r − l + 1);<\/code>", "\"Exactly K\" = atMost(K) − atMost(K − 1).", "Fixed-size window max/min: an <code>ArrayDeque<\/code> of indices with monotone values.", "Sorted array with pair/triple sums: two pointers from both ends; skip duplicates."], "infy": "The Infosys \"Andy's vacation\" problem (cancel at most K obligations) is LC 1004 on a calendar.", "probs": [{"key": "LC:longest-substring-without-repeating-characters", "plat": "LeetCode", "label": "LC 3", "title": "Longest Substring Without Repeating Characters", "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/", "diff": "Medium", "l": 1, "h": "window with last-seen index"}, {"key": "LC:max-consecutive-ones-iii", "plat": "LeetCode", "label": "LC 1004", "title": "Max Consecutive Ones III", "url": "https://leetcode.com/problems/max-consecutive-ones-iii/", "diff": "Medium", "l": 1, "h": "window with ≤ K zeros (the vacation pattern)"}, {"key": "LC:longest-repeating-character-replacement", "plat": "LeetCode", "label": "LC 424", "title": "Longest Repeating Character Replacement", "url": "https://leetcode.com/problems/longest-repeating-character-replacement/", "diff": "Medium", "l": 1, "h": "valid while len − maxFreq ≤ k"}, {"key": "CSES:1641", "plat": "CSES", "label": "CSES 1641", "title": "Sum of Three Values", "url": "https://cses.fi/problemset/task/1641", "diff": "", "l": 1, "h": "sort + two pointers, keep the original indices"}, {"key": "LC:minimum-size-subarray-sum", "plat": "LeetCode", "label": "LC 209", "title": "Minimum Size Subarray Sum", "url": "https://leetcode.com/problems/minimum-size-subarray-sum/", "diff": "Medium", "l": 2, "h": "positive values: shrink while sum ≥ target"}, {"key": "LC:subarrays-with-k-different-integers", "plat": "LeetCode", "label": "LC 992", "title": "Subarrays with K Different Integers", "url": "https://leetcode.com/problems/subarrays-with-k-different-integers/", "diff": "Hard", "l": 2, "h": "exactly K = atMost(K) − atMost(K−1)"}, {"key": "LC:sliding-window-maximum", "plat": "LeetCode", "label": "LC 239", "title": "Sliding Window Maximum", "url": "https://leetcode.com/problems/sliding-window-maximum/", "diff": "Hard", "l": 2, "h": "monotonic deque"}, {"key": "LC:minimum-window-substring", "plat": "LeetCode", "label": "LC 76", "title": "Minimum Window Substring", "url": "https://leetcode.com/problems/minimum-window-substring/", "diff": "Hard", "l": 3, "h": "need/have counters"}, {"key": "CF:279B", "plat": "Codeforces", "label": "CF 279B", "title": "Books", "url": "https://codeforces.com/problemset/problem/279/B", "diff": "1400", "l": 3, "h": "two pointers with stdin"}]}, {"d": 4, "dow": "Tue", "label": "10 Nov", "iso": "2026-11-10", "phase": 1, "kind": "learn", "title": "Sorting + greedy I: intervals and exchange arguments", "focus": "Sort by the right key, then make one decision per element. Check the greedy by swapping two choices.", "learn": ["Exchange argument: if swapping two adjacent choices never helps, the sort order is optimal.", "Maximum non-overlapping intervals: sort by end. Fewest platforms/groups: the maximum overlap, found with a sweep over starts and ends.", "Comparators: <code>Arrays.sort(a, (x, y) -&gt; Integer.compare(x[1], y[1]))<\/code>. Never <code>x[1] − y[1]<\/code>.", "Largest number: compare <code>b + a<\/code> with <code>a + b<\/code> as strings. Return \"0\" if every number is zero.", "\"Smallest unreachable sum\": sort the coins. If a coin is > reach + 1, stop; otherwise reach += coin."], "infy": "Medium is often a greedy problem. Minimum platforms and Largest number are both on Infosys's most-reported list.", "probs": [{"key": "LC:merge-intervals", "plat": "LeetCode", "label": "LC 56", "title": "Merge Intervals", "url": "https://leetcode.com/problems/merge-intervals/", "diff": "Medium", "l": 1, "h": "sort by start, merge"}, {"key": "LC:non-overlapping-intervals", "plat": "LeetCode", "label": "LC 435", "title": "Non-overlapping Intervals", "url": "https://leetcode.com/problems/non-overlapping-intervals/", "diff": "Medium", "l": 1, "h": "sort by end"}, {"key": "LC:divide-intervals-into-minimum-number-of-groups", "plat": "LeetCode", "label": "LC 2406", "title": "Divide Intervals Into Minimum Number of Groups", "url": "https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups/", "diff": "Medium", "l": 1, "h": "the minimum-platforms problem: sweep"}, {"key": "LC:largest-number", "plat": "LeetCode", "label": "LC 179", "title": "Largest Number", "url": "https://leetcode.com/problems/largest-number/", "diff": "Medium", "l": 1, "h": "string comparator (Infosys repeat)"}, {"key": "CSES:2183", "plat": "CSES", "label": "CSES 2183", "title": "Missing Coin Sum", "url": "https://cses.fi/problemset/task/2183", "diff": "", "l": 1, "h": "reach + 1 rule"}, {"key": "CSES:1629", "plat": "CSES", "label": "CSES 1629", "title": "Movie Festival", "url": "https://cses.fi/problemset/task/1629", "diff": "", "l": 2, "h": "max non-overlapping intervals with stdin"}, {"key": "CSES:1630", "plat": "CSES", "label": "CSES 1630", "title": "Tasks and Deadlines", "url": "https://cses.fi/problemset/task/1630", "diff": "", "l": 2, "h": "exchange argument: shortest first"}, {"key": "LC:maximum-number-of-consecutive-values-you-can-make", "plat": "LeetCode", "label": "LC 1798", "title": "Maximum Number of Consecutive Values You Can Make", "url": "https://leetcode.com/problems/maximum-number-of-consecutive-values-you-can-make/", "diff": "Medium", "l": 2, "h": "the reach + 1 rule again (Infosys repeat)"}, {"key": "LC:candy", "plat": "LeetCode", "label": "LC 135", "title": "Candy", "url": "https://leetcode.com/problems/candy/", "diff": "Hard", "l": 3, "h": "two passes, left and right"}]}, {"d": 5, "dow": "Wed", "label": "11 Nov", "iso": "2026-11-11", "phase": 1, "kind": "learn", "title": "Greedy II: heaps, regret, line transport", "focus": "Unlock options in sorted order, keep the unlocked ones in a heap, and drop your worst choice when a constraint breaks.", "learn": ["\"Best among currently unlocked\": sort by the unlock key and push unlocked options into a <code>PriorityQueue<\/code> (as in IPO and the RPG monsters problem).", "Regret greedy: take everything and remember what you took in a heap. When the state becomes infeasible, drop the worst item (Potions, Course Schedule III, Furthest Building).", "Max-heap: <code>new PriorityQueue&lt;&gt;(Collections.reverseOrder())<\/code>. For pairs, use <code>long[]<\/code> with a comparator.", "Fewest \"subtract 1 on a subarray\" operations to reach zero = Σ max(0, a[i] − a[i−1])."], "infy": "The RPG monsters problem (11 reports) is this pattern. The Infosys \"make the array zero\" problem builds on LC 1526.", "probs": [{"key": "LC:ipo", "plat": "LeetCode", "label": "LC 502", "title": "IPO", "url": "https://leetcode.com/problems/ipo/", "diff": "Hard", "l": 1, "h": "unlock by capital, heap by profit"}, {"key": "LC:furthest-building-you-can-reach", "plat": "LeetCode", "label": "LC 1642", "title": "Furthest Building You Can Reach", "url": "https://leetcode.com/problems/furthest-building-you-can-reach/", "diff": "Medium", "l": 1, "h": "ladders on the biggest climbs: min-heap"}, {"key": "CF:1526C2", "plat": "Codeforces", "label": "CF 1526C2", "title": "Potions (Hard Version)", "url": "https://codeforces.com/problemset/problem/1526/C2", "diff": "1600", "l": 1, "h": "take everything, drop the most negative potion"}, {"key": "LC:minimum-number-of-refueling-stops", "plat": "LeetCode", "label": "LC 871", "title": "Minimum Number of Refueling Stops", "url": "https://leetcode.com/problems/minimum-number-of-refueling-stops/", "diff": "Hard", "l": 2, "h": "heap of passed stations"}, {"key": "LC:course-schedule-iii", "plat": "LeetCode", "label": "LC 630", "title": "Course Schedule III", "url": "https://leetcode.com/problems/course-schedule-iii/", "diff": "Hard", "l": 2, "h": "sort by deadline, heap of durations"}, {"key": "CSES:1164", "plat": "CSES", "label": "CSES 1164", "title": "Room Allocation", "url": "https://cses.fi/problemset/task/1164", "diff": "", "l": 2, "h": "heap of room free times"}, {"key": "LC:minimum-number-of-increments-on-subarrays-to-form-a-target-array", "plat": "LeetCode", "label": "LC 1526", "title": "Minimum Number of Increments on Subarrays to Form a Target Array", "url": "https://leetcode.com/problems/minimum-number-of-increments-on-subarrays-to-form-a-target-array/", "diff": "Hard", "l": 2, "h": "Σ positive rises"}, {"key": "LC:task-scheduler", "plat": "LeetCode", "label": "LC 621", "title": "Task Scheduler", "url": "https://leetcode.com/problems/task-scheduler/", "diff": "Medium", "l": 3, "h": "counting formula or heap simulation"}]}, {"d": 6, "dow": "Thu", "label": "12 Nov", "iso": "2026-11-12", "phase": 1, "kind": "learn", "title": "Binary search, including on the answer", "focus": "When \"can the answer be x?\" is monotone, binary search x and write a greedy check.", "learn": ["Write <code>ok(x)<\/code> first, O(n) and greedy, then binary search the smallest x that passes (template 10).", "Use <code>long<\/code> bounds and <code>lo + (hi − lo) / 2<\/code>. Inside <code>ok()<\/code>, stop summing once you pass the target so the sum can't overflow.", "Write lower_bound/upper_bound yourself. <code>Arrays.binarySearch<\/code> returns <em>any<\/em> matching index.", "\"Minimise the maximum\" and \"maximise the minimum\" almost always mean binary search on the answer."], "infy": "Binary search on the answer is the third most-reported pattern family. The Infosys \"terrain days\" problem is a bit-length argument (Day 24).", "probs": [{"key": "LC:find-first-and-last-position-of-element-in-sorted-array", "plat": "LeetCode", "label": "LC 34", "title": "Find First and Last Position of Element in Sorted Array", "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/", "diff": "Medium", "l": 1, "h": "write lower_bound and upper_bound"}, {"key": "LC:koko-eating-bananas", "plat": "LeetCode", "label": "LC 875", "title": "Koko Eating Bananas", "url": "https://leetcode.com/problems/koko-eating-bananas/", "diff": "Medium", "l": 1, "h": "smallest speed that works"}, {"key": "LC:capacity-to-ship-packages-within-d-days", "plat": "LeetCode", "label": "LC 1011", "title": "Capacity To Ship Packages Within D Days", "url": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/", "diff": "Medium", "l": 1, "h": "smallest capacity that works"}, {"key": "CSES:1620", "plat": "CSES", "label": "CSES 1620", "title": "Factory Machines", "url": "https://cses.fi/problemset/task/1620", "diff": "", "l": 1, "h": "answer up to 10¹⁸: guard overflow in ok()"}, {"key": "LC:magnetic-force-between-two-balls", "plat": "LeetCode", "label": "LC 1552", "title": "Magnetic Force Between Two Balls", "url": "https://leetcode.com/problems/magnetic-force-between-two-balls/", "diff": "Medium", "l": 2, "h": "maximise the minimum gap"}, {"key": "LC:split-array-largest-sum", "plat": "LeetCode", "label": "LC 410", "title": "Split Array Largest Sum", "url": "https://leetcode.com/problems/split-array-largest-sum/", "diff": "Hard", "l": 2, "h": "minimise the largest part"}, {"key": "CF:1201C", "plat": "Codeforces", "label": "CF 1201C", "title": "Maximum Median", "url": "https://codeforces.com/problemset/problem/1201/C", "diff": "1400", "l": 2, "h": "binary search the median"}, {"key": "LC:maximum-candies-allocated-to-k-children", "plat": "LeetCode", "label": "LC 2226", "title": "Maximum Candies Allocated to K Children", "url": "https://leetcode.com/problems/maximum-candies-allocated-to-k-children/", "diff": "Medium", "l": 3, "h": "largest amount per child"}, {"key": "LC:find-k-th-smallest-pair-distance", "plat": "LeetCode", "label": "LC 719", "title": "Find K-th Smallest Pair Distance", "url": "https://leetcode.com/problems/find-k-th-smallest-pair-distance/", "diff": "Hard", "l": 3, "h": "binary search the distance + two-pointer count"}]}, {"d": 7, "dow": "Fri", "label": "13 Nov", "iso": "2026-11-13", "phase": 1, "kind": "learn", "title": "Stacks, monotonic stacks, heaps", "focus": "Find the next or previous greater/smaller element for every index in O(n).", "learn": ["Monotonic stack: pop while the top is ≤ current (for next greater). Whatever remains on top is the answer for the current index.", "Contribution counting: a[i] is the minimum of (i − L)·(R − i) subarrays. Use &lt; on one side and ≤ on the other so equal values aren't counted twice.", "Smallest number after deleting digits: keep a stack and pop while the top is bigger than the current digit.", "Use <code>ArrayDeque<\/code> or an <code>int[]<\/code> with a top pointer, never <code>Stack<\/code>. Two heaps give a running median."], "infy": "\"Next greater element\" and \"remove K digits for the smallest ticket price\" both appear in Infosys reports.", "probs": [{"key": "LC:daily-temperatures", "plat": "LeetCode", "label": "LC 739", "title": "Daily Temperatures", "url": "https://leetcode.com/problems/daily-temperatures/", "diff": "Medium", "l": 1, "h": "next greater to the right"}, {"key": "LC:next-greater-element-ii", "plat": "LeetCode", "label": "LC 503", "title": "Next Greater Element II", "url": "https://leetcode.com/problems/next-greater-element-ii/", "diff": "Medium", "l": 1, "h": "circular: loop 2n times"}, {"key": "CSES:1645", "plat": "CSES", "label": "CSES 1645", "title": "Nearest Smaller Values", "url": "https://cses.fi/problemset/task/1645", "diff": "", "l": 1, "h": "previous smaller with stdin"}, {"key": "LC:largest-rectangle-in-histogram", "plat": "LeetCode", "label": "LC 84", "title": "Largest Rectangle in Histogram", "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/", "diff": "Hard", "l": 1, "h": "previous and next smaller give the width"}, {"key": "LC:sum-of-subarray-minimums", "plat": "LeetCode", "label": "LC 907", "title": "Sum of Subarray Minimums", "url": "https://leetcode.com/problems/sum-of-subarray-minimums/", "diff": "Medium", "l": 2, "h": "contribution counting, mod 10⁹+7"}, {"key": "LC:remove-k-digits", "plat": "LeetCode", "label": "LC 402", "title": "Remove K Digits", "url": "https://leetcode.com/problems/remove-k-digits/", "diff": "Medium", "l": 2, "h": "greedy stack"}, {"key": "LC:find-median-from-data-stream", "plat": "LeetCode", "label": "LC 295", "title": "Find Median from Data Stream", "url": "https://leetcode.com/problems/find-median-from-data-stream/", "diff": "Hard", "l": 2, "h": "two heaps"}, {"key": "LC:remove-duplicate-letters", "plat": "LeetCode", "label": "LC 316", "title": "Remove Duplicate Letters", "url": "https://leetcode.com/problems/remove-duplicate-letters/", "diff": "Medium", "l": 3, "h": "stack + last occurrence"}, {"key": "LC:maximal-rectangle", "plat": "LeetCode", "label": "LC 85", "title": "Maximal Rectangle", "url": "https://leetcode.com/problems/maximal-rectangle/", "diff": "Hard", "l": 3, "h": "a histogram for each row"}]}, {"d": 8, "dow": "Sat", "label": "14 Nov", "iso": "2026-11-14", "phase": 1, "kind": "learn", "title": "Bit manipulation and XOR", "focus": "Each bit is independent in a sum of XORs. Use a trie for pair maximums and a linear basis for subset maximums.", "learn": ["<code>x &amp; −x<\/code> is the lowest set bit; <code>Integer.bitCount<\/code>; write <code>1L &lt;&lt; k<\/code> when k ≥ 31.", "Prefix XOR: <code>xor(l..r) = P[r+1] ^ P[l]<\/code>. The maximum XOR of a pair comes from a binary trie, walked greedily from the top bit.", "Linear XOR basis: reduce each number by the basis from the top bit. The max subset XOR is a greedy walk over the basis. It has at most 20 vectors for values &lt; 2²⁰.", "Σ over pairs of (aᵢ xor aⱼ) = Σ_b cnt₁[b]·cnt₀[b]·2ᵇ."], "infy": "There are two XOR repeat problems: \"at most N/2 elements, max XOR\" (13 reports) and \"X ≤ K maximising Σ X xor A[i]\" (6 reports). The sample Hard problem is XOR-based too.", "probs": [{"key": "LC:single-number", "plat": "LeetCode", "label": "LC 136", "title": "Single Number", "url": "https://leetcode.com/problems/single-number/", "diff": "Easy", "l": 1, "h": "XOR cancels pairs"}, {"key": "LC:count-triplets-that-can-form-two-arrays-of-equal-xor", "plat": "LeetCode", "label": "LC 1442", "title": "Count Triplets That Can Form Two Arrays of Equal XOR", "url": "https://leetcode.com/problems/count-triplets-that-can-form-two-arrays-of-equal-xor/", "diff": "Medium", "l": 1, "h": "equal prefix XORs"}, {"key": "LC:maximum-xor-of-two-numbers-in-an-array", "plat": "LeetCode", "label": "LC 421", "title": "Maximum XOR of Two Numbers in an Array", "url": "https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/", "diff": "Medium", "l": 1, "h": "binary trie"}, {"key": "CSES:1655", "plat": "CSES", "label": "CSES 1655", "title": "Maximum Xor Subarray", "url": "https://cses.fi/problemset/task/1655", "diff": "", "l": 1, "h": "prefix XOR + trie"}, {"key": "LC:single-number-ii", "plat": "LeetCode", "label": "LC 137", "title": "Single Number II", "url": "https://leetcode.com/problems/single-number-ii/", "diff": "Medium", "l": 2, "h": "count each bit mod 3"}, {"key": "CSES:3191", "plat": "CSES", "label": "CSES 3191", "title": "Maximum Xor Subset", "url": "https://cses.fi/problemset/task/3191", "diff": "", "l": 2, "h": "linear XOR basis"}, {"key": "CF:276D", "plat": "Codeforces", "label": "CF 276D", "title": "Little Girl and Maximum XOR", "url": "https://codeforces.com/problemset/problem/276/D", "diff": "1700", "l": 2, "h": "highest differing bit of l and r"}, {"key": "LC:maximum-xor-with-an-element-from-array", "plat": "LeetCode", "label": "LC 1707", "title": "Maximum XOR With an Element From Array", "url": "https://leetcode.com/problems/maximum-xor-with-an-element-from-array/", "diff": "Hard", "l": 3, "h": "offline: sort queries, insert into the trie"}, {"key": "CF:1285D", "plat": "Codeforces", "label": "CF 1285D", "title": "Dr. Evil Underscores", "url": "https://codeforces.com/problemset/problem/1285/D", "diff": "1900", "l": 3, "h": "split by bit, recurse"}]}, {"d": 9, "dow": "Sun", "label": "15 Nov", "iso": "2026-11-15", "phase": 1, "kind": "mock", "title": "Mock 1 + review", "focus": "3 hours on Phase 1 topics at Q1/Q2/Q3 difficulty. Then a full review.", "learn": ["Morning: Mock 1 under the rules in Section 05.", "Afternoon: editorial review, re-code every miss, log each cause.", "Evening: redo your 2 weakest ★ problems from Days 2–8."], "infy": "This is the first measurement. Enter your scores in Section 05 so you can track progress.", "probs": [{"key": "CF:1343C", "plat": "Codeforces", "label": "CF 1343C", "title": "Alternating Subsequence", "url": "https://codeforces.com/problemset/problem/1343/C", "diff": "1200", "l": 1, "h": ""}, {"key": "CF:1475D", "plat": "Codeforces", "label": "CF 1475D", "title": "Cleaning the Phone", "url": "https://codeforces.com/problemset/problem/1475/D", "diff": "1800", "l": 1, "h": ""}, {"key": "CF:1251D", "plat": "Codeforces", "label": "CF 1251D", "title": "Salary Changing", "url": "https://codeforces.com/problemset/problem/1251/D", "diff": "1900", "l": 1, "h": ""}]}, {"d": 10, "dow": "Mon", "label": "16 Nov", "iso": "2026-11-16", "phase": 2, "kind": "learn", "title": "Number theory toolkit", "focus": "gcd, sieves, fast power, inverses, nCr, and the square-free kernel.", "learn": ["<code>lcm = a / gcd(a, b) * b<\/code>: divide first so the product doesn't overflow.", "The SPF sieve factorizes any x ≤ 10⁷ in O(log x). Plain trial division to √x is fine for a few numbers up to 10¹².", "Fermat inverse: <code>a^(MOD−2)<\/code> when MOD is prime. Precompute factorials and inverse factorials for O(1) nCr.", "A non-prime modulus (Infosys has used 10000) has no inverses, so use Pascal's triangle.", "Square-free kernel: x·y is a perfect square ⇔ kernel(x) = kernel(y). A value ≤ 10⁵ has at most 6 distinct primes."], "infy": "The sample Easy (perfect-square products) and Medium (gcd exactly p) are both number theory at their core.", "probs": [{"key": "CSES:1095", "plat": "CSES", "label": "CSES 1095", "title": "Exponentiation", "url": "https://cses.fi/problemset/task/1095", "diff": "", "l": 1, "h": "fast power mod"}, {"key": "CSES:1079", "plat": "CSES", "label": "CSES 1079", "title": "Binomial Coefficients", "url": "https://cses.fi/problemset/task/1079", "diff": "", "l": 1, "h": "factorials + inverse factorials"}, {"key": "CSES:1713", "plat": "CSES", "label": "CSES 1713", "title": "Counting Divisors", "url": "https://cses.fi/problemset/task/1713", "diff": "", "l": 1, "h": "divisor counts with a sieve"}, {"key": "CF:230B", "plat": "Codeforces", "label": "CF 230B", "title": "T-primes", "url": "https://codeforces.com/problemset/problem/230/B", "diff": "1300", "l": 1, "h": "prime squares, sieve to 10⁶"}, {"key": "CSES:1081", "plat": "CSES", "label": "CSES 1081", "title": "Common Divisors", "url": "https://cses.fi/problemset/task/1081", "diff": "", "l": 2, "h": "count multiples of each d"}, {"key": "CF:1349A", "plat": "Codeforces", "label": "CF 1349A", "title": "Orac and LCM", "url": "https://codeforces.com/problemset/problem/1349/A", "diff": "1600", "l": 2, "h": "per-prime second-smallest exponent"}, {"key": "CF:1497E1", "plat": "Codeforces", "label": "CF 1497E1", "title": "Square-Free Division (easy version)", "url": "https://codeforces.com/problemset/problem/1497/E1", "diff": "1700", "l": 2, "h": "square-free kernel (needed for the sample Easy)"}, {"key": "CSES:1716", "plat": "CSES", "label": "CSES 1716", "title": "Distributing Apples", "url": "https://cses.fi/problemset/task/1716", "diff": "", "l": 2, "h": "stars and bars"}, {"key": "CF:1295D", "plat": "Codeforces", "label": "CF 1295D", "title": "Same GCDs", "url": "https://codeforces.com/problemset/problem/1295/D", "diff": "1800", "l": 3, "h": "Euler's totient"}]}, {"d": 11, "dow": "Tue", "label": "17 Nov", "iso": "2026-11-17", "phase": 2, "kind": "learn", "title": "DP I: states, transitions, knapsack", "focus": "Define the state in words before writing any code.", "learn": ["Write it down first: <em>dp[i] = …<\/em>, the transition, the base case, and where the answer lives.", "0/1 knapsack: loop capacity <em>downwards<\/em>. Unbounded knapsack: loop it upwards.", "When the weight limit is huge (10⁹), swap roles: <code>dp[value] = min weight<\/code>.", "Ordered vs unordered counting: loop order matters (coins inside vs outside).", "Prefer iterative DP in Java: there's no stack-depth limit and it runs faster."], "infy": "Coin change and 0/1 knapsack are among the most-reported Infosys DP problems.", "probs": [{"key": "AC:dp_a", "plat": "AtCoder", "label": "AtCoder A", "title": "Frog 1", "url": "https://atcoder.jp/contests/dp/tasks/dp_a", "diff": "", "l": 1, "h": "dp[i] from i−1 and i−2"}, {"key": "AC:dp_c", "plat": "AtCoder", "label": "AtCoder C", "title": "Vacation", "url": "https://atcoder.jp/contests/dp/tasks/dp_c", "diff": "", "l": 1, "h": "dp[day][activity]"}, {"key": "AC:dp_d", "plat": "AtCoder", "label": "AtCoder D", "title": "Knapsack 1", "url": "https://atcoder.jp/contests/dp/tasks/dp_d", "diff": "", "l": 1, "h": "0/1 knapsack, capacity downwards"}, {"key": "AC:dp_e", "plat": "AtCoder", "label": "AtCoder E", "title": "Knapsack 2", "url": "https://atcoder.jp/contests/dp/tasks/dp_e", "diff": "", "l": 1, "h": "dp over value when W = 10⁹"}, {"key": "CSES:1634", "plat": "CSES", "label": "CSES 1634", "title": "Minimizing Coins", "url": "https://cses.fi/problemset/task/1634", "diff": "", "l": 1, "h": "min coins (Infosys repeat: coin change)"}, {"key": "CSES:1636", "plat": "CSES", "label": "CSES 1636", "title": "Coin Combinations II", "url": "https://cses.fi/problemset/task/1636", "diff": "", "l": 2, "h": "unordered ways: coins in the outer loop"}, {"key": "AC:dp_h", "plat": "AtCoder", "label": "AtCoder H", "title": "Grid 1", "url": "https://atcoder.jp/contests/dp/tasks/dp_h", "diff": "", "l": 2, "h": "grid paths mod 10⁹+7"}, {"key": "LC:house-robber", "plat": "LeetCode", "label": "LC 198", "title": "House Robber", "url": "https://leetcode.com/problems/house-robber/", "diff": "Medium", "l": 2, "h": "take or skip"}, {"key": "CSES:1746", "plat": "CSES", "label": "CSES 1746", "title": "Array Description", "url": "https://cses.fi/problemset/task/1746", "diff": "", "l": 3, "h": "dp[i][value]"}, {"key": "CF:455A", "plat": "Codeforces", "label": "CF 455A", "title": "Boredom", "url": "https://codeforces.com/problemset/problem/455/A", "diff": "1500", "l": 3, "h": "dp over values"}]}, {"d": 12, "dow": "Wed", "label": "18 Nov", "iso": "2026-11-18", "phase": 2, "kind": "learn", "title": "DP II: subset sums and two-string DP", "focus": "Boolean reachability over sums, and dp[i][j] over the prefixes of two strings.", "learn": ["Subset sum: <code>boolean[] can<\/code>, looping the sum downwards. Target Sum reduces to counting subsets with sum (S + target) / 2.", "Two strings: <code>dp[i][j]<\/code> over the prefixes. Use two rows when memory is tight.", "Longest palindromic subsequence = LCS(s, reverse(s)). Minimum insertions = n − LPS.", "To reconstruct the answer, walk the table backwards from <code>dp[n][m]<\/code>."], "infy": "LCS, edit distance and subset sum are all on the Infosys \"very high\" list.", "probs": [{"key": "LC:partition-equal-subset-sum", "plat": "LeetCode", "label": "LC 416", "title": "Partition Equal Subset Sum", "url": "https://leetcode.com/problems/partition-equal-subset-sum/", "diff": "Medium", "l": 1, "h": "boolean subset sum"}, {"key": "CSES:1745", "plat": "CSES", "label": "CSES 1745", "title": "Money Sums", "url": "https://cses.fi/problemset/task/1745", "diff": "", "l": 1, "h": "all reachable sums"}, {"key": "LC:longest-common-subsequence", "plat": "LeetCode", "label": "LC 1143", "title": "Longest Common Subsequence", "url": "https://leetcode.com/problems/longest-common-subsequence/", "diff": "Medium", "l": 1, "h": "classic LCS"}, {"key": "LC:edit-distance", "plat": "LeetCode", "label": "LC 72", "title": "Edit Distance", "url": "https://leetcode.com/problems/edit-distance/", "diff": "Medium", "l": 1, "h": "Infosys repeat"}, {"key": "LC:target-sum", "plat": "LeetCode", "label": "LC 494", "title": "Target Sum", "url": "https://leetcode.com/problems/target-sum/", "diff": "Medium", "l": 2, "h": "reduce to subset counting"}, {"key": "CSES:1093", "plat": "CSES", "label": "CSES 1093", "title": "Two Sets II", "url": "https://cses.fi/problemset/task/1093", "diff": "", "l": 2, "h": "count, then divide by 2 with an inverse"}, {"key": "LC:longest-palindromic-subsequence", "plat": "LeetCode", "label": "LC 516", "title": "Longest Palindromic Subsequence", "url": "https://leetcode.com/problems/longest-palindromic-subsequence/", "diff": "Medium", "l": 2, "h": "LCS with the reverse"}, {"key": "AC:dp_f", "plat": "AtCoder", "label": "AtCoder F", "title": "LCS", "url": "https://atcoder.jp/contests/dp/tasks/dp_f", "diff": "", "l": 3, "h": "print the LCS itself"}, {"key": "LC:distinct-subsequences", "plat": "LeetCode", "label": "LC 115", "title": "Distinct Subsequences", "url": "https://leetcode.com/problems/distinct-subsequences/", "diff": "Hard", "l": 3, "h": "counting DP; watch overflow"}, {"key": "LC:minimum-insertion-steps-to-make-a-string-palindrome", "plat": "LeetCode", "label": "LC 1312", "title": "Minimum Insertion Steps to Make a String Palindrome", "url": "https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/", "diff": "Hard", "l": 3, "h": "n − LPS"}]}, {"d": 13, "dow": "Thu", "label": "19 Nov", "iso": "2026-11-19", "phase": 2, "kind": "learn", "title": "DP III: LIS and DP with an extra dimension", "focus": "LIS in O(n log n), DP indexed by value with a Fenwick tree, and adding a dimension for a side condition.", "learn": ["LIS in O(n log n): a <code>tails<\/code> array + lower_bound (strict). Use upper_bound for non-decreasing.", "DP indexed by value: <code>dp[i] = 1 + max(dp over values &lt; a[i])<\/code>, kept in a Fenwick tree or segment tree of maxima (AtCoder Q).", "Side condition with few states? Add it as a dimension: dp[value][xor], or dp[last letter]. The sample Hard problem is exactly this with 1024 XOR states.", "Look for hidden structure: (x &amp; y)·2 &lt; (x | y) holds exactly when the highest bits differ, so chains have at most 31 elements."], "infy": "Three Infosys repeats are LIS variants: LNDS with XOR ≥ M (13 reports), LIS with a bitwise condition, and LIS with a difference constraint.", "probs": [{"key": "LC:longest-increasing-subsequence", "plat": "LeetCode", "label": "LC 300", "title": "Longest Increasing Subsequence", "url": "https://leetcode.com/problems/longest-increasing-subsequence/", "diff": "Medium", "l": 1, "h": "write the O(n log n) version"}, {"key": "CSES:1145", "plat": "CSES", "label": "CSES 1145", "title": "Increasing Subsequence", "url": "https://cses.fi/problemset/task/1145", "diff": "", "l": 1, "h": "the same with n = 2·10⁵"}, {"key": "AC:dp_q", "plat": "AtCoder", "label": "AtCoder Q", "title": "Flowers", "url": "https://atcoder.jp/contests/dp/tasks/dp_q", "diff": "", "l": 1, "h": "Fenwick of maxima (the sample Hard trick)"}, {"key": "LC:russian-doll-envelopes", "plat": "LeetCode", "label": "LC 354", "title": "Russian Doll Envelopes", "url": "https://leetcode.com/problems/russian-doll-envelopes/", "diff": "Hard", "l": 2, "h": "sort (w ascending, h descending), LIS on h"}, {"key": "CF:977F", "plat": "Codeforces", "label": "CF 977F", "title": "Consecutive Subsequence", "url": "https://codeforces.com/problemset/problem/977/F", "diff": "1700", "l": 2, "h": "HashMap dp[v] = dp[v−1] + 1"}, {"key": "LC:number-of-longest-increasing-subsequence", "plat": "LeetCode", "label": "LC 673", "title": "Number of Longest Increasing Subsequence", "url": "https://leetcode.com/problems/number-of-longest-increasing-subsequence/", "diff": "Medium", "l": 2, "h": "length + count per index"}, {"key": "LC:longest-ideal-subsequence", "plat": "LeetCode", "label": "LC 2370", "title": "Longest Ideal Subsequence", "url": "https://leetcode.com/problems/longest-ideal-subsequence/", "diff": "Medium", "l": 2, "h": "dp over the last letter"}, {"key": "CSES:1748", "plat": "CSES", "label": "CSES 1748", "title": "Increasing Subsequence II", "url": "https://cses.fi/problemset/task/1748", "diff": "", "l": 3, "h": "count increasing subsequences with a Fenwick of sums"}]}, {"d": 14, "dow": "Fri", "label": "20 Nov", "iso": "2026-11-20", "phase": 2, "kind": "learn", "title": "DP IV: divisor DP, interval DP, game DP", "focus": "Loops over multiples, dp[l][r] by length, and \"best difference\" for two-player games.", "learn": ["Loop over multiples: <code>for (m = 2 * v; m &lt;= N; m += v)<\/code> costs N·ln N in total.", "Interval DP: <code>dp[l][r]<\/code>, iterated by increasing length. O(n³) for n ≤ 500.", "Two-player optimal play: <code>dp[l][r]<\/code> = the best (my score − opponent's score) on the remaining range.", "An array where each value divides the next has at most log₂N + 1 distinct values. Count the chains, then place them with C(K−1, s−1)."], "infy": "\"Count arrays where each element divides the next\" (13 reports) is the divisor-DP pattern.", "probs": [{"key": "CF:1350B", "plat": "Codeforces", "label": "CF 1350B", "title": "Orac and Models", "url": "https://codeforces.com/problemset/problem/1350/B", "diff": "1400", "l": 1, "h": "dp over multiples"}, {"key": "AC:dp_l", "plat": "AtCoder", "label": "AtCoder L", "title": "Deque", "url": "https://atcoder.jp/contests/dp/tasks/dp_l", "diff": "", "l": 1, "h": "game DP: best score difference"}, {"key": "AC:dp_n", "plat": "AtCoder", "label": "AtCoder N", "title": "Slimes", "url": "https://atcoder.jp/contests/dp/tasks/dp_n", "diff": "", "l": 1, "h": "interval DP + prefix sums"}, {"key": "LC:count-the-number-of-ideal-arrays", "plat": "LeetCode", "label": "LC 2338", "title": "Count the Number of Ideal Arrays", "url": "https://leetcode.com/problems/count-the-number-of-ideal-arrays/", "diff": "Hard", "l": 2, "h": "divisor chains × binomials (Infosys repeat)"}, {"key": "CSES:1097", "plat": "CSES", "label": "CSES 1097", "title": "Removal Game", "url": "https://cses.fi/problemset/task/1097", "diff": "", "l": 2, "h": "game DP, then recover the score"}, {"key": "LC:minimum-cost-to-cut-a-stick", "plat": "LeetCode", "label": "LC 1547", "title": "Minimum Cost to Cut a Stick", "url": "https://leetcode.com/problems/minimum-cost-to-cut-a-stick/", "diff": "Hard", "l": 2, "h": "interval DP over cut points"}, {"key": "LC:burst-balloons", "plat": "LeetCode", "label": "LC 312", "title": "Burst Balloons", "url": "https://leetcode.com/problems/burst-balloons/", "diff": "Hard", "l": 2, "h": "choose the last balloon in (l, r)"}, {"key": "CF:1105C", "plat": "Codeforces", "label": "CF 1105C", "title": "Ayoub and Lost Array", "url": "https://codeforces.com/problemset/problem/1105/C", "diff": "1500", "l": 3, "h": "dp over remainder mod 3"}, {"key": "CF:1132F", "plat": "Codeforces", "label": "CF 1132F", "title": "Clear the String", "url": "https://codeforces.com/problemset/problem/1132/F", "diff": "2000", "l": 3, "h": "interval DP merging equal letters"}]}, {"d": 15, "dow": "Sat", "label": "21 Nov", "iso": "2026-11-21", "phase": 3, "kind": "learn", "title": "Graphs I: BFS, DFS, grids, topological order", "focus": "Iterative traversals, multi-source BFS, 0-1 BFS, and DP on DAGs.", "learn": ["BFS gives unweighted shortest paths. For multi-source BFS, seed the queue with every source.", "0-1 BFS: <code>ArrayDeque<\/code>. Weight 0 → <code>addFirst<\/code>, weight 1 → <code>addLast<\/code>.", "Kahn's algorithm (a queue of indegree-0 nodes) gives a topological order. Longest path in a DAG = DP in that order.", "Grids: direction arrays, encode a cell as <code>r * m + c<\/code>, and mark visited when you <em>push<\/em>, not when you pop.", "For 2·10⁵+ edges, use arrays (head/next/to) instead of <code>List&lt;Integer&gt;[]<\/code> if you get TLE."], "infy": "Graph problems show up as the hard question in recent reports, often as \"shortest path with a twist\".", "probs": [{"key": "CSES:1192", "plat": "CSES", "label": "CSES 1192", "title": "Counting Rooms", "url": "https://cses.fi/problemset/task/1192", "diff": "", "l": 1, "h": "flood fill without recursion"}, {"key": "CSES:1193", "plat": "CSES", "label": "CSES 1193", "title": "Labyrinth", "url": "https://cses.fi/problemset/task/1193", "diff": "", "l": 1, "h": "BFS + path reconstruction"}, {"key": "LC:rotting-oranges", "plat": "LeetCode", "label": "LC 994", "title": "Rotting Oranges", "url": "https://leetcode.com/problems/rotting-oranges/", "diff": "Medium", "l": 1, "h": "multi-source BFS"}, {"key": "CSES:1679", "plat": "CSES", "label": "CSES 1679", "title": "Course Schedule", "url": "https://cses.fi/problemset/task/1679", "diff": "", "l": 1, "h": "Kahn's algorithm"}, {"key": "CSES:1666", "plat": "CSES", "label": "CSES 1666", "title": "Building Roads", "url": "https://cses.fi/problemset/task/1666", "diff": "", "l": 2, "h": "connected components"}, {"key": "CSES:1668", "plat": "CSES", "label": "CSES 1668", "title": "Building Teams", "url": "https://cses.fi/problemset/task/1668", "diff": "", "l": 2, "h": "bipartite check"}, {"key": "CSES:1680", "plat": "CSES", "label": "CSES 1680", "title": "Longest Flight Route", "url": "https://cses.fi/problemset/task/1680", "diff": "", "l": 2, "h": "DP on a DAG in topological order"}, {"key": "LC:minimum-cost-to-make-at-least-one-valid-path-in-a-grid", "plat": "LeetCode", "label": "LC 1368", "title": "Minimum Cost to Make at Least One Valid Path in a Grid", "url": "https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/", "diff": "Hard", "l": 2, "h": "0-1 BFS"}, {"key": "CSES:1194", "plat": "CSES", "label": "CSES 1194", "title": "Monsters", "url": "https://cses.fi/problemset/task/1194", "diff": "", "l": 3, "h": "two BFS passes"}, {"key": "LC:longest-increasing-path-in-a-matrix", "plat": "LeetCode", "label": "LC 329", "title": "Longest Increasing Path in a Matrix", "url": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix/", "diff": "Hard", "l": 3, "h": "DAG DP on a grid"}]}, {"d": 16, "dow": "Sun", "label": "22 Nov", "iso": "2026-11-22", "phase": 2, "kind": "mock", "title": "Mock 2 + review", "focus": "3 hours with number theory and DP added. Then a full review.", "learn": ["Morning: Mock 2.", "Afternoon: review, re-code, log.", "Evening: one ◆ problem from your weakest Phase 2 day."], "infy": "Compare with Mock 1. If Q1 + Q2 aren't both full yet, the Foundation track is the safer choice for the coming week.", "probs": [{"key": "CF:1367C", "plat": "Codeforces", "label": "CF 1367C", "title": "Social Distance", "url": "https://codeforces.com/problemset/problem/1367/C", "diff": "1300", "l": 1, "h": ""}, {"key": "CF:1373D", "plat": "Codeforces", "label": "CF 1373D", "title": "Maximum Sum on Even Positions", "url": "https://codeforces.com/problemset/problem/1373/D", "diff": "1600", "l": 1, "h": ""}, {"key": "CF:1475G", "plat": "Codeforces", "label": "CF 1475G", "title": "Strange Beauty", "url": "https://codeforces.com/problemset/problem/1475/G", "diff": "1900", "l": 1, "h": ""}]}, {"d": 17, "dow": "Mon", "label": "23 Nov", "iso": "2026-11-23", "phase": 3, "kind": "learn", "title": "Graphs II: Dijkstra, DSU, MST", "focus": "Weighted shortest paths, expanded state graphs, union-find and Kruskal.", "learn": ["Dijkstra with <code>PriorityQueue&lt;long[]&gt;<\/code>: skip stale entries (<code>if (d != dist[u]) continue<\/code>).", "Expanded state graph: a node becomes (vertex, coupon used?) or (vertex, stops used).", "Counting shortest paths: when you find an equal distance, add the ways (mod).", "DSU with path compression + union by size. Kruskal = sort the edges + DSU.", "Floyd–Warshall works for n ≤ 400–500."], "infy": "\"Connect cities at minimum cost\" (MST) and Dijkstra are both repeat topics.", "probs": [{"key": "CSES:1671", "plat": "CSES", "label": "CSES 1671", "title": "Shortest Routes I", "url": "https://cses.fi/problemset/task/1671", "diff": "", "l": 1, "h": "Dijkstra with long distances"}, {"key": "CSES:1195", "plat": "CSES", "label": "CSES 1195", "title": "Flight Discount", "url": "https://cses.fi/problemset/task/1195", "diff": "", "l": 1, "h": "state = (city, coupon used)"}, {"key": "CSES:1675", "plat": "CSES", "label": "CSES 1675", "title": "Road Reparation", "url": "https://cses.fi/problemset/task/1675", "diff": "", "l": 1, "h": "Kruskal (Infosys repeat: connect cities)"}, {"key": "CSES:1676", "plat": "CSES", "label": "CSES 1676", "title": "Road Construction", "url": "https://cses.fi/problemset/task/1676", "diff": "", "l": 2, "h": "DSU with sizes"}, {"key": "LC:path-with-minimum-effort", "plat": "LeetCode", "label": "LC 1631", "title": "Path With Minimum Effort", "url": "https://leetcode.com/problems/path-with-minimum-effort/", "diff": "Medium", "l": 2, "h": "Dijkstra on the maximum edge"}, {"key": "LC:number-of-ways-to-arrive-at-destination", "plat": "LeetCode", "label": "LC 1976", "title": "Number of Ways to Arrive at Destination", "url": "https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/", "diff": "Medium", "l": 2, "h": "count shortest paths"}, {"key": "LC:cheapest-flights-within-k-stops", "plat": "LeetCode", "label": "LC 787", "title": "Cheapest Flights Within K Stops", "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/", "diff": "Medium", "l": 2, "h": "state with stops"}, {"key": "CSES:1672", "plat": "CSES", "label": "CSES 1672", "title": "Shortest Routes II", "url": "https://cses.fi/problemset/task/1672", "diff": "", "l": 3, "h": "Floyd–Warshall"}, {"key": "CF:1095F", "plat": "Codeforces", "label": "CF 1095F", "title": "Make It Connected", "url": "https://codeforces.com/problemset/problem/1095/F", "diff": "1900", "l": 3, "h": "MST with the cheapest-vertex trick"}, {"key": "LC:number-of-good-paths", "plat": "LeetCode", "label": "LC 2421", "title": "Number of Good Paths", "url": "https://leetcode.com/problems/number-of-good-paths/", "diff": "Hard", "l": 3, "h": "DSU in value order"}]}, {"d": 18, "dow": "Tue", "label": "24 Nov", "iso": "2026-11-24", "phase": 3, "kind": "learn", "title": "Trees I: traversal that is safe in Java, diameter, LCA", "focus": "Process trees in BFS order, compute subtree values backwards, and answer LCA queries with binary lifting.", "learn": ["Never recurse 10⁵ levels deep. Use BFS order (template 8) and loop backwards for subtree DP.", "Euler tour <code>tin/tout<\/code>: a subtree becomes a contiguous range, so a Fenwick tree can answer subtree queries.", "Diameter: BFS from any node to the farthest node u, then BFS from u.", "Binary lifting: <code>up[k][v] = up[k−1][up[k−1][v]]<\/code>; dist(a, b) = d[a] + d[b] − 2·d[lca]."], "infy": "Both trees in the sample paper arrive as parent arrays with n = 10⁵. A recursive DFS on a 10⁵-node chain crashes in Java.", "probs": [{"key": "CSES:1674", "plat": "CSES", "label": "CSES 1674", "title": "Subordinates", "url": "https://cses.fi/problemset/task/1674", "diff": "", "l": 1, "h": "subtree sizes from BFS order"}, {"key": "CSES:1131", "plat": "CSES", "label": "CSES 1131", "title": "Tree Diameter", "url": "https://cses.fi/problemset/task/1131", "diff": "", "l": 1, "h": "two BFS"}, {"key": "CSES:1687", "plat": "CSES", "label": "CSES 1687", "title": "Company Queries I", "url": "https://cses.fi/problemset/task/1687", "diff": "", "l": 1, "h": "k-th ancestor with binary lifting"}, {"key": "CSES:1688", "plat": "CSES", "label": "CSES 1688", "title": "Company Queries II", "url": "https://cses.fi/problemset/task/1688", "diff": "", "l": 1, "h": "LCA"}, {"key": "CSES:1132", "plat": "CSES", "label": "CSES 1132", "title": "Tree Distances I", "url": "https://cses.fi/problemset/task/1132", "diff": "", "l": 2, "h": "farthest node from every node"}, {"key": "CSES:1135", "plat": "CSES", "label": "CSES 1135", "title": "Distance Queries", "url": "https://cses.fi/problemset/task/1135", "diff": "", "l": 2, "h": "depth + LCA"}, {"key": "LC:binary-tree-maximum-path-sum", "plat": "LeetCode", "label": "LC 124", "title": "Binary Tree Maximum Path Sum", "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/", "diff": "Hard", "l": 2, "h": "best downward path per node"}, {"key": "CSES:1137", "plat": "CSES", "label": "CSES 1137", "title": "Subtree Queries", "url": "https://cses.fi/problemset/task/1137", "diff": "", "l": 3, "h": "Euler tour + Fenwick"}, {"key": "CSES:1136", "plat": "CSES", "label": "CSES 1136", "title": "Counting Paths", "url": "https://cses.fi/problemset/task/1136", "diff": "", "l": 3, "h": "difference on the tree with LCA"}]}, {"d": 19, "dow": "Wed", "label": "25 Nov", "iso": "2026-11-25", "phase": 3, "kind": "learn", "title": "Trees II: tree DP, rerooting, small-to-large", "focus": "DP over children, answers for every root in O(n), and merging the smaller map into the larger one.", "learn": ["Tree DP: <code>dp[v][state]<\/code> from the children (Independent Set: colour; Tree Matching: is v matched?).", "Rerooting: compute the \"down\" values, then push \"up\" values from parent to child in BFS order. That gives an answer for every root in O(n).", "Small-to-large: keep the largest child's map and merge the smaller maps into it. Each element moves O(log n) times. This is exactly the sample Easy.", "Another view: Σ over subtrees of a pair count = Σ over pairs of depth(LCA)."], "infy": "The sample Easy is small-to-large, and the sample Complex is a matching on a tree. This is the highest-value day for SP.", "probs": [{"key": "AC:dp_p", "plat": "AtCoder", "label": "AtCoder P", "title": "Independent Set", "url": "https://atcoder.jp/contests/dp/tasks/dp_p", "diff": "", "l": 1, "h": "dp[v][colour]"}, {"key": "CSES:1130", "plat": "CSES", "label": "CSES 1130", "title": "Tree Matching", "url": "https://cses.fi/problemset/task/1130", "diff": "", "l": 1, "h": "dp[v][matched?]"}, {"key": "CSES:1133", "plat": "CSES", "label": "CSES 1133", "title": "Tree Distances II", "url": "https://cses.fi/problemset/task/1133", "diff": "", "l": 1, "h": "rerooting: sum of distances"}, {"key": "CSES:1139", "plat": "CSES", "label": "CSES 1139", "title": "Distinct Colors", "url": "https://cses.fi/problemset/task/1139", "diff": "", "l": 1, "h": "small-to-large sets"}, {"key": "LC:sum-of-distances-in-tree", "plat": "LeetCode", "label": "LC 834", "title": "Sum of Distances in Tree", "url": "https://leetcode.com/problems/sum-of-distances-in-tree/", "diff": "Hard", "l": 2, "h": "the same rerooting, LeetCode I/O"}, {"key": "CF:1092F", "plat": "Codeforces", "label": "CF 1092F", "title": "Tree with Maximum Cost", "url": "https://codeforces.com/problemset/problem/1092/F", "diff": "1900", "l": 2, "h": "rerooting with weights"}, {"key": "CF:600E", "plat": "Codeforces", "label": "CF 600E", "title": "Lomsat gelral", "url": "https://codeforces.com/problemset/problem/600/E", "diff": "2300", "l": 3, "h": "small-to-large with counts"}, {"key": "AC:dp_v", "plat": "AtCoder", "label": "AtCoder V", "title": "Subtree", "url": "https://atcoder.jp/contests/dp/tasks/dp_v", "diff": "", "l": 3, "h": "rerooting with prefix/suffix products, no division"}, {"key": "CF:219D", "plat": "Codeforces", "label": "CF 219D", "title": "Choosing Capital for Treeland", "url": "https://codeforces.com/problemset/problem/219/D", "diff": "1700", "l": 3, "h": "rerooting over edge directions"}, {"key": "LC:binary-tree-cameras", "plat": "LeetCode", "label": "LC 968", "title": "Binary Tree Cameras", "url": "https://leetcode.com/problems/binary-tree-cameras/", "diff": "Hard", "l": 3, "h": "3-state tree DP"}]}, {"d": 20, "dow": "Thu", "label": "26 Nov", "iso": "2026-11-26", "phase": 3, "kind": "learn", "title": "Fenwick trees and segment trees", "focus": "Point updates with range queries for sum, min and gcd. Coordinate compression. Descending the tree.", "learn": ["Fenwick: point add plus prefix sum. For \"count smaller to the right\", scan right to left over compressed values.", "An iterative segment tree (template 5) handles any associative operation: change <code>op<\/code> and <code>ID<\/code>.", "Descending the tree finds the first index with value ≥ x in O(log n).", "Coordinate compression: sort the unique values, then <code>Arrays.binarySearch<\/code> gives the index."], "infy": "The sample Medium is a gcd segment tree plus one counter. CF 914D is the closest public problem to it.", "probs": [{"key": "CSES:1648", "plat": "CSES", "label": "CSES 1648", "title": "Dynamic Range Sum Queries", "url": "https://cses.fi/problemset/task/1648", "diff": "", "l": 1, "h": "Fenwick or segment tree"}, {"key": "CSES:1649", "plat": "CSES", "label": "CSES 1649", "title": "Dynamic Range Minimum Queries", "url": "https://cses.fi/problemset/task/1649", "diff": "", "l": 1, "h": "segment tree, min"}, {"key": "LC:count-of-smaller-numbers-after-self", "plat": "LeetCode", "label": "LC 315", "title": "Count of Smaller Numbers After Self", "url": "https://leetcode.com/problems/count-of-smaller-numbers-after-self/", "diff": "Hard", "l": 1, "h": "Fenwick over compressed values"}, {"key": "CF:914D", "plat": "Codeforces", "label": "CF 914D", "title": "Bash and a Tough Math Puzzle", "url": "https://codeforces.com/problemset/problem/914/D", "diff": "1900", "l": 2, "h": "gcd segment tree (twin of the sample Medium)"}, {"key": "CSES:1144", "plat": "CSES", "label": "CSES 1144", "title": "Salary Queries", "url": "https://cses.fi/problemset/task/1144", "diff": "", "l": 2, "h": "offline compression + Fenwick"}, {"key": "CSES:1143", "plat": "CSES", "label": "CSES 1143", "title": "Hotel Queries", "url": "https://cses.fi/problemset/task/1143", "diff": "", "l": 2, "h": "descend to the first index ≥ x"}, {"key": "CF:474F", "plat": "Codeforces", "label": "CF 474F", "title": "Ant colony", "url": "https://codeforces.com/problemset/problem/474/F", "diff": "2100", "l": 2, "h": "range gcd + count of the minimum"}, {"key": "CF:339D", "plat": "Codeforces", "label": "CF 339D", "title": "Xenia and Bit Operations", "url": "https://codeforces.com/problemset/problem/339/D", "diff": "1700", "l": 3, "h": "operation alternates by level"}, {"key": "LC:longest-increasing-subsequence-ii", "plat": "LeetCode", "label": "LC 2407", "title": "Longest Increasing Subsequence II", "url": "https://leetcode.com/problems/longest-increasing-subsequence-ii/", "diff": "Hard", "l": 3, "h": "LIS with a max segment tree over values"}, {"key": "CSES:1734", "plat": "CSES", "label": "CSES 1734", "title": "Distinct Values Queries", "url": "https://cses.fi/problemset/task/1734", "diff": "", "l": 3, "h": "offline by right end + Fenwick"}]}, {"d": 21, "dow": "Fri", "label": "27 Nov", "iso": "2026-11-27", "phase": 3, "kind": "learn", "title": "Lazy propagation and DP sped up with a segment tree", "focus": "Range updates, then the K-segment DP that Infosys reuses for its hardest problems.", "learn": ["Lazy propagation: store a pending add on each node and push it down before visiting the children (template 6).", "K-segment DP: <code>dp[k][i] = max over j of dp[k−1][j] + cost(j+1, i)<\/code>. When moving i forward changes cost by a <em>range add<\/em> over j, keep <code>dp[k−1][j] + cost<\/code> in a lazy segment tree. Total O(K·n log n).", "Distinct count: a[i] adds +1 to every j in [prev[a[i]], i − 1]. That range add is the whole trick for The Bakery."], "infy": "The Infosys \"gift boxes\" problem is CF 833B, and \"k segments, min cost\" is CF 1527E, with the same limits. If you know the trick, a 50-mark problem becomes about 40 lines of code.", "probs": [{"key": "CSES:1651", "plat": "CSES", "label": "CSES 1651", "title": "Range Update Queries", "url": "https://cses.fi/problemset/task/1651", "diff": "", "l": 1, "h": "difference array inside a Fenwick tree"}, {"key": "CSES:1735", "plat": "CSES", "label": "CSES 1735", "title": "Range Updates and Sums", "url": "https://cses.fi/problemset/task/1735", "diff": "", "l": 1, "h": "lazy add + assign"}, {"key": "AC:dp_w", "plat": "AtCoder", "label": "AtCoder W", "title": "Intervals", "url": "https://atcoder.jp/contests/dp/tasks/dp_w", "diff": "", "l": 2, "h": "DP + range add / range max"}, {"key": "CF:833B", "plat": "Codeforces", "label": "CF 833B", "title": "The Bakery", "url": "https://codeforces.com/problemset/problem/833/B", "diff": "2200", "l": 2, "h": "Infosys \"gift boxes\""}, {"key": "CF:1527E", "plat": "Codeforces", "label": "CF 1527E", "title": "Partition Game", "url": "https://codeforces.com/problemset/problem/1527/E", "diff": "2500", "l": 3, "h": "Infosys \"k segments min cost\""}, {"key": "CF:52C", "plat": "Codeforces", "label": "CF 52C", "title": "Circular RMQ", "url": "https://codeforces.com/problemset/problem/52/C", "diff": "2200", "l": 3, "h": "lazy min with wrap-around"}, {"key": "CSES:1190", "plat": "CSES", "label": "CSES 1190", "title": "Subarray Sum Queries", "url": "https://cses.fi/problemset/task/1190", "diff": "", "l": 3, "h": "4 values per node"}]}, {"d": 22, "dow": "Sat", "label": "28 Nov", "iso": "2026-11-28", "phase": 3, "kind": "learn", "title": "Bitmask DP and digit DP", "focus": "Use dp[mask] when n ≤ 20, and count numbers digit by digit with a \"tight\" flag.", "learn": ["Bitmask DP: <code>dp[mask]<\/code> or <code>dp[mask][last]<\/code>, iterating masks in increasing order. 2²⁰·20 ≈ 2·10⁷.", "Submask enumeration: <code>for (s = mask; s &gt; 0; s = (s − 1) &amp; mask)<\/code> costs 3ⁿ over all masks.", "Pair states, as in Elevator Rides: <code>dp[mask] = (rides, last load)<\/code>, compared lexicographically.", "Digit DP: state (position, tight, extra). Write <code>count(≤ X)<\/code> and answer f(R) − f(L − 1)."], "infy": "Reported recent hard problems include \"tree + DP + backtracking + bitwise\" and a bitmask-DP graph problem.", "probs": [{"key": "AC:dp_o", "plat": "AtCoder", "label": "AtCoder O", "title": "Matching", "url": "https://atcoder.jp/contests/dp/tasks/dp_o", "diff": "", "l": 1, "h": "dp[mask] over partners"}, {"key": "CSES:1690", "plat": "CSES", "label": "CSES 1690", "title": "Hamiltonian Flights", "url": "https://cses.fi/problemset/task/1690", "diff": "", "l": 1, "h": "dp[mask][last]"}, {"key": "LC:minimum-xor-sum-of-two-arrays", "plat": "LeetCode", "label": "LC 1879", "title": "Minimum XOR Sum of Two Arrays", "url": "https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/", "diff": "Hard", "l": 1, "h": "assignment with dp[mask]"}, {"key": "AC:dp_s", "plat": "AtCoder", "label": "AtCoder S", "title": "Digit Sum", "url": "https://atcoder.jp/contests/dp/tasks/dp_s", "diff": "", "l": 1, "h": "digit DP mod D"}, {"key": "LC:partition-to-k-equal-sum-subsets", "plat": "LeetCode", "label": "LC 698", "title": "Partition to K Equal Sum Subsets", "url": "https://leetcode.com/problems/partition-to-k-equal-sum-subsets/", "diff": "Medium", "l": 2, "h": "dp[mask] = current bucket fill"}, {"key": "CSES:1653", "plat": "CSES", "label": "CSES 1653", "title": "Elevator Rides", "url": "https://cses.fi/problemset/task/1653", "diff": "", "l": 2, "h": "pair state (rides, load)"}, {"key": "CSES:2220", "plat": "CSES", "label": "CSES 2220", "title": "Counting Numbers", "url": "https://cses.fi/problemset/task/2220", "diff": "", "l": 2, "h": "digit DP with the previous digit"}, {"key": "CF:1097B", "plat": "Codeforces", "label": "CF 1097B", "title": "Petr and a Combination Lock", "url": "https://codeforces.com/problemset/problem/1097/B", "diff": "1200", "l": 2, "h": "brute force over masks"}, {"key": "CF:580D", "plat": "Codeforces", "label": "CF 580D", "title": "Kefa and Dishes", "url": "https://codeforces.com/problemset/problem/580/D", "diff": "1800", "l": 3, "h": "dp[mask][last] with pair bonuses"}, {"key": "AC:dp_u", "plat": "AtCoder", "label": "AtCoder U", "title": "Grouping", "url": "https://atcoder.jp/contests/dp/tasks/dp_u", "diff": "", "l": 3, "h": "submask enumeration, 3ⁿ"}, {"key": "LC:shortest-path-visiting-all-nodes", "plat": "LeetCode", "label": "LC 847", "title": "Shortest Path Visiting All Nodes", "url": "https://leetcode.com/problems/shortest-path-visiting-all-nodes/", "diff": "Hard", "l": 3, "h": "BFS over (node, mask)"}]}, {"d": 23, "dow": "Sun", "label": "29 Nov", "iso": "2026-11-29", "phase": 3, "kind": "mock", "title": "Mock 3 (4 problems) + review", "focus": "Full SP-level mock with a 4th problem, as in recent in-person rounds. This date is also the fallback exam slot.", "learn": ["Morning: Mock 3, 4 problems in 3 hours. Aim for full marks on 2–3 and a brute force on the rest.", "Afternoon: review, re-code, log.", "Evening: rest."], "infy": "The SP L3 report was 3 full solutions plus 6/12 tests on the 4th. Practise collecting partial marks on Q4 here.", "probs": [{"key": "CF:1426D", "plat": "Codeforces", "label": "CF 1426D", "title": "Non-zero Segments", "url": "https://codeforces.com/problemset/problem/1426/D", "diff": "1500", "l": 1, "h": ""}, {"key": "CF:1689C", "plat": "Codeforces", "label": "CF 1689C", "title": "Infected Tree", "url": "https://codeforces.com/problemset/problem/1689/C", "diff": "1600", "l": 1, "h": ""}, {"key": "CF:1187E", "plat": "Codeforces", "label": "CF 1187E", "title": "Tree Painting", "url": "https://codeforces.com/problemset/problem/1187/E", "diff": "2100", "l": 1, "h": ""}, {"key": "CF:1913D", "plat": "Codeforces", "label": "CF 1913D", "title": "Array Collapse", "url": "https://codeforces.com/problemset/problem/1913/D", "diff": "2100", "l": 1, "h": ""}]}, {"d": 24, "dow": "Mon", "label": "30 Nov", "iso": "2026-11-30", "phase": 4, "kind": "learn", "title": "Infosys repeat gauntlet I", "focus": "The most-reported Infosys problems, coded with one value per line and checked with the stress tester.", "learn": ["For each problem without a judge: write the brute force, then the fast solution, then run the stress tester (Section 03) until 10,000 random cases match.", "Read the input exactly as the card describes. Infosys gives one value per line and keeps the order of its samples.", "Spend at most 40 minutes per problem before reading the folded approach."], "infy": "Several of these have been reported in 4–6 different years. Seeing one again on 6 Dec would be a gift.", "probs": [{"key": "INFY:monsters", "plat": "Self-judge", "label": "Infosys", "title": "RPG: maximum monsters defeated", "url": "#rep-monsters", "diff": "", "l": 1, "h": "sort by power, greedy"}, {"key": "INFY:vacation", "plat": "Self-judge", "label": "Infosys", "title": "Andy's vacation (cancel ≤ K obligations)", "url": "#rep-vacation", "diff": "", "l": 1, "h": "window over days"}, {"key": "INFY:gym", "plat": "Self-judge", "label": "Infosys", "title": "Gym: fewest exercises to drain energy", "url": "#rep-gym", "diff": "", "l": 1, "h": "sort descending, each used twice"}, {"key": "GFG:wine-buying-and-selling", "plat": "GfG", "label": "GfG", "title": "Wine Buying and Selling", "url": "https://www.geeksforgeeks.org/problems/wine-buying-and-selling/1", "diff": "", "l": 1, "h": "Σ |prefix|"}, {"key": "INFY:divchain", "plat": "Self-judge", "label": "Infosys", "title": "Arrays where each element divides the next (mod 10000)", "url": "#rep-divchain", "diff": "", "l": 1, "h": "divisor chains, Pascal mod 10000"}, {"key": "INFY:base", "plat": "Self-judge", "label": "Infosys", "title": "Smallest base with identical digits", "url": "#rep-base", "diff": "", "l": 2, "h": "bases ≤ 10⁶, then the 2-digit case"}, {"key": "INFY:xorx", "plat": "Self-judge", "label": "Infosys", "title": "Choose X ≤ K maximising Σ X xor A[i]", "url": "#rep-xorx", "diff": "", "l": 2, "h": "per-bit greedy under K"}, {"key": "INFY:lisbit", "plat": "Self-judge", "label": "Infosys", "title": "LIS with (x & y)·2 < (x | y)", "url": "#rep-lisbit", "diff": "", "l": 2, "h": "highest-bit insight"}, {"key": "CF:1338A", "plat": "Codeforces", "label": "CF 1338A", "title": "Powered Addition", "url": "https://codeforces.com/problemset/problem/1338/A", "diff": "1500", "l": 2, "h": "the idea behind Infosys \"terrain days\""}, {"key": "CF:1514C", "plat": "Codeforces", "label": "CF 1514C", "title": "Product 1 Modulo N", "url": "https://codeforces.com/problemset/problem/1514/C", "diff": "1600", "l": 2, "h": "Infosys \"product 1 mod N\""}, {"key": "LC:smallest-good-base", "plat": "LeetCode", "label": "LC 483", "title": "Smallest Good Base", "url": "https://leetcode.com/problems/smallest-good-base/", "diff": "Hard", "l": 3, "h": "all-ones variant of the base problem"}]}, {"d": 25, "dow": "Tue", "label": "1 Dec", "iso": "2026-12-01", "phase": 4, "kind": "mock", "title": "Mock 4: the official Infosys sample paper", "focus": "Infosys's own paper, under exam rules. Grade yourself on the samples plus your brute force, then open Section 07.", "learn": ["Download the <a href=\"https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf\">sample PDF<\/a>. Save every sample input to a file.", "Solve Easy, Medium and Hard in 3 hours. Attempt Complex only for partial marks.", "Grade: samples, plus a stress test against your own brute force. Only then read the walkthroughs in Section 07."], "infy": "This is the closest thing to the real paper you will have.", "probs": [{"key": "INFY:sample-easy", "plat": "Self-judge", "label": "Infosys", "title": "Sample paper · Easy (tree beauty)", "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf", "diff": "", "l": 1, "h": ""}, {"key": "INFY:sample-medium", "plat": "Self-judge", "label": "Infosys", "title": "Sample paper · Medium (gcd under updates)", "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf", "diff": "", "l": 1, "h": ""}, {"key": "INFY:sample-hard", "plat": "Self-judge", "label": "Infosys", "title": "Sample paper · Hard (LNDS with XOR ≥ M)", "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf", "diff": "", "l": 1, "h": ""}, {"key": "INFY:sample-complex", "plat": "Self-judge", "label": "Infosys", "title": "Sample paper · Complex (attempt partial)", "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf", "diff": "", "l": 3, "h": ""}]}, {"d": 26, "dow": "Wed", "label": "2 Dec", "iso": "2026-12-02", "phase": 4, "kind": "learn", "title": "Repair day + hard repeats", "focus": "Fix what the mocks exposed, then the hard XOR repeat.", "learn": ["Morning: re-solve every error-log entry dated 3+ days ago, without notes.", "Midday: from your weakest topic, do 2 ◆ problems you skipped.", "Afternoon: the problems below."], "infy": "Most of the score gain this late comes from removing your own repeated mistakes. New topics add little now.", "probs": [{"key": "INFY:halfxor", "plat": "Self-judge", "label": "Infosys", "title": "Max XOR choosing at most N/2 elements", "url": "#rep-halfxor", "diff": "", "l": 1, "h": "XOR knapsack over 2²⁰ values"}, {"key": "INFY:xorprime", "plat": "Self-judge", "label": "Infosys", "title": "Pairs with XOR < K and prime sum", "url": "#rep-xorprime", "diff": "", "l": 2, "h": "sieve once, then lookups"}, {"key": "INFY:complex-brute", "plat": "Self-judge", "label": "Infosys", "title": "Sample Complex: brute force for N ≤ 15", "url": "#sample", "diff": "", "l": 3, "h": "enumerate matchings, check paths"}]}, {"d": 27, "dow": "Thu", "label": "3 Dec", "iso": "2026-12-03", "phase": 4, "kind": "mock", "title": "Mock 5: dress rehearsal", "focus": "Start at the real reporting time, 4 problems, paper notes for the first 15 minutes, exact exam rules.", "learn": ["Start at the same clock time as your reporting time on 6 Dec.", "No music, no snacks at the desk, phone out of the room.", "Afternoon: review only. No new problems after this mock."], "infy": "This is the last full rehearsal. After today, protect your confidence and your sleep.", "probs": [{"key": "CF:1385D", "plat": "Codeforces", "label": "CF 1385D", "title": "a-Good String", "url": "https://codeforces.com/problemset/problem/1385/D", "diff": "1500", "l": 1, "h": ""}, {"key": "CF:1446B", "plat": "Codeforces", "label": "CF 1446B", "title": "Catching Cheaters", "url": "https://codeforces.com/problemset/problem/1446/B", "diff": "1800", "l": 1, "h": ""}, {"key": "CF:1324F", "plat": "Codeforces", "label": "CF 1324F", "title": "Maximum White Subtree", "url": "https://codeforces.com/problemset/problem/1324/F", "diff": "1800", "l": 1, "h": ""}, {"key": "CF:1433F", "plat": "Codeforces", "label": "CF 1433F", "title": "Zero Remainder Sum", "url": "https://codeforces.com/problemset/problem/1433/F", "diff": "2100", "l": 1, "h": ""}]}, {"d": 28, "dow": "Fri", "label": "4 Dec", "iso": "2026-12-04", "phase": 4, "kind": "learn", "title": "Consolidate", "focus": "Retype the templates, run a speed drill, and re-solve from the error log. No new topics.", "learn": ["Retype every template in Section 03 from memory, timed. Target: under 25 minutes, compiling first time.", "Re-solve 6 error-log problems.", "Speed drill: the 3 problems below, each in under 15 minutes.", "Read the exam-day playbook (Section 08). Stop by 8 pm."], "infy": "Fast, error-free typing of the templates is what saves time on the real Q1.", "probs": [{"key": "CSES:1621", "plat": "CSES", "label": "CSES 1621", "title": "Distinct Numbers", "url": "https://cses.fi/problemset/task/1621", "diff": "", "l": 1, "h": "speed drill: sort + count"}, {"key": "CSES:1084", "plat": "CSES", "label": "CSES 1084", "title": "Apartments", "url": "https://cses.fi/problemset/task/1084", "diff": "", "l": 1, "h": "speed drill: two pointers"}, {"key": "CSES:1091", "plat": "CSES", "label": "CSES 1091", "title": "Concert Tickets", "url": "https://cses.fi/problemset/task/1091", "diff": "", "l": 1, "h": "speed drill: TreeMap floor/remove"}]}, {"d": 29, "dow": "Sat", "label": "5 Dec", "iso": "2026-12-05", "phase": 4, "kind": "learn", "title": "Rest and logistics", "focus": "One warm-up, pack, plan the route, sleep.", "learn": ["One easy warm-up (below) so the workflow feels routine.", "Pack exactly what the Infosys invite lists (ID, call letter, and so on). Confirm the venue and reporting time.", "Plan to leave early. Lay out tomorrow's things tonight.", "Sleep 7–8 hours. Don't solve problems late at night."], "infy": "You've done the work. A rested brain is worth more on Q3 than one more problem tonight.", "probs": [{"key": "CSES:1069", "plat": "CSES", "label": "CSES 1069", "title": "Repetitions", "url": "https://cses.fi/problemset/task/1069", "diff": "", "l": 1, "h": "5-minute warm-up"}]}];
+const MOCKS = [{"id": "m1", "day": 9, "title": "Mock 1 · Phase 1 topics", "desc": "Q1 ≈ 1200, Q2 ≈ 1800, Q3 ≈ 1900. Weights 20/30/50.", "probs": [{"label": "CF 1343C", "title": "Alternating Subsequence", "url": "https://codeforces.com/problemset/problem/1343/C", "diff": "1200"}, {"label": "CF 1475D", "title": "Cleaning the Phone", "url": "https://codeforces.com/problemset/problem/1475/D", "diff": "1800"}, {"label": "CF 1251D", "title": "Salary Changing", "url": "https://codeforces.com/problemset/problem/1251/D", "diff": "1900"}], "date": "Sun 15 Nov"}, {"id": "m2", "day": 16, "title": "Mock 2 · + number theory and DP", "desc": "Q1 ≈ 1300, Q2 ≈ 1600, Q3 ≈ 1900.", "probs": [{"label": "CF 1367C", "title": "Social Distance", "url": "https://codeforces.com/problemset/problem/1367/C", "diff": "1300"}, {"label": "CF 1373D", "title": "Maximum Sum on Even Positions", "url": "https://codeforces.com/problemset/problem/1373/D", "diff": "1600"}, {"label": "CF 1475G", "title": "Strange Beauty", "url": "https://codeforces.com/problemset/problem/1475/G", "diff": "1900"}], "date": "Sun 22 Nov"}, {"id": "m3", "day": 23, "title": "Mock 3 · four problems", "desc": "Q1 ≈ 1500, Q2 ≈ 1600, Q3 ≈ 2100, Q4 ≈ 2100. Collect partial marks on Q4.", "probs": [{"label": "CF 1426D", "title": "Non-zero Segments", "url": "https://codeforces.com/problemset/problem/1426/D", "diff": "1500"}, {"label": "CF 1689C", "title": "Infected Tree", "url": "https://codeforces.com/problemset/problem/1689/C", "diff": "1600"}, {"label": "CF 1187E", "title": "Tree Painting", "url": "https://codeforces.com/problemset/problem/1187/E", "diff": "2100"}, {"label": "CF 1913D", "title": "Array Collapse", "url": "https://codeforces.com/problemset/problem/1913/D", "diff": "2100"}], "date": "Sun 29 Nov"}, {"id": "m4", "day": 25, "title": "Mock 4 · official Infosys sample paper", "desc": "Infosys's own paper. Grade with the samples and your stress tester, then open Section 07.", "probs": [{"label": "Infosys", "title": "Sample paper · Easy (tree beauty)", "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf", "diff": ""}, {"label": "Infosys", "title": "Sample paper · Medium (gcd under updates)", "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf", "diff": ""}, {"label": "Infosys", "title": "Sample paper · Hard (LNDS with XOR ≥ M)", "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf", "diff": ""}, {"label": "Infosys", "title": "Sample paper · Complex (attempt partial)", "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf", "diff": ""}], "date": "Tue 1 Dec"}, {"id": "m5", "day": 27, "title": "Mock 5 · dress rehearsal", "desc": "Q1 ≈ 1500, Q2 ≈ 1800, Q3 ≈ 1800, Q4 ≈ 2100. Start at your real reporting time.", "probs": [{"label": "CF 1385D", "title": "a-Good String", "url": "https://codeforces.com/problemset/problem/1385/D", "diff": "1500"}, {"label": "CF 1446B", "title": "Catching Cheaters", "url": "https://codeforces.com/problemset/problem/1446/B", "diff": "1800"}, {"label": "CF 1324F", "title": "Maximum White Subtree", "url": "https://codeforces.com/problemset/problem/1324/F", "diff": "1800"}, {"label": "CF 1433F", "title": "Zero Remainder Sum", "url": "https://codeforces.com/problemset/problem/1433/F", "diff": "2100"}], "date": "Thu 3 Dec"}];
+const START = new Date(2026, 10, 7);   // 7 Nov 2026, local time
+const EXAM  = new Date(2026, 11, 6);   // 6 Dec 2026
+const KEY = 'infy29.v1';
+const BLANK = () => ({done:{}, track:2, mocks:{}, log:[], notes:{}, showAll:false});
+
+let S = load();
+function load(){
+  try { const s = JSON.parse(localStorage.getItem(KEY) || '{}'); return Object.assign(BLANK(), s); }
+  catch(e){ return BLANK(); }
+}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+function esc(t){ return String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function midnight(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function dayNumberToday(){ return Math.round((midnight(new Date()) - START) / 86400000) + 1; }
+function ext(url){ return url.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"'; }
+
+/* ---------- countdown ---------- */
+(function(){
+  const left = Math.round((EXAM - midnight(new Date())) / 86400000);
+  const n = document.getElementById('cdN'), l = document.getElementById('cdL'), d = document.getElementById('cdD');
+  const dn = dayNumberToday();
+  if (left > 0) { n.textContent = left; l.textContent = left === 1 ? 'day to 6 Dec' : 'days to 6 Dec'; }
+  else if (left === 0) { n.textContent = '0'; l.textContent = 'exam day'; }
+  else { n.textContent = '✓'; l.textContent = 'assessment done'; }
+  d.textContent = dn < 1 ? 'Plan starts Sat 7 Nov' : (dn <= 29 ? 'Today is Day ' + dn + ' of 29' : (left === 0 ? 'Good luck' : 'Plan complete'));
+})();
+
+/* ---------- plan rendering ---------- */
+const LV = {1:'★', 2:'●', 3:'◆'};
+const LVN = {1:'must do', 2:'core', 3:'stretch'};
+const PH = ['Setup', 'Phase 1 · Q1/Q2 toolkit', 'Phase 2 · DP for Q3', 'Phase 3 · Graphs, trees, data structures', 'Phase 4 · Infosys simulation'];
+function diffClass(d){
+  if (!d) return 'n';
+  if (d === 'Easy') return 'e'; if (d === 'Medium') return 'm'; if (d === 'Hard') return 'h';
+  const r = parseInt(d, 10); if (!isNaN(r)) return r < 1500 ? 'e' : (r < 2000 ? 'm' : 'h');
+  return 'n';
+}
+function renderPlan(){
+  const root = document.getElementById('planList');
+  const today = dayNumberToday();
+  let h = '', lastWeek = -1;
+  PLAN.forEach(day => {
+    const wk = Math.floor((day.d - 1) / 7);
+    if (wk !== lastWeek) { h += '<div class="week">Week ' + (wk + 1) + '</div>'; lastWeek = wk; }
+    const isToday = day.d === today, past = day.d < today;
+    h += '<details class="day' + (isToday ? ' today' : '') + (past ? ' past' : '') + '" id="day-' + day.d + '"' + (isToday ? ' open' : '') + '>';
+    h += '<summary><div class="day-n"><b>' + String(day.d).padStart(2, '0') + '</b><span>' + esc(day.dow) + ' ' + esc(day.label) + '</span></div>';
+    h += '<div><div class="day-tags"><span class="tag ph' + day.phase + '">' + esc(PH[day.phase]) + '</span>' + (day.kind === 'mock' ? '<span class="tag mock">Mock</span>' : '') + (isToday ? '<span class="tag todaytag">Today</span>' : '') + '</div>';
+    h += '<div class="day-t">' + esc(day.title) + '</div><div class="day-f">' + day.focus + '</div></div>';
+    h += '<div class="day-c"><span data-cnt="' + day.d + '">0/0</span><div class="mini"><i data-bar="' + day.d + '"></i></div></div></summary>';
+    h += '<div class="day-b">';
+    if (day.learn && day.learn.length) h += '<h4>' + (day.kind === 'learn' ? 'Learn' : 'Steps') + '</h4><ul class="tasks">' + day.learn.map(x => '<li>' + x + '</li>').join('') + '</ul>';
+    if (day.probs.length) {
+      h += '<h4>Problems</h4><div class="probs">';
+      day.probs.forEach(p => {
+        const done = !!S.done[p.key];
+        h += '<div class="prob' + (done ? ' done' : '') + '" data-l="' + p.l + '" data-key="' + esc(p.key) + '">';
+        h += '<input type="checkbox" aria-label="Mark ' + esc(p.title) + ' done"' + (done ? ' checked' : '') + '>';
+        h += '<span class="lv lv' + p.l + '" title="' + LVN[p.l] + '">' + LV[p.l] + '</span>';
+        h += '<span class="src">' + esc(p.label) + '</span>';
+        h += '<span class="tt"><a href="' + esc(p.url) + '"' + ext(p.url) + '>' + esc(p.title) + '</a>' + (p.h ? '<span class="hint">' + esc(p.h) + '</span>' : '') + '</span>';
+        h += '<span class="df ' + diffClass(p.diff) + '">' + esc(p.diff || p.plat) + '</span></div>';
+      });
+      h += '</div>';
+    }
+    if (day.infy) h += '<div class="infy"><strong>Why this matters for Infosys:</strong> ' + day.infy + '</div>';
+    h += '<h4>Notes</h4><textarea class="note" data-note="' + day.d + '" aria-label="Notes for day ' + day.d + '" placeholder="What clicked, what didn\'t, what to re-solve…">' + esc(S.notes[day.d] || '') + '</textarea>';
+    h += '</div></details>';
+  });
+  root.innerHTML = h;
+  root.querySelectorAll('.prob input').forEach(cb => cb.addEventListener('change', e => {
+    const row = e.target.closest('.prob'), k = row.dataset.key;
+    if (e.target.checked) S.done[k] = Date.now(); else delete S.done[k];
+    row.classList.toggle('done', e.target.checked); save(); updateCounts();
+  }));
+  root.querySelectorAll('textarea.note').forEach(t => t.addEventListener('input', e => { S.notes[e.target.dataset.note] = e.target.value; save(); }));
+}
+function inTrack(l){ return l <= S.track; }
+function updateCounts(){
+  const root = document.getElementById('planList');
+  root.dataset.track = S.track;
+  root.classList.toggle('showall', !!S.showAll);
+  let tot = 0, dn = 0;
+  PLAN.forEach(day => {
+    let t = 0, d = 0;
+    day.probs.forEach(p => { if (inTrack(p.l)) { t++; if (S.done[p.key]) d++; } });
+    tot += t; dn += d;
+    const c = root.querySelector('[data-cnt="' + day.d + '"]'), b = root.querySelector('[data-bar="' + day.d + '"]');
+    if (c) c.textContent = d + '/' + t;
+    if (b) b.style.width = (t ? 100 * d / t : 0) + '%';
+  });
+  root.querySelectorAll('.prob').forEach(r => r.classList.toggle('inTrack', inTrack(+r.dataset.l)));
+  document.getElementById('pbar').style.width = (tot ? 100 * dn / tot : 0) + '%';
+  document.getElementById('pnum').textContent = dn + ' / ' + tot + ' done';
+  document.querySelectorAll('.chip[data-track]').forEach(c => c.classList.toggle('on', +c.dataset.track === S.track));
+  document.getElementById('bAll').textContent = S.showAll ? 'Hide other tracks' : 'Show other tracks';
+}
+
+/* ---------- mocks ---------- */
+function renderMocks(){
+  const root = document.getElementById('mockList');
+  root.innerHTML = MOCKS.map(m => {
+    const sc = S.mocks[m.id] || {};
+    const qs = m.probs.map((p, i) => '<label>Q' + (i + 1) + ' %<input type="number" min="0" max="100" data-m="' + m.id + '" data-q="' + i + '" value="' + (sc[i] != null ? esc(sc[i]) : '') + '"></label>').join('');
+    const list = m.probs.map((p, i) => '<li><strong>Q' + (i + 1) + '</strong> · <a href="' + esc(p.url) + '"' + ext(p.url) + '>' + esc(p.label + ' ' + p.title) + '</a> <span class="mono" style="color:var(--text-faint)">' + esc(p.diff || '') + '</span></li>').join('');
+    return '<div class="mock" id="mock-' + m.id + '"><div class="mock-h"><b>' + esc(m.title) + '</b><span class="rep-m">Day ' + m.day + ' · ' + esc(m.date) + '</span></div>' +
+      '<p>' + m.desc + '</p><ol>' + list + '</ol><div class="scores">' + qs + '<span class="tot" data-tot="' + m.id + '"></span></div></div>';
+  }).join('');
+  root.querySelectorAll('input[data-m]').forEach(inp => inp.addEventListener('input', e => {
+    const id = e.target.dataset.m, q = +e.target.dataset.q;
+    S.mocks[id] = S.mocks[id] || {};
+    const v = e.target.value === '' ? null : Math.max(0, Math.min(100, +e.target.value));
+    if (v == null) delete S.mocks[id][q]; else S.mocks[id][q] = v;
+    save(); mockTotals();
+  }));
+  mockTotals();
+}
+function mockTotals(){
+  MOCKS.forEach(m => {
+    const sc = S.mocks[m.id] || {}, el = document.querySelector('[data-tot="' + m.id + '"]');
+    if (!el) return;
+    const w = [20, 30, 50];
+    let s = 0, any = false;
+    for (let i = 0; i < 3; i++) if (sc[i] != null) { s += w[i] * sc[i] / 100; any = true; }
+    let txt = any ? 'Q1–Q3 weighted: ' + s.toFixed(0) + ' / 100' : '';
+    if (m.probs.length > 3 && sc[3] != null) txt += ' · Q4: ' + sc[3] + '%';
+    el.textContent = txt;
+  });
+}
+
+/* ---------- error log ---------- */
+function renderLog(){
+  const b = document.getElementById('lgBody');
+  if (!S.log.length) { b.innerHTML = '<tr><td colspan="7" style="color:var(--text-faint)">No entries yet.</td></tr>'; return; }
+  const f = x => x.toLocaleDateString(undefined, {day:'numeric', month:'short'});
+  b.innerHTML = S.log.map((e, i) => '<tr><td class="mono">' + f(new Date(e.t)) + '</td><td>' + esc(e.p) + '</td><td>' + esc(e.topic) + '</td><td>' + esc(e.k) + '</td><td>' + esc(e.r) + '</td><td class="mono">' + f(new Date(e.t + 3 * 86400000)) + '</td><td><button class="del" data-i="' + i + '" aria-label="Delete entry">×</button></td></tr>').join('');
+  b.querySelectorAll('.del').forEach(x => x.addEventListener('click', e => { S.log.splice(+e.target.dataset.i, 1); save(); renderLog(); }));
+}
+document.getElementById('lgAdd').addEventListener('click', () => {
+  const p = document.getElementById('lgP').value.trim();
+  if (!p) { document.getElementById('lgP').focus(); return; }
+  S.log.unshift({t: Date.now(), p: p, topic: document.getElementById('lgT').value.trim(), k: document.getElementById('lgK').value, r: document.getElementById('lgR').value.trim()});
+  ['lgP', 'lgT', 'lgR'].forEach(id => document.getElementById(id).value = '');
+  save(); renderLog();
+});
+
+/* ---------- controls ---------- */
+document.querySelectorAll('.chip[data-track]').forEach(c => c.addEventListener('click', () => { S.track = +c.dataset.track; save(); updateCounts(); }));
+document.getElementById('bAll').addEventListener('click', () => { S.showAll = !S.showAll; save(); updateCounts(); });
+document.getElementById('bToday').addEventListener('click', () => {
+  const n = Math.max(1, Math.min(29, dayNumberToday())), el = document.getElementById('day-' + n);
+  if (el) { el.open = true; el.scrollIntoView({behavior:'smooth', block:'start'}); }
+});
+let allOpen = false;
+document.getElementById('bOpen').addEventListener('click', e => {
+  allOpen = !allOpen;
+  document.querySelectorAll('#planList details.day').forEach(d => d.open = allOpen);
+  e.target.textContent = allOpen ? 'Collapse all' : 'Expand all';
+});
+document.getElementById('bExp').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(S, null, 1)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'infosys-29-day-progress.json'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+document.getElementById('bImp').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const d = JSON.parse(rd.result);
+      if (typeof d !== 'object' || d === null || typeof d.done !== 'object' || !Array.isArray(d.log || [])) throw new Error('bad file');
+      S = Object.assign(BLANK(), d);
+      save(); renderPlan(); renderMocks(); renderLog(); updateCounts();
+    } catch(err) { alert('That file is not a progress export from this page.'); }
+  };
+  rd.readAsText(f); e.target.value = '';
+});
+document.getElementById('bReset').addEventListener('click', () => {
+  if (!confirm('Clear all checkboxes, notes, mock scores and the error log in this browser?')) return;
+  const t = S.track; S = BLANK(); S.track = t; save();
+  renderPlan(); renderMocks(); renderLog(); updateCounts();
+});
+
+/* ---------- copy buttons ---------- */
+document.querySelectorAll('.code-wrap').forEach(w => {
+  const b = document.createElement('button'); b.className = 'copy'; b.type = 'button'; b.textContent = 'Copy';
+  b.addEventListener('click', () => {
+    const txt = w.querySelector('code').textContent;
+    const done = () => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1400); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, done);
+    else { const t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch(e){} t.remove(); done(); }
+  });
+  w.appendChild(b);
+});
+
+/* ---------- reading bar + nav highlight ---------- */
+const navLinks = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+const secs = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+window.addEventListener('scroll', () => {
+  const de = document.documentElement, sc = de.scrollTop, mx = de.scrollHeight - de.clientHeight;
+  document.getElementById('readbar').style.width = (mx > 0 ? 100 * sc / mx : 0) + '%';
+  let cur = -1; secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < 120) cur = i; });
+  navLinks.forEach((a, i) => a.classList.toggle('on', i === cur));
+}, {passive:true});
+
+renderPlan(); renderMocks(); renderLog(); updateCounts();
+</script>
+</body>
+</html>
