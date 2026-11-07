@@ -1,0 +1,3241 @@
+[
+ {
+  "d": 1,
+  "dow": "Sat",
+  "label": "7 Nov",
+  "iso": "2026-11-07",
+  "phase": 0,
+  "kind": "learn",
+  "title": "Set up, Java toolkit, fast input",
+  "focus": "Accounts, the Java collections you will use every day, and how FastScanner replaces Scanner.",
+  "chips": [
+   "HashMap",
+   "ArrayDeque",
+   "PriorityQueue",
+   "TreeMap",
+   "FastScanner"
+  ],
+  "learn": [
+   "Submit the Infosys date/location form (deadline <strong>8 Nov</strong>) and choose 6 Dec.",
+   "Create free accounts on LeetCode and Codeforces. In LeetCode's editor, set the language to Java.",
+   "Read <a href=\"#java\">Section 03</a>: why Scanner is slow and how FastScanner works. Type FastScanner once from memory, paste it into <a href=\"https://onecompiler.com/java\">OneCompiler</a>, put <code>3 10 20 30</code> in the STDIN box and check that it prints 60.",
+   "Read the handbook cards below. From tomorrow, the handbook's \"Today's list\" tells you what to review.",
+   "Solve the problems in LeetCode's editor: click <em>Run</em> first, then <em>Submit</em>."
+  ],
+  "infy": "The exam gives you a plain editor and standard input. Being quick with Java collections and input reading saves minutes on every later problem.",
+  "probs": [
+   {
+    "key": "LC:two-sum",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1",
+    "title": "Two Sum",
+    "url": "https://leetcode.com/problems/two-sum/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 1,
+    "h": "One pass: before storing a[i], look for target − a[i] in the map.",
+    "min": 20
+   },
+   {
+    "key": "LC:valid-anagram",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 242",
+    "title": "Valid Anagram",
+    "url": "https://leetcode.com/problems/valid-anagram/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 1,
+    "h": "Count letters in an int[26]; one string adds, the other subtracts.",
+    "min": 20
+   },
+   {
+    "key": "LC:valid-parentheses",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 20",
+    "title": "Valid Parentheses",
+    "url": "https://leetcode.com/problems/valid-parentheses/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 1,
+    "h": "ArrayDeque as a stack: push the closer you expect, pop and compare.",
+    "min": 20
+   },
+   {
+    "key": "LC:top-k-frequent-elements",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 347",
+    "title": "Top K Frequent Elements",
+    "url": "https://leetcode.com/problems/top-k-frequent-elements/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "HashMap of counts, then a min-heap of size k (or buckets by count).",
+    "min": 40
+   },
+   {
+    "key": "LC:my-calendar-i",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 729",
+    "title": "My Calendar I",
+    "url": "https://leetcode.com/problems/my-calendar-i/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "TreeMap start → end. Check floorKey(start) and ceilingKey(start) for overlap.",
+    "min": 40
+   },
+   {
+    "key": "LC:reverse-linked-list",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 206",
+    "title": "Reverse Linked List",
+    "url": "https://leetcode.com/problems/reverse-linked-list/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 3,
+    "h": "Three pointers: prev, cur, next.",
+    "min": 20
+   },
+   {
+    "key": "LC:linked-list-cycle",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 141",
+    "title": "Linked List Cycle",
+    "url": "https://leetcode.com/problems/linked-list-cycle/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 3,
+    "h": "Slow moves 1, fast moves 2; they meet only if there is a cycle.",
+    "min": 20
+   },
+   {
+    "key": "LC:group-anagrams",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 49",
+    "title": "Group Anagrams",
+    "url": "https://leetcode.com/problems/group-anagrams/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Key = the sorted letters of the word.",
+    "min": 40
+   }
+  ],
+  "coreMin": 235,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "toolkit",
+    "title": "Java collections toolkit"
+   },
+   {
+    "id": "io",
+    "title": "Fast input and output (FastScanner)"
+   },
+   {
+    "id": "linked-list",
+    "title": "Linked list moves"
+   }
+  ]
+ },
+ {
+  "d": 2,
+  "dow": "Sun",
+  "label": "8 Nov",
+  "iso": "2026-11-08",
+  "phase": 1,
+  "kind": "learn",
+  "title": "Prefix sums, difference arrays, hashing",
+  "focus": "Count subarrays by remembering earlier prefix values in a HashMap.",
+  "chips": [
+   "prefix sums",
+   "HashMap",
+   "difference array"
+  ],
+  "learn": [
+   "<code>P[i] = a[0] + … + a[i−1]</code>, so <code>sum(l..r) = P[r+1] − P[l]</code>. Use <code>long</code>.",
+   "Counting subarrays with sum k: at each index, count earlier prefixes equal to <code>P − k</code>. Seed the map with <code>{0: 1}</code>.",
+   "For \"divisible by k\", store <code>Math.floorMod(P, k)</code>; Java's <code>%</code> can be negative.",
+   "Many range adds, read once: <code>d[l] += v; d[r+1] −= v</code>, then take a running sum."
+  ],
+  "infy": "Q1 is often an array problem with a counting twist. Prefix sums + HashMap is one of the most reported Infosys patterns.",
+  "probs": [
+   {
+    "key": "LC:subarray-sum-equals-k",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 560",
+    "title": "Subarray Sum Equals K",
+    "url": "https://leetcode.com/problems/subarray-sum-equals-k/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Prefix + HashMap seeded with {0: 1}.",
+    "min": 40
+   },
+   {
+    "key": "LC:subarray-sums-divisible-by-k",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 974",
+    "title": "Subarray Sums Divisible by K",
+    "url": "https://leetcode.com/problems/subarray-sums-divisible-by-k/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Key = Math.floorMod(prefix, k); equal remainders make a valid subarray.",
+    "min": 40
+   },
+   {
+    "key": "LC:number-of-sub-arrays-with-odd-sum",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1524",
+    "title": "Number of Sub-arrays With Odd Sum",
+    "url": "https://leetcode.com/problems/number-of-sub-arrays-with-odd-sum/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Count odd and even prefixes seen so far.",
+    "min": 40
+   },
+   {
+    "key": "LC:contiguous-array",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 525",
+    "title": "Contiguous Array",
+    "url": "https://leetcode.com/problems/contiguous-array/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Treat 0 as −1; store the FIRST index of each prefix value.",
+    "min": 40
+   },
+   {
+    "key": "LC:corporate-flight-bookings",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1109",
+    "title": "Corporate Flight Bookings",
+    "url": "https://leetcode.com/problems/corporate-flight-bookings/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Difference array.",
+    "min": 40
+   },
+   {
+    "key": "LC:range-sum-query-2d-immutable",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 304",
+    "title": "Range Sum Query 2D - Immutable",
+    "url": "https://leetcode.com/problems/range-sum-query-2d-immutable/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "2D prefix: P[i+1][j+1] = P[i][j+1] + P[i+1][j] − P[i][j] + a[i][j].",
+    "min": 40
+   },
+   {
+    "key": "CF:466C",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 466C",
+    "title": "Number of Ways",
+    "url": "https://codeforces.com/problemset/problem/466/C",
+    "diff": "1700",
+    "diffLabel": "CF 1700",
+    "l": 3,
+    "h": "Prefix sums: count split points for one third of the total, then for two thirds.",
+    "min": 45
+   }
+  ],
+  "coreMin": 225,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "prefix",
+    "title": "Prefix sums + HashMap"
+   },
+   {
+    "id": "diff-array",
+    "title": "Difference array (many range adds)"
+   }
+  ]
+ },
+ {
+  "d": 3,
+  "dow": "Mon",
+  "label": "9 Nov",
+  "iso": "2026-11-09",
+  "phase": 1,
+  "kind": "learn",
+  "title": "Two pointers and sliding window",
+  "focus": "Grow the window on the right; shrink it on the left while it is invalid.",
+  "chips": [
+   "two pointers",
+   "sliding window",
+   "monotonic deque"
+  ],
+  "learn": [
+   "A sliding window works when shrinking a valid window keeps it valid.",
+   "Template: <code>for r: add(a[r]); while (bad) remove(a[l++]); best = max(best, r − l + 1);</code>",
+   "\"Exactly K\" = atMost(K) − atMost(K − 1).",
+   "Sorted array with a target sum: two pointers from both ends; skip equal values to avoid duplicates."
+  ],
+  "infy": "The Infosys \"Andy's vacation\" problem (cancel at most K obligations) is LeetCode 1004 on a calendar.",
+  "probs": [
+   {
+    "key": "LC:longest-substring-without-repeating-characters",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 3",
+    "title": "Longest Substring Without Repeating Characters",
+    "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Window with a count (or last-seen index) per character.",
+    "min": 40
+   },
+   {
+    "key": "LC:max-consecutive-ones-iii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1004",
+    "title": "Max Consecutive Ones III",
+    "url": "https://leetcode.com/problems/max-consecutive-ones-iii/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Window with at most K zeros: the vacation pattern.",
+    "min": 40
+   },
+   {
+    "key": "LC:longest-repeating-character-replacement",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 424",
+    "title": "Longest Repeating Character Replacement",
+    "url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Valid while window length − (most frequent count) ≤ k.",
+    "min": 40
+   },
+   {
+    "key": "LC:3sum",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 15",
+    "title": "3Sum",
+    "url": "https://leetcode.com/problems/3sum/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Sort, fix i, two pointers on the rest, skip duplicates.",
+    "min": 40
+   },
+   {
+    "key": "LC:subarrays-with-k-different-integers",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 992",
+    "title": "Subarrays with K Different Integers",
+    "url": "https://leetcode.com/problems/subarrays-with-k-different-integers/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Exactly K = atMost(K) − atMost(K − 1).",
+    "min": 60
+   },
+   {
+    "key": "LC:sliding-window-maximum",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 239",
+    "title": "Sliding Window Maximum",
+    "url": "https://leetcode.com/problems/sliding-window-maximum/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Monotonic deque of indices.",
+    "min": 60
+   },
+   {
+    "key": "LC:minimum-window-substring",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 76",
+    "title": "Minimum Window Substring",
+    "url": "https://leetcode.com/problems/minimum-window-substring/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Counts of what you need vs what the window has; shrink while valid.",
+    "min": 60
+   }
+  ],
+  "coreMin": 225,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "two-pointers",
+    "title": "Two pointers on a sorted array"
+   },
+   {
+    "id": "sliding-window",
+    "title": "Sliding window (variable size)"
+   },
+   {
+    "id": "window-max",
+    "title": "Window maximum (monotonic deque)"
+   }
+  ]
+ },
+ {
+  "d": 4,
+  "dow": "Tue",
+  "label": "10 Nov",
+  "iso": "2026-11-10",
+  "phase": 1,
+  "kind": "learn",
+  "title": "Sorting and greedy: intervals",
+  "focus": "Sort by the right key, then make one decision per element. Check the greedy by swapping two choices.",
+  "chips": [
+   "sort by end",
+   "sweep line",
+   "exchange argument"
+  ],
+  "learn": [
+   "Exchange argument: if swapping two neighbouring choices never helps, the sort order is optimal.",
+   "Most non-overlapping intervals: sort by END. Fewest platforms or rooms: the busiest moment, found with a sweep.",
+   "Comparators: <code>Arrays.sort(a, (x, y) -&gt; Integer.compare(x[1], y[1]))</code>, never <code>x[1] − y[1]</code>.",
+   "Largest number: compare <code>b + a</code> with <code>a + b</code> as strings."
+  ],
+  "infy": "Q2 is often a greedy problem. Minimum platforms and Largest number are both on the most-reported Infosys list.",
+  "probs": [
+   {
+    "key": "LC:merge-intervals",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 56",
+    "title": "Merge Intervals",
+    "url": "https://leetcode.com/problems/merge-intervals/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Sort by start; extend the last interval while they overlap.",
+    "min": 40
+   },
+   {
+    "key": "LC:non-overlapping-intervals",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 435",
+    "title": "Non-overlapping Intervals",
+    "url": "https://leetcode.com/problems/non-overlapping-intervals/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Sort by end; answer = n − (most you can keep).",
+    "min": 40
+   },
+   {
+    "key": "LC:divide-intervals-into-minimum-number-of-groups",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2406",
+    "title": "Divide Intervals Into Minimum Number of Groups",
+    "url": "https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "This is \"minimum platforms\": sweep sorted starts and ends.",
+    "min": 40
+   },
+   {
+    "key": "LC:largest-number",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 179",
+    "title": "Largest Number",
+    "url": "https://leetcode.com/problems/largest-number/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Sort strings with (b + a).compareTo(a + b). All zeros → \"0\".",
+    "min": 40
+   },
+   {
+    "key": "LC:maximum-number-of-consecutive-values-you-can-make",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1798",
+    "title": "Maximum Number of Consecutive Values You Can Make",
+    "url": "https://leetcode.com/problems/maximum-number-of-consecutive-values-you-can-make/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Sort; if a coin > reach + 1, stop, else reach += coin.",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-number-of-arrows-to-burst-balloons",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 452",
+    "title": "Minimum Number of Arrows to Burst Balloons",
+    "url": "https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Sort by end; touching balloons share an arrow.",
+    "min": 40
+   },
+   {
+    "key": "LC:candy",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 135",
+    "title": "Candy",
+    "url": "https://leetcode.com/problems/candy/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Two passes: left to right, then right to left.",
+    "min": 60
+   }
+  ],
+  "coreMin": 225,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "intervals",
+    "title": "Intervals: sort, then sweep"
+   }
+  ]
+ },
+ {
+  "d": 5,
+  "dow": "Wed",
+  "label": "11 Nov",
+  "iso": "2026-11-11",
+  "phase": 1,
+  "kind": "learn",
+  "title": "Greedy with heaps",
+  "focus": "Unlock options in sorted order, keep the unlocked ones in a heap, undo your worst choice when a limit breaks.",
+  "chips": [
+   "PriorityQueue",
+   "unlock + heap",
+   "regret greedy"
+  ],
+  "learn": [
+   "\"Best among the options unlocked so far\": sort by the unlock key and push options into a <code>PriorityQueue</code> as they unlock.",
+   "Regret greedy: take everything, remember it in a heap, and when you break a limit, drop the worst item.",
+   "Max-heap: <code>new PriorityQueue&lt;&gt;(Collections.reverseOrder())</code>.",
+   "Fewest \"subtract 1 on a subarray\" operations to reach zero = Σ max(0, a[i] − a[i−1])."
+  ],
+  "infy": "The RPG monsters problem (11 reports) is this pattern. The Infosys \"make the array zero\" problem builds on LeetCode 1526.",
+  "probs": [
+   {
+    "key": "LC:ipo",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 502",
+    "title": "IPO",
+    "url": "https://leetcode.com/problems/ipo/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Sort projects by capital; heap of profits you can afford.",
+    "min": 60
+   },
+   {
+    "key": "LC:furthest-building-you-can-reach",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1642",
+    "title": "Furthest Building You Can Reach",
+    "url": "https://leetcode.com/problems/furthest-building-you-can-reach/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Min-heap of the climbs given ladders; the smallest pays bricks.",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-number-of-increments-on-subarrays-to-form-a-target-array",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1526",
+    "title": "Minimum Number of Increments on Subarrays to Form a Target Array",
+    "url": "https://leetcode.com/problems/minimum-number-of-increments-on-subarrays-to-form-a-target-array/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Answer = sum of the positive rises a[i] − a[i−1].",
+    "min": 60
+   },
+   {
+    "key": "LC:last-stone-weight",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1046",
+    "title": "Last Stone Weight",
+    "url": "https://leetcode.com/problems/last-stone-weight/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 1,
+    "h": "Max-heap: poll two, push the difference.",
+    "min": 20
+   },
+   {
+    "key": "LC:minimum-number-of-refueling-stops",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 871",
+    "title": "Minimum Number of Refueling Stops",
+    "url": "https://leetcode.com/problems/minimum-number-of-refueling-stops/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Heap of fuel at stations you have passed; refuel from the biggest when stuck.",
+    "min": 60
+   },
+   {
+    "key": "LC:course-schedule-iii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 630",
+    "title": "Course Schedule III",
+    "url": "https://leetcode.com/problems/course-schedule-iii/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Sort by deadline; max-heap of durations; drop the longest when over time.",
+    "min": 60
+   },
+   {
+    "key": "CF:1526C2",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1526C2",
+    "title": "Potions (Hard Version)",
+    "url": "https://codeforces.com/problemset/problem/1526/C2",
+    "diff": "1600",
+    "diffLabel": "CF 1600",
+    "l": 3,
+    "h": "Drink every potion; when health goes negative, undo the most negative one so far.",
+    "min": 45
+   }
+  ],
+  "coreMin": 245,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "heap-greedy",
+    "title": "Greedy with a heap"
+   }
+  ]
+ },
+ {
+  "d": 6,
+  "dow": "Thu",
+  "label": "12 Nov",
+  "iso": "2026-11-12",
+  "phase": 1,
+  "kind": "learn",
+  "title": "Binary search, including on the answer",
+  "focus": "When \"can the answer be x?\" is monotone, binary search x and check it greedily.",
+  "chips": [
+   "lower bound",
+   "search the answer",
+   "greedy check"
+  ],
+  "learn": [
+   "Write <code>ok(x)</code> first, usually greedy and O(n), then binary search the smallest x that passes.",
+   "Use <code>long</code> bounds and <code>lo + (hi − lo) / 2</code>.",
+   "Write lower and upper bound yourself; <code>Arrays.binarySearch</code> returns any matching index.",
+   "\"Minimise the maximum\" and \"maximise the minimum\" almost always mean binary search on the answer."
+  ],
+  "infy": "Binary search on the answer is one of the most reported pattern families in the Infosys question bank.",
+  "probs": [
+   {
+    "key": "LC:find-first-and-last-position-of-element-in-sorted-array",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 34",
+    "title": "Find First and Last Position of Element in Sorted Array",
+    "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Lower bound of x, and lower bound of x + 1, minus 1.",
+    "min": 40
+   },
+   {
+    "key": "LC:koko-eating-bananas",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 875",
+    "title": "Koko Eating Bananas",
+    "url": "https://leetcode.com/problems/koko-eating-bananas/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Smallest speed with total hours ≤ h. Hours for a pile = ceil(pile / speed).",
+    "min": 40
+   },
+   {
+    "key": "LC:capacity-to-ship-packages-within-d-days",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1011",
+    "title": "Capacity To Ship Packages Within D Days",
+    "url": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Smallest capacity whose greedy day count ≤ days.",
+    "min": 40
+   },
+   {
+    "key": "LC:split-array-largest-sum",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 410",
+    "title": "Split Array Largest Sum",
+    "url": "https://leetcode.com/problems/split-array-largest-sum/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Same check as ship capacity: count parts greedily.",
+    "min": 60
+   },
+   {
+    "key": "LC:magnetic-force-between-two-balls",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1552",
+    "title": "Magnetic Force Between Two Balls",
+    "url": "https://leetcode.com/problems/magnetic-force-between-two-balls/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Largest gap that still places m balls (round mid up).",
+    "min": 40
+   },
+   {
+    "key": "LC:maximum-candies-allocated-to-k-children",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2226",
+    "title": "Maximum Candies Allocated to K Children",
+    "url": "https://leetcode.com/problems/maximum-candies-allocated-to-k-children/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Largest amount x with Σ pile / x ≥ k.",
+    "min": 40
+   },
+   {
+    "key": "LC:find-k-th-smallest-pair-distance",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 719",
+    "title": "Find K-th Smallest Pair Distance",
+    "url": "https://leetcode.com/problems/find-k-th-smallest-pair-distance/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Binary search the distance; count pairs ≤ d with two pointers.",
+    "min": 60
+   }
+  ],
+  "coreMin": 245,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "binary-search",
+    "title": "Binary search: lower and upper bound"
+   },
+   {
+    "id": "bs-answer",
+    "title": "Binary search on the answer"
+   }
+  ]
+ },
+ {
+  "d": 7,
+  "dow": "Fri",
+  "label": "13 Nov",
+  "iso": "2026-11-13",
+  "phase": 1,
+  "kind": "learn",
+  "title": "Monotonic stacks",
+  "focus": "Next or previous greater/smaller element for every index in O(n), and the contribution trick.",
+  "chips": [
+   "monotonic stack",
+   "contribution counting"
+  ],
+  "learn": [
+   "Keep indices whose answer is unknown on a stack. A bigger value answers all smaller ones on top.",
+   "Contribution: a[i] is the minimum of (i − left) × (right − i) subarrays. Use &lt; on one side and ≤ on the other.",
+   "Use <code>ArrayDeque</code> or an <code>int[]</code> with a top pointer, never <code>Stack</code>."
+  ],
+  "infy": "\"Next greater element\" and \"remove K digits for the smallest ticket price\" both appear in Infosys reports.",
+  "probs": [
+   {
+    "key": "LC:daily-temperatures",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 739",
+    "title": "Daily Temperatures",
+    "url": "https://leetcode.com/problems/daily-temperatures/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Next greater element to the right; answer = index difference.",
+    "min": 40
+   },
+   {
+    "key": "LC:next-greater-element-ii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 503",
+    "title": "Next Greater Element II",
+    "url": "https://leetcode.com/problems/next-greater-element-ii/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Circular: loop i from 0 to 2n − 1 and use i % n.",
+    "min": 40
+   },
+   {
+    "key": "LC:largest-rectangle-in-histogram",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 84",
+    "title": "Largest Rectangle in Histogram",
+    "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Previous and next smaller bar give the width for each bar.",
+    "min": 60
+   },
+   {
+    "key": "LC:sum-of-subarray-minimums",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 907",
+    "title": "Sum of Subarray Minimums",
+    "url": "https://leetcode.com/problems/sum-of-subarray-minimums/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Contribution counting, then mod 10⁹+7.",
+    "min": 40
+   },
+   {
+    "key": "LC:remove-k-digits",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 402",
+    "title": "Remove K Digits",
+    "url": "https://leetcode.com/problems/remove-k-digits/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Greedy stack: pop while the top is bigger than the current digit.",
+    "min": 40
+   },
+   {
+    "key": "LC:remove-duplicate-letters",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 316",
+    "title": "Remove Duplicate Letters",
+    "url": "https://leetcode.com/problems/remove-duplicate-letters/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Stack + last index of each letter + \"already in stack\" flags.",
+    "min": 40
+   },
+   {
+    "key": "LC:sum-of-subarray-ranges",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2104",
+    "title": "Sum of Subarray Ranges",
+    "url": "https://leetcode.com/problems/sum-of-subarray-ranges/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Sum of maximums minus sum of minimums, both by contribution.",
+    "min": 40
+   }
+  ],
+  "coreMin": 245,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "mono-stack",
+    "title": "Monotonic stack"
+   }
+  ]
+ },
+ {
+  "d": 8,
+  "dow": "Sat",
+  "label": "14 Nov",
+  "iso": "2026-11-14",
+  "phase": 1,
+  "kind": "learn",
+  "title": "Bits and XOR",
+  "focus": "Each bit is independent in a sum of XORs. A trie answers pair questions; a basis answers subset questions.",
+  "chips": [
+   "per-bit counting",
+   "prefix XOR",
+   "binary trie",
+   "XOR basis"
+  ],
+  "learn": [
+   "<code>x &amp; −x</code> is the lowest set bit; write <code>1L &lt;&lt; k</code> when k can reach 31.",
+   "Prefix XOR: <code>xor(l..r) = P[r+1] ^ P[l]</code>, exactly like prefix sums.",
+   "Binary trie: walk from the top bit, choosing the opposite bit to maximise the XOR.",
+   "XOR basis: at most one number per highest bit; the maximum subset XOR is built greedily."
+  ],
+  "infy": "There are two XOR repeats: \"at most N/2 elements, max XOR\" (13 reports) and \"X ≤ K maximising Σ X xor A[i]\" (6 reports). The sample Hard problem is XOR-based too.",
+  "probs": [
+   {
+    "key": "LC:single-number",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 136",
+    "title": "Single Number",
+    "url": "https://leetcode.com/problems/single-number/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 1,
+    "h": "XOR everything; pairs cancel.",
+    "min": 20
+   },
+   {
+    "key": "LC:count-triplets-that-can-form-two-arrays-of-equal-xor",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1442",
+    "title": "Count Triplets That Can Form Two Arrays of Equal XOR",
+    "url": "https://leetcode.com/problems/count-triplets-that-can-form-two-arrays-of-equal-xor/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "a == b means xor(i..k) == 0: equal prefix XORs.",
+    "min": 40
+   },
+   {
+    "key": "LC:maximum-xor-of-two-numbers-in-an-array",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 421",
+    "title": "Maximum XOR of Two Numbers in an Array",
+    "url": "https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Binary trie; for each x, walk towards the opposite bits.",
+    "min": 40
+   },
+   {
+    "key": "LC:count-pairs-with-xor-in-a-range",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1803",
+    "title": "Count Pairs With XOR in a Range",
+    "url": "https://leetcode.com/problems/count-pairs-with-xor-in-a-range/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Trie with counts: pairs with XOR < high + 1 minus pairs with XOR < low.",
+    "min": 60
+   },
+   {
+    "key": "LC:minimize-xor",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2429",
+    "title": "Minimize XOR",
+    "url": "https://leetcode.com/problems/minimize-xor/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Greedy on bits: match num1's high bits first, then fill low bits.",
+    "min": 40
+   },
+   {
+    "key": "GFG:maximum-subset-xor",
+    "plat": "GeeksforGeeks",
+    "cls": "gfg",
+    "label": "GfG",
+    "title": "Maximum Subset XOR",
+    "url": "https://www.geeksforgeeks.org/problems/maximum-subset-xor/1",
+    "diff": "",
+    "diffLabel": "GfG",
+    "l": 3,
+    "h": "XOR basis (Gaussian elimination over bits).",
+    "min": 40
+   },
+   {
+    "key": "LC:maximum-xor-with-an-element-from-array",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1707",
+    "title": "Maximum XOR With an Element From Array",
+    "url": "https://leetcode.com/problems/maximum-xor-with-an-element-from-array/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Offline: sort queries by limit, insert numbers into the trie as they qualify.",
+    "min": 60
+   }
+  ],
+  "coreMin": 225,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "bits",
+    "title": "Bit tricks and XOR"
+   },
+   {
+    "id": "trie",
+    "title": "Binary trie for XOR"
+   },
+   {
+    "id": "xor-basis",
+    "title": "XOR basis (maximum subset XOR)"
+   }
+  ]
+ },
+ {
+  "d": 9,
+  "dow": "Sun",
+  "label": "15 Nov",
+  "iso": "2026-11-15",
+  "phase": 1,
+  "kind": "mock",
+  "title": "Mock 1 + review",
+  "focus": "3 hours on Phase 1 topics at Q1/Q2/Q3 difficulty, then a full review.",
+  "chips": [
+   "Codeforces 1200 / 1800 / 1900",
+   "3 hours"
+  ],
+  "learn": [
+   "Read the <a href=\"#mocks\">mock rules</a>. Open each problem, then type your program on the Codeforces <em>Submit</em> page (language: Java). Test with the samples on <em>Custom test</em> first.",
+   "Before the mock, read the handbook card \"Brute force first\": it's how you collect partial marks.",
+   "After the mock: enter your scores in the <a href=\"#mocks\">Mocks section</a>, read the editorials, re-code every miss and log each cause."
+  ],
+  "infy": "This is your first measurement. Compare it with the <a href=\"#target\">SP checkpoints</a>.",
+  "probs": [
+   {
+    "key": "CF:1343C",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1343C",
+    "title": "Alternating Subsequence",
+    "url": "https://codeforces.com/problemset/problem/1343/C",
+    "diff": "1200",
+    "diffLabel": "CF 1200",
+    "l": 1,
+    "h": "",
+    "min": 30
+   },
+   {
+    "key": "CF:1475D",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1475D",
+    "title": "Cleaning the Phone",
+    "url": "https://codeforces.com/problemset/problem/1475/D",
+    "diff": "1800",
+    "diffLabel": "CF 1800",
+    "l": 1,
+    "h": "",
+    "min": 60
+   },
+   {
+    "key": "CF:1251D",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1251D",
+    "title": "Salary Changing",
+    "url": "https://codeforces.com/problemset/problem/1251/D",
+    "diff": "1900",
+    "diffLabel": "CF 1900",
+    "l": 1,
+    "h": "",
+    "min": 60
+   }
+  ],
+  "coreMin": 240,
+  "bonusMin": 0,
+  "patterns": [
+   {
+    "id": "brute-force",
+    "title": "Brute force first, then stress test"
+   }
+  ]
+ },
+ {
+  "d": 10,
+  "dow": "Mon",
+  "label": "16 Nov",
+  "iso": "2026-11-16",
+  "phase": 2,
+  "kind": "learn",
+  "title": "Number theory toolkit",
+  "focus": "gcd, sieves, fast power, inverses, nCr, and the square-free kernel.",
+  "chips": [
+   "gcd",
+   "sieve",
+   "fast power",
+   "nCr",
+   "square-free kernel"
+  ],
+  "learn": [
+   "<code>lcm = a / gcd(a, b) * b</code>: divide first so it doesn't overflow.",
+   "The smallest-prime-factor sieve factorises any x ≤ 10⁷ in O(log x).",
+   "Fermat inverse <code>a^(MOD−2)</code> when MOD is prime; precompute factorials for O(1) nCr. A non-prime modulus (Infosys has used 10000) needs Pascal's triangle.",
+   "x·y is a perfect square ⇔ kernel(x) = kernel(y), where the kernel keeps the primes with an odd exponent."
+  ],
+  "infy": "The sample Easy (perfect-square products) and Medium (gcd exactly p) are both number theory at their core.",
+  "probs": [
+   {
+    "key": "LC:count-primes",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 204",
+    "title": "Count Primes",
+    "url": "https://leetcode.com/problems/count-primes/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Sieve of Eratosthenes up to n − 1.",
+    "min": 40
+   },
+   {
+    "key": "LC:count-good-numbers",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1922",
+    "title": "Count Good Numbers",
+    "url": "https://leetcode.com/problems/count-good-numbers/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "5^(even positions) × 4^(odd positions) with fast power mod 10⁹+7.",
+    "min": 40
+   },
+   {
+    "key": "LC:number-of-subarrays-with-gcd-equal-to-k",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2447",
+    "title": "Number of Subarrays With GCD Equal to K",
+    "url": "https://leetcode.com/problems/number-of-subarrays-with-gcd-equal-to-k/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "For each start, extend while gcd is a multiple of k; stop early otherwise.",
+    "min": 40
+   },
+   {
+    "key": "LC:maximum-element-sum-of-a-complete-subset-of-indices",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2862",
+    "title": "Maximum Element-Sum of a Complete Subset of Indices",
+    "url": "https://leetcode.com/problems/maximum-element-sum-of-a-complete-subset-of-indices/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Group indices by square-free kernel; the best group sum wins.",
+    "min": 60
+   },
+   {
+    "key": "LC:number-of-different-subsequences-gcds",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1819",
+    "title": "Number of Different Subsequences GCDs",
+    "url": "https://leetcode.com/problems/number-of-different-subsequences-gcds/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "For each g, gcd of all multiples of g present in the array; count when it equals g.",
+    "min": 60
+   },
+   {
+    "key": "LC:count-the-number-of-square-free-subsets",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2572",
+    "title": "Count the Number of Square-Free Subsets",
+    "url": "https://leetcode.com/problems/count-the-number-of-square-free-subsets/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Numbers ≤ 30: bitmask of the 10 primes, knapsack over masks.",
+    "min": 40
+   },
+   {
+    "key": "CF:1497E1",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1497E1",
+    "title": "Square-Free Division (easy version)",
+    "url": "https://codeforces.com/problemset/problem/1497/E1",
+    "diff": "1700",
+    "diffLabel": "CF 1700",
+    "l": 3,
+    "h": "Square-free kernel, then greedy cuts when a kernel repeats.",
+    "min": 45
+   }
+  ],
+  "coreMin": 245,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "mod-math",
+    "title": "gcd, fast power, inverse, nCr"
+   },
+   {
+    "id": "sieve",
+    "title": "Sieve, prime factors, square-free kernel"
+   }
+  ]
+ },
+ {
+  "d": 11,
+  "dow": "Tue",
+  "label": "17 Nov",
+  "iso": "2026-11-17",
+  "phase": 2,
+  "kind": "learn",
+  "title": "DP I: states, transitions, knapsack",
+  "focus": "Define the state in words before writing any code.",
+  "chips": [
+   "dp recipe",
+   "0/1 knapsack",
+   "unbounded knapsack",
+   "subset sum"
+  ],
+  "learn": [
+   "Write it down first: <em>dp[i] = …</em>, the transition, the base case, and where the answer is.",
+   "0/1 knapsack: loop capacity <em>downwards</em>. Unbounded: loop it upwards.",
+   "Counting combinations vs orderings: coins in the outer loop for combinations.",
+   "Prefer loops over recursion in Java for deep DP."
+  ],
+  "infy": "Coin change, subset sum and 0/1 knapsack are among the most-reported Infosys DP problems.",
+  "probs": [
+   {
+    "key": "LC:house-robber",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 198",
+    "title": "House Robber",
+    "url": "https://leetcode.com/problems/house-robber/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Take or skip: best[i] = max(best[i−1], best[i−2] + a[i−1]).",
+    "min": 40
+   },
+   {
+    "key": "LC:coin-change",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 322",
+    "title": "Coin Change",
+    "url": "https://leetcode.com/problems/coin-change/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "dp[a] = min over coins of dp[a − c] + 1; start with a large INF.",
+    "min": 40
+   },
+   {
+    "key": "LC:coin-change-ii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 518",
+    "title": "Coin Change II",
+    "url": "https://leetcode.com/problems/coin-change-ii/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Combinations: coins in the outer loop, amount in the inner loop.",
+    "min": 40
+   },
+   {
+    "key": "LC:partition-equal-subset-sum",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 416",
+    "title": "Partition Equal Subset Sum",
+    "url": "https://leetcode.com/problems/partition-equal-subset-sum/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Boolean subset sum to total / 2, looping the sum downwards.",
+    "min": 40
+   },
+   {
+    "key": "LC:target-sum",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 494",
+    "title": "Target Sum",
+    "url": "https://leetcode.com/problems/target-sum/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Count subsets with sum (total + target) / 2.",
+    "min": 40
+   },
+   {
+    "key": "LC:last-stone-weight-ii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1049",
+    "title": "Last Stone Weight II",
+    "url": "https://leetcode.com/problems/last-stone-weight-ii/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Split into two groups as equal as possible: subset sum up to total / 2.",
+    "min": 40
+   },
+   {
+    "key": "LC:delete-and-earn",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 740",
+    "title": "Delete and Earn",
+    "url": "https://leetcode.com/problems/delete-and-earn/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Sum points per value, then House Robber over values.",
+    "min": 40
+   }
+  ],
+  "coreMin": 225,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "dp-recipe",
+    "title": "DP recipe: state, transition, base, answer"
+   },
+   {
+    "id": "knapsack",
+    "title": "Knapsack family"
+   }
+  ]
+ },
+ {
+  "d": 12,
+  "dow": "Wed",
+  "label": "18 Nov",
+  "iso": "2026-11-18",
+  "phase": 2,
+  "kind": "learn",
+  "title": "DP II: two-string DP",
+  "focus": "dp[i][j] over the prefixes of two strings.",
+  "chips": [
+   "LCS",
+   "edit distance",
+   "palindromes"
+  ],
+  "learn": [
+   "dp[i][j] = answer for the first i characters of s and the first j characters of t.",
+   "Longest palindromic subsequence = LCS(s, reverse(s)); fewest insertions = n − that.",
+   "To print the answer (not just its length), walk the table back from dp[n][m]."
+  ],
+  "infy": "LCS and edit distance are both on the Infosys \"very high\" list.",
+  "probs": [
+   {
+    "key": "LC:longest-common-subsequence",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1143",
+    "title": "Longest Common Subsequence",
+    "url": "https://leetcode.com/problems/longest-common-subsequence/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Match → diagonal + 1, else the better of up and left.",
+    "min": 40
+   },
+   {
+    "key": "LC:edit-distance",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 72",
+    "title": "Edit Distance",
+    "url": "https://leetcode.com/problems/edit-distance/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Insert, delete, replace = left, up, diagonal + 1.",
+    "min": 40
+   },
+   {
+    "key": "LC:longest-palindromic-subsequence",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 516",
+    "title": "Longest Palindromic Subsequence",
+    "url": "https://leetcode.com/problems/longest-palindromic-subsequence/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "dp[l][r] on one string, or LCS with its reverse.",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-insertion-steps-to-make-a-string-palindrome",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1312",
+    "title": "Minimum Insertion Steps to Make a String Palindrome",
+    "url": "https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "n − longest palindromic subsequence.",
+    "min": 60
+   },
+   {
+    "key": "LC:distinct-subsequences",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 115",
+    "title": "Distinct Subsequences",
+    "url": "https://leetcode.com/problems/distinct-subsequences/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "dp[i][j] = dp[i−1][j] + (match ? dp[i−1][j−1] : 0). Use long.",
+    "min": 60
+   },
+   {
+    "key": "LC:interleaving-string",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 97",
+    "title": "Interleaving String",
+    "url": "https://leetcode.com/problems/interleaving-string/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "dp[i][j] = can the first i of s1 and j of s2 form the first i + j of s3.",
+    "min": 40
+   },
+   {
+    "key": "LC:shortest-common-supersequence",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1092",
+    "title": "Shortest Common Supersequence",
+    "url": "https://leetcode.com/problems/shortest-common-supersequence/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Build the LCS table, then walk back to print.",
+    "min": 60
+   }
+  ],
+  "coreMin": 245,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "two-strings",
+    "title": "Two-string DP (LCS, edit distance)"
+   }
+  ]
+ },
+ {
+  "d": 13,
+  "dow": "Thu",
+  "label": "19 Nov",
+  "iso": "2026-11-19",
+  "phase": 2,
+  "kind": "learn",
+  "title": "DP III: LIS and DP with an extra dimension",
+  "focus": "LIS in O(n log n), DP over values with a Fenwick tree, and an extra state for a side condition.",
+  "chips": [
+   "LIS",
+   "non-decreasing",
+   "Fenwick of maxima"
+  ],
+  "learn": [
+   "tails + lower bound gives the strict LIS; upper bound gives the non-decreasing one.",
+   "DP over values: dp(x) = 1 + max dp over smaller values, kept in a Fenwick tree of maximums.",
+   "A side condition with few states becomes an extra dimension. The sample Hard problem uses 1024 XOR states."
+  ],
+  "infy": "Three Infosys repeats are LIS variants: LNDS with XOR ≥ M (13 reports), LIS with a bitwise condition, and mountain-array changes.",
+  "probs": [
+   {
+    "key": "LC:longest-increasing-subsequence",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 300",
+    "title": "Longest Increasing Subsequence",
+    "url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Write the O(n log n) tails version.",
+    "min": 40
+   },
+   {
+    "key": "LC:find-the-longest-valid-obstacle-course-at-each-position",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1964",
+    "title": "Find the Longest Valid Obstacle Course at Each Position",
+    "url": "https://leetcode.com/problems/find-the-longest-valid-obstacle-course-at-each-position/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Non-decreasing LIS: upper bound; the answer at i is the position + 1.",
+    "min": 60
+   },
+   {
+    "key": "LC:minimum-number-of-removals-to-make-mountain-array",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1671",
+    "title": "Minimum Number of Removals to Make Mountain Array",
+    "url": "https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "LIS ending at i from the left and from the right; peak needs both ≥ 2.",
+    "min": 60
+   },
+   {
+    "key": "LC:longest-ideal-subsequence",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2370",
+    "title": "Longest Ideal Subsequence",
+    "url": "https://leetcode.com/problems/longest-ideal-subsequence/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "dp over the last letter: 26 states.",
+    "min": 40
+   },
+   {
+    "key": "LC:russian-doll-envelopes",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 354",
+    "title": "Russian Doll Envelopes",
+    "url": "https://leetcode.com/problems/russian-doll-envelopes/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Sort by width ascending, height descending; LIS on heights.",
+    "min": 60
+   },
+   {
+    "key": "LC:number-of-longest-increasing-subsequence",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 673",
+    "title": "Number of Longest Increasing Subsequence",
+    "url": "https://leetcode.com/problems/number-of-longest-increasing-subsequence/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "For each i, keep (length, count).",
+    "min": 40
+   }
+  ],
+  "coreMin": 240,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "lis",
+    "title": "Longest increasing subsequence"
+   }
+  ]
+ },
+ {
+  "d": 14,
+  "dow": "Fri",
+  "label": "20 Nov",
+  "iso": "2026-11-20",
+  "phase": 2,
+  "kind": "learn",
+  "title": "DP IV: divisor, interval and game DP",
+  "focus": "Loops over multiples, dp[l][r] by length, and \"my score minus yours\" for two-player games.",
+  "chips": [
+   "divisor chains",
+   "interval DP",
+   "game DP"
+  ],
+  "learn": [
+   "Loop over multiples: <code>for (m = 2 * v; m &lt;= N; m += v)</code> costs N·ln N in total.",
+   "Interval DP: <code>dp[l][r]</code>, filled by increasing length; O(n³) for n ≤ 500.",
+   "Two players taking from the ends: <code>dp[l][r]</code> = best (my score − opponent's score)."
+  ],
+  "infy": "\"Count arrays where each element divides the next\" (13 reports) is divisor DP; the hard version is the bonus LC 2338.",
+  "probs": [
+   {
+    "key": "LC:largest-divisible-subset",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 368",
+    "title": "Largest Divisible Subset",
+    "url": "https://leetcode.com/problems/largest-divisible-subset/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Sort; LIS-style DP where j → i is allowed if a[i] % a[j] == 0.",
+    "min": 40
+   },
+   {
+    "key": "LC:predict-the-winner",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 486",
+    "title": "Predict the Winner",
+    "url": "https://leetcode.com/problems/predict-the-winner/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "dp[l][r] = max(a[l] − dp[l+1][r], a[r] − dp[l][r−1]).",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-cost-to-cut-a-stick",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1547",
+    "title": "Minimum Cost to Cut a Stick",
+    "url": "https://leetcode.com/problems/minimum-cost-to-cut-a-stick/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Add 0 and n as cuts; interval DP over cut indices.",
+    "min": 60
+   },
+   {
+    "key": "LC:stone-game-vii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1690",
+    "title": "Stone Game VII",
+    "url": "https://leetcode.com/problems/stone-game-vii/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Same game DP; the score of a move is the sum of what is left (prefix sums).",
+    "min": 40
+   },
+   {
+    "key": "LC:count-the-number-of-ideal-arrays",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2338",
+    "title": "Count the Number of Ideal Arrays",
+    "url": "https://leetcode.com/problems/count-the-number-of-ideal-arrays/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Divisor chains of s distinct values × C(n − 1, s − 1).",
+    "min": 60
+   },
+   {
+    "key": "LC:burst-balloons",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 312",
+    "title": "Burst Balloons",
+    "url": "https://leetcode.com/problems/burst-balloons/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Choose the LAST balloon to burst in (l, r).",
+    "min": 60
+   },
+   {
+    "key": "LC:strange-printer",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 664",
+    "title": "Strange Printer",
+    "url": "https://leetcode.com/problems/strange-printer/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "dp[l][r]; when s[k] == s[l], the two prints can merge.",
+    "min": 60
+   }
+  ],
+  "coreMin": 245,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "interval-dp",
+    "title": "Interval DP and game DP"
+   }
+  ]
+ },
+ {
+  "d": 15,
+  "dow": "Sat",
+  "label": "21 Nov",
+  "iso": "2026-11-21",
+  "phase": 3,
+  "kind": "learn",
+  "title": "Graphs I: BFS, DFS, topological order",
+  "focus": "Shortest paths by edges, grids, multi-source BFS, Kahn's algorithm and DP on a DAG.",
+  "chips": [
+   "BFS",
+   "grid BFS",
+   "topological sort",
+   "0-1 BFS"
+  ],
+  "learn": [
+   "BFS finds the fewest edges. For several sources, push them all first with distance 0.",
+   "Mark a node visited when you push it, not when you pop it.",
+   "Kahn's algorithm: repeatedly remove nodes with indegree 0. Leftover nodes mean a cycle.",
+   "Costs of only 0 and 1: a deque replaces the heap (0 → front, 1 → back)."
+  ],
+  "infy": "Recent reports describe the hard question as \"shortest path with a twist\".",
+  "probs": [
+   {
+    "key": "LC:number-of-islands",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 200",
+    "title": "Number of Islands",
+    "url": "https://leetcode.com/problems/number-of-islands/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Each unvisited land cell starts a BFS/DFS that marks its island.",
+    "min": 40
+   },
+   {
+    "key": "LC:rotting-oranges",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 994",
+    "title": "Rotting Oranges",
+    "url": "https://leetcode.com/problems/rotting-oranges/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Multi-source BFS from every rotten orange; the answer is the last layer.",
+    "min": 40
+   },
+   {
+    "key": "LC:course-schedule",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 207",
+    "title": "Course Schedule",
+    "url": "https://leetcode.com/problems/course-schedule/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Kahn's algorithm; possible iff every course gets processed.",
+    "min": 40
+   },
+   {
+    "key": "LC:shortest-path-in-binary-matrix",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1091",
+    "title": "Shortest Path in Binary Matrix",
+    "url": "https://leetcode.com/problems/shortest-path-in-binary-matrix/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "BFS with 8 directions; distance counts cells, so start at 1.",
+    "min": 40
+   },
+   {
+    "key": "LC:is-graph-bipartite",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 785",
+    "title": "Is Graph Bipartite?",
+    "url": "https://leetcode.com/problems/is-graph-bipartite/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "BFS colouring; a neighbour with the same colour means no.",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-cost-to-make-at-least-one-valid-path-in-a-grid",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1368",
+    "title": "Minimum Cost to Make at Least One Valid Path in a Grid",
+    "url": "https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "0-1 BFS: following the arrow costs 0, changing it costs 1.",
+    "min": 60
+   },
+   {
+    "key": "LC:parallel-courses-iii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2050",
+    "title": "Parallel Courses III",
+    "url": "https://leetcode.com/problems/parallel-courses-iii/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Topological order; finish[v] = time[v] + max finish of prerequisites.",
+    "min": 60
+   }
+  ],
+  "coreMin": 225,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "graph-bfs",
+    "title": "BFS: fewest edges, grids, many sources"
+   },
+   {
+    "id": "graph-dfs",
+    "title": "DFS without recursion, components"
+   },
+   {
+    "id": "topo",
+    "title": "Topological order (Kahn) and DAG DP"
+   },
+   {
+    "id": "zero-one-bfs",
+    "title": "0-1 BFS"
+   }
+  ]
+ },
+ {
+  "d": 16,
+  "dow": "Sun",
+  "label": "22 Nov",
+  "iso": "2026-11-22",
+  "phase": 2,
+  "kind": "mock",
+  "title": "Mock 2 + review",
+  "focus": "3 hours with number theory and DP added, then a full review.",
+  "chips": [
+   "Codeforces 1300 / 1600 / 1900",
+   "3 hours"
+  ],
+  "learn": [
+   "Same rules as Mock 1. Use Codeforces <em>Custom test</em> to run the samples before submitting.",
+   "After the mock: scores, editorials, re-code, error log.",
+   "Compare with the <a href=\"#target\">SP checkpoints</a>. Below them? Drop next week's bonus problems and redo DP core problems from Days 11–14."
+  ],
+  "infy": "Mock 2 is the checkpoint for Q1 + Q2 fully solved.",
+  "probs": [
+   {
+    "key": "CF:1367C",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1367C",
+    "title": "Social Distance",
+    "url": "https://codeforces.com/problemset/problem/1367/C",
+    "diff": "1300",
+    "diffLabel": "CF 1300",
+    "l": 1,
+    "h": "",
+    "min": 30
+   },
+   {
+    "key": "CF:1373D",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1373D",
+    "title": "Maximum Sum on Even Positions",
+    "url": "https://codeforces.com/problemset/problem/1373/D",
+    "diff": "1600",
+    "diffLabel": "CF 1600",
+    "l": 1,
+    "h": "",
+    "min": 45
+   },
+   {
+    "key": "CF:1475G",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1475G",
+    "title": "Strange Beauty",
+    "url": "https://codeforces.com/problemset/problem/1475/G",
+    "diff": "1900",
+    "diffLabel": "CF 1900",
+    "l": 1,
+    "h": "",
+    "min": 60
+   }
+  ],
+  "coreMin": 240,
+  "bonusMin": 0,
+  "patterns": []
+ },
+ {
+  "d": 17,
+  "dow": "Mon",
+  "label": "23 Nov",
+  "iso": "2026-11-23",
+  "phase": 3,
+  "kind": "learn",
+  "title": "Graphs II: Dijkstra, DSU, MST",
+  "focus": "Weighted shortest paths, expanded state graphs, union-find and Kruskal.",
+  "chips": [
+   "Dijkstra",
+   "state graph",
+   "DSU",
+   "Kruskal"
+  ],
+  "learn": [
+   "Dijkstra with <code>PriorityQueue&lt;long[]&gt;</code>; skip stale entries (<code>if (d != dist[u]) continue</code>).",
+   "Expanded state: a node becomes (vertex, stops used) or (vertex, coupon used).",
+   "Counting shortest paths: when you find an equal distance, add the ways.",
+   "Kruskal = sort edges + DSU."
+  ],
+  "infy": "\"Connect cities at minimum cost\" (MST) and Dijkstra are both repeat topics.",
+  "probs": [
+   {
+    "key": "LC:network-delay-time",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 743",
+    "title": "Network Delay Time",
+    "url": "https://leetcode.com/problems/network-delay-time/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Dijkstra from k; the answer is the largest distance (−1 if any is unreachable).",
+    "min": 40
+   },
+   {
+    "key": "LC:path-with-minimum-effort",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1631",
+    "title": "Path With Minimum Effort",
+    "url": "https://leetcode.com/problems/path-with-minimum-effort/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Dijkstra where a path costs its largest step.",
+    "min": 40
+   },
+   {
+    "key": "LC:min-cost-to-connect-all-points",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1584",
+    "title": "Min Cost to Connect All Points",
+    "url": "https://leetcode.com/problems/min-cost-to-connect-all-points/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "MST over all pairs (Kruskal, or Prim in O(n²)).",
+    "min": 40
+   },
+   {
+    "key": "LC:number-of-ways-to-arrive-at-destination",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1976",
+    "title": "Number of Ways to Arrive at Destination",
+    "url": "https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Dijkstra plus ways[]; distances need long.",
+    "min": 40
+   },
+   {
+    "key": "LC:cheapest-flights-within-k-stops",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 787",
+    "title": "Cheapest Flights Within K Stops",
+    "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "State = (city, stops), or Bellman-Ford for k + 1 rounds.",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-obstacle-removal-to-reach-corner",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2290",
+    "title": "Minimum Obstacle Removal to Reach Corner",
+    "url": "https://leetcode.com/problems/minimum-obstacle-removal-to-reach-corner/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "0-1 BFS: an obstacle cell costs 1.",
+    "min": 60
+   },
+   {
+    "key": "LC:number-of-good-paths",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2421",
+    "title": "Number of Good Paths",
+    "url": "https://leetcode.com/problems/number-of-good-paths/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Process nodes by value; DSU joins neighbours with value ≤ current.",
+    "min": 60
+   }
+  ],
+  "coreMin": 225,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "dijkstra",
+    "title": "Dijkstra"
+   },
+   {
+    "id": "dsu",
+    "title": "Union-find (DSU) and Kruskal"
+   }
+  ]
+ },
+ {
+  "d": 18,
+  "dow": "Tue",
+  "label": "24 Nov",
+  "iso": "2026-11-24",
+  "phase": 3,
+  "kind": "learn",
+  "title": "Trees I: recursion, parent arrays, LCA",
+  "focus": "LeetCode TreeNode recursion, general trees without recursion, and binary lifting.",
+  "chips": [
+   "TreeNode recursion",
+   "BFS order",
+   "binary lifting"
+  ],
+  "learn": [
+   "Binary trees: decide what one node returns to its parent; paths that bend go into a \"best\" holder.",
+   "General trees with 10⁵ nodes: build the BFS order and walk it backwards. No recursion, no stack overflow.",
+   "Binary lifting: <code>up[k][v] = up[k−1][up[k−1][v]]</code>; dist(a, b) = depth[a] + depth[b] − 2·depth[lca]."
+  ],
+  "infy": "Both trees in the sample paper arrive as parent arrays with n = 10⁵. A recursive DFS on a 10⁵-node chain crashes in Java.",
+  "probs": [
+   {
+    "key": "LC:diameter-of-binary-tree",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 543",
+    "title": "Diameter of Binary Tree",
+    "url": "https://leetcode.com/problems/diameter-of-binary-tree/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 1,
+    "h": "Height of each side; the diameter bends at some node.",
+    "min": 20
+   },
+   {
+    "key": "LC:lowest-common-ancestor-of-a-binary-tree",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 236",
+    "title": "Lowest Common Ancestor of a Binary Tree",
+    "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Return the node if it is p or q; if both sides return something, this is the LCA.",
+    "min": 40
+   },
+   {
+    "key": "LC:binary-tree-maximum-path-sum",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 124",
+    "title": "Binary Tree Maximum Path Sum",
+    "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Return the best downward sum; drop negative branches.",
+    "min": 60
+   },
+   {
+    "key": "LC:longest-path-with-different-adjacent-characters",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2246",
+    "title": "Longest Path With Different Adjacent Characters",
+    "url": "https://leetcode.com/problems/longest-path-with-different-adjacent-characters/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Parent array input: reverse BFS order, keep the two best child chains.",
+    "min": 60
+   },
+   {
+    "key": "LC:binary-tree-level-order-traversal",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 102",
+    "title": "Binary Tree Level Order Traversal",
+    "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "BFS; process q.size() nodes per level.",
+    "min": 40
+   },
+   {
+    "key": "LC:kth-ancestor-of-a-tree-node",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1483",
+    "title": "Kth Ancestor of a Tree Node",
+    "url": "https://leetcode.com/problems/kth-ancestor-of-a-tree-node/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Binary lifting table.",
+    "min": 60
+   },
+   {
+    "key": "LC:minimum-fuel-cost-to-report-to-the-capital",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2477",
+    "title": "Minimum Fuel Cost to Report to the Capital",
+    "url": "https://leetcode.com/problems/minimum-fuel-cost-to-report-to-the-capital/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 3,
+    "h": "Subtree sizes: each edge needs ceil(size / seats) cars.",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-edge-weight-equilibrium-queries-in-a-tree",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2846",
+    "title": "Minimum Edge Weight Equilibrium Queries in a Tree",
+    "url": "https://leetcode.com/problems/minimum-edge-weight-equilibrium-queries-in-a-tree/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "LCA plus counts of each weight (1..26) on the root path.",
+    "min": 60
+   }
+  ],
+  "coreMin": 245,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "tree-recursion",
+    "title": "Binary tree recursion (LeetCode TreeNode)"
+   },
+   {
+    "id": "tree-parent",
+    "title": "General trees from a parent array (no recursion)"
+   },
+   {
+    "id": "lca",
+    "title": "LCA with binary lifting"
+   }
+  ]
+ },
+ {
+  "d": 19,
+  "dow": "Wed",
+  "label": "25 Nov",
+  "iso": "2026-11-25",
+  "phase": 3,
+  "kind": "learn",
+  "title": "Trees II: tree DP, rerooting, small-to-large",
+  "focus": "dp[v][state] from the children, answers for every root in O(n), and merging the smaller set into the larger.",
+  "chips": [
+   "tree DP",
+   "rerooting",
+   "small-to-large"
+  ],
+  "learn": [
+   "Tree DP: a few states per node (taken / not taken), combined from the children.",
+   "Rerooting: pass 1 computes subtree answers; pass 2 moves the root to each child with a formula.",
+   "Small-to-large: keep the bigger child set and pour the smaller sets into it. This is exactly the sample Easy problem."
+  ],
+  "infy": "The sample Easy is small-to-large, and the sample Complex changes both ends of an edge (like LC 3068). This is the most valuable day for SP.",
+  "probs": [
+   {
+    "key": "LC:house-robber-iii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 337",
+    "title": "House Robber III",
+    "url": "https://leetcode.com/problems/house-robber-iii/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Each node returns {best if robbed, best if not}.",
+    "min": 40
+   },
+   {
+    "key": "LC:number-of-nodes-in-the-sub-tree-with-the-same-label",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1519",
+    "title": "Number of Nodes in the Sub-Tree With the Same Label",
+    "url": "https://leetcode.com/problems/number-of-nodes-in-the-sub-tree-with-the-same-label/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Count labels per subtree: int[26] per node, merged from children (edges given: root it first).",
+    "min": 40
+   },
+   {
+    "key": "LC:sum-of-distances-in-tree",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 834",
+    "title": "Sum of Distances in Tree",
+    "url": "https://leetcode.com/problems/sum-of-distances-in-tree/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Rerooting: ans[child] = ans[parent] − size[child] + (n − size[child]).",
+    "min": 60
+   },
+   {
+    "key": "LC:find-the-maximum-sum-of-node-values",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 3068",
+    "title": "Find the Maximum Sum of Node Values",
+    "url": "https://leetcode.com/problems/find-the-maximum-sum-of-node-values/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Any even number of nodes can be XORed; greedy by gain, or dp[v][parity].",
+    "min": 60
+   },
+   {
+    "key": "LC:minimum-edge-reversals-so-every-node-is-reachable",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2858",
+    "title": "Minimum Edge Reversals So Every Node Is Reachable",
+    "url": "https://leetcode.com/problems/minimum-edge-reversals-so-every-node-is-reachable/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Rerooting over edge directions: reversals from 0, then adjust per edge.",
+    "min": 60
+   },
+   {
+    "key": "LC:smallest-missing-genetic-value-in-each-subtree",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2003",
+    "title": "Smallest Missing Genetic Value in Each Subtree",
+    "url": "https://leetcode.com/problems/smallest-missing-genetic-value-in-each-subtree/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Only the path from the node with value 1 to the root matters; or small-to-large sets.",
+    "min": 60
+   },
+   {
+    "key": "CF:600E",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 600E",
+    "title": "Lomsat gelral",
+    "url": "https://codeforces.com/problemset/problem/600/E",
+    "diff": "2300",
+    "diffLabel": "CF 2300",
+    "l": 3,
+    "h": "Small-to-large maps of colour counts, tracking the maximum count and its sum.",
+    "min": 75
+   }
+  ],
+  "coreMin": 265,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "tree-dp",
+    "title": "Tree DP (dp[v][state])"
+   },
+   {
+    "id": "rerooting",
+    "title": "Rerooting (an answer for every root)"
+   },
+   {
+    "id": "small-to-large",
+    "title": "Small-to-large merging"
+   }
+  ]
+ },
+ {
+  "d": 20,
+  "dow": "Thu",
+  "label": "26 Nov",
+  "iso": "2026-11-26",
+  "phase": 3,
+  "kind": "learn",
+  "title": "Fenwick trees and segment trees",
+  "focus": "Point updates with range queries for sum, min and gcd, coordinate compression, and Euler tours.",
+  "chips": [
+   "Fenwick",
+   "segment tree",
+   "coordinate compression",
+   "Euler tour"
+  ],
+  "learn": [
+   "Fenwick: point add plus prefix sum. \"Count smaller to the right\": scan right to left over compressed values.",
+   "The iterative segment tree handles any associative operation: change <code>op</code> and <code>ID</code>.",
+   "An Euler tour turns every subtree into one range, so subtree questions become range questions."
+  ],
+  "infy": "The sample Medium is a gcd segment tree plus one counter. CF 914D (bonus) is the closest public problem to it.",
+  "probs": [
+   {
+    "key": "LC:range-sum-query-mutable",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 307",
+    "title": "Range Sum Query - Mutable",
+    "url": "https://leetcode.com/problems/range-sum-query-mutable/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Fenwick or segment tree; update stores the difference.",
+    "min": 40
+   },
+   {
+    "key": "LC:count-of-smaller-numbers-after-self",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 315",
+    "title": "Count of Smaller Numbers After Self",
+    "url": "https://leetcode.com/problems/count-of-smaller-numbers-after-self/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Compress values; scan from the right, query the Fenwick tree, then add.",
+    "min": 60
+   },
+   {
+    "key": "LC:longest-increasing-subsequence-ii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2407",
+    "title": "Longest Increasing Subsequence II",
+    "url": "https://leetcode.com/problems/longest-increasing-subsequence-ii/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Segment tree of max over values; query [x − k, x − 1].",
+    "min": 60
+   },
+   {
+    "key": "CF:914D",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 914D",
+    "title": "Bash and a Tough Math Puzzle",
+    "url": "https://codeforces.com/problemset/problem/914/D",
+    "diff": "1900",
+    "diffLabel": "CF 1900",
+    "l": 3,
+    "h": "Gcd segment tree; count how many positions break the gcd (stop after 2).",
+    "min": 60
+   },
+   {
+    "key": "LC:booking-concert-tickets-in-groups",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2286",
+    "title": "Booking Concert Tickets in Groups",
+    "url": "https://leetcode.com/problems/booking-concert-tickets-in-groups/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Segment tree of max and sum; descend to the first row with room.",
+    "min": 60
+   },
+   {
+    "key": "LC:maximum-sum-of-subsequence-with-non-adjacent-elements",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 3165",
+    "title": "Maximum Sum of Subsequence With Non-adjacent Elements",
+    "url": "https://leetcode.com/problems/maximum-sum-of-subsequence-with-non-adjacent-elements/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Each node stores 4 values: best with or without its two ends.",
+    "min": 60
+   },
+   {
+    "key": "LC:minimum-score-after-removals-on-a-tree",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2322",
+    "title": "Minimum Score After Removals on a Tree",
+    "url": "https://leetcode.com/problems/minimum-score-after-removals-on-a-tree/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Euler tour times decide whether one removed subtree contains the other.",
+    "min": 60
+   }
+  ],
+  "coreMin": 240,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "fenwick",
+    "title": "Fenwick tree (BIT)"
+   },
+   {
+    "id": "segtree",
+    "title": "Segment tree (iterative)"
+   },
+   {
+    "id": "euler-tour",
+    "title": "Euler tour (subtree = range)"
+   }
+  ]
+ },
+ {
+  "d": 21,
+  "dow": "Fri",
+  "label": "27 Nov",
+  "iso": "2026-11-27",
+  "phase": 3,
+  "kind": "learn",
+  "title": "Lazy segment trees and the K-parts DP",
+  "focus": "Range updates, then the split-into-K-parts DP that Infosys reuses for its hardest problems.",
+  "chips": [
+   "lazy propagation",
+   "dp[k][i]",
+   "The Bakery trick"
+  ],
+  "learn": [
+   "Lazy propagation: store a pending add on a node and push it down before visiting its children.",
+   "K parts: <code>dp[k][i] = best over j of dp[k−1][j] + cost(j, i−1)</code>. O(K·n²) gets the small tests.",
+   "When moving i changes cost by a range add over j (distinct counts do), keep dp + cost in a lazy segment tree."
+  ],
+  "infy": "The Infosys \"gift boxes\" problem is CF 833B and \"k segments, minimum cost\" is CF 1527E, with the same limits. Both are today's bonus problems.",
+  "probs": [
+   {
+    "key": "LC:minimum-difficulty-of-a-job-schedule",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1335",
+    "title": "Minimum Difficulty of a Job Schedule",
+    "url": "https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "dp[day][i] over the last day's start; cost = max of that part.",
+    "min": 60
+   },
+   {
+    "key": "LC:largest-sum-of-averages",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 813",
+    "title": "Largest Sum of Averages",
+    "url": "https://leetcode.com/problems/largest-sum-of-averages/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "dp[k][i] with prefix sums for the average of a part.",
+    "min": 40
+   },
+   {
+    "key": "LC:subarrays-distinct-element-sum-of-squares-ii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2916",
+    "title": "Subarrays Distinct Element Sum of Squares II",
+    "url": "https://leetcode.com/problems/subarrays-distinct-element-sum-of-squares-ii/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Lazy segment tree over start positions: a new element adds 1 to a range of starts.",
+    "min": 60
+   },
+   {
+    "key": "CF:833B",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 833B",
+    "title": "The Bakery",
+    "url": "https://codeforces.com/problemset/problem/833/B",
+    "diff": "2200",
+    "diffLabel": "CF 2200",
+    "l": 3,
+    "h": "The Infosys \"gift boxes\": dp[k][i] with a lazy max segment tree (handbook card).",
+    "min": 75
+   },
+   {
+    "key": "LC:my-calendar-iii",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 732",
+    "title": "My Calendar III",
+    "url": "https://leetcode.com/problems/my-calendar-iii/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Lazy segment tree (range add, global max), or a TreeMap sweep.",
+    "min": 60
+   },
+   {
+    "key": "CF:1527E",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1527E",
+    "title": "Partition Game",
+    "url": "https://codeforces.com/problemset/problem/1527/E",
+    "diff": "2500",
+    "diffLabel": "CF 2500",
+    "l": 3,
+    "h": "Infosys \"k segments min cost\": range add of i − prev[a[i]] over earlier split points.",
+    "min": 75
+   }
+  ],
+  "coreMin": 240,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "lazy-segtree",
+    "title": "Lazy segment tree (range add, range max)"
+   },
+   {
+    "id": "k-segments",
+    "title": "Split into K parts (dp[k][i])"
+   }
+  ]
+ },
+ {
+  "d": 22,
+  "dow": "Sat",
+  "label": "28 Nov",
+  "iso": "2026-11-28",
+  "phase": 3,
+  "kind": "learn",
+  "title": "Backtracking, bitmask DP, digit DP",
+  "focus": "Brute force for partial marks, dp[mask] for n ≤ 20, and counting numbers digit by digit.",
+  "chips": [
+   "subsets",
+   "dp[mask]",
+   "digit DP"
+  ],
+  "learn": [
+   "Choose, recurse, un-choose. A bitmask loop enumerates every subset for n ≤ 20.",
+   "Bitmask DP: <code>dp[mask]</code> or <code>dp[mask][last]</code>, masks in increasing order; 2²⁰·20 ≈ 2·10⁷.",
+   "Digit DP: state (position, tight, extra); answer for [L, R] = f(R) − f(L − 1)."
+  ],
+  "infy": "Reported recent hard problems include \"tree + DP + backtracking + bitwise\" and a bitmask-DP graph problem.",
+  "probs": [
+   {
+    "key": "LC:subsets",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 78",
+    "title": "Subsets",
+    "url": "https://leetcode.com/problems/subsets/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Bitmask loop, or choose / skip recursion.",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-number-of-work-sessions-to-finish-the-tasks",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1986",
+    "title": "Minimum Number of Work Sessions to Finish the Tasks",
+    "url": "https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "dp[mask] = (sessions, time used in the last one), compared in that order.",
+    "min": 40
+   },
+   {
+    "key": "LC:minimum-xor-sum-of-two-arrays",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1879",
+    "title": "Minimum XOR Sum of Two Arrays",
+    "url": "https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Assignment with dp[mask]: the next element of nums1 picks an unused element of nums2.",
+    "min": 60
+   },
+   {
+    "key": "LC:numbers-at-most-n-given-digit-set",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 902",
+    "title": "Numbers At Most N Given Digit Set",
+    "url": "https://leetcode.com/problems/numbers-at-most-n-given-digit-set/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 1,
+    "h": "Shorter lengths: |D|^len. Same length: digit by digit with tight.",
+    "min": 60
+   },
+   {
+    "key": "LC:n-queens",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 51",
+    "title": "N-Queens",
+    "url": "https://leetcode.com/problems/n-queens/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Backtracking with column and two diagonal flags.",
+    "min": 60
+   },
+   {
+    "key": "LC:shortest-path-visiting-all-nodes",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 847",
+    "title": "Shortest Path Visiting All Nodes",
+    "url": "https://leetcode.com/problems/shortest-path-visiting-all-nodes/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "BFS over (node, visited mask).",
+    "min": 60
+   },
+   {
+    "key": "LC:number-of-beautiful-integers-in-the-range",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2827",
+    "title": "Number of Beautiful Integers in the Range",
+    "url": "https://leetcode.com/problems/number-of-beautiful-integers-in-the-range/",
+    "diff": "Hard",
+    "diffLabel": "Hard",
+    "l": 3,
+    "h": "Digit DP: (pos, even − odd, remainder mod k, tight, started).",
+    "min": 60
+   }
+  ],
+  "coreMin": 265,
+  "bonusMin": 60,
+  "patterns": [
+   {
+    "id": "backtracking",
+    "title": "Backtracking and subset enumeration"
+   },
+   {
+    "id": "bitmask-dp",
+    "title": "Bitmask DP"
+   },
+   {
+    "id": "digit-dp",
+    "title": "Digit DP"
+   }
+  ]
+ },
+ {
+  "d": 23,
+  "dow": "Sun",
+  "label": "29 Nov",
+  "iso": "2026-11-29",
+  "phase": 3,
+  "kind": "mock",
+  "title": "Mock 3 (4 problems) + review",
+  "focus": "Full SP-level mock with a 4th problem, as in recent in-person rounds. This date is also the fallback exam slot.",
+  "chips": [
+   "Codeforces 1500 / 1600 / 2100 / 2100",
+   "3 hours"
+  ],
+  "learn": [
+   "Four problems in 3 hours. Aim for full marks on 2–3 and a brute force on the rest.",
+   "After the mock: scores, editorials, re-code, error log."
+  ],
+  "infy": "The SP L3 report was 3 full solutions plus 6/12 tests on the 4th. Practise collecting partial marks on Q4 here.",
+  "probs": [
+   {
+    "key": "CF:1426D",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1426D",
+    "title": "Non-zero Segments",
+    "url": "https://codeforces.com/problemset/problem/1426/D",
+    "diff": "1500",
+    "diffLabel": "CF 1500",
+    "l": 1,
+    "h": "",
+    "min": 45
+   },
+   {
+    "key": "CF:1689C",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1689C",
+    "title": "Infected Tree",
+    "url": "https://codeforces.com/problemset/problem/1689/C",
+    "diff": "1600",
+    "diffLabel": "CF 1600",
+    "l": 1,
+    "h": "",
+    "min": 45
+   },
+   {
+    "key": "CF:1187E",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1187E",
+    "title": "Tree Painting",
+    "url": "https://codeforces.com/problemset/problem/1187/E",
+    "diff": "2100",
+    "diffLabel": "CF 2100",
+    "l": 1,
+    "h": "",
+    "min": 75
+   },
+   {
+    "key": "CF:1913D",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1913D",
+    "title": "Array Collapse",
+    "url": "https://codeforces.com/problemset/problem/1913/D",
+    "diff": "2100",
+    "diffLabel": "CF 2100",
+    "l": 1,
+    "h": "",
+    "min": 75
+   }
+  ],
+  "coreMin": 240,
+  "bonusMin": 0,
+  "patterns": []
+ },
+ {
+  "d": 24,
+  "dow": "Mon",
+  "label": "30 Nov",
+  "iso": "2026-11-30",
+  "phase": 4,
+  "kind": "learn",
+  "title": "Infosys repeat problems I",
+  "focus": "The most reported Infosys problems, written as full programs with one value per line and checked with the stress tester.",
+  "chips": [
+   "self-judged",
+   "stress tester",
+   "stdin"
+  ],
+  "learn": [
+   "For each problem without a judge: write the brute force, then the fast solution, then stress-test until thousands of random cases match. <a href=\"https://onecompiler.com/java\">OneCompiler</a> runs both.",
+   "Read the input exactly as the card says: one value per line, in the order of the samples.",
+   "At most 40 minutes per problem before you open the folded approach."
+  ],
+  "infy": "Several of these were reported in 4–6 different years.",
+  "probs": [
+   {
+    "key": "INFY:monsters",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "RPG: maximum monsters defeated",
+    "url": "#rep-monsters",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "Sort by power; walk while experience ≥ power.",
+    "min": 30
+   },
+   {
+    "key": "INFY:vacation",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Andy's vacation (cancel ≤ K obligations)",
+    "url": "#rep-vacation",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "Count obligations per day; sliding window over days.",
+    "min": 30
+   },
+   {
+    "key": "INFY:gym",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Gym: fewest exercises to drain energy",
+    "url": "#rep-gym",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "Sort drains descending; use each twice.",
+    "min": 20
+   },
+   {
+    "key": "GFG:wine-buying-and-selling",
+    "plat": "GeeksforGeeks",
+    "cls": "gfg",
+    "label": "GfG",
+    "title": "Wine Buying and Selling",
+    "url": "https://www.geeksforgeeks.org/problems/wine-buying-and-selling/1",
+    "diff": "",
+    "diffLabel": "GfG",
+    "l": 1,
+    "h": "Answer = sum of |prefix sum|.",
+    "min": 30
+   },
+   {
+    "key": "INFY:divchain",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Arrays where each element divides the next (mod 10000)",
+    "url": "#rep-divchain",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "Divisor chains × Pascal's triangle mod 10000.",
+    "min": 60
+   },
+   {
+    "key": "INFY:lisbit",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "LIS with (x & y)·2 < (x | y)",
+    "url": "#rep-lisbit",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 3,
+    "h": "The condition means the highest set bits differ.",
+    "min": 45
+   },
+   {
+    "key": "INFY:base",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Smallest base with identical digits",
+    "url": "#rep-base",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 3,
+    "h": "Try bases ≤ 10⁶, then the two-digit case M = d·(B + 1).",
+    "min": 45
+   },
+   {
+    "key": "INFY:xorx",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Choose X ≤ K maximising Σ X xor A[i]",
+    "url": "#rep-xorx",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 3,
+    "h": "Per-bit greedy under K, like digit DP.",
+    "min": 45
+   },
+   {
+    "key": "CF:1338A",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1338A",
+    "title": "Powered Addition",
+    "url": "https://codeforces.com/problemset/problem/1338/A",
+    "diff": "1500",
+    "diffLabel": "CF 1500",
+    "l": 3,
+    "h": "The idea behind Infosys \"terrain days\".",
+    "min": 45
+   },
+   {
+    "key": "CF:1514C",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1514C",
+    "title": "Product 1 Modulo N",
+    "url": "https://codeforces.com/problemset/problem/1514/C",
+    "diff": "1600",
+    "diffLabel": "CF 1600",
+    "l": 3,
+    "h": "Infosys \"product 1 mod N\".",
+    "min": 45
+   }
+  ],
+  "coreMin": 235,
+  "bonusMin": 60,
+  "patterns": []
+ },
+ {
+  "d": 25,
+  "dow": "Tue",
+  "label": "1 Dec",
+  "iso": "2026-12-01",
+  "phase": 4,
+  "kind": "mock",
+  "title": "Mock 4: the official Infosys sample paper",
+  "focus": "Infosys's own paper under exam rules. Grade yourself with the samples and your brute force, then open the walkthroughs.",
+  "chips": [
+   "official paper",
+   "3 hours"
+  ],
+  "learn": [
+   "Download the <a href=\"https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf\">sample PDF</a> and copy the sample inputs.",
+   "Write each solution in <a href=\"https://onecompiler.com/java\">OneCompiler</a>; run it with the samples in the STDIN box.",
+   "Solve Easy, Medium and Hard in 3 hours. Attempt Complex only for partial marks.",
+   "Grade: samples, plus a stress test against your own brute force. Only then read the <a href=\"#sample\">walkthroughs</a>."
+  ],
+  "infy": "This is the closest thing to the real paper you will have.",
+  "probs": [
+   {
+    "key": "INFY:sample-easy",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Sample paper · Easy (tree beauty)",
+    "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "",
+    "min": 45
+   },
+   {
+    "key": "INFY:sample-medium",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Sample paper · Medium (gcd under updates)",
+    "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "",
+    "min": 45
+   },
+   {
+    "key": "INFY:sample-hard",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Sample paper · Hard (LNDS with XOR ≥ M)",
+    "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "",
+    "min": 60
+   },
+   {
+    "key": "INFY:sample-complex",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Sample paper · Complex (partial marks only)",
+    "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 3,
+    "h": "",
+    "min": 30
+   }
+  ],
+  "coreMin": 240,
+  "bonusMin": 30,
+  "patterns": []
+ },
+ {
+  "d": 26,
+  "dow": "Wed",
+  "label": "2 Dec",
+  "iso": "2026-12-02",
+  "phase": 4,
+  "kind": "learn",
+  "title": "Repair day + the hard XOR repeat",
+  "focus": "Fix what the mocks exposed, then the hardest XOR repeat.",
+  "chips": [
+   "error log",
+   "XOR knapsack"
+  ],
+  "learn": [
+   "First 90 minutes: re-solve every error-log entry dated 3+ days ago, without notes.",
+   "Then the problems below.",
+   "This is a lighter day on purpose. Stop when the core is done."
+  ],
+  "infy": "This late, most of the score gain comes from removing your own repeated mistakes, not from new topics.",
+  "probs": [
+   {
+    "key": "INFY:halfxor",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Max XOR choosing at most N/2 elements",
+    "url": "#rep-halfxor",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "XOR knapsack: fewest elements for each XOR value below 2²⁰.",
+    "min": 60
+   },
+   {
+    "key": "INFY:xorprime",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Pairs with XOR < K and a prime sum",
+    "url": "#rep-xorprime",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 1,
+    "h": "Sieve once to 2·max(A); trie for many pairs.",
+    "min": 45
+   },
+   {
+    "key": "INFY:complex-brute",
+    "plat": "Self-judge",
+    "cls": "infy",
+    "label": "Infosys",
+    "title": "Sample Complex: brute force for N ≤ 15",
+    "url": "#sample",
+    "diff": "",
+    "diffLabel": "self-judge",
+    "l": 3,
+    "h": "Enumerate matchings for N ≤ 15, check every root-to-leaf path.",
+    "min": 45
+   }
+  ],
+  "coreMin": 230,
+  "bonusMin": 45,
+  "patterns": []
+ },
+ {
+  "d": 27,
+  "dow": "Thu",
+  "label": "3 Dec",
+  "iso": "2026-12-03",
+  "phase": 4,
+  "kind": "mock",
+  "title": "Mock 5: dress rehearsal",
+  "focus": "Start at your real reporting time, 4 problems, paper notes for the first 15 minutes, exact exam rules.",
+  "chips": [
+   "Codeforces 1500 / 1800 / 1800 / 2100",
+   "3 hours"
+  ],
+  "learn": [
+   "Start at the same clock time as your reporting time on 6 Dec.",
+   "No music, no snacks at the desk, phone out of the room.",
+   "Afternoon: review only. No new problems after this mock."
+  ],
+  "infy": "This is the last full rehearsal. After today, protect your confidence and your sleep.",
+  "probs": [
+   {
+    "key": "CF:1385D",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1385D",
+    "title": "a-Good String",
+    "url": "https://codeforces.com/problemset/problem/1385/D",
+    "diff": "1500",
+    "diffLabel": "CF 1500",
+    "l": 1,
+    "h": "",
+    "min": 45
+   },
+   {
+    "key": "CF:1446B",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1446B",
+    "title": "Catching Cheaters",
+    "url": "https://codeforces.com/problemset/problem/1446/B",
+    "diff": "1800",
+    "diffLabel": "CF 1800",
+    "l": 1,
+    "h": "",
+    "min": 60
+   },
+   {
+    "key": "CF:1324F",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1324F",
+    "title": "Maximum White Subtree",
+    "url": "https://codeforces.com/problemset/problem/1324/F",
+    "diff": "1800",
+    "diffLabel": "CF 1800",
+    "l": 1,
+    "h": "",
+    "min": 60
+   },
+   {
+    "key": "CF:1433F",
+    "plat": "Codeforces",
+    "cls": "cf",
+    "label": "CF 1433F",
+    "title": "Zero Remainder Sum",
+    "url": "https://codeforces.com/problemset/problem/1433/F",
+    "diff": "2100",
+    "diffLabel": "CF 2100",
+    "l": 1,
+    "h": "",
+    "min": 75
+   }
+  ],
+  "coreMin": 240,
+  "bonusMin": 0,
+  "patterns": []
+ },
+ {
+  "d": 28,
+  "dow": "Fri",
+  "label": "4 Dec",
+  "iso": "2026-12-04",
+  "phase": 4,
+  "kind": "learn",
+  "title": "Consolidate",
+  "focus": "Templates from memory, a speed drill, and error-log re-solves. No new topics.",
+  "chips": [
+   "handbook from memory",
+   "speed drill"
+  ],
+  "learn": [
+   "Handbook in recall mode: write every template from memory, timed. Target: under 40 minutes for the 15 you rated weakest.",
+   "Re-solve 4 error-log problems.",
+   "Speed drill: the 3 problems below, each in under 15 minutes.",
+   "Read the <a href=\"#exam\">exam-day playbook</a>. Stop by 8 pm."
+  ],
+  "infy": "Writing templates quickly and without errors is what saves time on the real Q1.",
+  "probs": [
+   {
+    "key": "LC:contains-duplicate",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 217",
+    "title": "Contains Duplicate",
+    "url": "https://leetcode.com/problems/contains-duplicate/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 1,
+    "h": "Speed drill: HashSet.",
+    "min": 15
+   },
+   {
+    "key": "LC:boats-to-save-people",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 881",
+    "title": "Boats to Save People",
+    "url": "https://leetcode.com/problems/boats-to-save-people/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Speed drill: sort + two pointers.",
+    "min": 15
+   },
+   {
+    "key": "LC:successful-pairs-of-spells-and-potions",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 2300",
+    "title": "Successful Pairs of Spells and Potions",
+    "url": "https://leetcode.com/problems/successful-pairs-of-spells-and-potions/",
+    "diff": "Medium",
+    "diffLabel": "Medium",
+    "l": 1,
+    "h": "Speed drill: sort + lower bound.",
+    "min": 15
+   }
+  ],
+  "coreMin": 200,
+  "bonusMin": 0,
+  "patterns": []
+ },
+ {
+  "d": 29,
+  "dow": "Sat",
+  "label": "5 Dec",
+  "iso": "2026-12-05",
+  "phase": 4,
+  "kind": "rest",
+  "title": "Rest and logistics",
+  "focus": "One warm-up, pack, plan the route, sleep.",
+  "chips": [
+   "rest"
+  ],
+  "learn": [
+   "One easy warm-up (below) so the workflow feels routine.",
+   "Pack exactly what the Infosys invite lists. Confirm the venue and reporting time.",
+   "Plan to leave early. Lay out tomorrow's things tonight.",
+   "Sleep 7–8 hours. Don't solve problems late at night."
+  ],
+  "infy": "You have done the work. A rested brain is worth more on Q3 than one more problem tonight.",
+  "probs": [
+   {
+    "key": "LC:running-sum-of-1d-array",
+    "plat": "LeetCode",
+    "cls": "lc",
+    "label": "LC 1480",
+    "title": "Running Sum of 1d Array",
+    "url": "https://leetcode.com/problems/running-sum-of-1d-array/",
+    "diff": "Easy",
+    "diffLabel": "Easy",
+    "l": 1,
+    "h": "5-minute warm-up.",
+    "min": 5
+   }
+  ],
+  "coreMin": 70,
+  "bonusMin": 0,
+  "patterns": []
+ }
+]

@@ -1,0 +1,87 @@
+/* Volume II (workbook): writing space, checkboxes, worksheets. */
+
+.cb { display: inline-block; width: 3.1mm; height: 3.1mm; border: 0.8pt solid #4b5563; border-radius: 0.5mm; vertical-align: -0.45mm; margin-right: 1.4mm; background: #fff; }
+.cb.bonus { background: #e5e7eb; }
+.blank { display: inline-block; border-bottom: 0.7pt solid #6b7280; width: 24mm; height: 4mm; vertical-align: -0.6mm; margin: 0 2mm 0 1mm; }
+.blank.xs { width: 10mm; } .blank.s { width: 18mm; } .blank.l { width: 95mm; }
+.instr { font-size: 9.3pt; color: #374151; font-family: "Source Serif 4", serif; }
+
+.write-wrap { margin: 0.5em 0 1em; break-inside: avoid; }
+.write-prompt { font-family: "Source Sans 3", sans-serif; font-size: 9.2pt; font-weight: 600; color: #1f2937; margin-bottom: 1mm; }
+.write { border: 0.6pt solid #c9ced6; border-radius: 1mm; background-color: #fff; break-inside: avoid; }
+.write .wl { height: 7.5mm; border-bottom: 0.5pt solid #d6dbe1; }
+.write .wl:last-child { border-bottom: 0; }
+.gridpaper { border: 0.6pt solid #c9ced6; background-color: #fff;
+  background-image: linear-gradient(to right, #e3e7ec 0.25mm, transparent 0.25mm), linear-gradient(to bottom, #e3e7ec 0.25mm, transparent 0.25mm);
+  background-size: 5mm 5mm; }
+.gridpaper.full { height: 240mm; }
+
+/* day plan */
+table.dayplan td.cbcell, table.mock-rules td.cbcell { width: 5mm; }
+table.dayplan td.min { text-align: right; white-space: nowrap; width: 18mm; font-variant-numeric: tabular-nums; }
+table.dayplan tr.bonus td { color: #4b5563; font-style: italic; }
+table.dayplan tfoot td { font-weight: 700; border-bottom: 0; }
+ul.learn { margin-bottom: 0.3em; }
+p.why { font-size: 9.4pt; margin-top: 1mm; }
+.timebar { font-family: "Source Sans 3", sans-serif; font-size: 9pt; color: #374151; margin: 2mm 0 4mm; }
+
+table.recall td.rate { white-space: nowrap; font-size: 8.4pt; }
+table.recall td.rate .cb { margin-left: 2.5mm; }
+table.recall td { padding-top: 1.8mm; padding-bottom: 1.8mm; }
+
+/* problem worksheets */
+.prob { border: 0.7pt solid #b8c0ca; border-radius: 1.6mm; padding: 2.2mm 3mm 1.8mm; margin: 0 0 3.5mm; break-inside: avoid; font-family: "Source Sans 3", sans-serif; }
+.prob.bonus { border-style: dashed; }
+.prob-head { font-size: 10pt; display: block; }
+.prob-id { font-family: "JetBrains Mono", monospace; font-weight: 700; color: #fff; background: var(--accent); border-radius: 0.8mm; padding: 0.2mm 1.4mm; margin-right: 2mm; font-size: 8.4pt; }
+.prob-title { font-weight: 700; margin-right: 2mm; }
+.prob-time { float: right; font-weight: 700; color: #4b5563; font-size: 9pt; }
+.prob-url { font-family: "JetBrains Mono", monospace; font-size: 7.4pt; color: #5b6573; margin: 0.6mm 0 1.4mm; }
+.prob-url a { color: #5b6573; }
+table.prob-fields { margin: 0 0 1.4mm; border-top: 0.6pt solid #c9ced6; border-bottom: 0.6pt solid #c9ced6; font-size: 8.3pt; }
+table.prob-fields th { width: 22mm; font-weight: 600; color: #4b5563; border-bottom: 0.45pt solid #e1e5ea; vertical-align: top; padding: 1.3mm 1.6mm; }
+table.prob-fields td { height: 6.5mm; border-bottom: 0.45pt solid #e1e5ea; }
+table.prob-fields td.tall { height: 12mm; }
+table.prob-fields td.w1 { width: 40%; }
+.prob-result { font-size: 8.2pt; color: #374151; }
+.prob-result > span { margin-right: 3.2mm; white-space: nowrap; }
+.prob-result .hintref { float: right; color: #6b7280; font-style: italic; margin-right: 0; }
+
+/* mock pages */
+table.mock-plan td, table.mock-score td, table.postmortem td { height: 11mm; }
+table.mock-plan td.c, table.mock-score td.c, table.postmortem td.c { width: 8mm; vertical-align: middle; }
+table.mock-score .prob-url { margin: 0.4mm 0 0; }
+td.causes { font-size: 7.2pt; color: #8a94a2; width: 30mm; }
+.checkpoint { font-family: "Source Sans 3", sans-serif; font-size: 9.4pt; background: #f0eafb; padding: 2mm 3mm; border-radius: 1.2mm; }
+
+/* resolve + end of day */
+.resolve { font-family: "Source Sans 3", sans-serif; font-size: 9pt; line-height: 1.8; }
+.resolve-item { display: inline-block; margin-right: 5mm; }
+table.errlog td { height: 9mm; }
+table.errlog.big { break-after: page; }
+table.errlog.big td { height: 9.4mm; }
+.tomorrow { font-family: "Source Sans 3", sans-serif; font-size: 9.2pt; color: #4b5563; font-style: italic; margin-top: 3mm; }
+
+/* trackers */
+.tracker { break-before: page; }
+table.tracker-t { font-size: 8.3pt; }
+table.tracker-t td { padding: 1.05mm 1.4mm; }
+table.tracker-t td.boxes .cb { margin-right: 0.8mm; width: 2.8mm; height: 2.8mm; }
+table.tracker-t tr td:first-child { width: 7mm; }
+table.recall-t td { height: 4.6mm; padding: 0.7mm 1.4mm; }
+table.tracker-t.recall-t tr td:first-child { width: 62mm; }
+table.recall-t td.small { color: #9aa3ae; font-size: 7.4pt; width: 10mm; }
+
+/* hints appendix */
+.hints { font-size: 9.2pt; }
+.hint-day { font-size: 10pt; margin: 3mm 0 1mm; color: #374151; }
+.hint-item { margin: 0 0 1.2mm 13mm; text-indent: -13mm; }
+.hint-id { display: inline-block; width: 12mm; font-family: "JetBrains Mono", monospace; font-size: 8pt; font-weight: 700; color: #6d3fc0; text-indent: 0; }
+
+table.mocksum td { height: 10mm; }
+table.checkpoints { margin-top: 6mm; }
+
+/* exercise tables with blanks: authors use empty cells */
+.ch-body table td:empty { height: 6.5mm; }
+.trace-table td { height: 7mm; min-width: 8mm; }
+ol.exercises > li { margin-bottom: 0.7em; }
