@@ -189,7 +189,13 @@
       body { padding: 0.375rem; }
       .hero { flex-direction: column; text-align: center; padding: 1.375rem 1.125rem; }
       .hero .hero-meta { justify-content: center; }
-      .hero-clock { width: 100%; }
+      .hero h1 { font-size: 1.625rem; }
+      .hero .hero-meta { display: none; }          /* phones: keep the header short; the same facts are below */
+      .hero-clock { width: 100%; min-width: 0; padding: 0.5rem 0.75rem; display: flex; flex-wrap: wrap;
+        align-items: baseline; justify-content: center; gap: 0.25rem 0.5rem; }
+      .hero-clock b { display: inline; font-size: 1.75rem; }
+      .hero-clock span { display: inline; }
+      .hero-clock small { display: block; width: 100%; margin-top: 0.125rem; padding-top: 0.25rem; }
       .mac-content { padding: 0.875rem; }
       .grid2 { grid-template-columns: 1fr; }
       .stickybar { position: static; }
@@ -212,7 +218,7 @@
     .daynav a.mockd { border-color: #ffb3c1; color: #c20d38; }
     .daynav a.done { background: rgba(40,200,64,0.14); border-color: rgba(40,200,64,0.55); color: #1a7f31; }
     .daynav a.today { box-shadow: 0 0 0 2px var(--tl-yellow); }
-    .daynav .jump { margin-left: auto; }
+    .daynav .jump { margin-left: auto; flex: 0 0 auto; width: auto; }
 
     .week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15.625rem, 1fr)); gap: 0.75rem; margin: 0.875rem 0; }
     .week-grid a { text-decoration: none; color: var(--mac-text); border: 1px solid var(--mac-border); border-top: 0.3125rem solid var(--mac-accent);
@@ -363,14 +369,14 @@
           <span class="wk-days" title="Week 5" aria-label="Week 5"><a href="#day-29" data-nav="29" title="Day 29: Rest and logistics">29</a></span>
           <select class="jump" id="jump" aria-label="Jump to a section">
             <option value="">Jump to…</option>
-            <option value="how">How this plan works</option>
+            <option value="how">How it works</option>
             <option value="test">The test</option>
             <option value="target">SP target</option>
-            <option value="java">Java kit: fast input</option>
-            <option value="plan">The 29-day plan</option>
+            <option value="java">Java kit</option>
+            <option value="plan">All 29 days</option>
             <option value="mocks">Mocks</option>
-            <option value="repeats">Infosys repeats</option>
-            <option value="sample">Sample-paper walkthroughs</option>
+            <option value="repeats">Repeats</option>
+            <option value="sample">Walkthroughs</option>
             <option value="exam">Exam day</option>
             <option value="backup">Plan B</option>
             <option value="log">Error log</option>
