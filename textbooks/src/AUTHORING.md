@@ -260,6 +260,8 @@ Always render your figures and look at the PNG: check that nothing overlaps or i
 
 ## Sources on disk (not in the repository)
 
+If these are missing, re-create them with `tools/extract_sources.py` (see `PROGRESS.md`, "How to change a chapter").
+
 * `/projects/sandbox/work/sources/days/dayNN.json`: the plan's data for a day (focus, notes, problems with hints).
 * `/projects/sandbox/work/sources/cards/<id>.md`: the 44 handbook pattern cards (use-when, how it works,
   tested template, cost, variants, traps, practice links).

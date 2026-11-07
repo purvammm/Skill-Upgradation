@@ -172,7 +172,8 @@ def toc_html(entries, title="Contents"):
                         f'<span class="tc-title">{esc(e["title"])}</span></a></div>')
             secs = [s for s in e.get("sections", []) if s[0]]
             if secs and e.get("show_sections", True):
-                items = "".join(f'<a href="#{s[2]}"><span class="ts-num">{s[0]}</span> {esc(s[1])}</a>' for s in secs)
+                # section titles arrive as rendered HTML text (e.g. &rsquo;), so unescape before escaping
+                items = "".join(f'<a href="#{s[2]}"><span class="ts-num">{s[0]}</span> {esc(html.unescape(s[1]))}</a>' for s in secs)
                 rows.append(f'<div class="toc-secs">{items}</div>')
     rows.append("</section>")
     return "\n".join(rows)
@@ -457,7 +458,7 @@ def wb_plan_block(n, d):
 <table class="dayplan"><thead><tr><th></th><th>Block</th><th>Time</th></tr></thead><tbody>{trs}{btxt}</tbody>
 <tfoot><tr><td></td><td>Core total (estimate)</td><td class="min">{d['coreMin'] / 60:.1f} h</td></tr></tfoot></table>
 <div class="box note"><div class="box-title"><span class="box-label">Notes for the day</span></div><div class="box-body"><ul class="learn">{learn}</ul>
-<p class="why"><b>Why it matters for Infosys.</b> {esc(d['infy'])}</p></div></div>
+<p class="why"><b>Why it matters for Infosys.</b> {fix_plan_html(d['infy'])}</p></div></div>
 <div class="timebar">Start time <span class="blank s"></span> End time <span class="blank s"></span> Energy now (1–5) <span class="blank xs"></span> Hours slept <span class="blank xs"></span></div>
 """
 
@@ -554,7 +555,7 @@ def wb_mock_block(n, d):
 
 def wb_resolve_block(n):
     src = DAY.get(n - 3)
-    if not src or n - 3 < 1:
+    if not src or n - 3 < 1 or DAY[n]["kind"] == "rest":   # the rest day has no re-solve block
         return ""
     core = problem_list(src, core=True)
     items = "".join(f'<span class="resolve-item"><span class="cb"></span>{n - 3}.P{i + 1} {esc(ptitle(p))}</span>' for i, p, _ in core)
