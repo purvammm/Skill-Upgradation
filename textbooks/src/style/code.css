@@ -1,0 +1,28 @@
+/* Code listings: light background, line numbers, Pygments token colours. */
+
+pre.code { font-family: "JetBrains Mono", "Noto Sans Math", monospace; font-size: 7.9pt; line-height: 1.4; background: #f6f8fa;
+  border: 0.5pt solid #e1e5ea; border-left: 2.2pt solid var(--accent); border-radius: 1.2mm; padding: 2.2mm 3mm; margin: 0.4em 0 1em;
+  white-space: pre-wrap; overflow-wrap: anywhere; hyphens: none; text-align: left; font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; break-inside: auto; orphans: 3; widows: 3; tab-size: 4; }
+pre.code.small { font-size: 7.2pt; }
+pre.code code { background: none; padding: 0; font-size: 1em; counter-reset: line; }
+pre.code .ln { counter-increment: line; }
+pre.code .ln::before { content: counter(line); display: inline-block; width: 6mm; margin-left: -1mm; margin-right: 2mm; text-align: right; color: #a3abb6; font-size: 0.9em; }
+pre.code.trace { border-left-color: #9aa3ae; background: #fbfbfc; }
+.listing { margin: 0.9em 0 1em; }
+.listing pre.code { margin-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
+.lst-cap { font-family: "Source Sans 3", sans-serif; font-size: 8.9pt; color: #1f2937; background: #eaeef3; border: 0.5pt solid #e1e5ea; border-bottom: 0;
+  border-left: 2.2pt solid var(--accent); border-radius: 1.2mm 1.2mm 0 0; padding: 1mm 3mm; break-after: avoid; font-weight: 600; }
+.lst-label { font-weight: 800; color: var(--accent-dark); margin-right: 0.3em; }
+
+/* Pygments (default-ish, tuned for print), scoped to code blocks */
+pre.code .c, pre.code .c1, pre.code .cm, pre.code .cs, pre.code .cp, pre.code .ch, pre.code .cpf { color: #6a737d; font-style: italic; }
+pre.code .k, pre.code .kd, pre.code .kn, pre.code .kr, pre.code .kc, pre.code .kt { color: #b31d4a; font-weight: 500; }
+pre.code .kt { color: #7a3eaf; }
+pre.code .s, pre.code .s1, pre.code .s2, pre.code .sb, pre.code .sc, pre.code .sd, pre.code .se, pre.code .sh, pre.code .si, pre.code .sx, pre.code .sa { color: #116329; }
+pre.code .m, pre.code .mi, pre.code .mf, pre.code .mh, pre.code .mo, pre.code .il, pre.code .mb { color: #0b5cad; }
+pre.code .nf, pre.code .fm { color: #6f42c1; font-weight: 500; }
+pre.code .nc, pre.code .nn { color: #953800; font-weight: 500; }
+pre.code .na, pre.code .nd { color: #6f42c1; }
+pre.code .o, pre.code .ow { color: #2b3440; }
+pre.code .nb, pre.code .bp { color: #0a69a8; }
+pre.code .err { color: inherit; border: 0; }

@@ -1,0 +1,16 @@
+/* Volume I (theory) only. */
+
+.preface h2 { font-size: 13pt; }
+.preface table { font-size: 8.8pt; }
+
+h2.practice-head { margin-top: 1.6em; }
+.practice-note { font-size: 9.3pt; color: #374151; break-after: avoid; }
+table.practice td.pid { font-family: "JetBrains Mono", monospace; font-size: 8pt; color: #4b5563; white-space: nowrap; width: 12mm; }
+table.practice a { color: var(--accent-dark); }
+
+ul.keyterms { columns: 2; column-gap: 8mm; list-style: none; padding: 0; font-family: "Source Sans 3", sans-serif; font-size: 9.2pt; }
+ul.keyterms li { margin: 0.4mm 0; break-inside: avoid; }
+ul.keyterms .pg::before { content: "p. " target-counter(attr(href), page); color: #8a94a2; font-size: 0.9em; }
+
+/* review questions: numbered list in a slightly smaller face */
+h2#review + ol, .review ol { font-size: 9.8pt; }

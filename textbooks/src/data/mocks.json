@@ -1,0 +1,155 @@
+[
+ {
+  "id": "m1",
+  "day": 9,
+  "title": "Mock 1 · Phase 1 topics",
+  "desc": "Q1 ≈ 1200, Q2 ≈ 1800, Q3 ≈ 1900 (Codeforces ratings). Weights 20/30/50.",
+  "probs": [
+   {
+    "label": "CF 1343C",
+    "title": "Alternating Subsequence",
+    "url": "https://codeforces.com/problemset/problem/1343/C",
+    "diff": "1200"
+   },
+   {
+    "label": "CF 1475D",
+    "title": "Cleaning the Phone",
+    "url": "https://codeforces.com/problemset/problem/1475/D",
+    "diff": "1800"
+   },
+   {
+    "label": "CF 1251D",
+    "title": "Salary Changing",
+    "url": "https://codeforces.com/problemset/problem/1251/D",
+    "diff": "1900"
+   }
+  ],
+  "date": "Sun 15 Nov"
+ },
+ {
+  "id": "m2",
+  "day": 16,
+  "title": "Mock 2 · number theory and DP added",
+  "desc": "Q1 ≈ 1300, Q2 ≈ 1600, Q3 ≈ 1900.",
+  "probs": [
+   {
+    "label": "CF 1367C",
+    "title": "Social Distance",
+    "url": "https://codeforces.com/problemset/problem/1367/C",
+    "diff": "1300"
+   },
+   {
+    "label": "CF 1373D",
+    "title": "Maximum Sum on Even Positions",
+    "url": "https://codeforces.com/problemset/problem/1373/D",
+    "diff": "1600"
+   },
+   {
+    "label": "CF 1475G",
+    "title": "Strange Beauty",
+    "url": "https://codeforces.com/problemset/problem/1475/G",
+    "diff": "1900"
+   }
+  ],
+  "date": "Sun 22 Nov"
+ },
+ {
+  "id": "m3",
+  "day": 23,
+  "title": "Mock 3 · four problems",
+  "desc": "Q1 ≈ 1500, Q2 ≈ 1600, Q3 ≈ 2100, Q4 ≈ 2100. Collect partial marks on Q4.",
+  "probs": [
+   {
+    "label": "CF 1426D",
+    "title": "Non-zero Segments",
+    "url": "https://codeforces.com/problemset/problem/1426/D",
+    "diff": "1500"
+   },
+   {
+    "label": "CF 1689C",
+    "title": "Infected Tree",
+    "url": "https://codeforces.com/problemset/problem/1689/C",
+    "diff": "1600"
+   },
+   {
+    "label": "CF 1187E",
+    "title": "Tree Painting",
+    "url": "https://codeforces.com/problemset/problem/1187/E",
+    "diff": "2100"
+   },
+   {
+    "label": "CF 1913D",
+    "title": "Array Collapse",
+    "url": "https://codeforces.com/problemset/problem/1913/D",
+    "diff": "2100"
+   }
+  ],
+  "date": "Sun 29 Nov"
+ },
+ {
+  "id": "m4",
+  "day": 25,
+  "title": "Mock 4 · official Infosys sample paper",
+  "desc": "Infosys's own paper. Run it in OneCompiler with the PDF's samples, grade with your stress tester, then open the walkthroughs.",
+  "probs": [
+   {
+    "label": "Infosys",
+    "title": "Sample paper · Easy (tree beauty)",
+    "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf",
+    "diff": ""
+   },
+   {
+    "label": "Infosys",
+    "title": "Sample paper · Medium (gcd under updates)",
+    "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf",
+    "diff": ""
+   },
+   {
+    "label": "Infosys",
+    "title": "Sample paper · Hard (LNDS with XOR ≥ M)",
+    "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf",
+    "diff": ""
+   },
+   {
+    "label": "Infosys",
+    "title": "Sample paper · Complex (partial marks only)",
+    "url": "https://rec-test.infosys.com/iwa-web/public/instructions/Sample_Test_SP_DSE.pdf",
+    "diff": ""
+   }
+  ],
+  "date": "Tue 1 Dec"
+ },
+ {
+  "id": "m5",
+  "day": 27,
+  "title": "Mock 5 · dress rehearsal",
+  "desc": "Q1 ≈ 1500, Q2 ≈ 1800, Q3 ≈ 1800, Q4 ≈ 2100. Start at your real reporting time.",
+  "probs": [
+   {
+    "label": "CF 1385D",
+    "title": "a-Good String",
+    "url": "https://codeforces.com/problemset/problem/1385/D",
+    "diff": "1500"
+   },
+   {
+    "label": "CF 1446B",
+    "title": "Catching Cheaters",
+    "url": "https://codeforces.com/problemset/problem/1446/B",
+    "diff": "1800"
+   },
+   {
+    "label": "CF 1324F",
+    "title": "Maximum White Subtree",
+    "url": "https://codeforces.com/problemset/problem/1324/F",
+    "diff": "1800"
+   },
+   {
+    "label": "CF 1433F",
+    "title": "Zero Remainder Sum",
+    "url": "https://codeforces.com/problemset/problem/1433/F",
+    "diff": "2100"
+   }
+  ],
+  "date": "Thu 3 Dec"
+ }
+]

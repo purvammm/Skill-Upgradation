@@ -1,0 +1,266 @@
+[
+ {
+  "id": "toolkit",
+  "title": "Java collections toolkit",
+  "day": 1,
+  "cat": "Java & I/O"
+ },
+ {
+  "id": "io",
+  "title": "Fast input and output (FastScanner)",
+  "day": 1,
+  "cat": "Java & I/O"
+ },
+ {
+  "id": "linked-list",
+  "title": "Linked list moves",
+  "day": 1,
+  "cat": "Stacks & lists"
+ },
+ {
+  "id": "prefix",
+  "title": "Prefix sums + HashMap",
+  "day": 2,
+  "cat": "Arrays & windows"
+ },
+ {
+  "id": "diff-array",
+  "title": "Difference array (many range adds)",
+  "day": 2,
+  "cat": "Arrays & windows"
+ },
+ {
+  "id": "two-pointers",
+  "title": "Two pointers on a sorted array",
+  "day": 3,
+  "cat": "Arrays & windows"
+ },
+ {
+  "id": "sliding-window",
+  "title": "Sliding window (variable size)",
+  "day": 3,
+  "cat": "Arrays & windows"
+ },
+ {
+  "id": "window-max",
+  "title": "Window maximum (monotonic deque)",
+  "day": 3,
+  "cat": "Arrays & windows"
+ },
+ {
+  "id": "intervals",
+  "title": "Intervals: sort, then sweep",
+  "day": 4,
+  "cat": "Sorting, greedy, search"
+ },
+ {
+  "id": "heap-greedy",
+  "title": "Greedy with a heap",
+  "day": 5,
+  "cat": "Sorting, greedy, search"
+ },
+ {
+  "id": "binary-search",
+  "title": "Binary search: lower and upper bound",
+  "day": 6,
+  "cat": "Sorting, greedy, search"
+ },
+ {
+  "id": "bs-answer",
+  "title": "Binary search on the answer",
+  "day": 6,
+  "cat": "Sorting, greedy, search"
+ },
+ {
+  "id": "mono-stack",
+  "title": "Monotonic stack",
+  "day": 7,
+  "cat": "Stacks & lists"
+ },
+ {
+  "id": "bits",
+  "title": "Bit tricks and XOR",
+  "day": 8,
+  "cat": "Bits & XOR"
+ },
+ {
+  "id": "trie",
+  "title": "Binary trie for XOR",
+  "day": 8,
+  "cat": "Bits & XOR"
+ },
+ {
+  "id": "xor-basis",
+  "title": "XOR basis (maximum subset XOR)",
+  "day": 8,
+  "cat": "Bits & XOR"
+ },
+ {
+  "id": "brute-force",
+  "title": "Brute force first, then stress test",
+  "day": 9,
+  "cat": "Brute force"
+ },
+ {
+  "id": "mod-math",
+  "title": "gcd, fast power, inverse, nCr",
+  "day": 10,
+  "cat": "Number theory"
+ },
+ {
+  "id": "sieve",
+  "title": "Sieve, prime factors, square-free kernel",
+  "day": 10,
+  "cat": "Number theory"
+ },
+ {
+  "id": "dp-recipe",
+  "title": "DP recipe: state, transition, base, answer",
+  "day": 11,
+  "cat": "Dynamic programming"
+ },
+ {
+  "id": "knapsack",
+  "title": "Knapsack family",
+  "day": 11,
+  "cat": "Dynamic programming"
+ },
+ {
+  "id": "two-strings",
+  "title": "Two-string DP (LCS, edit distance)",
+  "day": 12,
+  "cat": "Dynamic programming"
+ },
+ {
+  "id": "lis",
+  "title": "Longest increasing subsequence",
+  "day": 13,
+  "cat": "Dynamic programming"
+ },
+ {
+  "id": "interval-dp",
+  "title": "Interval DP and game DP",
+  "day": 14,
+  "cat": "Dynamic programming"
+ },
+ {
+  "id": "graph-bfs",
+  "title": "BFS: fewest edges, grids, many sources",
+  "day": 15,
+  "cat": "Graphs"
+ },
+ {
+  "id": "graph-dfs",
+  "title": "DFS without recursion, components",
+  "day": 15,
+  "cat": "Graphs"
+ },
+ {
+  "id": "topo",
+  "title": "Topological order (Kahn) and DAG DP",
+  "day": 15,
+  "cat": "Graphs"
+ },
+ {
+  "id": "zero-one-bfs",
+  "title": "0-1 BFS",
+  "day": 15,
+  "cat": "Graphs"
+ },
+ {
+  "id": "dijkstra",
+  "title": "Dijkstra",
+  "day": 17,
+  "cat": "Graphs"
+ },
+ {
+  "id": "dsu",
+  "title": "Union-find (DSU) and Kruskal",
+  "day": 17,
+  "cat": "Graphs"
+ },
+ {
+  "id": "tree-recursion",
+  "title": "Binary tree recursion (LeetCode TreeNode)",
+  "day": 18,
+  "cat": "Trees"
+ },
+ {
+  "id": "tree-parent",
+  "title": "General trees from a parent array (no recursion)",
+  "day": 18,
+  "cat": "Trees"
+ },
+ {
+  "id": "lca",
+  "title": "LCA with binary lifting",
+  "day": 18,
+  "cat": "Trees"
+ },
+ {
+  "id": "tree-dp",
+  "title": "Tree DP (dp[v][state])",
+  "day": 19,
+  "cat": "Trees"
+ },
+ {
+  "id": "rerooting",
+  "title": "Rerooting (an answer for every root)",
+  "day": 19,
+  "cat": "Trees"
+ },
+ {
+  "id": "small-to-large",
+  "title": "Small-to-large merging",
+  "day": 19,
+  "cat": "Trees"
+ },
+ {
+  "id": "euler-tour",
+  "title": "Euler tour (subtree = range)",
+  "day": 20,
+  "cat": "Trees"
+ },
+ {
+  "id": "fenwick",
+  "title": "Fenwick tree (BIT)",
+  "day": 20,
+  "cat": "Range data structures"
+ },
+ {
+  "id": "segtree",
+  "title": "Segment tree (iterative)",
+  "day": 20,
+  "cat": "Range data structures"
+ },
+ {
+  "id": "lazy-segtree",
+  "title": "Lazy segment tree (range add, range max)",
+  "day": 21,
+  "cat": "Range data structures"
+ },
+ {
+  "id": "k-segments",
+  "title": "Split into K parts (dp[k][i])",
+  "day": 21,
+  "cat": "Dynamic programming"
+ },
+ {
+  "id": "backtracking",
+  "title": "Backtracking and subset enumeration",
+  "day": 22,
+  "cat": "Brute force"
+ },
+ {
+  "id": "bitmask-dp",
+  "title": "Bitmask DP",
+  "day": 22,
+  "cat": "Dynamic programming"
+ },
+ {
+  "id": "digit-dp",
+  "title": "Digit DP",
+  "day": 22,
+  "cat": "Dynamic programming"
+ }
+]

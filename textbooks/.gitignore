@@ -1,0 +1,10 @@
+# Auto-downloaded on first build by src/tools/fonts.py (open-source OFL fonts)
+src/.fonts/
+
+# Build artefacts
+src/build/
+**/__pycache__/
+*.pyc
+
+# Local Python virtualenv, if created inside the tree
+src/.venv/
