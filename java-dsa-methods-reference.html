@@ -117,6 +117,7 @@
       border: 1px solid rgba(255,255,255,0.25); border-radius: 0.375rem; padding: 0.25rem 0.6875rem; font-size: 0.7812rem;
       font-family: var(--mac-font); cursor: pointer; }
     .copy-btn:hover { background: rgba(255,255,255,0.22); }
+    .filebar .copy-btn { position: static; flex: 0 0 auto; }            /* in the bar, so it never covers code */
     .copy-btn.ok { background: #28c840; border-color: #28c840; color: #fff; }
     .copy-btn.err { background: var(--tl-red); border-color: var(--tl-red); color: #fff; }
     .filebar { display: flex; align-items: center; gap: 0.625rem; background: #2a2a3c; color: #f8f8f2; border-radius: 0.5rem 0.5rem 0 0;
@@ -141,10 +142,12 @@
     table.tbl thead th { background: var(--mac-titlebar); font-size: 0.875rem; }
     table.tbl tbody tr:nth-child(even) { background: #fafafc; }
     table.tbl td code { white-space: nowrap; }
-    table.mt .h-sig { width: 24%; } table.mt .h-does { width: 30%; } table.mt .h-cost { width: 8%; } table.mt .h-ex { width: 38%; }
+    table.mt { table-layout: fixed; }             /* same column widths in every card */
+    table.mt .h-sig { width: 24%; } table.mt .h-does { width: 29%; } table.mt .h-cost { width: 10%; } table.mt .h-ex { width: 37%; }
+    table.mt td.c-cost .diff { white-space: normal; }
     table.mt td { line-height: 1.5; }
     table.mt td.c-does { font-size: 0.9063rem; }
-    table.mt td.c-does code, table.it td code { white-space: normal; }
+    table.mt td code, table.it td code { white-space: normal; }
     table.mt td.c-ex { padding: 0.4375rem; }
     .sig { font-family: var(--mac-mono); font-size: 0.875rem; overflow-wrap: anywhere; margin-bottom: 0.3125rem; }
     .sig b { color: var(--c, var(--mac-accent)); }
@@ -345,7 +348,7 @@
 int stillPositive = INF + INF;  <span class="code-comment">// → 2147483646</span>
 long LINF = Long.MAX_VALUE / 4;</code></pre></div></div></div></article>
 <article class="pat" id="arith" style="--c:#636366"><div class="pat-head"><span class="pat-cat">Numbers &amp; bits</span><h3>Integer arithmetic, casting and overflow</h3><span class="pat-count">16 entries</span></div><div class="pat-body"><p>Java never warns about overflow: <code>int</code> and <code>long</code> silently wrap around. Each row is an expression you can paste into a method; the result column is what Java prints.</p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>int a = 100_000, b = 100_000;</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>int a = 100_000, b = 100_000;</code></pre></div>
 <div class="tbl-wrap"><table class="tbl it"><thead><tr><th>Expression</th><th>Result</th><th>Why it matters</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-expr"><code>7 / 2</code></td><td class="c-res"><code class="res">3</code></td><td class="c-why">Integer division drops the fraction.</td></tr>
 <tr class="row s-item"><td class="c-expr"><code>-7 / 2</code></td><td class="c-res"><code class="res">-3</code></td><td class="c-why">It truncates toward zero, not toward −∞. Use <code>Math.floorDiv</code> for floor.</td></tr>
@@ -445,7 +448,7 @@ int none = Character.digit('9', 8);  <span class="code-comment">// → -1</span>
 <tr class="row s-item"><td class="c-sig"><div class="sig">Character.<b>toString</b>(char c)</div><div class="io"><span class="io-k">takes</span><code>char c</code></div><div class="io"><span class="io-k">returns</span><code>String</code></div></td><td class="c-does">One-character string; same as <code>String.valueOf(c)</code>.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>String t = Character.toString('x');  <span class="code-comment">// → "x"</span></code></pre></div></td></tr>
 </tbody></table></div></div></article>
 <article class="pat" id="char-math" style="--c:#636366"><div class="pat-head"><span class="pat-cat">Numbers &amp; bits</span><h3>char arithmetic</h3><span class="pat-count">9 entries</span></div><div class="pat-body"><p>A <code>char</code> is a 16-bit number, so you can subtract and add to it. Any arithmetic on a <code>char</code> produces an <code>int</code>; cast back with <code>(char)</code>.</p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>char c = 'e';</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>char c = 'e';</code></pre></div>
 <div class="tbl-wrap"><table class="tbl it"><thead><tr><th>Expression</th><th>Result</th><th>Why it matters</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-expr"><code>c - 'a'</code></td><td class="c-res"><code class="res">4</code></td><td class="c-why">Index 0–25 of a lower-case letter: the key for an <code>int[26]</code> counter.</td></tr>
 <tr class="row s-item"><td class="c-expr"><code>(char) ('a' + 3)</code></td><td class="c-res"><code class="res">'d'</code></td><td class="c-why">Back from an index to a letter.</td></tr>
@@ -506,7 +509,7 @@ long g = gcd(12, 18);  <span class="code-comment">// → 6</span>
 long l = 12 / gcd(12, 18) * 18;  <span class="code-comment">// → 36</span>
 long p = power(2, 30, 1_000_000_007L);  <span class="code-comment">// → 73741817</span></code></pre></div><p class="lst-p"><code>Math</code> has no gcd or modular power. These two are short enough to type from memory. Divide before multiplying in the lcm to avoid overflow.</p></div></div></article>
 <article class="pat" id="bits" style="--c:#636366"><div class="pat-head"><span class="pat-cat">Numbers &amp; bits</span><h3>Bit manipulation</h3><span class="pat-count">16 entries</span></div><div class="pat-body"><p>Operators: <code>&amp;</code> and, <code>|</code> or, <code>^</code> xor, <code>~</code> not, <code>&lt;&lt;</code> shift left, <code>&gt;&gt;</code> shift right keeping the sign, <code>&gt;&gt;&gt;</code> shift right filling with zeros. Bit i means the bit worth 2ⁱ, counting from 0 on the right.</p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>int x = 12;   <span class="code-comment">// binary 1100</span></code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>int x = 12;   <span class="code-comment">// binary 1100</span></code></pre></div>
 <div class="tbl-wrap"><table class="tbl it"><thead><tr><th>Expression</th><th>Result</th><th>Why it matters</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-expr"><code>x &amp; 1</code></td><td class="c-res"><code class="res">0</code></td><td class="c-why">1 if <code>x</code> is odd, 0 if even.</td></tr>
 <tr class="row s-item"><td class="c-expr"><code>(x &gt;&gt; 2) &amp; 1</code></td><td class="c-res"><code class="res">1</code></td><td class="c-why">Reads bit 2.</td></tr>
@@ -542,7 +545,7 @@ for (int sub = m; sub &gt; 0; sub = (sub - 1) &amp; m) subs.add(sub);   <span cl
 <span class="code-comment">// subs → [11, 10, 9, 8, 3, 2, 1]</span></code></pre></div><p class="lst-p">Bitmask DP and brute force over subsets use these two loops. <code>2^n</code> is fine up to about n = 20.</p></div></div></article>
 <div class="band part-band" style="--c:#00877d">Arrays and strings</div>
 <article class="pat" id="arrays" style="--c:#00877d"><div class="pat-head"><span class="pat-cat">Arrays &amp; strings</span><h3>Arrays: the language part</h3><span class="pat-count">8 entries</span></div><div class="pat-body"><p>An array has a fixed length chosen at creation. Reading and writing by index is O(1), which makes <code>int[]</code> the fastest structure in Java: prefer it to a <code>HashMap</code> whenever the keys are small integers.</p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>int[] a = {5, 3, 9, 1};</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>int[] a = {5, 3, 9, 1};</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>new int[n]</b></div><div class="io"><span class="io-k">takes</span><code>int n (the length)</code></div><div class="io"><span class="io-k">returns</span><code>int[]</code></div></td><td class="c-does">New array of length <code>n</code> filled with defaults: 0 for numbers, <code>false</code> for <code>boolean</code>, <code>'\u0000'</code> for <code>char</code>, <code>null</code> for objects.</td><td class="c-cost"><span class="diff m">O(n)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>int[] z = new int[3];  <span class="code-comment">// → [0, 0, 0]</span>
 String[] names = new String[2];  <span class="code-comment">// → [null, null]</span></code></pre></div></td></tr>
@@ -570,7 +573,7 @@ boolean ref = a.equals(b);  <span class="code-comment">// → false</span>
 boolean content = Arrays.equals(a, b);  <span class="code-comment">// → true</span></code></pre></div></div></div></article>
 <article class="pat" id="arrays-util" style="--c:#00877d"><div class="pat-head"><span class="pat-cat">Arrays &amp; strings</span><h3>java.util.Arrays</h3><span class="pat-count">15 entries</span></div><div class="pat-body"><p>Static helpers that work on arrays: sorting, filling, copying, searching and printing.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.Arrays</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>int[] a = {5, 3, 9, 1};</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>int[] a = {5, 3, 9, 1};</code></pre></div>
 <h4 class="grp">Sorting</h4>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig">Arrays.<b>sort</b>(int[] a)</div><div class="io"><span class="io-k">takes</span><code>int[] a</code></div><div class="io"><span class="io-k">returns</span><code>void</code></div></td><td class="c-does">Sorts ascending, in place. Works for every primitive array type (<code>long[]</code>, <code>char[]</code>, <code>double[]</code>, ...). There is no descending sort for primitive arrays.</td><td class="c-cost"><span class="diff h">O(n log n)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>Arrays.sort(a);  <span class="code-comment">// a → [1, 3, 5, 9]</span></code></pre></div></td></tr>
@@ -618,7 +621,7 @@ long big = Arrays.stream(new int[] {2_000_000_000, 2_000_000_000}).asLongStream(
 </tbody></table></div></div></article>
 <article class="pat" id="string" style="--c:#00877d"><div class="pat-head"><span class="pat-cat">Arrays &amp; strings</span><h3>String</h3><span class="pat-count">27 entries</span></div><div class="pat-body"><p>A <code>String</code> is <strong>immutable</strong>: every method that seems to change it returns a new string and leaves the original alone. Indexes are 0-based and every <code>end</code> index is exclusive.</p>
 <p class="cx"><strong>Import:</strong> <code>java.lang (no import needed)</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>String s = "hello world";</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>String s = "hello world";</code></pre></div>
 <h4 class="grp">Reading characters</h4>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>length</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>int</code></div></td><td class="c-does">Number of characters. A method with parentheses, unlike the array field <code>length</code>.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>int n = s.length();  <span class="code-comment">// → 11</span></code></pre></div></td></tr>
@@ -692,7 +695,7 @@ String p = String.format("%05d|%-3s|", 42, "ab");  <span class="code-comment">//
 <div class="warn s-item"><span class="lbl">Pitfall: Five String mistakes that cost test cases</span><p><code>==</code> instead of <code>equals</code>. <code>s += c</code> inside a loop (quadratic). Forgetting that <code>split</code> takes a regex. Treating the <code>end</code> of <code>substring</code> as inclusive. Comparing a <code>char</code> with a <code>String</code>: <code>s.charAt(0) == "a"</code> does not compile; write <code>'a'</code>.</p></div></div></article>
 <article class="pat" id="stringbuilder" style="--c:#00877d"><div class="pat-head"><span class="pat-cat">Arrays &amp; strings</span><h3>StringBuilder</h3><span class="pat-count">14 entries</span></div><div class="pat-body"><p>A mutable string. <code>append</code> at the end is O(1) amortised, so build answers and backtracking paths with it, then call <code>toString()</code> once.</p>
 <p class="cx"><strong>Import:</strong> <code>java.lang (no import needed)</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>StringBuilder sb = new StringBuilder("abc");</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>StringBuilder sb = new StringBuilder("abc");</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig">new <b>StringBuilder</b>()</div><div class="io"><span class="io-k">takes</span><code>nothing, a String, or an int capacity</code></div><div class="io"><span class="io-k">returns</span><code>StringBuilder</code></div></td><td class="c-does">Empty builder. <code>new StringBuilder("abc")</code> starts with text and <code>new StringBuilder(n)</code> reserves room for n characters. Trap: <code>new StringBuilder('a')</code> treats the char as a capacity (97) and starts <strong>empty</strong>.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>StringBuilder e = new StringBuilder();
 int len = e.length();  <span class="code-comment">// → 0</span>
@@ -720,7 +723,7 @@ boolean right = x.toString().equals(y.toString());  <span class="code-comment">/
 <div class="band part-band" style="--c:#1f72b8">Lists and the Collection basics</div>
 <article class="pat" id="collection" style="--c:#1f72b8"><div class="pat-head"><span class="pat-cat">Lists</span><h3>Collection&lt;E&gt;: methods every list, set and queue has</h3><span class="pat-count">14 entries</span></div><div class="pat-body"><p><code>ArrayList</code>, <code>LinkedList</code>, <code>HashSet</code>, <code>TreeSet</code>, <code>ArrayDeque</code> and <code>PriorityQueue</code> all implement <code>Collection&lt;E&gt;</code>, so these calls work on each of them. The cost of <code>contains</code> and <code>remove</code> depends on the class: O(1) for <code>HashSet</code>, O(log n) for <code>TreeSet</code>, O(n) for lists, deques and priority queues.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.*</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Collection&lt;Integer&gt; c = new ArrayList&lt;&gt;(Arrays.asList(1, 2, 3, 2));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Collection&lt;Integer&gt; c = new ArrayList&lt;&gt;(Arrays.asList(1, 2, 3, 2));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>size</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>int</code></div></td><td class="c-does">Number of elements.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>int n = c.size();  <span class="code-comment">// → 4</span></code></pre></div></td></tr>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>isEmpty</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>boolean</code></div></td><td class="c-does">Same as <code>size() == 0</code>.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>boolean e = c.isEmpty();  <span class="code-comment">// → false</span></code></pre></div></td></tr>
@@ -742,7 +745,7 @@ int[] prim = c.stream().mapToInt(Integer::intValue).toArray();  <span class="cod
 </tbody></table></div></div></article>
 <article class="pat" id="arraylist" style="--c:#1f72b8"><div class="pat-head"><span class="pat-cat">Lists</span><h3>ArrayList&lt;E&gt; and List&lt;E&gt;</h3><span class="pat-count">18 entries</span></div><div class="pat-body"><p>A resizable array: O(1) reads and writes by index, O(1) amortised <code>add</code> at the end, O(n) inserts and removals elsewhere. Declare the variable as <code>List&lt;Integer&gt;</code> and create an <code>ArrayList</code>. Everything from the Collection section also applies.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.ArrayList, java.util.List</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(5, 3, 7));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(5, 3, 7));</code></pre></div>
 <h4 class="grp">Creating</h4>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig">new <b>ArrayList</b>&lt;&gt;()</div><div class="io"><span class="io-k">takes</span><code>nothing, an int capacity, or a Collection to copy</code></div><div class="io"><span class="io-k">returns</span><code>ArrayList&lt;E&gt;</code></div></td><td class="c-does">Empty list. <code>new ArrayList&lt;&gt;(n)</code> reserves room for n elements; <code>new ArrayList&lt;&gt;(other)</code> copies another collection, the way to save a snapshot of a backtracking path.</td><td class="c-cost"><span class="diff e">O(1), copy O(n)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>List&lt;Integer&gt; empty = new ArrayList&lt;&gt;();
@@ -809,7 +812,7 @@ grid.get(0).set(0, 9);
 <span class="code-comment">// grid → [[9, 1, 2], [3, 4, 5]]</span></code></pre></div></div></div></article>
 <article class="pat" id="linkedlist" style="--c:#1f72b8"><div class="pat-head"><span class="pat-cat">Lists</span><h3>LinkedList&lt;E&gt;</h3><span class="pat-count">5 entries</span></div><div class="pat-body"><p>A doubly linked list that implements both <code>List</code> and <code>Deque</code>. Ends are O(1); anything by index is O(n). <code>ArrayDeque</code> is faster for stacks and queues; reach for <code>LinkedList</code> mainly when you need to store <code>null</code> in a queue.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.LinkedList</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>LinkedList&lt;Integer&gt; ll = new LinkedList&lt;&gt;(Arrays.asList(1, 2, 3));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>LinkedList&lt;Integer&gt; ll = new LinkedList&lt;&gt;(Arrays.asList(1, 2, 3));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>addFirst</b>(E e)</div><div class="io"><span class="io-k">takes</span><code>E e</code></div><div class="io"><span class="io-k">returns</span><code>void</code></div></td><td class="c-does">Adds at the front; <code>addLast</code> at the back.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>ll.addFirst(0);  <span class="code-comment">// ll → [0, 1, 2, 3]</span></code></pre></div></td></tr>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>removeFirst</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>E</code></div></td><td class="c-does">Removes and returns the front; <code>removeLast</code> for the back. Both throw <code>NoSuchElementException</code> when empty; <code>pollFirst</code> and <code>pollLast</code> return <code>null</code> instead.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>int f = ll.removeFirst();  <span class="code-comment">// → 1</span>
@@ -821,7 +824,7 @@ int n = ll.size();  <span class="code-comment">// → 4</span></code></pre></div
 </tbody></table></div></div></article>
 <article class="pat" id="collections" style="--c:#1f72b8"><div class="pat-head"><span class="pat-cat">Lists</span><h3>java.util.Collections</h3><span class="pat-count">13 entries</span></div><div class="pat-body"><p>Static helpers for lists and other collections.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.Collections</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(4, 1, 3, 1));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(4, 1, 3, 1));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig">Collections.<b>sort</b>(List&lt;T&gt; list)</div><div class="io"><span class="io-k">takes</span><code>List&lt;T&gt; list</code></div><div class="io"><span class="io-k">returns</span><code>void</code></div></td><td class="c-does">Sorts ascending in place; stable (TimSort). <code>Collections.sort(list, comparator)</code> for any other order.</td><td class="c-cost"><span class="diff h">O(n log n)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>Collections.sort(list);  <span class="code-comment">// list → [1, 1, 3, 4]</span></code></pre></div></td></tr>
 <tr class="row s-item"><td class="c-sig"><div class="sig">Collections.<b>reverseOrder</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>Comparator&lt;T&gt;</code></div></td><td class="c-does">Comparator for descending natural order; <code>reverseOrder(cmp)</code> reverses another comparator. Also the usual way to build a max-heap.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>Collections.sort(list, Collections.reverseOrder());  <span class="code-comment">// list → [4, 3, 1, 1]</span>
@@ -844,7 +847,7 @@ int n = list.size();  <span class="code-comment">// → 4</span></code></pre></d
 </tbody></table></div></div></article>
 <article class="pat" id="iterator" style="--c:#1f72b8"><div class="pat-head"><span class="pat-cat">Lists</span><h3>Iterator&lt;E&gt; and ListIterator&lt;E&gt;</h3><span class="pat-count">5 entries</span></div><div class="pat-body"><p>A for-each loop uses an iterator behind the scenes. Use one explicitly when you need to delete while looping.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.Iterator, java.util.ListIterator</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(1, 2, 3, 4));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(1, 2, 3, 4));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>iterator</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>Iterator&lt;E&gt;</code></div></td><td class="c-does">A cursor over any collection (also maps' <code>keySet()</code>, <code>values()</code>, <code>entrySet()</code>).</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>Iterator&lt;Integer&gt; it = list.iterator();
 int first = it.next();  <span class="code-comment">// → 1</span></code></pre></div></td></tr>
@@ -863,7 +866,7 @@ while (it.hasNext()) it.set(it.next() * 10);
 <div class="band part-band" style="--c:#d70f3f">Maps and sets</div>
 <article class="pat" id="hashmap" style="--c:#d70f3f"><div class="pat-head"><span class="pat-cat">Maps &amp; sets</span><h3>HashMap&lt;K, V&gt; and Map&lt;K, V&gt;</h3><span class="pat-count">26 entries</span></div><div class="pat-body"><p>Key → value lookup in O(1) expected time. Declare as <code>Map&lt;K, V&gt;</code> and create a <code>HashMap</code>. Iteration order is <strong>not</strong> defined: never rely on it, and use <code>TreeMap</code> or <code>LinkedHashMap</code> when order matters. (The printed maps below happen to come out in a fixed order because the keys are small.)</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.HashMap, java.util.Map</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
 map.put("a", 1);
 map.put("b", 2);</code></pre></div>
 <h4 class="grp">Creating</h4>
@@ -1007,7 +1010,7 @@ String java8 = m.keySet().iterator().next();  <span class="code-comment">// → 
 </tbody></table></div></div></article>
 <article class="pat" id="treemap" style="--c:#d70f3f"><div class="pat-head"><span class="pat-cat">Maps &amp; sets</span><h3>TreeMap&lt;K, V&gt;: a sorted map</h3><span class="pat-count">15 entries</span></div><div class="pat-body"><p>A red-black tree: keys are kept sorted, and every <code>Map</code> method costs O(log n). On top of <code>Map</code> it answers “nearest key below or above x” and “smallest/largest key”. Declare the variable as <code>TreeMap</code> (not <code>Map</code>) so these methods are visible.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.TreeMap</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>TreeMap&lt;Integer, String&gt; tm = new TreeMap&lt;&gt;();
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>TreeMap&lt;Integer, String&gt; tm = new TreeMap&lt;&gt;();
 tm.put(10, "a");
 tm.put(20, "b");
 tm.put(30, "c");</code></pre></div>
@@ -1065,7 +1068,7 @@ int smallest = bag.firstKey();  <span class="code-comment">// → 1</span>
 int largest = bag.lastKey();  <span class="code-comment">// → 5</span></code></pre></div><p class="lst-p">Java has no built-in multiset. Count copies in a <code>TreeMap</code>; this is also how to get a “heap with delete” in O(log n), e.g. for a sliding-window median.</p></div></div></article>
 <article class="pat" id="hashset" style="--c:#d70f3f"><div class="pat-head"><span class="pat-cat">Maps &amp; sets</span><h3>HashSet&lt;E&gt; and Set&lt;E&gt;</h3><span class="pat-count">11 entries</span></div><div class="pat-body"><p>Unique elements with O(1) expected <code>add</code>, <code>remove</code> and <code>contains</code>. Order is not defined; use <code>TreeSet</code> for sorted order or <code>LinkedHashSet</code> for insertion order.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.HashSet, java.util.Set</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Set&lt;Integer&gt; set = new HashSet&lt;&gt;(Arrays.asList(1, 2, 3));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Set&lt;Integer&gt; set = new HashSet&lt;&gt;(Arrays.asList(1, 2, 3));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig">new <b>HashSet</b>&lt;&gt;()</div><div class="io"><span class="io-k">takes</span><code>nothing, an int capacity, or a Collection to copy</code></div><div class="io"><span class="io-k">returns</span><code>HashSet&lt;E&gt;</code></div></td><td class="c-does">Empty set; <code>new HashSet&lt;&gt;(list)</code> removes the duplicates of a list in one step.</td><td class="c-cost"><span class="diff e">O(1), copy O(n)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>Set&lt;Integer&gt; unique = new HashSet&lt;&gt;(Arrays.asList(4, 4, 2));
 int n = unique.size();  <span class="code-comment">// → 2</span></code></pre></div></td></tr>
@@ -1096,7 +1099,7 @@ boolean[][] vis = new boolean[rows][cols];       <span class="code-comment">// s
 vis[1][2] = true;</code></pre></div></div></div></article>
 <article class="pat" id="treeset" style="--c:#d70f3f"><div class="pat-head"><span class="pat-cat">Maps &amp; sets</span><h3>TreeSet&lt;E&gt;: a sorted set</h3><span class="pat-count">12 entries</span></div><div class="pat-body"><p>Unique elements kept in sorted order, O(log n) per operation. The set version of <code>TreeMap</code>: same nearest-element queries, without values.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.TreeSet</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>TreeSet&lt;Integer&gt; ts = new TreeSet&lt;&gt;(Arrays.asList(10, 20, 30));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>TreeSet&lt;Integer&gt; ts = new TreeSet&lt;&gt;(Arrays.asList(10, 20, 30));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig">new <b>TreeSet</b>&lt;&gt;()</div><div class="io"><span class="io-k">takes</span><code>nothing, a Comparator&lt;? super E&gt;, or a Collection</code></div><div class="io"><span class="io-k">returns</span><code>TreeSet&lt;E&gt;</code></div></td><td class="c-does">Natural order, or pass a comparator. Two elements that compare as 0 count as the <strong>same</strong> element, so a comparator on only part of an object silently drops ties.</td><td class="c-cost"><span class="diff h">O(1), copy O(n log n)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>TreeSet&lt;int[]&gt; byFirst = new TreeSet&lt;&gt;((x, y) -&gt; Integer.compare(x[0], y[0]));
 byFirst.add(new int[] {1, 5});
@@ -1121,7 +1124,7 @@ Integer none = ts.higher(30);  <span class="code-comment">// → null</span></co
 <div class="band part-band" style="--c:#1f8f3e">Stacks, queues and heaps</div>
 <article class="pat" id="stack" style="--c:#1f8f3e"><div class="pat-head"><span class="pat-cat">Stacks, queues, heaps</span><h3>Stack: ArrayDeque used as a stack</h3><span class="pat-count">6 entries</span></div><div class="pat-body"><p>Last in, first out. Declare <code>Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;()</code> and use <code>push</code>, <code>pop</code>, <code>peek</code>. All three work on the <strong>front</strong> of the deque, so the top of the stack is the first element.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.ArrayDeque, java.util.Deque</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
 stack.push(1);
 stack.push(2);
 stack.push(3);       <span class="code-comment">// top is 3</span></code></pre></div>
@@ -1163,7 +1166,7 @@ ok = ok &amp;&amp; st.isEmpty();
 <span class="code-comment">// ok → true</span></code></pre></div></div></div></article>
 <article class="pat" id="legacy-stack" style="--c:#1f8f3e"><div class="pat-head"><span class="pat-cat">Stacks, queues, heaps</span><h3>java.util.Stack (legacy)</h3><span class="pat-count">6 entries</span></div><div class="pat-body"><p>Older class that many tutorials use. It works, but it is synchronised (slower), its iteration order is the opposite of <code>ArrayDeque</code>, and its exceptions differ. Know it so you can read other people's code.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.Stack</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Stack&lt;Integer&gt; st = new Stack&lt;&gt;();
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Stack&lt;Integer&gt; st = new Stack&lt;&gt;();
 st.push(1);
 st.push(2);
 st.push(3);</code></pre></div>
@@ -1180,7 +1183,7 @@ int bottom = st.get(0);  <span class="code-comment">// → 1</span></code></pre>
 </tbody></table></div></div></article>
 <article class="pat" id="queue" style="--c:#1f8f3e"><div class="pat-head"><span class="pat-cat">Stacks, queues, heaps</span><h3>Queue: ArrayDeque used as a queue</h3><span class="pat-count">7 entries</span></div><div class="pat-body"><p>First in, first out: the order for BFS. Declare <code>Queue&lt;Integer&gt; q = new ArrayDeque&lt;&gt;()</code>. Each operation comes in two forms, one that throws on failure and one that returns a special value.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.ArrayDeque, java.util.Queue</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Queue&lt;Integer&gt; q = new ArrayDeque&lt;&gt;();
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Queue&lt;Integer&gt; q = new ArrayDeque&lt;&gt;();
 q.offer(1);
 q.offer(2);
 q.offer(3);          <span class="code-comment">// head is 1</span></code></pre></div>
@@ -1240,7 +1243,7 @@ while (!q.isEmpty()) {
 <span class="code-comment">// levels → [[1], [2, 3], [4]]</span></code></pre></div></div></div></article>
 <article class="pat" id="deque" style="--c:#1f8f3e"><div class="pat-head"><span class="pat-cat">Stacks, queues, heaps</span><h3>Deque: both ends</h3><span class="pat-count">8 entries</span></div><div class="pat-body"><p><code>ArrayDeque</code> adds, removes and reads at both ends in O(1). The stack and queue methods above are just names for some of these.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.ArrayDeque, java.util.Deque</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Deque&lt;Integer&gt; dq = new ArrayDeque&lt;&gt;(Arrays.asList(1, 2, 3));   <span class="code-comment">// first 1, last 3</span></code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Deque&lt;Integer&gt; dq = new ArrayDeque&lt;&gt;(Arrays.asList(1, 2, 3));   <span class="code-comment">// first 1, last 3</span></code></pre></div>
 <div class="tbl-wrap"><table class="tbl"><thead><tr><th></th><th>Front, throws</th><th>Front, returns null/false</th><th>Back, throws</th><th>Back, returns null/false</th></tr></thead><tbody>
 <tr><td>Add</td><td><code>addFirst(e)</code> = <code>push(e)</code></td><td><code>offerFirst(e)</code></td><td><code>addLast(e)</code> = <code>add(e)</code></td><td><code>offerLast(e)</code> = <code>offer(e)</code></td></tr>
 <tr><td>Remove</td><td><code>removeFirst()</code> = <code>pop()</code> = <code>remove()</code></td><td><code>pollFirst()</code> = <code>poll()</code></td><td><code>removeLast()</code></td><td><code>pollLast()</code></td></tr>
@@ -1271,7 +1274,7 @@ for (int i = 0; i &lt; a.length; i++) {
 <span class="code-comment">// res → [3, 3, 5, 5, 6, 7]</span></code></pre></div></div></div></article>
 <article class="pat" id="pq" style="--c:#1f8f3e"><div class="pat-head"><span class="pat-cat">Stacks, queues, heaps</span><h3>PriorityQueue&lt;E&gt;: a binary heap</h3><span class="pat-count">9 entries</span></div><div class="pat-body"><p><code>poll()</code> always returns the smallest element according to the ordering: a <strong>min-heap</strong> by default. Pass a comparator for a max-heap or to order arrays and objects. Insert and remove are O(log n); looking at the top is O(1).</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.PriorityQueue</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(Arrays.asList(5, 1, 8, 3));   <span class="code-comment">// min-heap</span></code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;(Arrays.asList(5, 1, 8, 3));   <span class="code-comment">// min-heap</span></code></pre></div>
 <h4 class="grp">Creating</h4>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig">new <b>PriorityQueue</b>&lt;&gt;()</div><div class="io"><span class="io-k">takes</span><code>nothing, an int capacity, or a Collection</code></div><div class="io"><span class="io-k">returns</span><code>PriorityQueue&lt;E&gt;</code></div></td><td class="c-does">Min-heap in natural order. Built from a collection, it heapifies in O(n).</td><td class="c-cost"><span class="diff e">O(1), from a collection O(n)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue&lt;&gt;();
@@ -1324,7 +1327,7 @@ while (!heap.isEmpty()) {
 <div class="band part-band" style="--c:#8a6d3b">Ordering, streams and conversions</div>
 <article class="pat" id="comparator" style="--c:#8a6d3b"><div class="pat-head"><span class="pat-cat">Ordering &amp; streams</span><h3>Comparator&lt;T&gt; and Comparable&lt;T&gt;</h3><span class="pat-count">7 entries</span></div><div class="pat-body"><p>A comparator answers “does a come before b?” with an <code>int</code>: negative means a first, 0 means equal, positive means b first. Sorting methods, <code>TreeMap</code>, <code>TreeSet</code> and <code>PriorityQueue</code> all take one.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.Comparator</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>List&lt;String&gt; words = new ArrayList&lt;&gt;(Arrays.asList("pear", "fig", "apple", "kiwi"));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>List&lt;String&gt; words = new ArrayList&lt;&gt;(Arrays.asList("pear", "fig", "apple", "kiwi"));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>compare</b>(T a, T b)</div><div class="io"><span class="io-k">takes</span><code>T a, T b</code></div><div class="io"><span class="io-k">returns</span><code>int</code></div></td><td class="c-does">The single method of <code>Comparator&lt;T&gt;</code>, usually written as a lambda <code>(a, b) -&gt; ...</code>.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>Comparator&lt;String&gt; byLen = (a, b) -&gt; Integer.compare(a.length(), b.length());
 int c = byLen.compare("fig", "pear");  <span class="code-comment">// → -1</span>
@@ -1361,7 +1364,7 @@ tasks.add(new Task("read", 1));
 Task first = tasks.poll();  <span class="code-comment">// → read</span></code></pre></div><p class="lst-p">In a solution file, put the class at the top level or as a <code>static class</code> inside <code>Solution</code>.</p></div></div></article>
 <article class="pat" id="streams" style="--c:#8a6d3b"><div class="pat-head"><span class="pat-cat">Ordering &amp; streams</span><h3>Streams</h3><span class="pat-count">11 entries</span></div><div class="pat-body"><p>Streams give one-line totals, filters and groupings. They are slower than a plain loop, so keep them out of the hot path of an O(n log n) solution with n = 10⁵ or more; use them for setup and conversions.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.stream.*</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>List&lt;Integer&gt; nums = new ArrayList&lt;&gt;(Arrays.asList(4, 1, 3, 1, 5));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>List&lt;Integer&gt; nums = new ArrayList&lt;&gt;(Arrays.asList(4, 1, 3, 1, 5));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig">IntStream.<b>range</b>(int startInclusive, int endExclusive)</div><div class="io"><span class="io-k">takes</span><code>int startInclusive, int endExclusive</code></div><div class="io"><span class="io-k">returns</span><code>IntStream</code></div></td><td class="c-does">The numbers start..end−1; <code>rangeClosed</code> includes the end.</td><td class="c-cost"><span class="diff m">O(n)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>int s = IntStream.range(0, 5).sum();  <span class="code-comment">// → 10</span>
 int t = IntStream.rangeClosed(1, 5).sum();  <span class="code-comment">// → 15</span></code></pre></div></td></tr>
@@ -1381,7 +1384,7 @@ Map&lt;Integer, Long&gt; freq = nums.stream().collect(Collectors.groupingBy(x -&
 </tbody></table></div></div></article>
 <article class="pat" id="bitset" style="--c:#8a6d3b"><div class="pat-head"><span class="pat-cat">Ordering &amp; streams</span><h3>BitSet</h3><span class="pat-count">8 entries</span></div><div class="pat-body"><p>A growable array of bits: 1 bit per flag where <code>boolean[]</code> uses a byte. Useful for sieves and visited flags over large ranges, and for fast set operations on bit masks longer than 64.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.BitSet</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>BitSet bs = new BitSet(16);
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>BitSet bs = new BitSet(16);
 bs.set(1);
 bs.set(4);
 bs.set(5);</code></pre></div>
@@ -1401,7 +1404,7 @@ other.set(9);
 bs.and(other);  <span class="code-comment">// bs → {4}</span></code></pre></div></td></tr>
 </tbody></table></div></div></article>
 <article class="pat" id="convert" style="--c:#8a6d3b"><div class="pat-head"><span class="pat-cat">Ordering &amp; streams</span><h3>Converting between types</h3><span class="pat-count">20 entries</span></div><div class="pat-body"><p>The conversions you type most often. Each row is an expression; the result column is what Java prints for it.</p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>int[] arr = {3, 1, 2};
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>int[] arr = {3, 1, 2};
 List&lt;Integer&gt; list = new ArrayList&lt;&gt;(Arrays.asList(3, 1, 2));
 String s = "cab";</code></pre></div>
 <div class="tbl-wrap"><table class="tbl it"><thead><tr><th>Expression</th><th>Result</th><th>Why it matters</th></tr></thead><tbody>
@@ -1441,7 +1444,7 @@ static String str(ListNode h) {           <span class="code-comment">// helper f
     for (ListNode p = h; p != null; p = p.next) sb.append(p.val).append(p.next != null ? " -&gt; " : "");
     return sb.toString();
 }</code></pre></div>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>ListNode head = new ListNode(1, new ListNode(2, new ListNode(3)));   <span class="code-comment">// 1 -&gt; 2 -&gt; 3</span></code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>ListNode head = new ListNode(1, new ListNode(2, new ListNode(3)));   <span class="code-comment">// 1 -&gt; 2 -&gt; 3</span></code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>node.val</b></div><div class="io"><span class="io-k">takes</span><span class="muted">— (a field: no parentheses)</span></div><div class="io"><span class="io-k">returns</span><code>int</code></div></td><td class="c-does">The value stored in the node.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>int v = head.val;  <span class="code-comment">// → 1</span></code></pre></div></td></tr>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>node.next</b></div><div class="io"><span class="io-k">takes</span><span class="muted">— (a field: no parentheses)</span></div><div class="io"><span class="io-k">returns</span><code>ListNode</code></div></td><td class="c-does">The following node, or <code>null</code> after the tail. Check <code>node != null</code> before reading <code>node.val</code> or <code>node.next</code>.</td><td class="c-cost"><span class="diff e">O(1)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>int second = head.next.val;  <span class="code-comment">// → 2</span>
@@ -1488,7 +1491,7 @@ static void inorder(TreeNode n, List&lt;Integer&gt; out) {      <span class="cod
     out.add(n.val);
     inorder(n.right, out);
 }</code></pre></div>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code><span class="code-comment">//        4</span>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code><span class="code-comment">//        4</span>
 <span class="code-comment">//       / \</span>
 <span class="code-comment">//      2   6</span>
 <span class="code-comment">//     / \</span>
@@ -1622,7 +1625,7 @@ boolean hasCycle = order.size() &lt; n;  <span class="code-comment">// → false
         return true;
     }
 }</code></pre></div>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>DSU d = new DSU(5);
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>DSU d = new DSU(5);
 d.union(0, 1);
 d.union(1, 2);</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
@@ -1655,7 +1658,7 @@ int sz = d.size[d.find(0)];  <span class="code-comment">// → 3</span></code></
     boolean search(String w) { Trie t = walk(w); return t != null &amp;&amp; t.end; }
     boolean startsWith(String p) { return walk(p) != null; }
 }</code></pre></div>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Trie t = new Trie();
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Trie t = new Trie();
 t.insert("apple");
 t.insert("app");</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
@@ -1680,7 +1683,7 @@ boolean q = t.startsWith("b");  <span class="code-comment">// → false</span></
     }
     long rangeSum(int l, int r) { return sum(r + 1) - sum(l); }   <span class="code-comment">// a[l..r] inclusive</span>
 }</code></pre></div>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Fenwick fw = new Fenwick(5);
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Fenwick fw = new Fenwick(5);
 int[] a = {5, 2, 7, 1, 3};
 for (int i = 0; i &lt; a.length; i++) fw.add(i, a[i]);</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
@@ -1696,7 +1699,7 @@ long mid = p[3 + 1] - p[1];  <span class="code-comment">// → 10</span></code><
 <div class="band part-band" style="--c:#6e6e73">Reading input and printing output</div>
 <article class="pat" id="scanner" style="--c:#6e6e73"><div class="pat-head"><span class="pat-cat">Input &amp; output</span><h3>Scanner</h3><span class="pat-count">4 entries</span></div><div class="pat-body"><p>The simplest way to read standard input on HackerRank-style platforms. Fine up to roughly 10⁵ numbers; beyond that it is slow, so switch to <code>BufferedReader</code>.</p>
 <p class="cx"><strong>Import:</strong> <code>java.util.Scanner</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>Scanner sc = new Scanner(System.in);   <span class="code-comment">// input: "3 hello\n10 20 30\nlast line"</span></code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>Scanner sc = new Scanner(System.in);   <span class="code-comment">// input: "3 hello\n10 20 30\nlast line"</span></code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>nextInt</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>int</code></div></td><td class="c-does">Reads the next token as an <code>int</code>. Throws <code>InputMismatchException</code> if it is not a number, <code>NoSuchElementException</code> at end of input. Also <code>nextLong()</code> and <code>nextDouble()</code>.</td><td class="c-cost"><span class="diff m">O(token)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>int n = sc.nextInt();  <span class="code-comment">// → 3</span></code></pre></div></td></tr>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>next</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>String</code></div></td><td class="c-does">Next whitespace-separated token.</td><td class="c-cost"><span class="diff m">O(token)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>sc.nextInt();
@@ -1711,7 +1714,7 @@ while (sc.hasNextInt()) { sc.nextInt(); count++; }
 </tbody></table></div></div></article>
 <article class="pat" id="bufferedreader" style="--c:#6e6e73"><div class="pat-head"><span class="pat-cat">Input &amp; output</span><h3>BufferedReader and StringTokenizer</h3><span class="pat-count">4 entries</span></div><div class="pat-body"><p>Several times faster than <code>Scanner</code> for large input. <code>readLine()</code> returns whole lines; <code>StringTokenizer</code> splits a line into tokens.</p>
 <p class="cx"><strong>Import:</strong> <code>java.io.*, java.util.StringTokenizer</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>BufferedReader br = new BufferedReader(new InputStreamReader(System.in));   <span class="code-comment">// input: "4 7\n1 2 3 4"</span></code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>BufferedReader br = new BufferedReader(new InputStreamReader(System.in));   <span class="code-comment">// input: "4 7\n1 2 3 4"</span></code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>readLine</b>()</div><div class="io"><span class="io-k">takes</span><span class="muted">nothing</span></div><div class="io"><span class="io-k">returns</span><code>String</code></div></td><td class="c-does">Next line without the newline, or <code>null</code> at end of input. Declares <code>IOException</code>, so the method must say <code>throws IOException</code>.</td><td class="c-cost"><span class="diff m">O(line)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>String first = br.readLine();  <span class="code-comment">// → "4 7"</span>
 br.readLine();
@@ -1748,7 +1751,7 @@ for (int i = 0; i &lt; n; i++) total += in.nextInt();
 <span class="code-comment">// total → 10</span></code></pre></div></div></div></article>
 <article class="pat" id="printwriter" style="--c:#6e6e73"><div class="pat-head"><span class="pat-cat">Input &amp; output</span><h3>PrintWriter and fast output</h3><span class="pat-count">4 entries</span></div><div class="pat-body"><p><code>System.out.println</code> flushes often and is slow for many lines. Collect output in one <code>PrintWriter</code> (or a <code>StringBuilder</code>) and flush once at the end.</p>
 <p class="cx"><strong>Import:</strong> <code>java.io.*</code></p>
-<div class="filebar"><span>📄</span><span class="fb-name">Every example in this card starts from</span><span class="fb-tag opt">start state</span></div><div class="codewrap"><pre><code>PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));</code></pre></div>
+<div class="filebar"><span>📄</span><span class="fb-name">Each example starts from</span><span class="fb-tag opt">setup</span></div><div class="codewrap"><pre><code>PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));</code></pre></div>
 <div class="tbl-wrap"><table class="tbl mt"><thead><tr><th class="h-sig">Method</th><th class="h-does">What it does</th><th class="h-cost">Cost</th><th class="h-ex">Example</th></tr></thead><tbody>
 <tr class="row s-item"><td class="c-sig"><div class="sig"><b>println</b>(x)</div><div class="io"><span class="io-k">takes</span><code>any type</code></div><div class="io"><span class="io-k">returns</span><code>void</code></div></td><td class="c-does">Prints <code>x</code> and a newline; <code>print(x)</code> without the newline. Accepts any type.</td><td class="c-cost"><span class="diff m">O(length)</span></td><td class="c-ex"><div class="codewrap ex"><pre><code>out.println(42);
 out.print("a");
@@ -1862,7 +1865,8 @@ out.print(sb);</code></pre></div></td></tr>
             function () { var ok = fallbackCopy(text); flash(btn, ok ? 'ok' : 'err', ok ? 'Copied!' : 'Copy failed'); });
         } else { var ok = fallbackCopy(text); flash(btn, ok ? 'ok' : 'err', ok ? 'Copied!' : 'Copy failed'); }
       });
-      wrap.appendChild(btn);
+      var bar = wrap.previousElementSibling;
+      if (bar && bar.classList.contains('filebar')) bar.appendChild(btn); else wrap.appendChild(btn);
     });
 
     if (location.hash.length > 1) go(location.hash.slice(1));
