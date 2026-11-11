@@ -1,0 +1,617 @@
+intro: >-
+  A stack keeps what is still open, with the most recent item on top; a heap hands
+  you the smallest or largest item in O(log n). Use the stack patterns when the input
+  nests or cancels, or when each element needs its nearest bigger or smaller
+  neighbour. Use the heap patterns when you need the best k, a running median, the
+  next item from k sorted sources, or the best option unlocked so far.
+
+patterns:
+  - id: stack-match
+    title: Stack for matching and nesting
+    signal: Nested brackets or encodings, or neighbours that cancel in pairs.
+    spot:
+      - Brackets, tags or markers open and close, and the one opened last must close first.
+      - "A nested encoding such as `k[...]`, or a path where `..` cancels the folder before it."
+      - Neighbours cancel in pairs, and a removal can bring two new neighbours together (adjacent duplicates, asteroid collision).
+      - n up to 10⁵, and one left-to-right scan is expected.
+    idea: |
+      Scan left to right and push each opener. A closer must match the top of the
+      stack, because the item opened most recently is the one that has to close
+      first (last in, first out). If the stack is empty or the top does not match,
+      the input is invalid; at the end the stack must be empty. Each character is
+      pushed and popped at most once, so the scan is O(n).
+
+      When a level carries state, push the *outer* state as you enter and pop it
+      as you leave. In decode string, `[` saves the repeat count and the text
+      built so far; `]` pops them and appends the inner text `k` times.
+
+      Use `ArrayDeque` with `push`, `pop` and `peek`. `java.util.Stack` extends
+      `Vector`: every call is synchronized, it lets you `get(i)` or insert in the
+      middle, and its own Javadoc recommends `Deque` instead.
+    trace_title: 's = "3[a2[c]]", stacks shown bottom to top'
+    trace: |
+      c  k  counts  outer      cur
+      3  3  []      []         ""
+      [  0  [3]     [""]       ""
+      a  0  [3]     [""]       "a"
+      2  2  [3]     [""]       "a"
+      [  0  [3 2]   ["" "a"]   ""
+      c  0  [3 2]   ["" "a"]   "c"
+      ]  0  [3]     [""]       "acc"         "a" + 2 x "c"
+      ]  0  []      []         "accaccacc"   "" + 3 x "acc"
+    code:
+      - file: P04StackMatch.java
+        region: valid
+        title: Valid parentheses
+        tag: memorise
+      - file: P04StackMatch.java
+        region: decode
+        title: "Decode string: a count stack and a string stack"
+        tag: memorise
+      - file: P04StackMatch.java
+        region: cancel
+        title: Simplify path and remove adjacent duplicates
+        tag: variant
+    time: O(n)
+    space: O(n)
+    cost_note: Each character is pushed and popped at most once; decode string also pays for the length of its output.
+    variants:
+      - "Minimum remove to make valid parentheses: push the *index* of each open bracket. A close bracket that meets an empty stack, and every index left at the end, mark characters to delete."
+      - "Remove k adjacent duplicates: the stack holds `{char, run length}`; pop when the run hits k."
+      - "Asteroid collision: push right-movers. A left-mover pops smaller right-movers until it meets a bigger one (it dies) or an equal one (both die)."
+      - "One bracket type: a counter replaces the stack, but it must never go below 0."
+    traps:
+      - "Two `isEmpty()` checks are needed: before `pop()` (otherwise `\")\"` throws `NoSuchElementException`) and at the end (otherwise `\"((\"` is accepted)."
+      - "A one-digit count (`k = c - '0'`) decodes `12[a]` as `aa`; use `k = k * 10 + digit`."
+      - "A for-each over an `ArrayDeque` runs from the top down, so a path built that way comes out backwards. Use `pollLast()`; note that `java.util.Stack` iterates bottom up."
+      - "Rebuilding a `String` on each removal (`s = s.substring(0, i) + s.substring(i + 2)`) is O(n²), too slow at n = 10⁵. Use a `StringBuilder` as the stack."
+    practice: [valid-parentheses, remove-all-adjacent-duplicates-in-string, simplify-path, decode-string, asteroid-collision, minimum-remove-to-make-valid-parentheses]
+
+  - id: expr-eval
+    title: Expression evaluation
+    signal: Evaluate an arithmetic string or RPN tokens, with precedence.
+    spot:
+      - "Evaluate an arithmetic string or token list, and `eval` or a library parser is not allowed."
+      - Operators come after their operands (Reverse Polish notation).
+      - "`*` and `/` bind tighter than `+` and `-`, or a `-` in front of a bracket flips everything inside it."
+      - The statement says "integer division should truncate toward zero".
+    idea: |
+      **Postfix (RPN)** is the easy case: push numbers; an operator pops `b`
+      first, then `a`, and pushes `a op b`.
+
+      **Infix with precedence** (calculator II): remember the operator `op` that
+      came *before* the number being read. When the number ends, `+` pushes `num`,
+      `-` pushes `-num`, and `*` or `/` pops the last term, combines it with `num`
+      and pushes the result. Every `*` and `/` is applied as soon as its right
+      operand is known, so the stack only holds terms to add. Java's `/` truncates
+      toward zero, so `-7 / 2` is -3, the same as `-(7 / 2)`. That is why pushing
+      `-num` and dividing it later gives the right answer.
+
+      **Brackets with only + and −** (calculator): a number's final sign is the
+      product of the signs of the brackets around it. Push the current sign on
+      `(`, pop it on `)`, and add each number once with its sign. Every character
+      is read once, so all three are O(n).
+    trace_title: 's = "3+5*2-7/2", terms shown bottom to top'
+    trace: |
+      at   op  num  action                     terms
+      +    +   3    push 3                     [3]
+      *    +   5    push 5                     [3 5]
+      -    *   2    pop 5, push 5 * 2 = 10     [3 10]
+      /    -   7    push -7                    [3 10 -7]
+      end  /   2    pop -7, push -7 / 2 = -3   [3 10 -3]
+                                               sum = 10
+    code:
+      - file: P04ExprEval.java
+        region: rpn
+        title: Evaluate reverse Polish notation
+        tag: memorise
+      - file: P04ExprEval.java
+        region: calc2
+        title: "Basic calculator II: a stack of terms"
+        tag: memorise
+      - file: P04ExprEval.java
+        region: calc1
+        title: "Basic calculator: a stack of bracket signs"
+        tag: variant
+    time: O(n)
+    space: O(n)
+    cost_note: One pass over the input; each term or bracket sign is pushed and popped at most once.
+    variants:
+      - "All four operators and brackets: on `(`, run the calculator II loop recursively from the next index; when it returns at `)`, treat its result as one number."
+      - "Infix to postfix (shunting-yard): before pushing an operator, pop to the output every operator on top with higher or equal precedence."
+      - "Parsing a boolean expression: push every character except `,`. On `)`, pop the operands down to `(`, then the operator, and push `t` or `f`."
+      - "Baseball game: the same \"operands wait on a stack\" idea, with `+`, `D` and `C` as the operators."
+    traps:
+      - "`int a = st.pop(), b = st.pop();` swaps the operands: `[\"4\", \"13\", \"5\", \"/\", \"+\"]` returns 4 instead of 6. The first pop is the *right* operand."
+      - "`Math.floorDiv(-7, 2)` is -4. These problems want truncation toward zero, which is plain `/` in Java."
+      - "In calculator II the last number has no operator after it. Without the `last` test it is never applied: `\"3+2*2\"` returns 5 instead of 7."
+      - "In the bracket calculator, `sign = c == '+' ? 1 : -1` forgets the bracket's own sign: `\"1-(2+3)\"` returns 2 instead of -4. Multiply by `signs.peek()`."
+    practice: [baseball-game, evaluate-reverse-polish-notation, basic-calculator-ii, basic-calculator, parsing-a-boolean-expression]
+
+  - id: next-greater
+    title: "Monotonic stack: next greater"
+    signal: For each element, the nearest bigger or smaller one on a side.
+    spot:
+      - For every element, the first element to its right (or left) that is bigger (or smaller).
+      - "\"How many days until a warmer day\", \"for how many days in a row was the price at most today's\"."
+      - n up to 10⁵, so scanning right from every element (O(n²)) is too slow.
+      - The array is circular, so the search wraps past the end.
+    idea: |
+      Scan left to right and keep a stack of the indices that have not found
+      their answer yet. **Invariant**: their values never increase from bottom to
+      top. When `a[i]` arrives, every index on top with a smaller value has now
+      met its first bigger value to the right, so pop it and record `i`; then push
+      `i`. An index `j` stays on the stack exactly until its first bigger value,
+      because any bigger value between `j` and `i` would have popped it earlier.
+
+      Each index is pushed once and popped at most once, so the inner loop runs at
+      most n times in total: O(n), not O(n²).
+
+      After the pops, the top of the stack is the nearest earlier value `≥ a[i]`,
+      so the same pass also gives the *previous* greater-or-equal element. Flip
+      `<` to `>` for next *smaller*. For a circular array, walk `2n` steps reading
+      `a[i % n]`, and push only during the first lap.
+    trace_title: "daily temperatures, a = [73, 74, 75, 71, 69, 72, 76, 73]"
+    trace: |
+      i  a[i]  pops: next[j] = i      stack as values, bottom to top
+      0   73   -                      [73]
+      1   74   next[0]=1              [74]
+      2   75   next[1]=2              [75]
+      3   71   -                      [75 71]
+      4   69   -                      [75 71 69]
+      5   72   next[4]=5 next[3]=5    [75 72]
+      6   76   next[5]=6 next[2]=6    [76]
+      7   73   -                      [76 73]
+      next = [1, 2, 6, 5, 5, 6, -1, -1]
+      wait = next[i] - i, or 0  ->  [1, 1, 4, 2, 1, 1, 0, 0]
+    code:
+      - file: P04NextGreater.java
+        region: next
+        title: Next greater index, and daily temperatures
+        tag: memorise
+      - file: P04NextGreater.java
+        region: circular
+        title: Next greater element II (circular)
+        tag: variant
+      - file: P04NextGreater.java
+        region: span
+        title: "Online stock span: previous greater, as prices arrive"
+        tag: variant
+    time: O(n)
+    space: O(n)
+    cost_note: Each index is pushed once and popped at most once; the stock spanner is O(1) amortised per call.
+    variants:
+      - "Next greater element I: run the template on `nums2`, store `value → next greater value` in a map, then look up each `nums1[i]`."
+      - "Final prices with a discount: next smaller-or-equal to the right, so pop while `a[st.peek()] >= a[i]`."
+      - "Remove k digits: pop while k > 0 and the top digit is bigger than the new one. Cut any k still left from the end and strip leading zeros; the stack, read bottom up, is the answer."
+      - "Sliding window maximum adds a second exit: indices also leave from the bottom when they fall out of the window ([[window-max]])."
+    traps:
+      - "Pushing values instead of indices loses the distance that daily temperatures asks for. Push `i` and read `a[st.peek()]`."
+      - "`<=` instead of `<` in the while also pops equal values, which gives next greater-*or-equal*: `[70, 70, 71]` answers 1 for day 0 instead of 2."
+      - "A circular loop of only `n` steps leaves every answer that wraps at -1: `[1, 2, 1]` gives `[2, -1, -1]` instead of `[2, -1, 2]`."
+      - "Stock span counts days with price `<=` today's. Popping only on `<` stops at an equal price: `[7, 7]` gives spans 1, 1 instead of 1, 2."
+    practice: [next-greater-element-i, final-prices-with-a-special-discount-in-a-shop, daily-temperatures, next-greater-element-ii, online-stock-span, remove-k-digits]
+
+  - id: histogram
+    title: Largest rectangle in histogram
+    signal: Best min(range) × width; the largest all-ones rectangle.
+    spot:
+      - "Largest rectangle, or a score of the form `min(range) × width` or `min(range) × sum`, over all contiguous ranges."
+      - A 0/1 matrix and the largest rectangle (not square) of ones.
+      - n up to 10⁵, so trying every pair of borders (O(n²)) is too slow.
+    idea: |
+      The best rectangle has the height of some bar `i` and spreads from it as
+      far as the bars are at least as high: strictly between the previous lower
+      bar `left` and the next lower bar `right`. Its area is
+      `h[i] × (right − left − 1)`, and the answer is the best of these n areas.
+
+      One increasing stack gives both bounds. When `h[i]` is not higher than the
+      top bar, `i` is that bar's right bound and the bar below it on the stack is
+      its left bound: pop and measure. A sentinel height 0 at `i = n` pops what
+      is left. Each bar is pushed and popped once: O(n).
+
+      With equal heights, `>=` pops a bar early and measures it too short, but the
+      last of the equal bars gets the full width, so the maximum is still right.
+
+      **Maximal rectangle**: for each row, `h[j]` counts the unbroken ones from
+      `(row, j)` upwards. Run the histogram on every row.
+    trace_title: "h = [2, 1, 5, 6, 2, 3]; i = 6 is the sentinel 0"
+    trace: |
+      i  h[i]  popped: height x width = area    stack (indices)  best
+      0   2    -                                 [0]              0
+      1   1    2 x 1 = 2                         [1]              2
+      2   5    -                                 [1 2]            2
+      3   6    -                                 [1 2 3]          2
+      4   2    6 x 1 = 6, 5 x 2 = 10             [1 4]            10
+      5   3    -                                 [1 4 5]          10
+      6   0    3 x 1 = 3, 2 x 4 = 8, 1 x 6 = 6   [6]              10
+    code:
+      - file: P04Histogram.java
+        region: largest
+        title: Largest rectangle, one pass with a sentinel
+        tag: memorise
+      - file: P04Histogram.java
+        region: twopass
+        title: Previous and next smaller in two passes
+        tag: variant
+      - file: P04Histogram.java
+        region: maximal
+        title: Maximal rectangle in a binary matrix
+        tag: usage
+    time: O(n)
+    space: O(n)
+    cost_note: Each bar is pushed and popped once. Maximal rectangle runs it once per row, so O(rows × cols).
+    variants:
+      - "Maximum subarray min-product: the same bounds, but the score is `a[i] × sum(left+1 .. right-1)` from prefix sums. Use `long`, take the modulo at the end."
+      - "Maximum score of a good subarray (it must contain index k): the same bounds; keep only bars with `left < k < right`."
+      - "Count submatrices with all ones: row heights again, with a stack per row that counts the rectangles ending at each column."
+    traps:
+      - "Without the sentinel, bars still on the stack at the end are never measured: `[1, 2, 3]` returns 0 instead of 4."
+      - "The width is `i - left - 1`, where `left` is the new top *after* the pop. Using `i - popped` ignores the taller bars popped before it: `[2, 1, 2]` returns 2 instead of 3."
+      - "In maximal rectangle a `'0'` must reset `h[j] = 0`. Keeping the old height joins ones across a gap."
+      - "`h[i] × width` fits `int` at LeetCode's limits (10⁴ × 10⁵ = 10⁹). For bigger limits, or `min × sum`, use `long`."
+    practice: [largest-rectangle-in-histogram, maximal-rectangle, maximum-subarray-min-product, count-submatrices-with-all-ones, maximum-score-of-a-good-subarray]
+
+  - id: contribution
+    title: Contribution counting
+    signal: Sum of min, max or range over all subarrays, per element.
+    spot:
+      - "Sum (or count) of `min`, `max` or `max − min` over **all** subarrays."
+      - "n up to 3·10⁴ or 10⁵, so the n²/2 subarrays are too many to visit."
+      - "The answer is taken modulo 10⁹ + 7: the total is huge, so it has to be counted, not listed."
+    idea: |
+      Turn the sum around. Instead of finding the minimum of each subarray, ask
+      of each `a[i]`: in how many subarrays is it the minimum? Let `left` be the
+      nearest index to the left with a value `≤ a[i]`, and `right` the nearest
+      index to the right with a value `< a[i]`. Then `a[i]` is the minimum of
+      exactly the subarrays that start in `(left, i]` and end in `[i, right)`:
+      `(i − left) × (right − i)` of them. Add `a[i]` times that count. One
+      monotonic stack pass ([[next-greater]]) finds both bounds, so this is O(n).
+
+      **Ties** decide the comparisons. A subarray whose minimum appears twice
+      must be counted once. With `≤` on the left and `<` on the right, only its
+      leftmost minimum counts it. Strict on both sides counts it twice, and `≤`
+      on both sides counts it zero times.
+
+      For maxima, flip the comparisons, or run the same code on `−a[i]`.
+    trace_title: "a = [3, 1, 2, 1]; the two 1s tie"
+    trace: |
+      i  a[i]  left(<=)  right(<)  starts x ends   a[i] x count
+      0   3      -1        1       1 x 1 = 1       3
+      1   1      -1        4       2 x 3 = 6       6
+      2   2       1        3       1 x 1 = 1       2
+      3   1       1        4       2 x 1 = 2       2
+                                                   sum = 13
+      < on both sides: 15 ([1, 2, 1] and [3, 1, 2, 1] counted twice)
+      <= on both sides: 11 (those two counted zero times)
+    code:
+      - file: P04Contribution.java
+        region: mins
+        title: Sum of subarray minimums
+        tag: memorise
+      - file: P04Contribution.java
+        region: ranges
+        title: Sum of subarray ranges, counted at pop time
+        tag: variant
+    time: O(n)
+    space: O(n)
+    cost_note: One stack pass finds both bounds for every index; one more loop adds the contributions.
+    variants:
+      - "Sum of subarray maxima: flip `>` to `<` in the while, or negate the array and negate the result."
+      - "Sum of subarray ranges: the sum of maxima minus the sum of minima. There is no modulo, so keep a `long`."
+      - "Number of subarrays with bounded maximum: count `(i − left) × (right − i)` only for the i where `L ≤ a[i] ≤ R`, using the bounds for maxima."
+      - "Sum of total strength of wizards: the score is `min × sum`, so combine contribution with prefix sums of prefix sums."
+    traps:
+      - "Strict comparisons on both sides count ties twice: `[3, 1, 2, 1]` gives 15 instead of 13. `<=` on both sides gives 11."
+      - "`a[i] * (i - left) * (right - i)` in `int` overflows: 3·10⁴ × 1.5·10⁴ × 1.5·10⁴ ≈ 6.75·10¹². Cast `a[i]` to `long` first, then take the modulo."
+      - "Indices still on the stack at the end have no smaller value to their right. Set `right = n` for them; if `right` stays at the default 0, their count is 0 or negative."
+      - "A difference of two sums taken modulo M can be negative in Java. Use `((x - y) % M + M) % M`."
+    practice: [sum-of-subarray-minimums, sum-of-subarray-ranges, number-of-subarrays-with-bounded-maximum, sum-of-total-strength-of-wizards]
+
+  - id: stack-design
+    title: Designing with stacks
+    signal: A stack or queue class with one extra O(1) query.
+    spot:
+      - "\"Design a class\" with `push`, `pop`, `top` and one more query (`getMin`, most frequent) that must be O(1)."
+      - Build a queue from stacks, or a stack from queues.
+      - "Up to 3·10⁴ calls with queries as frequent as updates, so scanning the stack on each query is too slow."
+    idea: |
+      Each design stores extra state *per entry*, or splits the items over two
+      stacks, so that every call stays O(1).
+
+      **Min stack**: store `{value, minimum of this entry and all below}`. A pop
+      uncovers the entry below, which still holds the minimum of what is left, so
+      `getMin` is a peek.
+
+      **Queue from two stacks**: push onto `in`; pop from `out`, and only when
+      `out` is empty pour all of `in` into it. Pouring reverses the order, so the
+      oldest item ends on top. An item is pushed and popped at most once on each
+      stack, so n calls cost O(n) in total: O(1) amortised, though a single pop
+      can move n items.
+
+      **Max frequency stack**: the c-th copy of `x` goes on stack `group[c]`. The
+      top of the highest group is the most frequent value, and the most recent
+      one on ties. After it leaves, `group[c − 1]` still holds its earlier copy,
+      so nothing else needs fixing.
+    trace_title: "max frequency stack: push 5 7 5 7 4 5, then pop four times"
+    trace: |
+      op       group[c] stacks, bottom to top   maxFreq
+      push 5   1:[5]                            1
+      push 7   1:[5 7]                          1
+      push 5   1:[5 7] 2:[5]                    2
+      push 7   1:[5 7] 2:[5 7]                  2
+      push 4   1:[5 7 4] 2:[5 7]                2
+      push 5   1:[5 7 4] 2:[5 7] 3:[5]          3
+      pop  5   1:[5 7 4] 2:[5 7]                2
+      pop  7   1:[5 7 4] 2:[5]                  2
+      pop  5   1:[5 7 4]                        1
+      pop  4   1:[5 7]                          1
+    code:
+      - file: P04StackDesign.java
+        region: minstack
+        title: Min stack
+        tag: memorise
+      - file: P04StackDesign.java
+        region: queue
+        title: Queue from two stacks
+        tag: memorise
+      - file: P04StackDesign.java
+        region: freqstack
+        title: Maximum frequency stack
+        tag: variant
+    time: O(1)
+    space: O(n)
+    cost_note: Min stack and frequency stack are O(1) per call; the queue is O(1) amortised because each item moves from `in` to `out` once.
+    variants:
+      - "Min stack with two stacks: push `x` onto `mins` when `x <= mins.peek()` (the `=` keeps duplicates); when the popped value equals `mins.peek()`, pop `mins` too."
+      - "Stack from one queue: after each `offer`, rotate the queue `size − 1` times so the newest item is at the front. Push is O(n), pop is O(1)."
+      - "Queue with `getMin` (a sliding window minimum): use two min stacks as `in` and `out`; the answer is the smaller of their two minima."
+      - "Stack with an increment of the bottom k: keep a lazy `inc[i]` per level, and pass it down to level `i − 1` on pop."
+    traps:
+      - "Two-stack min stack with `x < mins.peek()` instead of `<=`: push 1, push 1, pop, and `mins` is empty while a 1 is still on the stack."
+      - "`st.pop() == mins.peek()` on two `Deque<Integer>` compares references, so equal values outside −128..127 compare false. Unbox into an `int` first, or use `.equals`."
+      - "Pouring `in` into `out` while `out` still has items puts newer items above older ones, and the queue returns them out of order."
+      - "In `FreqStack.pop`, forgetting to lower the count of x in `freq`: the next push of x lands one level too high."
+    practice: [implement-queue-using-stacks, implement-stack-using-queues, min-stack, design-a-stack-with-increment-operation, maximum-frequency-stack]
+
+  - id: top-k
+    title: Top k with a size-k heap
+    signal: The k largest, most frequent or closest items, or the kth one.
+    spot:
+      - "\"k largest\", \"k most frequent\", \"k closest\", or \"the kth largest\" after each new value."
+      - Values arrive one at a time (a stream), or n is much bigger than k.
+      - "\"Return the answer in any order\", or an explicit tie-break rule for equal scores."
+    idea: |
+      To keep the k **largest** values, use a **min**-heap of at most k items.
+      Its root is the smallest value you are keeping, which is exactly the one to
+      give up when something bigger arrives: offer the new value, and if the size
+      is now k + 1, poll the root. After every step the heap holds the k largest
+      values so far, and the root is the kth largest. Each value costs one offer
+      and at most one poll on a heap of k + 1 items, so the total is O(n log k)
+      time and O(k) memory, and it works on a stream.
+
+      Mirror it for the k **smallest** (k closest points): a max-heap of size k,
+      with the worst point kept on top.
+
+      With a tie-break rule, write the comparator so the root is the *worst*
+      candidate under the full rule. At the end, poll everything and reverse to
+      get the best first.
+    trace_title: "k = 3, start with [4, 5, 8, 2], then add 3, 5, 10, 9, 4"
+    trace: |
+      step     min-heap (sorted)  polled  root = 3rd largest
+      init 4   [4]                -       4
+      init 5   [4 5]              -       4
+      init 8   [4 5 8]            -       4
+      init 2   [4 5 8]            2       4
+      add 3    [4 5 8]            3       4
+      add 5    [5 5 8]            4       5
+      add 10   [5 8 10]           5       5
+      add 9    [8 9 10]           5       8
+      add 4    [8 9 10]           4       8
+    code:
+      - file: P04TopK.java
+        region: stream
+        title: Kth largest element in a stream
+        tag: memorise
+      - file: P04TopK.java
+        region: closest
+        title: K closest points (a max-heap for the k smallest)
+        tag: variant
+      - file: P04TopK.java
+        region: words
+        title: Top k frequent words, with a tie-break
+        tag: variant
+    time: O(n log k)
+    space: O(k)
+    cost_note: n offers and at most n polls, each on a heap of at most k + 1 items.
+    variants:
+      - "Kth largest element in an array (one query): the same heap, or [[quickselect]] in O(n) on average."
+      - "Top k frequent elements: count with a map, then the size-k heap on the counts; or [[bucket-sort]] by count in O(n)."
+      - "Subsequence of length k with the largest sum: a size-k min-heap of `{value, index}`, then sort the kept indices to restore the order."
+      - "Kth smallest in a sorted matrix or among pair sums: the candidates come in sorted lists, so use [[k-way-merge]]."
+    traps:
+      - "Polling before offering (`if (heap.size() == k) heap.poll(); heap.offer(x);`) evicts the root even when x is smaller: with k = 1, adding 5 then 3 leaves 3."
+      - "Comparator `(a, b) -> b - a` overflows when values are far apart, such as 2·10⁹ and −2·10⁹. Use `Integer.compare(b, a)` or `Collections.reverseOrder()`."
+      - "Iterating a `PriorityQueue` (for-each, `toString`, `toArray`) is not in sorted order; only repeated `poll()` is. Fine for \"any order\" answers, wrong for top k frequent words."
+      - "Tie-break flipped: in the min-heap the *worse* word must be on top, so equal counts compare `b.compareTo(a)`. With `a.compareTo(b)`, \"apple\" is evicted before \"banana\"."
+    practice: [kth-largest-element-in-a-stream, find-subsequence-of-length-k-with-the-largest-sum, kth-largest-element-in-an-array, k-closest-points-to-origin, top-k-frequent-elements, top-k-frequent-words]
+
+  - id: two-heaps
+    title: Two heaps for a running median
+    signal: The median of a stream or a sliding window, after every update.
+    spot:
+      - The median after every insertion into a stream.
+      - The median of every window of size k.
+      - "Up to 5·10⁴ or 10⁵ operations, so sorting for each query is too slow."
+      - A set split into a lower part and an upper part, where you need the values at the boundary.
+    idea: |
+      Split the values seen so far into two halves. `low` is a max-heap with the
+      smaller half, `high` a min-heap with the larger half. Keep two invariants:
+      every value in `low` is ≤ every value in `high`, and `low` has the same
+      size as `high` or one more. The median is then `low.peek()` when the count
+      is odd, and the mean of the two roots when it is even.
+
+      To add `x`, offer it to `low`, move `low`'s largest to `high`, and if `high`
+      is now bigger, move its smallest back. A value only crosses as the largest
+      of the low side or the smallest of the high side, so the order invariant
+      holds. An add is at most five heap operations, O(log n); the median is a peek.
+
+      A sliding window must also delete the value that leaves, and
+      `PriorityQueue.remove(Object)` is O(k). Use two `TreeSet`s of indices
+      instead, ordered by value and then index, so removal is O(log k).
+    trace_title: "add 5, 15, 1, 3, 8, 7; up = moved to high, back = moved back to low"
+    trace: |
+      add  up  back  low (max-heap)  high (min-heap)  median
+      5    5   5     [5]             []               5.0
+      15   15  -     [5]             [15]             10.0
+      1    5   5     [1 5]           [15]             5.0
+      3    5   -     [1 3]           [5 15]           4.0
+      8    8   5     [1 3 5]         [8 15]           5.0
+      7    7   -     [1 3 5]         [7 8 15]         6.0
+    code:
+      - file: P04TwoHeaps.java
+        region: median
+        title: Find median from a data stream
+        tag: memorise
+      - file: P04TwoHeaps.java
+        region: window
+        title: Sliding window median with two TreeSets
+        tag: variant
+    time: O(log n)
+    space: O(n)
+    cost_note: Each add is at most five heap operations, O(log n); a median is at most two peeks. The window version is O(n log k).
+    variants:
+      - "Sliding window median with lazy deletion: two `PriorityQueue`s and a map of values waiting to be deleted; drop a root when it is marked. Track the real sizes yourself, because the heaps hold dead items."
+      - "Sequentially ordinal rank tracker (the ith `get` returns the ith best): the same split, but `high` holds the best i items instead of half."
+      - "Finding MK average: three ordered multisets (bottom k, middle, top k) and the middle's sum."
+      - "Values in a small range such as 0..100: a count array, O(range) per query, no heaps."
+    traps:
+      - "Adding `x` straight to the smaller heap, without passing it through the other one, breaks the order: adding 5, 1, 10 gives `low = [5, 10]`, `high = [1]` and median 10 instead of 5."
+      - "`(low.peek() + high.peek()) / 2` overflows `int` near 2³¹, and `/ 2` instead of `/ 2.0` turns 3.5 into 3. Add as `long` and divide by `2.0`."
+      - "A `TreeSet` of *values* drops duplicates: the window `[2, 2, 3]` becomes `{2, 3}`. Store indices and compare by value, then index."
+      - "`PriorityQueue.remove(Object)` in the window loop makes it O(n·k): about 2.5·10⁹ steps for n = 10⁵ and k = 5·10⁴."
+    practice: [find-median-from-data-stream, sliding-window-median, sequentially-ordinal-rank-tracker, finding-mk-average]
+
+  - id: k-way-merge
+    title: K-way merge with a heap
+    signal: Several sorted lists (real or implied) merged into one order.
+    spot:
+      - "k sorted lists, arrays or streams, and you need one sorted output or its first k items."
+      - "The kth smallest pair sum or matrix cell: each row is a sorted list you can generate."
+      - "\"One element from each list\" with the smallest spread."
+      - "N up to 10⁴–10⁵ items in total, spread over up to 10⁴ lists."
+    idea: |
+      Every list is sorted, so the smallest value not yet output is at the front
+      of one of them. Keep exactly one entry per list in a min-heap: its current
+      front, as `(value, list, index)`. Poll the root, output it, and push the
+      next element of the *same* list. The heap never holds more than k entries,
+      so each of the N values costs O(log k): O(N log k) in total, against
+      O(N log N) for sorting everything and O(N·k) for scanning the k fronts.
+
+      The lists do not have to exist. In *k pairs with smallest sums*, row `i` is
+      the sorted sequence `a[i] + b[0], a[i] + b[1], ...`, and you create the next
+      entry of a row only when its current one is polled.
+
+      In *smallest range*, the fronts always cover every list, and the range is
+      [heap root, largest front]. Moving any other list forward can only raise
+      the maximum, so advance the list that holds the minimum, and stop when that
+      list runs out.
+    trace_title: "a = [1, 4, 5], b = [1, 3, 4], c = [2, 6]; entries are (value, list, index)"
+    trace: |
+      heap, smallest first        poll     push     output
+      (1,a,0) (1,b,0) (2,c,0)     (1,a,0)  (4,a,1)  1
+      (1,b,0) (2,c,0) (4,a,1)     (1,b,0)  (3,b,1)  1 1
+      (2,c,0) (3,b,1) (4,a,1)     (2,c,0)  (6,c,1)  1 1 2
+      (3,b,1) (4,a,1) (6,c,1)     (3,b,1)  (4,b,2)  1 1 2 3
+      (4,a,1) (4,b,2) (6,c,1)     (4,a,1)  (5,a,2)  1 1 2 3 4
+      (4,b,2) (5,a,2) (6,c,1)     (4,b,2)  -        1 1 2 3 4 4
+      (5,a,2) (6,c,1)             (5,a,2)  -        1 1 2 3 4 4 5
+      (6,c,1)                     (6,c,1)  -        1 1 2 3 4 4 5 6
+    code:
+      - file: P04KWayMerge.java
+        region: lists
+        title: Merge k sorted lists
+        tag: memorise
+      - file: P04KWayMerge.java
+        region: pairs
+        title: K pairs with the smallest sums
+        tag: variant
+      - file: P04KWayMerge.java
+        region: range
+        title: Smallest range covering k lists
+        tag: variant
+    time: O(N log k)
+    space: O(k)
+    cost_note: N values in total, each pushed and polled once on a heap of at most k entries.
+    variants:
+      - "Only two lists: no heap, two pointers ([[merge-sorted]], [[dummy-merge]])."
+      - "Merge the lists in pairs, round after round: log k rounds of O(N) each, also O(N log k), with no heap."
+      - "Kth smallest element in a sorted matrix: seed the heap with the first column and poll k times, or binary search on the value ([[bs-answer]])."
+      - "Super ugly number: list p is `primes[p] × ugly[0], primes[p] × ugly[1], ...`. Heap entry `(value, p, index)`; skip a value equal to the last one output."
+    traps:
+      - "`heap.offer(null)` throws `NullPointerException`, and LeetCode does pass empty lists (`[[]]`). Skip `null` heads."
+      - "Seeding k pairs with all `n·m` pairs: 10¹⁰ entries at the limits. Seed only `(i, 0)` for the first `min(n, k)` rows."
+      - "Pair sums reach ±2·10⁹, so `sum1 - sum2` can reach 4·10⁹ and overflow `int`. Compare with `Long.compare` on `long` sums."
+      - "Smallest range: stop as soon as one list runs out. Going on with fewer than k entries measures ranges that miss that list, and they look too good."
+    practice: [merge-k-sorted-lists, kth-smallest-element-in-a-sorted-matrix, find-k-pairs-with-smallest-sums, super-ugly-number, smallest-range-covering-elements-from-k-lists]
+
+  - id: heap-greedy
+    title: Greedy with a heap
+    signal: Options unlock over time; take the best unlocked one each step.
+    spot:
+      - Each item has a requirement (capital, deadline, position) and a value (profit, duration, fuel).
+      - Choose at most k items, as many as possible, or as few stops as possible.
+      - An earlier choice can be swapped out later at no cost, because only the count or the total matters.
+      - Arrange letters so no two equal ones touch, or tasks with a cooldown between equal ones.
+    idea: |
+      These problems have two keys: one says *when* an option becomes available
+      (capital needed, position, deadline), the other says *how good* it is
+      (profit, fuel, duration). Sort by the first key and walk it with a pointer;
+      push each option that has become available into a heap ordered by the
+      second. Each option enters and leaves the heap once: O(n log n).
+
+      **IPO**: taking the biggest affordable profit is never worse, because more
+      capital only unlocks more projects.
+
+      **Regret**: commit first, undo later. In course schedule III, take courses
+      by deadline; when the total time passes the deadline, drop the longest
+      course taken so far. The count stays what it was before this course, and
+      the time is as small as it can be, which leaves the most room for later
+      courses. Refuelling stops work the same way: drive past stations; when the
+      fuel runs out, refuel (in hindsight) at the biggest one passed.
+
+      **Reorganize string**: always place the most frequent letter that differs
+      from the last one placed.
+    trace_title: "IPO: k = 3, w = 1, projects as capital:profit = 0:2 1:1 2:6 5:4 9:3"
+    trace: |
+      round  w   newly affordable  heap, max first  take  w after
+      1      1   0:2 1:1           [2 1]            2     3
+      2      3   2:6               [6 1]            6     9
+      3      9   5:4 9:3           [4 3 1]          4     13
+    code:
+      - file: P04HeapGreedy.java
+        region: ipo
+        title: IPO
+        tag: memorise
+      - file: P04HeapGreedy.java
+        region: regret
+        title: "Regret: course schedule III and refuelling stops"
+        tag: variant
+      - file: P04HeapGreedy.java
+        region: reorganize
+        title: Reorganize string
+        tag: variant
+    time: O(n log n)
+    space: O(n)
+    cost_note: Sorting is O(n log n), and each option is pushed and polled at most once. Reorganize string is O(n log 26).
+    variants:
+      - "Task scheduler: the answer is `max(tasks.length, (f − 1) × (cooldown + 1) + m)`, where f is the highest count and m is how many letters have it. Simulate with a heap and a cooldown queue if you need the order."
+      - "Maximum number of events: sort by start day, keep a min-heap of end days; each day drop expired events and attend the one that ends first."
+      - "Furthest building you can reach: a min-heap of the climbs that used ladders; when it holds more than `ladders` climbs, pay for the smallest with bricks."
+      - "Single-threaded CPU: sort by enqueue time, then a min-heap by `(processing time, index)`."
+    traps:
+      - "IPO: `p[next][0] <= w`, not `<`. A project that costs exactly your capital is affordable."
+      - "IPO: stop when nothing is affordable. `w += heap.poll()` on an empty heap unboxes `null` and throws `NullPointerException`."
+      - "Course schedule III sorted by duration instead of deadline: `[[2, 7], [4, 9], [2, 3]]` gives 2 instead of 3. Skipping a course that does not fit, instead of dropping the longest, gives 1 instead of 2 on `[[5, 5], [4, 6], [2, 6]]`."
+      - "Reorganize string: changing a letter's count while it is inside the heap breaks the heap order. Poll it, change it, then offer it again."
+    practice: [task-scheduler, reorganize-string, maximum-number-of-events-that-can-be-attended, ipo, course-schedule-iii, minimum-number-of-refueling-stops]

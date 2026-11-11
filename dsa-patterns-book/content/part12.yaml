@@ -1,0 +1,482 @@
+intro: >-
+  These patterns work on the numbers themselves instead of on a data structure. Bit tricks and
+  XOR turn sets and parity into O(1) operations, a binary trie finds the best XOR partner one bit
+  at a time, and gcd, fast powers, sieves, binomials and matrix powers answer counting and
+  divisibility questions that a loop up to n cannot. Reach for this part when the statement says
+  *bitwise*, *XOR*, *divides*, *prime* or *modulo 10⁹ + 7*, or when n is up to 10¹⁸.
+
+patterns:
+  - id: bit-tricks
+    title: "Bit tricks: lowest bit, submasks"
+    signal: Test, set or count bits of an int in O(1), or visit every subset of a small set.
+    spot:
+      - "The statement says *bits*, *binary representation*, *bitwise AND/OR* or *power of two*, or packs up to 20 or 32 flags into one int."
+      - Count or change 1 bits without building a string, in O(1) or O(number of 1 bits).
+      - "A DP or search over subsets needs every subset of a given set: for n ≤ 15 that is 3ⁿ ≈ 1.4·10⁷ steps in total."
+    idea: |
+      Subtracting 1 turns the lowest 1 bit of x into 0 and every 0 below it into
+      1; the higher bits stay. So `x & (x - 1)` clears only the lowest 1. In two's
+      complement `-x` is `~x + 1`. The +1 carries through the trailing 1s of `~x`
+      and stops at the lowest 1 of x, so that bit is the only 1 that `-x` and x
+      share, and `x & -x` keeps it alone.
+
+      `i >> 1` is i without its last bit, so `bits[i] = bits[i >> 1] + (i & 1)`.
+
+      For submasks, `s - 1` clears the lowest 1 of s and sets all bits below it;
+      `& mask` drops the bits outside mask. That is the largest submask below s,
+      so the loop visits each of the 2ᵏ submasks once, for k set bits in mask.
+      Over all masks of n bits it is 3ⁿ steps: each bit is out of the mask, in the
+      mask only, or in both.
+    trace_title: "submasks(13), mask = 1101: s = (s - 1) & mask"
+    trace: |
+      s     s - 1   (s - 1) & mask   s in decimal
+      1101  1100    1100             13
+      1100  1011    1001             12
+      1001  1000    1000              9
+      1000  0111    0101              8   bit 1 is not in mask
+      0101  0100    0100              5
+      0100  0011    0001              4
+      0001  0000    0000              1
+      0000  -       -                 0   added, then break
+    code:
+      - file: P12BitTricks.java
+        region: ops
+        title: Test, set, clear, lowest bit, popcount
+        tag: memorise
+      - file: P12BitTricks.java
+        region: submasks
+        title: Every submask of a mask
+        tag: memorise
+        note: "The usual loop `for (int s = mask; s > 0; s = (s - 1) & mask)` skips the empty set."
+      - file: P12BitTricks.java
+        region: apps
+        title: Reverse bits; minimum flips for a | b == c
+        tag: example
+    time: O(1) per op
+    space: O(1)
+    cost_note: popcount runs once per 1 bit, countBits is O(n), and the submask loop is O(2ᵏ) for k set bits in mask.
+    variants:
+      - "Visit only the set bits: `for (int m = x; m != 0; m &= m - 1)` and take `Integer.numberOfTrailingZeros(m)` as the index."
+      - "Masks wider than 31 bits: `long` with `1L << i`, `Long.bitCount`, `Long.numberOfTrailingZeros`."
+      - "Minimum flips in one line: `Integer.bitCount((a | b) ^ c) + Integer.bitCount(a & b & ~c)`. The second term pays the extra flip where c is 0 and both a and b are 1."
+      - "Gray code (LC 89): `i ^ (i >> 1)` for i = 0..2ⁿ − 1 lists every n-bit mask, and neighbours differ in one bit."
+    traps:
+      - "`1 << i` is an `int`: `1 << 31` is negative and `1 << 32` is 1, because Java uses the shift count mod 32. In a `long` mask, `mask | (1 << 40)` sets bit 8. Write `1L << i`."
+      - "`while (n != 0) { c += n & 1; n >>= 1; }` never ends for a negative n: `-1 >> 1` is −1. Use `>>>`, or `n &= n - 1`."
+      - "`+` binds tighter than shifts: `l + (r - l) >> 1` is `r >> 1`, so l = 10, r = 20 gives 10, not 15. Bracket the shift."
+      - "`(n & (n - 1)) == 0` alone calls 0 and `Integer.MIN_VALUE` powers of two. Test `n > 0` first."
+    practice: [power-of-two, number-of-1-bits, counting-bits, reverse-bits, minimum-flips-to-make-a-or-b-equal-to-c, number-of-valid-words-for-each-puzzle]
+
+  - id: xor-tricks
+    title: XOR tricks (pairs cancel)
+    signal: Every value appears twice except one, or the XOR of a range, in O(n) time and O(1) space.
+    spot:
+      - "*Every element appears twice (or three times) except one*, with *linear runtime* and *constant extra space*."
+      - "One value of 0..n is missing, or one letter was added to a shuffled copy of a string."
+      - "The XOR of a subarray, or an array given as XORs of neighbours: `encoded[i] = arr[i] ^ arr[i + 1]`."
+    idea: |
+      XOR adds each bit mod 2 with no carry. So it is associative and commutative,
+      `a ^ 0 == a` and `a ^ a == 0`. The XOR of a list, in any order, is the XOR of
+      the values that appear an odd number of times. That gives *single number* in
+      one pass, and *missing number*: XOR every index 0..n with every value, and
+      each present number meets itself.
+
+      With two lonely values x and y the total is `x ^ y`, which is not 0. Its
+      lowest 1 bit, `xy & -xy`, is a bit where x and y differ. Split the values by
+      that bit: both copies of a pair land in one group, and x and y land in
+      different groups. XOR one group to get x.
+
+      Three copies leave one copy behind, so for single number II count bit i over
+      all values instead: the count is 3k plus the lonely value's bit. Prefix XOR
+      works like a prefix sum, because XOR undoes itself.
+    trace_title: "singleNumberIII([1, 2, 1, 3, 2, 5])"
+    trace: |
+      xy = 1 ^ 2 ^ 1 ^ 3 ^ 2 ^ 5 = 6 = 110; bit = xy & -xy = 010
+      v  binary  v & bit  x (group with bit)  rest (not computed)
+      1  001     0        0                   1
+      2  010     set      2                   1
+      1  001     0        2                   0
+      3  011     set      1                   0
+      2  010     set      3                   0
+      5  101     0        3                   5
+      x = 3, y = xy ^ x = 6 ^ 3 = 5. Each pair met itself inside one group.
+    code:
+      - file: P12XorTricks.java
+        region: cancel
+        title: Single number, missing number, two singles
+        tag: memorise
+      - file: P12XorTricks.java
+        region: mod3
+        title: Single number II (bit counts mod 3)
+        tag: variant
+      - file: P12XorTricks.java
+        region: prefix
+        title: Prefix XOR queries; decode XORed array
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: One or two passes; single number II makes 32 passes. Prefix XOR keeps an O(n) array and answers each query in O(1).
+    variants:
+      - "Every value appears k times except one: the same bit count with `% k`."
+      - "Find the difference (LC 389): XOR every char of s and t; the added letter is what is left."
+      - "Count triplets with equal XOR (LC 1442): `a[i..j-1]` and `a[j..k]` have equal XOR exactly when `p[i] == p[k + 1]`, and then every j in `i+1..k` works, so add `k - i` per equal pair."
+      - "Decode XORed permutation (LC 1734): the XOR of 1..n is known, and n is odd, so `encoded[1] ^ encoded[3] ^ ...` is the XOR of `arr[1..n-1]`; the two together give `arr[0]`."
+    traps:
+      - "`if ((v & bit) == 1)` is true only when bit is 1. On `[1, 2, 1, 3, 2, 5]` the bit is 2, no value matches, and you return `[0, 6]`."
+      - "XOR-ing everything for single number II: `[2, 2, 3, 2]` gives `2 ^ 2 ^ 3 ^ 2 = 1`, not 3."
+      - "Looping `i < 31` in the bit count drops the sign bit: −4 comes back as 2147483644."
+      - "`p[r] ^ p[l]` with p of length n + 1 leaves out `a[r]`. The range `[l, r]` is `p[r + 1] ^ p[l]`."
+    practice: [single-number, missing-number, decode-xored-array, xor-queries-of-a-subarray, single-number-iii, single-number-ii]
+
+  - id: xor-trie
+    title: Binary trie for maximum XOR
+    signal: Maximum XOR of a value with any element of a set, for many values or queries.
+    spot:
+      - "*Maximum XOR of two numbers* in an array of up to 2·10⁵ values: checking all pairs (O(n²)) is too slow."
+      - "Each query allows only some elements: values ≤ m, a sliding window, the nodes on a tree path."
+      - Values are below 2³¹, so each one is a path of 31 bits.
+    idea: |
+      Bit b is worth 2ᵇ, more than all lower bits together (2ᵇ − 1). So the best
+      partner for x is decided from the top bit down. Among the values that match
+      the choices so far, if one has the opposite of x's bit b, the answer has a 1
+      there, and every value without it loses, whatever its lower bits are. A
+      binary trie stores each value as a path of bits 30..0. The values that match
+      the choices so far are the subtree under the current node, so each greedy
+      choice is one step to a child: 31 steps per insert or query.
+
+      For a pair, insert each value and then query it. The later value of the best
+      pair finds the earlier one, so nothing is missed.
+
+      When a query may only use values ≤ m, sort the values and the queries by m.
+      Before each query, insert the values ≤ its m. The trie then holds exactly
+      the allowed values, and each value goes in once.
+    trace_title: "findMaximumXOR([3, 10, 5, 25, 2, 8]): the query for v = 25"
+    trace: |
+      x = 25 = 11001; trie holds 3, 10, 5, 25 (00011 01010 00101 11001)
+      bits 30..5 are 0 in every value: want 1, no child, go to 0, best stays 0
+      b  x's bit  want  child?  values left on the path  best
+      4     1      0    yes     3, 10, 5                 10000
+      3     1      0    yes     3, 5                     11000
+      2     0      1    yes     5                        11100
+      1     0      1    no      5                        11100
+      0     1      0    no      5                        11100 = 28 = 25 ^ 5
+    code:
+      - file: P12XorTrie.java
+        region: trie
+        title: Binary trie and the max XOR pair
+        tag: memorise
+      - file: P12XorTrie.java
+        region: offline
+        title: Max XOR with a limit, queries offline
+        tag: variant
+    time: O(n·B)
+    space: O(n·B)
+    cost_note: "B = 31 bits: every insert and query walks B levels, and the trie has at most n·B + 1 nodes. The offline version adds O(n log n + q log q) to sort."
+    variants:
+      - "Deletions: keep a count per node, add 1 along the path on insert and subtract 1 on delete, and treat a child with count 0 as missing. Maximum strong pair XOR II takes the values in increasing order as y, inserts y, deletes the smallest x while `2 * x < y`, then queries y."
+      - "Count pairs with XOR < K (LC 1803 takes `f(high + 1) - f(low)`): keep a count per node and walk K's bits. Where K has a 1, add the count of the child that makes this XOR bit 0 and move to the other child; where K has a 0, move to the child that makes it 0."
+      - "Without a trie (LC 421): decide the answer from the top bit, keep the prefixes `v >> b` in a hash set, and test whether `candidate ^ p` is in the set for some prefix p."
+      - "Maximum genetic difference (LC 1938): DFS the tree, insert a node on entry and delete it on exit, so the trie holds exactly the root path."
+    traps:
+      - "Walking the bits from 0 upwards makes the greedy pick low bits first: with values {1, 2} and x = 0 it returns 1; the answer is 2."
+      - "Querying an empty trie returns 0 with this code. LC 1707 wants −1 when no value is ≤ m: test `j == 0`."
+      - "`new int[cap][2]` reads the same but makes one small array per node: for n = 2·10⁵ it uses 174 MB, against 50 MB for `new int[2][cap]` (measured)."
+      - "Too few levels: `HIGH = 29` is enough for LC 1707 (values ≤ 10⁹), but on LC 421 the pair `[0, 2³⁰]` then gives 0."
+    practice: [maximum-strong-pair-xor-i, maximum-xor-of-two-numbers-in-an-array, maximum-xor-with-an-element-from-array, maximum-strong-pair-xor-ii, count-pairs-with-xor-in-a-range]
+
+  - id: gcd
+    title: GCD, LCM and extended Euclid
+    signal: Largest common divisor, a common period, or which amounts a·x + b·y can reach.
+    spot:
+      - "*Greatest common divisor*, *largest X that divides every*, *split into groups of equal size*, or a string that *divides* two strings."
+      - "Can a target be built from steps or jugs of sizes a and b? Can some subset combine to 1?"
+      - "Least common multiple, a simplified fraction, or two cycles that line up every lcm(a, b) steps."
+    idea: |
+      A number d divides both a and b exactly when it divides both b and `a % b`,
+      because `a % b` is a − q·b. So (a, b) can become (b, `a % b`) without changing
+      the gcd, and when b reaches 0 the answer is a. Every two steps the larger
+      number at least halves: if b ≤ a/2 then `a % b` < b ≤ a/2, and otherwise
+      `a % b` = a − b < a/2. That is O(log min(a, b)) steps. Consecutive Fibonacci
+      numbers are the worst case: gcd(F₄₅, F₄₄) takes 43 steps.
+
+      Extended Euclid carries coefficients back up the same calls. Write q = a/b,
+      rounded down. If b·x1 + (a % b)·y1 = g, put in a % b = a − q·b and regroup:
+      a·y1 + b·(x1 − q·y1) = g. This proves Bézout: a·x + b·y = c has integer
+      solutions exactly when gcd(a, b) divides c.
+
+      For the lcm, divide first: `a / gcd(a, b) * b` never exceeds the result.
+    trace_title: "extGcd(252, 105) = {21, -2, 5}"
+    trace: |
+      call              a/b  a%b  returns {g, x, y}   a*x + b*y
+      extGcd(252, 105)   2    42  {21, -2, 5}         252*(-2) + 105*5 = 21
+      extGcd(105, 42)    2    21  {21, 1, -2}         105*1 + 42*(-2)  = 21
+      extGcd(42, 21)     2     0  {21, 0, 1}          42*0 + 21*1      = 21
+      extGcd(21, 0)      -     -  {21, 1, 0}          base case
+      Calls go down; x, y are built on the way back up with
+      x = y1, y = x1 - (a/b)*y1. Row 2 from row 3: x = 1, y = 0 - 2*1 = -2.
+    code:
+      - file: P12Gcd.java
+        region: gcd
+        title: gcd, lcm and extended Euclid
+        tag: memorise
+      - file: P12Gcd.java
+        region: uses
+        title: Arrays, strings, decks and water jugs
+        tag: example
+        note: "`Math` has no gcd, and `BigInteger.gcd` creates objects on every call. Write the loop."
+    time: O(log n)
+    space: O(1)
+    cost_note: "n = min(a, b). The larger value halves every two steps; extGcd recurses to the same depth."
+    variants:
+      - "Good array (LC 1250): some subset combines to 1 exactly when the gcd of all values is 1 (Bézout)."
+      - "Inverse mod m when m is not prime: `extGcd(a, m)` gives x with a·x ≡ 1 (mod m) if g = 1; use `((x % m) + m) % m`."
+      - "Nth magical number: v has `v/a + v/b − v/lcm(a, b)` multiples of a or b up to it; binary search the smallest v with count ≥ n ([[bs-answer]])."
+    traps:
+      - "`a * b / gcd(a, b)` overflows first: in `int`, 60000 · 90000 wraps to 1105032704, and the lcm comes out as 36834 instead of 180000. Write `a / gcd(a, b) * b` in `long`."
+      - "Java's `%` keeps the sign of the dividend, so `gcd(4, -6)` returns −2. Take `Math.abs` first when values can be negative."
+      - "Water jugs with only the gcd test say yes to x = 3, y = 5, z = 9; 9 litres do not fit. Check `z <= x + y`."
+      - "x and y from extGcd are often negative (252·(−2) + 105·5 = 21); reduce them mod m before use."
+    practice: [find-greatest-common-divisor-of-array, greatest-common-divisor-of-strings, x-of-a-kind-in-a-deck-of-cards, water-and-jug-problem, check-if-it-is-a-good-array]
+
+  - id: mod-pow
+    title: Fast power and modular inverse
+    signal: aⁿ modulo 10⁹ + 7 with n up to 10¹⁸, or a division under a prime modulus.
+    spot:
+      - "*Modulo 10⁹ + 7*, and the answer is a power: k choices at each of n positions, n up to 10¹⁵."
+      - "A division under a prime modulus (a probability, n! / k!): multiply by the inverse."
+      - "pow(x, n) by hand with n down to −2³¹, or an exponent too large for any type (given as digits)."
+    idea: |
+      Write exp in binary. For exp = 13 = 1101₂, a¹³ = a⁸ · a⁴ · a¹. Squaring
+      `base` each round makes it a, a², a⁴, a⁸, …, and the loop multiplies it into
+      `result` when the matching bit of exp is 1. That is ⌊log₂ exp⌋ + 1 rounds with
+      at most two multiplications each, so exp = 10¹⁸ takes 60 rounds. Reducing
+      after every product keeps both factors below m, so a product is below
+      m² ≈ 10¹⁸, which fits in a `long` (up to 9.2·10¹⁸).
+
+      Fermat's little theorem: for a prime p that does not divide a,
+      aᵖ⁻¹ ≡ 1 (mod p). So a · aᵖ⁻² ≡ 1, and aᵖ⁻² is the inverse of a. Dividing
+      by a mod p means multiplying by it. That is how n! / (r!·(n − r)!) is taken
+      mod 10⁹ + 7 in [[ncr-mod]].
+
+      For doubles, x⁻ⁿ = (1/x)ⁿ. Negate n in a `long`: in `int`,
+      `-Integer.MIN_VALUE` is still negative.
+    trace_title: "modPow(3, 13, 10⁹ + 7)"
+    trace: |
+      exp (binary)  bit  result                  base after squaring
+      1101          1    1 * 3 = 3               3^2 = 9
+      110           0    3                       9^2 = 81
+      11            1    3 * 81 = 243            81^2 = 6561
+      1             1    243 * 6561 = 1594323    6561^2 = 43046721
+      exp = 0: stop. 13 = 8 + 4 + 1, so 3^13 = 3^8 * 3^4 * 3^1 = 1594323
+    code:
+      - file: P12ModPow.java
+        region: pow
+        title: Fast power mod m; inverse mod a prime
+        tag: memorise
+      - file: P12ModPow.java
+        region: double
+        title: pow(x, n) for doubles
+        tag: variant
+      - file: P12ModPow.java
+        region: uses
+        title: Count good numbers; super pow
+        tag: example
+    time: O(log n)
+    space: O(1)
+    cost_note: "n = exp: one squaring per bit of exp, plus one multiplication per 1 bit. An inverse mod 10⁹ + 7 is one power of about 30 rounds."
+    variants:
+      - "Exponent given as digits (super pow): fold digit by digit, r → r¹⁰ · aᵈ. For a prime p that does not divide a, you may instead reduce the exponent mod p − 1."
+      - "Inverse modulo a number that is not prime: extended Euclid ([[gcd]]), and only when gcd(a, m) = 1."
+      - "Inverses of all of 1..n in O(n): `inv[i] = (p - p / i) * inv[p % i] % p`, with `inv[1] = 1`."
+      - "The n-th term of a linear recurrence: the same loop with matrix products ([[matrix-pow]])."
+    traps:
+      - "`int` products overflow before the `%`: (10⁹ + 6)² mod (10⁹ + 7) is 1, but in `int` arithmetic it comes out as 923446813. Keep `base` and `result` in `long`."
+      - "With `int n`, `n = -n` leaves `Integer.MIN_VALUE` negative, the loop never runs, and pow(2.0, −2³¹) returns 1.0 instead of 0.0."
+      - "Java's `%` can be negative: `(3 - 5) % 7` is −2. Write `((a - b) % m + m) % m`; that is also why modPow fixes a negative base."
+      - "Fermat needs a prime modulus and `a % p != 0`. `modInverse(0, p)` returns 0 with no error, so check for 0 first."
+    practice: [powx-n, count-collisions-of-monkeys-on-a-polygon, count-good-numbers, super-pow, minimum-non-zero-product-of-the-array-elements]
+
+  - id: sieve
+    title: Prime sieve and factorisation
+    signal: All primes up to n, or the prime factors of many numbers up to about 10⁷.
+    spot:
+      - "*Count primes less than n*, or primes in a range, with n up to 5·10⁶ or 10⁷: a trial division per number is too slow."
+      - "Many values up to 10⁵ or 10⁶ need their prime factors: *distinct prime factors*, *share a common factor greater than 1*."
+      - "One number up to 10¹² to test or factorise: trial division up to √x."
+    idea: |
+      Every composite c has a prime factor p ≤ √c. So crossing out the multiples of
+      every prime p ≤ √n removes every composite up to n, and what is left is prime.
+      When `isPrime[p]` is still true at step p, no smaller prime divides p, so p is
+      prime. Start at p·p: a smaller multiple k·p with k < p has a prime factor
+      below p and is already out. The work is n/2 + n/3 + n/5 + … over the primes,
+      which is O(n log log n).
+
+      The SPF sieve keeps the first prime that reaches each cell, which is the
+      smallest one. Then x factorises by dividing by `spf[x]` again and again. Each
+      division at least halves x, so it takes at most log₂ x steps.
+
+      For a few numbers up to 10¹², use trial division. If x = a·b then
+      min(a, b) ≤ √x, so trying d up to √x (10⁶ steps) finds a factor or proves x
+      prime.
+    trace_title: "sieve(30), then distinctPrimes(84) with spfSieve(100)"
+    trace: |
+      p  isPrime[p]  crosses out (new)                       already out
+      2  yes         4 6 8 10 12 14 16 18 20 22 24 26 28 30
+      3  yes         9 15 21 27                              12 18 24 30
+      4  no          -
+      5  yes         25                                      30
+      6  stop: 6*6 = 36 > 30
+      primes <= 30: 2 3 5 7 11 13 17 19 23 29
+      distinctPrimes(84): spf 2 -> 21, spf 3 -> 7, spf 7 -> 1, gives [2, 3, 7]
+    code:
+      - file: P12Sieve.java
+        region: sieve
+        title: Sieve of Eratosthenes; count primes
+        tag: memorise
+      - file: P12Sieve.java
+        region: spf
+        title: Smallest prime factor sieve
+        tag: memorise
+      - file: P12Sieve.java
+        region: trial
+        title: Trial division for one number
+        tag: variant
+      - file: P12Sieve.java
+        region: component
+        title: Largest component by common factor
+        tag: example
+        note: "`DSU` is the union-find class from [[dsu]]. Its nodes go up to max(nums), so every prime factor has a slot."
+    time: O(n log log n)
+    space: O(n)
+    cost_note: "The inner loops add up to n/2 + n/3 + n/5 + … ≈ n·ln ln n. Each SPF factorisation is O(log x); trial division is O(√x) per number."
+    variants:
+      - "Closest primes in a range: sieve up to `right`, walk the primes in order, and keep the smallest gap between neighbours."
+      - "Prime pairs with a target sum: sieve up to n, then test x and n − x for every x ≤ n/2."
+      - "Segmented sieve for [L, R] with R up to 10¹² and R − L ≤ 10⁶: sieve the primes up to √R, then cross out their multiples inside the window only."
+      - "Number of divisors from the factorisation: if p appears e times in x, a divisor takes it 0..e times, so multiply (e + 1) over the primes. Four divisors (LC 1390) is this with trial division."
+    traps:
+      - "Running the outer loop to n instead of √n with `m = p * p`: at p = 46349 the product overflows to a negative number, and `isPrime[m]` throws for n = 10⁵. Stop at `(long) p * p <= n`."
+      - "Without the `n >= 2` guard, `Arrays.fill(isPrime, 2, n + 1, true)` throws IllegalArgumentException for n = 0, which `countPrimes(1)` asks for."
+      - "Adding `spf[x]` and dividing once per step lists 2 twice for 12. For distinct primes, divide out every copy of p before the next one."
+      - "1 is not prime and has no prime factors. In LC 952 a 1 stays a component of size 1."
+    practice: [count-primes, prime-pairs-with-target-sum, distinct-prime-factors-of-product-of-array, closest-prime-numbers-in-range, largest-component-size-by-common-factor]
+
+  - id: ncr-mod
+    title: nCr mod p (factorial tables)
+    signal: Count ways to choose positions, modulo a prime, with many C(n, r) up to n ≈ 10⁶.
+    spot:
+      - "*Number of ways*, *modulo 10⁹ + 7*, and the count is a choice of positions: grid paths, arrangements of repeated letters, steps left or right."
+      - "Many C(n, r) values with n up to 10⁵ or 10⁶: build tables once, then answer each in O(1)."
+      - "n ≤ 1000 and a modulus that is not prime, or exact values with n ≤ 66: Pascal's triangle."
+    idea: |
+      C(n, r) = n! / (r!·(n − r)!). Modulo a prime p you cannot divide residues,
+      but you can multiply by inverses: 1/r! is (r!)ᵖ⁻² ([[mod-pow]]). Instead of
+      one power per factorial, take one inverse at the top, 1/max! = (max!)ᵖ⁻², and
+      walk down with 1/(i − 1)! = i · 1/i!. Setup is O(max + log p), and each
+      C(n, r) is two multiplications. It needs max < p, so that no i! is 0 mod p;
+      with p = 10⁹ + 7, any table that fits in memory is fine.
+
+      Pascal's rule C(n, r) = C(n−1, r−1) + C(n−1, r) splits on whether the last
+      item is chosen. It uses only additions, so it works for any modulus or none,
+      at O(n²) time and memory.
+
+      Counting problems turn into nCr once you name the choice: which m − 1 of the
+      m + n − 2 grid moves go down, which of the k steps go right, or which
+      positions each letter takes.
+    trace_title: "Comb(6) with p = 13 instead of 10⁹ + 7, to keep the numbers small"
+    trace: |
+      i  i!   fact[i]  inv[i], built from the top       fact[i]*inv[i] % 13
+      6  720  5        5^11 % 13 = 8 (the one inverse)  1
+      5  120  3        inv[6]*6 = 48 % 13 = 9           1
+      4  24   11       inv[5]*5 = 45 % 13 = 6           1
+      3  6    6        inv[4]*4 = 24 % 13 = 11          1
+      2  2    2        inv[3]*3 = 33 % 13 = 7           1
+      1  1    1        inv[2]*2 = 14 % 13 = 1           1
+      0  1    1        inv[1]*1 = 1                     1
+      C(6, 2) = fact[6]*inv[2]*inv[4] = 5*7*6 = 210 % 13 = 2, and 15 % 13 = 2
+    code:
+      - file: P12NcrMod.java
+        region: tables
+        title: Factorial and inverse-factorial tables
+        tag: memorise
+        note: "`modPow(b, e)` is the template from [[mod-pow]] with m = MOD."
+      - file: P12NcrMod.java
+        region: pascal
+        title: Pascal's triangle; unique paths by formula
+        tag: variant
+      - file: P12NcrMod.java
+        region: uses
+        title: Count anagrams; exactly k steps
+        tag: example
+        note: "Build one `Comb` as large as the longest word (10⁵ for LC 2514) or as k (1000 for LC 2400)."
+    time: O(n) + O(1)
+    space: O(n)
+    cost_note: "n = the table size. Two passes of n multiplications plus one O(log p) power; then each nCr is O(1). Pascal is O(n²) time and memory."
+    variants:
+      - "Stars and bars: n identical items into k boxes in C(n + k − 1, k − 1) ways. Count the number of ideal arrays uses it for each prime exponent e of the last value: C(n − 1 + e, e)."
+      - "Ordered choices: P(n, r) = n! / (n − r)! is `fact[n] * inv[n - r] % MOD`."
+      - "Catalan numbers C(2n, n) / (n + 1) count balanced bracket strings and BST shapes with n nodes."
+      - "n ≥ p for a small prime p: Lucas's theorem multiplies C(nᵢ, rᵢ) over the base-p digits of n and r."
+    traps:
+      - "`fact[n] / (fact[r] * fact[n - r] % MOD)` divides residues: C(20, 10) comes out as 0 instead of 184756. Multiply by `inv[r]` and `inv[n - r]`."
+      - "`fact[n] * inv[r] * inv[n - r] % MOD` multiplies three numbers near 10⁹; the second product passes 9.2·10¹⁸. Reduce after every product."
+      - "Pascal in `long` past n = 66: C(67, 33) wraps to −4220223336089263246. Reduce mod p, or use the tables."
+      - "LC 2400 without the parity check: start 0, end 2, k = 3 gives C(3, 2) = 3, but 3 steps always end an odd distance away, so the answer is 0."
+    practice: [pascals-triangle, unique-paths, number-of-ways-to-reach-a-position-after-exactly-k-steps, count-anagrams, count-the-number-of-ideal-arrays]
+
+  - id: matrix-pow
+    title: Matrix power for recurrences
+    signal: The n-th term of a linear recurrence, or strings of length n, with n up to 10¹⁸.
+    spot:
+      - "*n-th term*, or *number of strings or paths of length n*, modulo 10⁹ + 7, with n up to 10⁹ or 10¹⁸."
+      - The state is small (k up to about 50) and every step applies the same rule.
+      - "If n ≤ 10⁵, the same count is a plain DP over the steps; the matrix only pays off for huge n."
+    idea: |
+      A linear recurrence of order k keeps its last k values as a state, and one
+      step is a fixed linear map: `v(i+1) = M · v(i)` for a k×k matrix M. For
+      Fibonacci the state is `[F(i+1), F(i)]` and M = [[1, 1], [1, 0]]. So
+      `v(n) = Mⁿ · v(0)`. Matrix products are associative, so Mⁿ comes from the
+      squaring loop of [[mod-pow]]: O(log n) products of O(k³) each.
+
+      Counting strings is the same thing. Let `T[a][b] = 1` when a may follow b. An
+      entry of a product sums over the middle symbol, so `(Tᵐ)[a][b]` counts the
+      paths of m steps from b to a. Strings of n symbols are paths of n − 1 steps:
+      add up all the entries of Tⁿ⁻¹.
+
+      When n is at most about 10⁵, the plain DP over the steps costs O(n · edges)
+      and is simpler. Use the matrix when n reaches 10⁹ or more.
+    trace_title: "fib(10) = matPow(M, 10)[1][0], M = [[1, 1], [1, 0]]"
+    trace: |
+      e (bin)  bit  r after                         m after squaring
+      1010     0    I                               M^2  = [[2, 1], [1, 1]]
+      101      1    r*M^2 = [[2, 1], [1, 1]]        M^4  = [[5, 3], [3, 2]]
+      10       0    unchanged                       M^8  = [[34, 21], [21, 13]]
+      1        1    r*M^8 = [[89, 55], [55, 34]]    M^16 = [[1597, 987], [987, 610]]
+      e = 0: stop. 10 = 8 + 2, so r = M^10; F(10) = r[1][0] = 55
+    code:
+      - file: P12MatrixPow.java
+        region: matpow
+        title: Matrix product and power mod p
+        tag: memorise
+      - file: P12MatrixPow.java
+        region: recur
+        title: Fibonacci and tribonacci
+        tag: variant
+      - file: P12MatrixPow.java
+        region: walks
+        title: Count strings; knight dialer; vowels
+        tag: example
+    time: O(k³ log n)
+    space: O(k²)
+    cost_note: "About 2·log₂ n products of k³ multiply-adds each. The 10×10 knight matrix with n = 10⁹ needs about 6·10⁴ operations."
+    variants:
+      - "Recurrence with a constant, `f(n) = f(n−1) + f(n−2) + c`: add a 1 to the state and a matrix row that keeps it."
+      - "Exactly n edges in a graph: the adjacency matrix to the power n. With `min` for `+`, `+` for `·`, and ∞ off the diagonal of the identity, the same loop gives the cheapest walk of exactly n edges."
+      - "Total characters after t transformations II (LC 3337): `T[c][d] = 1` when c turns into d, with t up to 10⁹. The answer adds count[c] × (sum of row c of Tᵗ) over the 26 letters."
+      - "Tiling or painting an n × 3 grid: write the DP over columns with a small state first; turn the transition into a matrix only if n is huge."
+    traps:
+      - "LC 1137 wants the exact T(37) = 2082876103, which is above 10⁹ + 7; the mod version returns 82876089. With n ≤ 37, a plain loop in `long` is the answer."
+      - "n symbols take n − 1 transitions. `matPow(t, n)` for the knight dialer with n = 1 returns 20 instead of 10."
+      - "One product of two entries is below 1.0·10¹⁸, but adding 10 of them before a `%` passes 9.2·10¹⁸. Reduce after each multiply-add."
+      - "Reading the wrong entry: Mⁿ = [[F(n+1), F(n)], [F(n), F(n−1)]], so `[0][0]` is F(n+1), 89 for n = 10."
+    practice: [fibonacci-number, n-th-tribonacci-number, knight-dialer, count-vowels-permutation, total-characters-in-string-after-transformations-ii]

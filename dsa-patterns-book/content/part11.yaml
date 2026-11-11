@@ -1,0 +1,372 @@
+intro: >-
+  String questions have structure that general array tools miss: a palindrome mirrors
+  around its centre, a failed match still tells you what the text was, and a hash turns
+  a substring into a number. Each pattern here replaces a compare-every-substring loop,
+  O(n²) or worse, with a linear pass, an O(1) comparison or a walk down a tree of
+  prefixes. Reach for this part when the question is about substrings, prefixes,
+  palindromes or many words at once.
+
+patterns:
+  - id: expand-center
+    title: Expand around the centre
+    signal: Longest palindromic substring, or how many substrings are palindromes, for n up to a few thousand.
+    spot:
+      - "*Longest palindromic substring*, *count palindromic substrings*: the piece is contiguous, so every palindrome has a centre."
+      - n ≤ 1000 to 3000, so O(n²) is fine, but checking each of the n²/2 substrings from scratch (O(n³)) is not.
+      - You want the palindromes at many centres with O(1) extra memory, not an n × n table.
+    idea: |
+      A palindrome mirrors around its centre. If `s[l..r]` is a palindrome and
+      `s[l-1] == s[r+1]`, then `s[l-1..r+1]` is one too; if they differ, no longer
+      palindrome has this centre. So from each centre, grow outward one pair at a time
+      until the chars differ or an end is reached. Every palindrome is found from its
+      own centre, so nothing is missed.
+
+      Odd lengths centre on a char and even lengths on the gap between two chars:
+      2n − 1 centres. Number them `c = 0..2n-2` and start at `l = c / 2`,
+      `r = l + c % 2`. An even c starts both ends on one char, an odd c on two
+      neighbours, so one loop covers both kinds.
+
+      A centre grows at most n/2 steps, so the worst case (all one letter) is O(n²);
+      text with few palindromes stops almost at once. Each successful step is one more
+      palindrome, which is all the count needs.
+    trace_title: "s = \"babad\": 9 centres, the longest and the count"
+    trace: |
+      c  centre    start l, r  longest here  palindromes  best
+      0  b         0, 0        "b"           +1           "b"
+      1  gap b|a   0, 1        -             +0           "b"
+      2  a         1, 1        "bab"         +2           "bab"
+      3  gap a|b   1, 2        -             +0           "bab"
+      4  b         2, 2        "aba"         +2           "bab"
+      5  gap b|a   2, 3        -             +0           "bab"
+      6  a         3, 3        "a"           +1           "bab"
+      7  gap a|d   3, 4        -             +0           "bab"
+      8  d         4, 4        "d"           +1           "bab"
+      7 palindromes. "aba" ties "bab" but is not longer, so "bab" stays.
+    code:
+      - file: P11ExpandCenter.java
+        region: longest
+        title: Longest palindromic substring
+        tag: memorise
+      - file: P11ExpandCenter.java
+        region: count
+        title: Count palindromic substrings
+        tag: variant
+    time: O(n²)
+    space: O(1)
+    cost_note: 2n − 1 centres, each growing at most n/2 steps. Only a few indexes are kept; the answer string is cut once at the end.
+    variants:
+      - "Longest palindromic *subsequence* (chars may be skipped): centres do not apply; use [[palindrome-dp]]."
+      - "n up to 10⁵, or the longest palindrome at every centre is needed: [[manacher]] does the same growth in O(n) in total."
+      - "Palindrome table for a partition search: run the loop once and set `isPal[l][r] = true` at every step. That fills all the true cells in O(n²) without a DP order ([[palindrome-partition]])."
+      - "Non-overlapping palindromes of length ≥ k (LC 2472): from each centre keep only the first palindrome of length ≥ k (k or k + 1 chars), then choose the most disjoint ones by earliest right end ([[interval-scheduling]])."
+    traps:
+      - "Odd centres only (`l = r = c` for `c < n`) misses every even palindrome: `\"cbbd\"` returns `\"c\"` instead of `\"bb\"`."
+      - "Testing `s.charAt(l) == s.charAt(r)` before `l >= 0 && r < n` throws `StringIndexOutOfBoundsException` as soon as a palindrome reaches an end of s, for example on `\"aba\"`."
+      - "After the loop, l and r are one step past the palindrome: it is `s[l+1..r-1]`, of length `r - l - 1`. Using `r - l + 1` reports two chars too many."
+    practice: [palindromic-substrings, longest-palindromic-substring, maximum-number-of-non-overlapping-palindrome-substrings]
+
+  - id: kmp
+    title: KMP prefix function
+    signal: Find a pattern in a text in O(n + m), or use a string's borders (a prefix that is also a suffix).
+    spot:
+      - "*Find the first occurrence*, *all occurrences*, *is s a rotation of t*, with lengths up to 10⁵ or more."
+      - "A *prefix that is also a suffix*: longest happy prefix, the period of a string, *s is a block repeated k times*."
+      - "Add the fewest chars in front to make s a palindrome: that is the longest palindromic prefix."
+    idea: |
+      A **border** of a string is a proper prefix that is also a suffix, and `pi[i]`
+      is the longest border of `s[0..i]`. A border of `s[0..i]` is a border of
+      `s[0..i-1]` followed by `s[i]`. The borders of `s[0..i-1]` are `pi[i-1]`,
+      then `pi[pi[i-1]-1]`, and so on down to 0, because a border of a border is a
+      border. So try them longest first: the first length `k` with `s[k] == s[i]`
+      gives `pi[i] = k + 1`.
+
+      The search keeps `k`, the number of chars of p that match the text ending at
+      `i`. On a mismatch, `p[0..k)` is text you have already read, so the next
+      candidate is its longest border, and `i` never moves back.
+
+      Each step raises `k` by at most 1, and each pass of the `while` lowers it by at
+      least 1 without going below 0. So the `while` runs at most n times in total:
+      O(n) for `pi` and O(n + m) for the search.
+    trace_title: "prefixFunction(\"abacabab\")"
+    trace: |
+      i  s[i]  borders tried (k)                 pi[i]
+      0  a     -                                 0
+      1  b     0: s[0] = a, no                   0
+      2  a     0: s[0] = a, match                1
+      3  c     1: s[1] = b, no -> pi[0] = 0, no  0
+      4  a     0: s[0] = a, match                1
+      5  b     1: s[1] = b, match                2
+      6  a     2: s[2] = a, match                3
+      7  b     3: s[3] = c, no -> pi[2] = 1:
+                  s[1] = b, match                2
+      pi = [0, 0, 1, 0, 1, 2, 3, 2]. At i = 7, "aba" + b is not a border,
+      but the border of "aba", "a", grows to "ab".
+    code:
+      - file: P11Kmp.java
+        region: pi
+        title: Prefix function
+        tag: memorise
+      - file: P11Kmp.java
+        region: search
+        title: Search without moving back
+        tag: memorise
+      - file: P11Kmp.java
+        region: borders
+        title: Period, happy prefix, shortest palindrome
+        tag: example
+    time: O(n + m)
+    space: O(m)
+    cost_note: k rises at most once per char and every fallback lowers it, so all the fallbacks together are at most n. pi holds one int per char of p.
+    variants:
+      - "All occurrences: on `k == m`, record `i - m + 1` and set `k = pi[k - 1]`; overlapping matches are found too."
+      - "Rotate string (LC 796): goal is a rotation of s when the lengths are equal and goal occurs in `s + s`."
+      - "Remove all occurrences of a substring (LC 1910): keep the kept chars on a stack with the KMP state after each one. When the state reaches m, pop m chars and continue from the state below them: O(n), no rescans."
+      - "The same answers come from the Z-array ([[z-function]]). Many patterns at once: put them in a [[trie]]."
+    traps:
+      - "`if` instead of `while` for the fallback leaves k on a border that was never checked: `\"aaab\"` gets `pi = [0, 1, 2, 1]`, which claims that \"a\" is a suffix of \"aaab\"."
+      - "Falling back with `k = pi[k]` instead of `pi[k - 1]` can loop forever: on `\"aab\"` at i = 2, k = 1 and `pi[1] = 1`."
+      - "Shortest palindrome without the `#`: for `\"aa\"`, `\"aaaa\"` has a border of 3, longer than s, and `rev.substring(0, 2 - 3)` throws."
+    practice: [find-the-index-of-the-first-occurrence-in-a-string, repeated-substring-pattern, remove-all-occurrences-of-a-substring, longest-happy-prefix, shortest-palindrome]
+
+  - id: z-function
+    title: Z-function
+    signal: For every position i, how far the text from i matches the start of the string.
+    spot:
+      - "Compare every suffix with the whole string: the *score* of each suffix, *is word[i..] a prefix of word*."
+      - "Pattern search where you want an answer per position (every match, matches with one change), n up to 10⁵ or 10⁶."
+      - A prefix of the string that comes back later, asked for every position at once.
+    idea: |
+      `z[i]` is the length of the longest common prefix of `s` and `s[i..]`. Keep the
+      box `[l, r)`, the match found so far that reaches furthest right, so
+      `s[l..r) == s[0..r-l)`. For `i < r`, `s[i..r)` is a copy of `s[i-l..r-l)`,
+      whose match is already known, so `z[i] ≥ min(r - i, z[i - l])`. If
+      `z[i - l] < r - i`, that match stopped inside the box at a mismatch that is
+      copied too: the value is exact and the first compare fails. Otherwise compare
+      the chars past `r`.
+
+      Every successful compare moves the right end of the box. `r` never moves left
+      and stops at n, so there are at most n successful compares, plus at most one
+      failed compare per `i`: O(n).
+
+      To search, build `p + '$' + t`. A z-value of `m` at position `m + 1 + j` means
+      p occurs at `t[j]`.
+    trace_title: "zFunction(\"aabcaabxaaz\"); z[0] = n = 11"
+    trace: |
+      i   s[i]  box [l, r)  start from the box   compares  z[i]  box after
+      1   a     -           0                    2         1     [1, 2)
+      2   b     -           0                    1         0
+      3   c     -           0                    1         0     [3, 3)
+      4   a     -           0                    4         3     [4, 7)
+      5   a     [4, 7)      min(7-5, z[1]) = 1   1         1
+      6   b     [4, 7)      min(7-6, z[2]) = 0   1         0
+      7   x     -           0                    1         0
+      8   a     -           0                    3         2     [8, 10)
+      9   a     [8, 10)     min(10-9, z[1]) = 1  1         1
+      10  z     -           0                    1         0
+      z = [11, 1, 0, 0, 3, 1, 0, 0, 2, 1, 0], 16 compares for n = 11
+    code:
+      - file: P11ZFunction.java
+        region: z
+        title: Z-array with the [l, r) box
+        tag: memorise
+      - file: P11ZFunction.java
+        region: search
+        title: All matches via p + '$' + t
+        tag: memorise
+      - file: P11ZFunction.java
+        region: uses
+        title: Sum of scores; time to revert a word
+        tag: example
+    time: O(n)
+    space: O(n)
+    cost_note: r only moves right, so successful compares total at most n, and each i adds at most one failed compare. Search on p + '$' + t is O(n + m).
+    variants:
+      - "One change allowed (LC 3303): z of `p + '$' + s` gives the prefix match at each start, and z of the two reversed strings gives the suffix match at each end. Start i works when the two add up to at least m − 1."
+      - "Longest happy prefix: the first i with `i + z[i] == n`; the answer is `s[i..]`. Same answer as [[kmp]]."
+      - "Beautiful indices (LC 3008): find all starts of a and of b with Z, then for each start of a look for a start of b within k with two pointers or [[lower-bound]]."
+      - "Prefixes of another string t at every position of s: z of `t + '$' + s`."
+    traps:
+      - "No separator: in `p + t` a z-value can run past m into t, and `z == m` misses that spot. p = \"aa\", t = \"aaa\" gives z = `[5, 4, 3, 2, 1]` on \"aaaaa\", so the match at 0 (z = 3) is lost."
+      - "`z[i] = z[i - l]` without the `min(r - i, ·)` claims chars past r that were never compared: on \"aaa\" it gives `z[2] = 2`, which runs off the end of the string."
+      - "Leaving `z[0] = 0` drops the whole string's own score: LC 2223 on \"babab\" sums to 4 instead of 9. The sum reaches 5·10⁹ for n = 10⁵, so add in a `long`."
+    practice: [minimum-time-to-revert-word-to-initial-state-i, sum-of-scores-of-built-strings, minimum-time-to-revert-word-to-initial-state-ii, find-beautiful-indices-in-the-given-array-ii, find-the-occurrence-of-first-almost-equal-substring]
+
+  - id: rolling-hash
+    title: Rolling hash (Rabin–Karp)
+    signal: Compare any two substrings in O(1) by comparing numbers; find repeats with a set of hashes.
+    spot:
+      - "*Longest substring that occurs twice*, *distinct substrings of the form a + a*, n up to 3·10⁴ or 10⁵."
+      - Many equality tests between pieces of one string, where each char-by-char compare would cost O(n).
+      - "\"If length L works, every shorter length works\": binary search the length, and test one length with a hash set."
+    idea: |
+      Read a string as a number in base B: `h[i+1] = h[i]*B + s[i]` mod M, so `h[i]`
+      is the hash of the first i chars. A substring is a difference:
+      `hash(s[l..r)) = h[r] - h[l]*B^(r-l)`, since shifting the prefix `s[0..l)` up by
+      r − l digits lines it up with `h[r]`. With the prefix hashes and powers stored,
+      each substring hash is O(1), and equal substrings always get equal hashes.
+
+      The converse can fail: two different strings can share a hash (a
+      **collision**). With one prime near 10⁹ and 10⁵ windows, about n²/2M ≈ 5 pairs
+      collide. With two primes a false match needs both residues to collide, about
+      5·10⁻⁹. Java 8 has no 128-bit multiply for mod 2⁶¹ − 1, so the template uses
+      two primes below 2³⁰: every product stays below 2⁶⁰ in a `long`. Where a wrong
+      answer is not acceptable, confirm each hit with `regionMatches`.
+    trace_title: "s = \"banana\", B = 131, M1 = 10⁹ + 7 (the M2 half works the same way)"
+    trace: |
+      i       0   1    2      3        4          5         6
+      h1[i]   0   98   12935  1694595  221992042  80957409  605420606
+      get(1, 4) = h1[4] - h1[1]*B^3 = 221992042 - 98*2248091 = 1679124  "ana"
+      get(3, 6) = h1[6] - h1[3]*B^3  (mod M1)                = 1679124  "ana"
+      longestDupSubstring: binary search on L, answer in [lo, hi]
+      lo  hi  mid  windows of length mid   first repeat
+      0   5   3    ban ana nan ana         at 3, same key as at 1: lo = 3
+      3   5   4    bana anan nana          none: hi = 3
+      lo = hi = 3: answer s.substring(3, 6) = "ana"
+    code:
+      - file: P11RollingHash.java
+        region: hash
+        title: Prefix hashes, two primes, O(1) substring
+        tag: memorise
+      - file: P11RollingHash.java
+        region: longest
+        title: Binary search on length + hash set
+        tag: memorise
+      - file: P11RollingHash.java
+        region: echo
+        title: Distinct echo substrings
+        tag: example
+    time: O(n log n)
+    space: O(n)
+    cost_note: Prefix hashes take O(n) and each get is O(1). Longest duplicate runs O(log n) rounds of an O(n) set pass; echo substrings tries all O(n²) pairs.
+    variants:
+      - "Rabin–Karp search: hash p once and compare it with `get(i, i + m)` for every i; confirm a hit with `t.regionMatches(i, p, 0, m)`. O(n + m) expected."
+      - "Longest common piece of two arrays (LC 718): binary search L, put the window hashes of one array in a set and look up the other's. For many paths (LC 1923), intersect the sets of all paths."
+      - "Is `s[l..r)` a palindrome? Hash s and its reverse and compare the two directions. [[manacher]] answers the same with no collisions."
+      - "Repeated DNA sequences (LC 187): 4 letters and windows of 10, so keep the window as a 20-bit number, `x = ((x << 2) | code[c]) & 0xFFFFF`. The code is exact, so a set of ints finds the repeats with no collisions."
+    traps:
+      - "One prime is not enough: in a test on 10⁵ random 10-letter windows, mod 10⁹ + 7 alone gave 6 colliding pairs, and both primes together gave none."
+      - "In Java `%` keeps the sign, so `(h[r] - h[l] * p[r - l]) % M` can be negative and equal substrings compare unequal. Add M and take `% M` again."
+      - "Mapping 'a' to 0 makes \"a\", \"aa\" and \"aaa\" all hash to 0. A set that mixes lengths then sees false repeats. Use the char itself or `c - 'a' + 1`."
+      - "With a prime near 2⁶¹, `h[l] * p[r - l]` overflows a `long` without a split multiply; with primes below 2³⁰ it cannot."
+    practice: [repeated-dna-sequences, maximum-length-of-repeated-subarray, distinct-echo-substrings, longest-duplicate-substring, longest-common-subpath]
+
+  - id: trie
+    title: Trie (prefix tree)
+    signal: Many words and questions about prefixes, wildcards, or finding all the words in a grid.
+    spot:
+      - "*Starts with*, *shortest root*, *autocomplete*, *search with '.'*: queries about prefixes of the words in one dictionary."
+      - Find every dictionary word on a board or in a text at once, instead of one search per word.
+      - Lowercase letters only and a total word length up to about 10⁵, so 26 links per node fit in memory.
+    idea: |
+      A trie stores words letter by letter on the edges of a tree. Every word that
+      starts with p passes through one node, the one reached by spelling p from the
+      root. So `insert`, `search` and `startsWith` each follow at most L links, O(L)
+      for a word of length L, however many words are stored. `end` marks the nodes
+      where a word stops; without it, "app" is found as soon as "apple" is in.
+
+      A wildcard `.` matches any letter, so at a dot the search tries all 26
+      children. Fixed letters still narrow the search to one child.
+
+      For word search II, run the board backtracking of [[grid-backtrack]] and carry
+      the trie node of the path so far. A path that leaves the trie cannot start any
+      word, so it stops at once. A word is reported at its end node and then
+      cleared. A node with nothing left below it is cut from its parent, so later
+      paths do not enter it.
+    trace_title: "insert car, cat, cart, dog; * marks end = true"
+    trace: |
+      (root)
+        c
+          a
+            r *     car
+              t *   cart
+            t *     cat
+        d
+          o
+            g *     dog
+      search("ca") = false: the node exists, but end is false
+      startsWith("ca") = true    matches(".a.") = true (car)    matches("d.") = false
+    code:
+      - file: P11Trie.java
+        region: trie
+        title: Trie with Node[26] and an end flag
+        tag: memorise
+      - file: P11Trie.java
+        region: dots
+        title: Search with '.' wildcards
+        tag: variant
+      - file: P11Trie.java
+        region: board
+        title: Word search II (trie + backtracking)
+        tag: example
+    time: O(L)
+    space: O(26 · N)
+    cost_note: A word of length L follows L links. N is the total length of the words, and each of the at most N nodes has 26 links. Word search II is bounded by the backtracking, at most 4·3^(L−1) paths per start cell.
+    variants:
+      - "Replace words (LC 648): insert the roots, then walk each word down the trie and stop at the first node with `end`. That prefix is the shortest root."
+      - "Sum of prefix scores (LC 2416): keep a `cnt` in each node and add 1 along the path on every insert. A word's score is the sum of `cnt` along its path."
+      - "Large or unknown alphabet: use a `HashMap<Character, Node>` for the children instead of an array."
+      - "Maximum XOR of two numbers: a trie over the bits, with 2 children per node ([[xor-trie]])."
+    traps:
+      - "`search` written as `walk(w) != null` is true for every prefix: after `insert(\"apple\")`, `search(\"app\")` returns true."
+      - "Word search II without `x.word = null` reports a word once for each path that spells it: board `[\"aa\"]` with words `[\"a\"]` returns `[a, a]`."
+      - "Without the prune line, used-up branches are walked again and again: a 12 × 12 board of a's with the words a to a¹⁰ makes 7,534,800 calls instead of 184."
+    practice: [implement-trie-prefix-tree, replace-words, design-add-and-search-words-data-structure, sum-of-prefix-scores-of-strings, word-search-ii]
+
+  - id: manacher
+    title: Manacher's algorithm
+    signal: The longest palindrome at every centre in O(n); longest or count of palindromic substrings for n up to 10⁵ or 10⁶.
+    spot:
+      - "Palindromic substrings with n up to 10⁵ or more, where [[expand-center]] is O(n²) on inputs such as `aaaa…a`."
+      - You need the palindrome at **every** centre (the longest one inside each prefix, or ending at each i), not only the overall best.
+      - "Many questions of the form *is s[l..r] a palindrome?* after one O(n) pass."
+    idea: |
+      Put `#` between the chars and at both ends. Then t has 2n + 1 chars, and every
+      palindrome of s, odd or even, is an odd palindrome of t with the same centre. `p[i]` is its radius in t, which equals its length in s.
+
+      Keep `c` and `r = c + p[c]` for the palindrome that reaches furthest right. For
+      `i < r`, the mirror `j = 2c − i` lies in the same palindrome, so up to r the text
+      around i mirrors the text around j, and `p[i] ≥ min(r − i, p[j])`. If
+      `p[j] < r − i`, the palindrome at i stops where the one at j does, and the first
+      compare fails. Only a palindrome that reaches r compares past r, and each
+      success moves r right. r never moves left, so the compares total O(n), as with
+      the box in [[z-function]].
+
+      The `#` never matters: a compare is always between two positions of the same
+      parity, so `#` meets `#` and letters meet letters.
+    trace_title: "s = \"babcbabc\", t has 17 chars"
+    trace: |
+      i    0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+      t    #  b  #  a  #  b  #  c  #  b  #  a  #  b  #  c  #
+      p    0  1  0  3  0  1  0  7  0  1  0  5  0  1  0  1  0
+      i = 7:  no box covers it; 7 compares succeed, box (c, r) = (7, 14)
+      i = 9:  mirror 5, p[5] = 1 < 14 - 9: copy 1, the next compare fails
+      i = 11: mirror 3, p[3] = 3 = 14 - 11: start at 3, 2 more succeed -> 5
+      i = 15: box (11, 16), mirror 7: min(16 - 15, p[7] = 7) = 1, t ends there
+      longest: p[7] = 7, start (7 - 7) / 2 = 0 -> "babcbab"
+      count: sum of (p[i] + 1) / 2 = 14
+    code:
+      - file: P11Manacher.java
+        region: radius
+        title: "Radius array on #a#b#..., mirror rule"
+        tag: memorise
+      - file: P11Manacher.java
+        region: use
+        title: Longest and count in O(n)
+        tag: memorise
+      - file: P11Manacher.java
+        region: product
+        title: Two non-overlapping palindromes (LC 1960)
+        tag: example
+    time: O(n)
+    space: O(n)
+    cost_note: r only moves right, so successful compares total at most 2n + 1, and each i adds at most one failed compare. t and p have 2n + 1 slots.
+    variants:
+      - "Retry LC 5 and LC 647 (listed under [[expand-center]]) with this template; LC 647 sums `(p[i] + 1) / 2`."
+      - "Is `s[l..r]` a palindrome? Its centre in t is `l + r + 1`, so the answer is `p[l + r + 1] >= r - l + 1`. With that O(1) test, palindrome partitioning IV tries every pair of cuts in O(n²)."
+      - "Longest palindromic prefix (shortest palindrome, LC 214): the largest `p[i]` with `i - p[i] == 0`. Same answer as [[kmp]] on `s + '#' + reverse(s)`."
+      - "DFS strings of a tree (LC 3327): build one postorder string, run Manacher's once, and test each subtree's block with the O(1) check ([[euler-tour]])."
+    traps:
+      - "The mirror without the `min`: `p[i] = p[2*c - i]` claims chars past r that were never compared. On `\"baba\"` it sets `p[7] = 3` instead of 1, and the count says 7 instead of 6."
+      - "The count reaches n(n+1)/2 = 5·10⁹ for 10⁵ equal letters. Keep it in a `long`; LC 647 returns `int` only because n ≤ 1000 there."
+      - "LC 1960 on 10⁵ a's: the best product is 49999 · 50001 = 2,499,999,999, more than `int` holds. Multiply as `long`."
+    practice: [palindrome-partitioning-iv, check-if-dfs-strings-are-palindromes, maximum-product-of-the-length-of-two-palindromic-substrings]

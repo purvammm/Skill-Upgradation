@@ -1,0 +1,421 @@
+patterns:
+  - id: edit-distance
+    title: Edit distance and alignment
+    signal: Turn one string into another with the fewest edits, or count or test the ways two strings line up.
+    spot:
+      - "*Minimum operations (insert, delete, replace) to convert word1 into word2*."
+      - Two strings of length up to 500 or 1000, so a table of about 10⁶ cells fits.
+      - "*Count the subsequences of s equal to t*, *is s3 an interleaving of s1 and s2*."
+      - "Matching with `?` and `*` (wildcards) or `.` and `*` (regular expressions)."
+    idea: |
+      `dp[i][j]` is the fewest edits that turn the first i chars of a into the first
+      j chars of b. Look at what happens to the last chars. If `a[i-1] == b[j-1]`,
+      keep both for free: `dp[i-1][j-1]`. Otherwise the last edit is a replace
+      (`dp[i-1][j-1] + 1`), a delete of `a[i-1]` (`dp[i-1][j] + 1`) or an insert of
+      `b[j-1]` (`dp[i][j-1] + 1`). Every edit script ends in one of these cases, so
+      the minimum of the three is optimal. The base row and column are the empty
+      string: `dp[i][0] = i` deletes and `dp[0][j] = j` inserts.
+
+      Each cell reads three neighbours (up, left, up-left), so filling row by row is
+      O(1) per cell and O(m·n) in total. Distinct subsequences, interleaving and
+      wildcard matching use the same table with a different cell rule: add counts
+      instead of taking a minimum, or OR two booleans.
+    trace_title: 'minDistance("horse", "ros") = 3'
+    trace: |
+      row i = first i chars of "horse", column j = first j chars of "ros"
+             ""  r  o  s
+        ""    0  1  2  3
+        h     1  1  2  3
+        o     2  2  1  2
+        r     3  2  2  2
+        s     4  3  3  2
+        e     5  4  4  3
+      dp[2][2]: o == o, so dp[1][1] = 1
+      dp[5][3]: e != s, 1 + min(replace 3, delete 2, insert 4) = 3
+      one script: replace h -> r (rorse), delete r (rose), delete e (ros)
+    code:
+      - file: P10EditDistance.java
+        region: edit
+        title: Edit distance
+        tag: memorise
+      - file: P10EditDistance.java
+        region: count
+        title: Distinct subsequences; interleaving string
+        tag: variant
+        note: Cells you never need can pass 2³¹ even when the answer fits. `int` wraps, and with only additions the final value is still right.
+      - file: P10EditDistance.java
+        region: wildcard
+        title: Wildcard matching
+        tag: variant
+    time: O(m·n)
+    space: O(m·n)
+    cost_note: One O(1) step per cell of the (m + 1) × (n + 1) table. Each row reads only the row above, so two rows bring the space down to O(n).
+    variants:
+      - "One row (O(n) space): keep the old up-left value in a variable. For distinct subsequences, loop j from n down to 1 so `ways[j-1]` is still the previous row's."
+      - "Delete only, or delete with a cost per char (LC 583, LC 712): the same table with no replace; it is [[lcs]] in disguise."
+      - "Regular expression matching: `x*` is zero or more x, so a star looks two columns back: `dp[i][j] = dp[i][j-2] || (p[j-2] matches s[i-1] && dp[i-1][j])`."
+    traps:
+      - "No base row or column: with `dp[i][0]` left at 0, deleting a whole prefix is free, and `minDistance(\"horse\", \"ros\")` returns 2 instead of 3."
+      - "Wildcard base row `dp[0][j] = p.charAt(j - 1) == '*'` forgets that every earlier char must be a star too: `isMatch(\"\", \"a*\")` returns true."
+      - "Interleaving without the `m + n == s3.length()` check: the table looks only at the first m + n chars, so `(\"a\", \"b\", \"abc\")` returns true."
+      - "The table has m + 1 rows, so row i compares `a.charAt(i - 1)`. Writing `a.charAt(i)` is off by one and throws at i = m."
+    practice: [edit-distance, interleaving-string, distinct-subsequences, wildcard-matching, regular-expression-matching]
+
+  - id: palindrome-dp
+    title: Palindrome DP on s[i..j]
+    signal: Longest palindromic subsequence, number of palindromic substrings, or fewest cuts into palindromes.
+    spot:
+      - "*Longest palindromic subsequence*: chars may be skipped, so [[expand-center]] does not apply."
+      - "*Fewest cuts* into palindromes, or *fewest insertions* to make s one; n up to 1000 or 2000."
+      - "The answer for `s[i..j]` depends on `s[i]`, `s[j]` and the ranges one char shorter."
+    idea: |
+      `dp[i][j]` is the answer for `s[i..j]`. For the longest palindromic subsequence,
+      if `s[i] == s[j]` the two ends go on the outside: `2 + dp[i+1][j-1]`. Taking
+      both is never worse, because a palindrome that skips an end is at most two chars
+      longer than the best one inside `s[i+1..j-1]`, and wrapping that one adds two.
+      If the ends differ, one of them is unused: `max(dp[i+1][j], dp[i][j-1])`.
+
+      Every cell reads ranges that are one or two chars shorter, so fill i from
+      n − 1 down to 0 (or by increasing length). That is n²/2 cells at O(1) each.
+
+      The boolean table `isPal[i][j]` uses the same order, and *count palindromic
+      substrings* counts its true cells. For the fewest cuts, `cuts[j]` tries every
+      last piece `s[i..j]` that is a palindrome: `cuts[i-1] + 1`, or 0 when i = 0.
+      The best split of `s[0..i-1]` does not depend on the last piece. Both are O(n²).
+    trace_title: 'longestPalindromeSubseq("bbbab") = 4'
+    trace: |
+      row i, column j; "." is below the diagonal and reads as 0 (empty range)
+               0b 1b 2b 3a 4b
+        0 b     1  2  3  3  4
+        1 b     .  1  2  2  3
+        2 b     .  .  1  1  3
+        3 a     .  .  .  1  1
+        4 b     .  .  .  .  1
+      dp[1][4]: s[1] = s[4] = b, so 2 + dp[2][3] = 2 + 1 = 3
+      dp[0][3]: b != a, so max(dp[1][3], dp[0][2]) = max(2, 3) = 3
+      minCut("aabba"): cuts = [0, 0, 1, 1, 1]; cuts[4] = cuts[0] + 1 via "abba"
+    code:
+      - file: P10PalindromeDp.java
+        region: lps
+        title: Longest palindromic subsequence
+        tag: memorise
+      - file: P10PalindromeDp.java
+        region: count
+        title: Count palindromic substrings
+        tag: variant
+      - file: P10PalindromeDp.java
+        region: cuts
+        title: Palindrome partitioning II (fewest cuts)
+        tag: variant
+    time: O(n²)
+    space: O(n²)
+    cost_note: n²/2 cells at O(1) each; the cut loop tries every last piece, also O(n²). LPS can keep two rows for O(n) space.
+    variants:
+      - "Minimum insertions (or deletions) to make s a palindrome: n − LPS. Every char outside the longest palindromic subsequence needs a partner."
+      - "Palindrome partitioning IV (exactly three palindromes): fill `isPal`, then try every pair of cut points in O(n²)."
+      - "Longest palindromic *substring*: the boolean table works in O(n²) space, [[expand-center]] in O(1) space, [[manacher]] in O(n) time."
+      - "Every partition, not the fewest cuts: [[palindrome-partition]]."
+    traps:
+      - "Filling i from 0 upwards: row i reads row i + 1 before it is filled, and `\"bbbab\"` gives 2 instead of 4."
+      - "`j == i` instead of `j - i < 2`: for j = i + 1 it reads `isPal[i+1][i]`, which is never set, so `\"aaa\"` counts 4 instead of 6."
+      - "The subsequence recurrence on a substring question: `\"abcda\"` has a palindromic subsequence of length 3 (aca), but no palindromic substring longer than 1."
+      - "Min cut: when the whole prefix `s[0..j]` is a palindrome the answer is 0 cuts. Without the `i == 0 ? 0` case you read `cuts[-1]`."
+    practice: [palindromic-substrings, longest-palindromic-subsequence, minimum-insertion-steps-to-make-a-string-palindrome, palindrome-partitioning-iv, palindrome-partitioning-ii]
+
+  - id: interval-dp
+    title: Interval DP (last split point)
+    signal: Best way to burst, cut, merge or print a whole range, when each step's cost depends on its neighbours.
+    spot:
+      - Removing an element makes its neighbours adjacent, so the cost of a step depends on the order of the steps.
+      - "*Minimum cost to cut*, *triangulate*, *merge* or *print*, with n ≤ 100 to 500, so O(n³) fits."
+      - Greedy orders fail on small cases, but once one step is fixed, the parts to its left and right no longer affect each other.
+    idea: |
+      `dp[l][r]` is the best result for the range between l and r. Choose the step
+      that splits the range into two independent halves. For burst balloons that is
+      the balloon k burst **last** in `(l, r)`. Until then it stands between the two
+      sides, so they never touch, and when it bursts its neighbours are exactly l
+      and r: `dp[l][k] + a[l]·a[k]·a[r] + dp[k][r]`. Taking k as the *first*
+      balloon fails, because its neighbours then depend on the order and the two
+      sides join after it bursts.
+
+      Every choice reads strictly shorter ranges, so loop over the length first
+      (or l from right to left). n² ranges × n split points is O(n³); only triples
+      l < k < r count, about 4.5·10⁶ for n = 300.
+
+      Cutting a stick is the mirror image: the first cut in a piece costs the piece
+      length and splits it in two. Padding with 1s (balloons) or with 0 and n
+      (stick) gives the two ends a value.
+    trace_title: "maxCoins([3, 1, 5, 8]) = 167"
+    trace: |
+      pad = [1, 3, 1, 5, 8, 1]; dp[l][r] for r - l >= 2
+      l\r     2    3    4    5
+      0       3   30  159  167
+      1           15  135  159
+      2                40   48
+      3                     40
+      dp[0][5] = best k of dp[0][k] + 1*a[k]*1 + dp[k][5]
+      k = 1 (3):    0 + 3 + 159 = 162
+      k = 2 (1):    3 + 1 +  48 =  52
+      k = 3 (5):   30 + 5 +  40 =  75
+      k = 4 (8):  159 + 8 +   0 = 167   <- 8 bursts last
+    code:
+      - file: P10IntervalDp.java
+        region: balloons
+        title: Burst balloons (k bursts last)
+        tag: memorise
+      - file: P10IntervalDp.java
+        region: stick
+        title: Minimum cost to cut a stick
+        tag: variant
+      - file: P10IntervalDp.java
+        region: printer
+        title: Strange printer
+        tag: variant
+    time: O(n³)
+    space: O(n²)
+    cost_note: About n²/2 ranges, each trying up to n split points. The strange printer has the same bound.
+    variants:
+      - "Minimum score triangulation: the balloon loop with no padding. Triangle (i, k, j) stands on edge i–j: `dp[i][j] = min(dp[i][k] + v[i]·v[k]·v[j] + dp[k][j])`."
+      - "Minimum cost tree from leaf values: `dp[l][r] = min(dp[l][k] + dp[k+1][r] + max(l..k)·max(k+1..r))`. A monotonic stack also solves it in O(n) ([[next-greater]])."
+      - "Strange printer: the turn that prints `s[r]` either prints it alone (+1), or is the turn that printed an earlier `s[k] == s[r]`, stretched to r; `s[k+1..r-1]` is printed on top of it."
+      - "Merge stones k piles at a time: add the number of piles the range has become to the state, `dp[l][r][p]`."
+    traps:
+      - "Coins written as `a[k-1] * a[k] * a[k+1]` treat k as the first balloon. Its real neighbours depend on the order, and `[3, 1, 5, 8]` gives 98 instead of 167."
+      - "`for l up, for r up` reads `dp[k][r]` with k > l before it is filled: `[3, 1, 5, 8]` gives 63. Loop by length, or l from n − 1 down."
+      - "Cut stick without `Arrays.sort(p)`: piece lengths go negative, and LC sample 2 (n = 9, cuts `[5, 6, 1, 4, 2]`) gives 2 instead of 22."
+      - "Strange printer: counting runs of equal chars is not the answer. `\"aba\"` takes 2 turns (print aaa, then b on top), not 3."
+    practice: [minimum-cost-tree-from-leaf-values, minimum-score-triangulation-of-polygon, minimum-cost-to-cut-a-stick, burst-balloons, strange-printer]
+
+  - id: stock-dp
+    title: Stock DP (hold and free states)
+    signal: "Buy and sell under rules (any number of trades, a fee, a cooldown, at most k trades): the best profit per state per day."
+    spot:
+      - "*Best time to buy and sell stock* with *you must sell before you buy again*, plus a twist: a cooldown day, a fee per trade, at most k transactions."
+      - At the end of each day you are in one of a few states (holding, not holding, cooling down), and the rules say which state can follow which.
+      - n up to 5·10⁴ (or 1000 with k ≤ 100), so O(n) or O(n·k) fits; trying every set of buy and sell days does not.
+    idea: |
+      For each day keep the best profit so far in each state: `hold` while you own a
+      share, `free` while you do not. Each day you either rest or switch:
+      `free = max(free, hold + p - fee)` sells, `hold = max(hold, free - p)` buys.
+      What you can still earn depends only on the state, not on how you reached
+      it, so the best profit per state is all you need. That is O(1) per day.
+
+      A cooldown adds a state `cool`: sold today. It turns into `free` the next day,
+      and you may buy only from `free`, so a buy never comes the day after a sale.
+
+      For at most k trades, keep `hold[t]` and `free[t]` for t buys so far. Buy
+      number t starts from `free[t-1]`: O(n·k). A trade takes two days, so when
+      k ≥ n/2 the limit never binds and the answer is the Stock II sum of every
+      rise `p[i] - p[i-1] > 0`.
+    trace_title: "maxProfitFee([1, 3, 2, 8, 4, 9], fee = 2) = 8"
+    trace: |
+      day  price  sell: hold+p-2   buy: free-p   hold  free
+      0      1         -               -1         -1     0
+      1      3    -1+3-2 =  0      0-3 = -3       -1     0
+      2      2    -1+2-2 = -1      0-2 = -2       -1     0
+      3      8    -1+8-2 =  5      0-8 = -8       -1     5
+      4      4    -1+4-2 =  1      5-4 =  1        1     5
+      5      9     1+9-2 =  8      5-9 = -4        1     8
+      sell and buy use yesterday's hold and free; answer = free = 8
+      (buy at 1, sell at 8, buy at 4, sell at 9: 5 + 3)
+    code:
+      - file: P10StockDp.java
+        region: fee
+        title: Any number of trades, with a fee
+        tag: memorise
+        note: With fee = 0 this is Stock II.
+      - file: P10StockDp.java
+        region: cooldown
+        title: With cooldown (three states)
+        tag: variant
+      - file: P10StockDp.java
+        region: k
+        title: At most k trades (Stock III and IV)
+        tag: variant
+    time: O(n·k)
+    space: O(k)
+    cost_note: Fee and cooldown are O(n) time and O(1) space; k trades keep 2(k + 1) numbers and do k steps per day.
+    variants:
+      - "Stock III (at most two trades) is `maxProfitK(2, prices)`; written out it is four variables, `buy1, sell1, buy2, sell2`."
+      - "Maximum alternating subsequence sum: the same two states; `even` adds the next number, `odd` subtracts it."
+      - "One trade only (LC 121): `hold = max(hold, -p)` buys from 0 instead of from `free`; [[kadane]] shows the same loop as a max-subarray."
+      - "House robber has the same shape: the states are *robbed this house* and *did not*, and robbed cannot follow robbed ([[linear-dp]])."
+    traps:
+      - "`hold = 0` on day 0 means you own a share that cost nothing: `[5, 4, 3]` returns 4 instead of 0. Start with `hold = -prices[0]`."
+      - "Cooldown updated in place, `cool = hold + p; free = max(free, cool); hold = max(hold, free - p);`, moves a sale into `free` on the same day, so the next day may buy: `[1, 2, 3, 0, 2]` gives 4 instead of 3. Compute all new values from yesterday's."
+      - "Charging the fee on the buy and on the sell doubles it: the fee sample `[1, 3, 2, 8, 4, 9]` gives 4 instead of 8."
+    practice: [best-time-to-buy-and-sell-stock-ii, maximum-alternating-subsequence-sum, best-time-to-buy-and-sell-stock-with-transaction-fee, best-time-to-buy-and-sell-stock-with-cooldown, best-time-to-buy-and-sell-stock-iii, best-time-to-buy-and-sell-stock-iv]
+
+  - id: bitmask-dp
+    title: Bitmask DP over subsets
+    signal: Order or group at most about 20 items, when the state is the set of items used so far.
+    spot:
+      - "n ≤ 12, 16 or 20: far too many orders to try (20! ≈ 2·10¹⁸), but 2²⁰ ≈ 10⁶ subsets fit."
+      - "*Visit every* city, word or node once in the best order: `dp[mask][last]`, the travelling-salesman shape."
+      - "*Assign* n people to n items, *partition into k equal-sum subsets*, *fewest sessions or bins of capacity T*."
+    idea: |
+      `mask` is a set of items: bit i is set when item i is used. `dp[mask]` keeps
+      the best partial solution that used exactly those items. Two partial solutions
+      with the same mask have the same future, so only the best one matters. When
+      the order matters, the future also depends on the last item, and the state
+      becomes `dp[mask][last]`.
+
+      Each step adds one item, `mask | 1 << i`, which is a bigger number than
+      `mask`. So a plain loop over masks in increasing order has every predecessor
+      ready. The cost is 2ⁿ masks × n moves, or 2ⁿ × n² with `last`.
+
+      For packing, store a pair per mask: sessions opened and time used in the last
+      one. Keep the smallest pair, fewer sessions first. A state with fewer sessions
+      can always open a new empty one, so it is never worse than a state with more.
+    trace_title: "minSessions([1, 2, 3], T = 3) = 2; bit i is tasks[i], named by length"
+    trace: |
+      mask  tasks done  (sessions, fill)  best way in
+      000   -           (1, 0)            start: one empty session
+      001   1           (1, 1)            000 + task 1
+      010   2           (1, 2)            000 + task 2
+      011   1, 2        (1, 3)            001 + 2 or 010 + 1
+      100   3           (1, 3)            000 + task 3
+      101   1, 3        (2, 1)            100 + 1 = (2, 1) beats 001 + 3 = (2, 3)
+      110   2, 3        (2, 2)            100 + 2 = (2, 2) beats 010 + 3 = (2, 3)
+      111   1, 2, 3     (2, 3)            every way in gives (2, 3): 2 sessions
+    code:
+      - file: P10BitmaskDp.java
+        region: sessions
+        title: Work sessions; k equal-sum subsets
+        tag: memorise
+      - file: P10BitmaskDp.java
+        region: tsp
+        title: Shortest superstring, dp[mask][last]
+        tag: variant
+    time: O(2ⁿ·n)
+    space: O(2ⁿ)
+    cost_note: 2ⁿ masks with n moves each. With `last` in the state it is O(2ⁿ·n²) time and O(2ⁿ·n) memory.
+    variants:
+      - "Number of ways to wear different hats: the mask goes over the 10 *people*, and the loop over the 40 hats: `dp[h][mask]` = ways using hats 1..h. Always put the small set in the mask."
+      - "Minimum XOR sum of two arrays: the next item of nums1 is `i = Integer.bitCount(mask)`; try every free j of nums2. O(2ⁿ·n), no `last` needed."
+      - "Shortest path visiting all nodes: the same `(mask, node)` state, searched with BFS because every edge costs 1 ([[state-bfs]])."
+      - "All submasks of a mask: `for (int s = mask; s > 0; s = (s - 1) & mask)`. Over all masks that is 3ⁿ steps ([[bit-tricks]])."
+    traps:
+      - "`(mask & (1 << i)) == 1` is true only for i = 0. Test `(mask >> i & 1) == 1` or `(mask & (1 << i)) != 0`."
+      - "Keeping only the session count and the first fill seen: tasks `[2, 2, 4, 5, 1]` with T = 7 gives 3 instead of 2. Break ties by the smaller fill."
+      - "`int[1 << n][n]` for n = 20 is 2·10⁷ ints, 80 MB per table, and the superstring code has two. Check n before you add `last`."
+    practice: [partition-to-k-equal-sum-subsets, minimum-number-of-work-sessions-to-finish-the-tasks, minimum-xor-sum-of-two-arrays, number-of-ways-to-wear-different-hats-to-each-other, find-the-shortest-superstring]
+
+  - id: digit-dp
+    title: Digit DP (count numbers ≤ N)
+    signal: Count the integers in [L, R] whose digits obey a rule, with R up to 10¹⁸ or a string of 100 digits.
+    spot:
+      - "*How many integers in [1, n]* with n up to 10⁹ or 10¹⁸, or given as a string: a loop over the numbers is too slow."
+      - "The rule is about digits: how many 1s, no repeated digit, only digits from a set, a digit sum in a range."
+      - "A range `[lo, hi]`: answer it as `f(hi) − f(lo − 1)`, where f counts from 0 up to a bound."
+    idea: |
+      Build the number from the left, one digit per position, and count the ways to
+      finish. `tight` says the digits so far equal the prefix of n, so this digit may
+      go only up to `d[pos]`; a smaller digit frees every later position to 0–9.
+      `started` says a non-zero digit has been placed, so leading zeros are not
+      counted as digits. `state` is what the rule must remember about the prefix:
+      the set of used digits, the digit sum, the number of 1s.
+
+      The number of ways to finish depends only on `(pos, tight, started, state)`,
+      not on the digits that led there, so memoise it. With 10 positions, 2 × 2 flags
+      and 2¹⁰ masks there are about 4·10⁴ states, each trying 10 digits.
+
+      For a range, count x in [0, bound] and return `f(hi) − f(lo − 1)`. With string
+      inputs, subtract 1 by turning the trailing 0s into 9s and lowering the
+      digit before them.
+    trace_title: "n = 235: numbers in [1, 235] whose digits are all different"
+    trace: |
+      pos  prefix  digit  next call                     count   numbers
+      0    -       0      go(1, free, not started)       90     1..99
+      0    -       1      go(1, free, {1})               72     1__
+      0    -       2      go(1, tight, {2})              20     2__ up to 235
+      1    2       0, 1   go(2, free, {0,2}), {1,2}     8 + 8   20_, 21_
+      1    2       2      repeated digit, skipped
+      1    2       3      go(2, tight, {2,3})             4     23_ up to 235
+      2    23      0,1,4  go(3, free, ...)              1 each  230, 231, 234
+      2    23      2, 3   repeated digit, skipped
+      2    23      5      go(3, tight, {2,3,5})           1     235
+      distinct = 90 + 72 + 20 = 182; with a repeated digit: 235 - 182 = 53
+    code:
+      - file: P10DigitDp.java
+        region: distinct
+        title: Numbers with repeated digits
+        tag: memorise
+      - file: P10DigitDp.java
+        region: range
+        title: "Digit sum in a range: f(hi) − f(lo − 1)"
+        tag: variant
+    time: O(L·S·10)
+    space: O(L·S)
+    cost_note: L digits, S values of the state (2¹⁰ masks, or sums up to 400), times 2 × 2 flags; each state tries 10 digits.
+    variants:
+      - "Number of digit one: no `started`; the state is the count of 1s so far, and `pos == len` returns that count instead of 1, so the memo sums the 1s of every number."
+      - "Numbers at most n from a digit set: loop only over the allowed digits. `started` lets shorter numbers count; no mask."
+      - "Count numbers with unique digits (all x < 10ⁿ): `go` with the bound 10ⁿ − 1, plus 1 for the number 0."
+      - "Divisible by k: the state is the remainder so far, `(rem * 10 + dig) % k`; for a digit sum divisible by k, `(rem + dig) % k`."
+    traps:
+      - "No `started` flag: 7 becomes 007 with two zeros, so it counts as repeated. For n = 100 you get 72 numbers with distinct digits instead of 90."
+      - "Memo without `tight`: a tight call reuses the count that a free call stored for the same position and mask. Under n = 321, `23_` (free) and `32_` (tight) share the mask {2, 3}, and the answer comes out 63 instead of 69."
+      - "`f(hi) − f(lo − 1)` under a modulus can be negative; return `(r % MOD + MOD) % MOD`."
+    practice: [count-numbers-with-unique-digits, numbers-at-most-n-given-digit-set, number-of-digit-one, numbers-with-repeated-digits, count-of-integers]
+
+  - id: partition-dp
+    title: Partition into k contiguous groups
+    short: Split into k groups
+    signal: Cut an array or string into k contiguous pieces to minimise or maximise a total over the pieces.
+    spot:
+      - "*Split nums into k non-empty subarrays*, *schedule the jobs over d days, in order, at least one per day*."
+      - "The cost of a piece depends only on what is inside it: its sum, its maximum, its average, the changes that make it a palindrome."
+      - n up to a few hundred and k ≤ 50, so O(k·n²) fits.
+    idea: |
+      `dp[g][i]` is the best cost for cutting the first i elements into exactly g
+      groups. Look at the last group, `a[j..i-1]`. Before it come g − 1 groups of the
+      first j elements, and how those are cut does not change the last group's
+      cost. So `dp[g][i]` is the best over j of `dp[g-1][j]` combined with the cost
+      of `a[j..i-1]`. Combine with `+` for summed costs (difficulty, averages,
+      palindrome changes) and with `max` when the largest group counts.
+
+      Start with `dp[0][0] = 0` and everything else at infinity; `j ≥ g − 1` keeps
+      every earlier group non-empty. Walk j down from i − 1, so the last group grows
+      by one element per step and its sum or maximum updates in O(1). That is
+      k·n states × n cuts = O(k·n²).
+
+      For *split array largest sum*, binary search on the answer is O(n log S)
+      ([[bs-answer]]); the DP is the version that works for any cost.
+    trace_title: "splitArray([7, 2, 5, 10, 8], k = 2) = 18"
+    trace: |
+      dp[g][i] = smallest largest sum for the first i elements in g groups
+      i          1    2    3    4    5
+      g = 1      7    9   14   24   32
+      g = 2      -    7    7   14   18
+      dp[2][5]: last group a[j..4], before it dp[1][j]
+      j = 4    max(24, 8)  = 24
+      j = 3    max(14, 18) = 18   <- best: [7, 2, 5] [10, 8]
+      j = 2    max(9, 23)  = 23
+      j = 1    max(7, 25)  = 25
+    code:
+      - file: P10PartitionDp.java
+        region: split
+        title: Split array largest sum (DP)
+        tag: memorise
+      - file: P10PartitionDp.java
+        region: difficulty
+        title: Minimum difficulty of a job schedule
+        tag: variant
+      - file: P10PartitionDp.java
+        region: palk
+        title: Palindrome partitioning III
+        tag: variant
+    time: O(k·n²)
+    space: O(k·n)
+    cost_note: k·n cells, each trying up to n cuts. Palindrome partitioning III adds an O(n²) table of piece costs.
+    variants:
+      - "Largest sum of averages: combine with `+`, cost = the group's average from prefix sums. More groups never lower the score, so *at most k* is the same as exactly k."
+      - "Any number of groups, each with a cost: drop g and use `dp[i] = min over j of dp[j] + cost(j, i-1)` ([[linear-dp]])."
+      - "Allocate mailboxes: sort the houses; a group's cost is the distance of its houses to their median, precomputed for every range."
+      - "Split array largest sum with n = 10⁵: the DP is too slow; binary search on the answer with a greedy check ([[bs-answer]])."
+    traps:
+      - "`INF = Integer.MAX_VALUE` with `dp[g-1][j] + hardest` overflows to a large negative number that wins the min: the job sample `[6, 5, 4, 3, 2, 1]`, d = 2 returns −2147483646. Use `MAX_VALUE / 2` (with `max` instead of `+`, MAX_VALUE is safe)."
+      - "No `if (n < d) return -1`: with fewer jobs than days the answer cell stays at INF, and you return 1073741823."
+      - "j going up from g − 1 cannot keep a running sum, because the last group `a[j..i-1]` shrinks as j grows. Go down from i − 1, or use prefix sums; summing each group in a loop adds a factor of n."
+    practice: [largest-sum-of-averages, minimum-difficulty-of-a-job-schedule, split-array-largest-sum, palindrome-partitioning-iii, allocate-mailboxes]

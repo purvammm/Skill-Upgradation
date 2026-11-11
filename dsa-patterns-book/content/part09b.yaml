@@ -1,0 +1,518 @@
+patterns:
+  - id: dijkstra
+    title: Dijkstra's shortest paths
+    signal: Cheapest path from one source when every edge weight is ≥ 0.
+    spot:
+      - "*Minimum time*, *cheapest price*, *shortest distance* from one node, and the edges have different weights. If every weight is 1, use [[graph-bfs]]."
+      - Weights are non-negative; n up to 10⁵ and m up to 2·10⁵, so O(m log n) is the target.
+      - "The cost of a path is not a plain sum but never gets better as the path grows: the largest step (*minimum effort*), a product of probabilities ≤ 1."
+      - "*Number of shortest paths*, or the shortest path with a tie-break: the same run with one more array."
+    idea: |
+      Keep `dist[v]`, the best distance found so far, and a min-heap of `{dist, node}`.
+      Pop the smallest entry `(d, u)`. Every entry left in the heap is ≥ d and no edge
+      is negative, so no other path can reach `u` for less than d: `dist[u]` is final.
+      Then relax each edge `u → v`: if `d + w < dist[v]`, store it and push `{d + w, v}`.
+
+      Java's `PriorityQueue` cannot lower a key, so a node can sit in the heap several
+      times. Only the entry with `d == dist[u]` is current; skip the others with
+      `if (d > dist[u]) continue`. Each edge pushes at most one entry, so the heap
+      holds at most m entries and the run costs O(m log m) = O(m log n).
+
+      The proof only needs that extending a path never makes it cheaper. So it also
+      works when a path costs its largest step, as in *minimum effort*.
+    trace_title: "src = 0; edges 0→1 (4), 0→2 (1), 2→1 (2), 1→3 (1), 2→3 (5)"
+    trace: |
+      pop       action                             dist
+      (0, 0)    relax 1: inf -> 4, 2: inf -> 1     [0, 4, 1, inf]
+      (1, 2)    relax 1: 4 -> 3, 3: inf -> 6       [0, 3, 1, 6]
+      (3, 1)    relax 3: 6 -> 4                    [0, 3, 1, 4]
+      (4, 1)    stale: 4 > dist[1] = 3
+      (4, 3)    settled, no out-edges              [0, 3, 1, 4]
+      (6, 3)    stale: 6 > dist[3] = 4
+    code:
+      - file: P09Dijkstra.java
+        region: main
+        title: Dijkstra and network delay time
+        tag: memorise
+      - file: P09Dijkstra.java
+        region: ways
+        title: Number of shortest paths
+        tag: variant
+        note: "When u pops for real, every road into u on a shortest path starts at a node with a smaller distance (times are ≥ 1), so `ways[u]` is complete."
+    time: O(m log n)
+    space: O(n + m)
+    cost_note: Each edge is relaxed once, from its settled start, and pushes at most one heap entry; a push or pop costs O(log m) = O(log n).
+    variants:
+      - "Path with maximum probability: multiply instead of add and pop the largest first. Probabilities are ≤ 1, so a path only gets less likely as it grows and the proof still holds."
+      - "Path with minimum effort (LC 1631): the nodes are cells `r * n + c`, the new cost is `Math.max(d, Math.abs(h[nr][nc] - h[r][c]))` instead of `d + w`, and you can return when the corner pops for real."
+      - "The path must pass a meeting point (LC 2203): run Dijkstra from both sources and from the target on the reversed graph, then take the minimum of `d1[x] + d2[x] + d3[x]`."
+      - "Weights only 0 and 1: a deque replaces the heap ([[zero-one-bfs]]). Negative weights: [[bellman-ford]]. A state such as (node, stops used) gets its own `dist` entry, as in [[state-bfs]]."
+    traps:
+      - "`(a, b) -> (int) (a[0] - b[0])` on `long` distances breaks once two distances differ by 2³¹ or more: the cast drops the high bits and the heap pops in the wrong order. Use `Long.compare`."
+      - "Marking `v` done when it is first pushed, as BFS does, keeps the first distance found. In the example node 1 is pushed with 4 and only later improves to 3."
+      - "Leaving out `if (d > dist[u]) continue` keeps the answer right but scans u's edges again for every stale entry, up to O(n · m) work on a dense graph."
+      - "A negative edge breaks the proof. With 0→1 (2), 0→2 (3), 2→1 (−2), node 1 pops at 2 but its distance is 1, so an early return at the target is wrong. Use [[bellman-ford]]."
+    practice: [network-delay-time, path-with-maximum-probability, path-with-minimum-effort, number-of-ways-to-arrive-at-destination, minimum-weighted-subgraph-with-the-required-paths]
+
+  - id: zero-one-bfs
+    title: 0-1 BFS (deque)
+    signal: Shortest path where every move costs 0 or 1.
+    spot:
+      - "Each move is free or costs 1: follow the sign for free or change it, walk on empty cells for free or remove an obstacle."
+      - "*Minimum number of changes*, *removals* or *flips* from start to target, on up to 10⁵ cells."
+      - Plain BFS is wrong (the steps differ in cost), and a heap's log factor is not needed.
+    idea: |
+      Dijkstra pops nodes in order of distance. With weights 0 and 1 a deque keeps that
+      order without a heap. Relaxing an edge out of `u` (distance d) gives d or d + 1.
+      Put a weight-0 neighbour at the **front**, since it ties with `u`, and a weight-1
+      neighbour at the **back**.
+
+      The invariant: from front to back the deque holds some entries of distance d and
+      then some of distance d + 1, never a third value. So the front is always a
+      smallest entry, exactly what a heap would pop, and when a cell leaves the front
+      its distance is final. A cell is pushed at most twice (first at d + 1 from one
+      neighbour, then at d from another), so the run is O(V + E); for an m × n grid
+      that is O(mn).
+
+      Push only when `dist` improves, and read `dist[cell]` when you pop: an old copy
+      of a cell then does no harm.
+    trace_title: "LC 1368, grid = [[4,3,1],[1,3,4],[4,2,1]]; arrows 1 R, 2 L, 3 D, 4 U"
+    trace: |
+      pop   d  improved neighbours                  deque after
+      (0,0) 0  R (0,1)=1 back, D (1,0)=1 back       [(0,1) (1,0)]
+      (0,1) 1  R (0,2)=2 back, D (1,1)=1 front      [(1,1) (1,0) (0,2)]
+      (1,1) 1  R (1,2)=2 back, D (2,1)=1 front      [(2,1) (1,0) (0,2) (1,2)]
+      (2,1) 1  R (2,2)=2 back, L (2,0)=1 front      [(2,0) (1,0) (0,2) (1,2) (2,2)]
+      (2,0) 1  -                                    [(1,0) (0,2) (1,2) (2,2)]
+      (1,0) 1  -                                    [(0,2) (1,2) (2,2)]
+      (0,2) 2  -                                    [(1,2) (2,2)]
+      (1,2) 2  -                                    [(2,2)]
+      (2,2) 2  -                                    []
+      answer: dist of (2,2) = 2
+    code:
+      - file: P09ZeroOneBfs.java
+        region: valid
+        title: Minimum cost to make a valid path
+        tag: memorise
+      - file: P09ZeroOneBfs.java
+        region: obstacles
+        title: Minimum obstacle removal
+        tag: variant
+        note: Here the cost belongs to the cell you step onto, so the start cell is free.
+    time: O(V + E)
+    space: O(V)
+    cost_note: Each cell is pushed at most twice and looks at 4 neighbours per pop; on an m × n grid V and E are both O(mn).
+    variants:
+      - "Find a safe walk (LC 3286): unsafe cells cost 1, the start cell included. The walk works when the 0-1 distance is less than `health`."
+      - "Minimum sideway jumps: a state is (point, lane). Moving forward costs 0 and changing lane costs 1."
+      - "Weights 0..k for a small k: keep k + 1 buckets by distance (Dial's algorithm), or use [[dijkstra]]."
+      - "All moves cost 1 but there are free moves (portals, teleports): free moves go to the front of the same deque."
+    traps:
+      - "Marking a cell done when it is first pushed, as in plain BFS, keeps a cost that a later 0-move could lower: LC 1368 sample 2 returns 1 instead of 0."
+      - "The cost depends on the arrow of the cell you leave, `grid[r][c] == k`. Testing `grid[nr][nc] == k` returns 2 on sample 2 (answer 0)."
+      - "`dr` and `dc` must follow the problem's numbering: 1 right, 2 left, 3 down, 4 up. The usual right, down, left, up order returns 2 on sample 1 (answer 3)."
+    practice: [find-a-safe-walk-through-a-grid, minimum-sideway-jumps, minimum-obstacle-removal-to-reach-corner, minimum-cost-to-make-at-least-one-valid-path-in-a-grid]
+
+  - id: bellman-ford
+    title: Bellman–Ford and at most k edges
+    short: Bellman–Ford
+    signal: Negative edge weights, a limit on the number of edges, or a negative cycle to find.
+    spot:
+      - "*At most k stops* (k + 1 flights) on the cheapest route. Dijkstra settles a node once and ignores how many edges it used."
+      - Some edge weights are negative, or you must report a negative cycle (an arbitrage loop).
+      - n·m is small, about 10⁶ (n ≤ 100, m ≤ 10⁴), because the cost is O(n·m).
+    idea: |
+      Without a negative cycle a shortest path is simple, so it has at most n − 1
+      edges. Bellman–Ford relaxes every edge in rounds. After round i, `dist[v]` is
+      at most the cost of the best path with ≤ i edges: that path is a best path with
+      i − 1 edges plus one more edge, and round i relaxes that edge. So n − 1 rounds
+      are enough, and a round that changes nothing means you can stop.
+
+      If round n still lowers a distance, a path with n edges beats all shorter ones.
+      It must repeat a vertex, so there is a negative cycle.
+
+      In place, one round can chain edges: relax `a → b`, then `b → c` in the same
+      pass. That is fine for plain shortest paths but breaks an edge limit. For *at
+      most k + 1 edges*, read from `prev`, a copy of last round, so round i only
+      extends paths with fewer than i edges. Cost: O(n·m), or O(k·m) with the limit.
+    trace_title: "LC 787 sample 1: src 0, dst 3, k = 1 stop (at most 2 flights)"
+    trace: |
+      round  edge       prev[u] + w   dist after
+        1    0->1 100   0 + 100       [0, 100, inf, inf]
+        1    1->2 100   inf (skip)    [0, 100, inf, inf]
+        1    2->0 100   inf (skip)    [0, 100, inf, inf]
+        1    1->3 600   inf (skip)    [0, 100, inf, inf]
+        1    2->3 200   inf (skip)    [0, 100, inf, inf]
+        2    0->1 100   0 + 100       [0, 100, inf, inf]
+        2    1->2 100   100 + 100     [0, 100, 200, inf]
+        2    2->0 100   inf (skip)    [0, 100, 200, inf]
+        2    1->3 600   100 + 600     [0, 100, 200, 700]
+        2    2->3 200   inf (skip)    [0, 100, 200, 700]
+      answer 700. In place, round 1 alone gives [0, 100, 200, 400]: 2 stops.
+    code:
+      - file: P09BellmanFord.java
+        region: main
+        title: Bellman–Ford with the negative-cycle round
+        tag: memorise
+      - file: P09BellmanFord.java
+        region: kstops
+        title: Cheapest flights within k stops
+        tag: memorise
+    time: O(n · m)
+    space: O(n)
+    cost_note: Up to n − 1 rounds over all m edges (k + 1 rounds with the stop limit, plus an O(n) copy per round).
+    variants:
+      - "Any negative cycle in the graph, not only one reachable from src: start with every `dist` at 0, as if a new source had a 0-edge to each node."
+      - "Count walks with exactly k edges (knight dialer): the same rounds from a copy, with `+=` instead of `min`."
+      - "Cheapest trip within a time limit (LC 1928): the round is the time t, and `dp[t][v]` relaxes each edge from the earlier round `t - w`."
+      - "The queue version (SPFA) relaxes only the edges out of nodes that changed. It is often faster but has the same O(n·m) worst case."
+    traps:
+      - "Relaxing in place in the k-stop version lets one round chain several flights. On sample 1, round 1 already finds 0→1→2→3 = 400, which has 2 stops. Read from `prev`."
+      - "Without `if (dist[u] == INF) continue`, an unreached u with a −5 edge sets `dist[v] = INF - 5`. That is no longer `INF`, so v looks reachable."
+      - "`INF = Long.MAX_VALUE` wraps to a negative number on `INF + w` for w > 0. Use `Long.MAX_VALUE / 4`, or skip unreached nodes before adding."
+      - "Stopping after n − 1 rounds without the extra round returns garbage when a negative cycle is reachable: the distances are wherever the loop stopped."
+    practice: [cheapest-flights-within-k-stops, knight-dialer, minimum-cost-to-reach-destination-in-time]
+
+  - id: floyd
+    title: Floyd–Warshall (all pairs)
+    signal: Shortest distance between every pair of nodes when n is a few hundred at most.
+    spot:
+      - "Many questions *from any u to any v*, and n ≤ 400 or so, so n³ ≤ 6.4·10⁷ steps."
+      - "A small fixed set of nodes with conversion costs between them: 26 letters, 10 digits, a few cities."
+      - "*Is a a prerequisite of b*, *can u reach v*, asked for many pairs: reachability for all pairs."
+    idea: |
+      After round k, `d[i][j]` is the shortest path from i to j whose middle nodes all
+      come from `0..k`. A best such path either avoids k, so round k − 1 already has
+      it, or passes k once and costs `d[i][k] + d[k][j]` with round k − 1's values.
+      Taking the smaller one for every pair finishes round k. After round n − 1 any
+      node may be in the middle.
+
+      That is why k must be the **outer** loop: round k needs round k − 1 finished
+      for all pairs. One array is enough, because round k does not change `d[i][k]`
+      or `d[k][j]` (a detour through k to reach k gains nothing). Three loops give
+      O(n³) time and O(n²) space.
+
+      The same loops work with other operations. With booleans, `reach[i][j] |=
+      reach[i][k] && reach[k][j]` gives reachability for all pairs. On the 26 letters
+      of LC 2976 Floyd costs 26³ steps, however long the strings are.
+    trace_title: "LC 1334 sample 1: edges 0-1 (3), 1-2 (1), 1-3 (4), 2-3 (1); threshold 4"
+    trace: |
+      k  improved (i < j; d[j][i] changes the same way)
+      0  -
+      1  d[0][2] inf -> 4, d[0][3] inf -> 7
+      2  d[0][3] 7 -> 5, d[1][3] 4 -> 2
+      3  -
+      final d       cities within 4
+      0: 0 3 4 5    2
+      1: 3 0 1 2    3
+      2: 4 1 0 1    3
+      3: 5 2 1 0    2     0 and 3 tie at 2; the larger index wins: 3
+    code:
+      - file: P09Floyd.java
+        region: main
+        title: Floyd–Warshall and the threshold city
+        tag: memorise
+      - file: P09Floyd.java
+        region: closure
+        title: Course schedule IV (reachability)
+        tag: variant
+      - file: P09Floyd.java
+        region: convert
+        title: Minimum cost to convert string I
+        tag: example
+    time: O(n³)
+    space: O(n²)
+    cost_note: n rounds over n² pairs. In LC 2976 n is 26, so Floyd is 26³ steps and the string costs one pass.
+    variants:
+      - "Negative edges: Floyd still works if you skip terms where `d[i][k]` or `d[k][j]` is INF. A negative `d[i][i]` at the end means i is on a negative cycle."
+      - "Count houses at a certain distance (n ≤ 100): Floyd on the line plus the one extra edge, then count pairs per distance."
+      - "Closing branches (n ≤ 10): for each of the 2¹⁰ subsets of kept nodes, run Floyd on that subset and check its largest distance."
+      - "Distances from one source only: [[dijkstra]] costs O(m log n) instead of O(n³)."
+    traps:
+      - "k as the innermost loop is wrong. With edges 0→1 (1), 1→3 (2), 3→2 (3), `d[0][2]` is finished before `d[0][3]` exists and stays INF; the answer is 6."
+      - "`INF = Integer.MAX_VALUE` makes `d[i][k] + d[k][j]` overflow to a negative number, so unreachable pairs look cheap. Use `Long.MAX_VALUE / 4`."
+      - "The same pair can appear twice with different costs. `d[a][b] = cost` keeps the last one; keep the minimum."
+      - "LC 1334 breaks ties toward the larger index. `count < bestCount` returns 0 on sample 1; the answer is 3."
+    practice: [find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance, course-schedule-iv, minimum-cost-to-convert-string-i, count-the-number-of-houses-at-a-certain-distance-i, number-of-possible-sets-of-closing-branches]
+
+  - id: kruskal
+    title: Kruskal's MST (sort + DSU)
+    short: Kruskal's MST
+    signal: Cheapest set of edges that connects every node, from an edge list.
+    spot:
+      - "*Connect all* cities, points or computers *at minimum total cost*, and the input is a list of weighted edges."
+      - "*Which edges are in every or in some minimum spanning tree*, or the smallest possible largest edge on a path (a bottleneck)."
+      - m up to about 10⁵, so sorting the edges is the main cost.
+    idea: |
+      Sort the edges by weight and walk through them. Take an edge if its ends are in
+      different components, which a [[dsu]] tells you in almost O(1); otherwise it
+      would close a cycle, so skip it. Stop after n − 1 edges: the tree is complete.
+
+      Why the cheapest edge is safe (the cut property): split the nodes into two
+      sides. Some MST edge crosses the split. If the cheapest crossing edge e is not
+      in that MST, add e, which closes a cycle, and remove another crossing edge of
+      that cycle. The new tree is no heavier. When Kruskal takes an edge, it is the
+      cheapest edge leaving the component of one of its ends, so it is the cheapest
+      edge across that split.
+
+      Sorting costs O(m log m) and the DSU work is almost linear. LC 1489 runs
+      Kruskal twice per edge, once skipping it and once forcing it in: O(m²) after
+      one sort.
+    trace_title: "LC 1489 sample 1: n = 5, edges sorted by weight"
+    trace: |
+      edge  u-v  w  find(u) find(v)  action  total used
+      e0    0-1  1     0       1     take      1   1
+      e1    1-2  1     0       2     take      2   2
+      e2    2-3  2     0       3     take      4   3
+      e3    0-3  2     0       0     skip      4   3
+      e4    0-4  3     0       4     take      7   4
+      e5    3-4  3  not looked at: used = n - 1
+      e6    1-4  6  not looked at: used = n - 1
+      MST 7. Skip e0 or e1: 8, so both are critical.
+      Force e2, e3, e4 or e5: still 7, so pseudo-critical. Force e6: 10.
+    code:
+      - file: P09Kruskal.java
+        region: main
+        title: Kruskal
+        tag: memorise
+        note: "`DSU` is the class from [[dsu]]; `union` returns false if the edge would close a cycle."
+      - file: P09Kruskal.java
+        region: critical
+        title: Critical and pseudo-critical edges
+        tag: variant
+    time: O(m log m)
+    space: O(n + m)
+    cost_note: The sort dominates; each `find` is almost O(1) with path compression and union by size. LC 1489 adds 2m more passes.
+    variants:
+      - "Min cost to connect all points: build all n(n − 1)/2 edges with Manhattan weights and run Kruskal. For n = 1000 that is 5·10⁵ edges; [[prim]] needs no edge list."
+      - "Queries *is there a path using only edges < limit* (LC 1697): sort the queries by limit too, add the edges below each limit, then test `find(u) == find(v)`."
+      - "Two kinds of users (LC 1579): add the shared edges to both DSUs first, then each type's own edges. Every edge that joins nothing can be removed."
+      - "Maximum spanning tree: sort by weight, largest first. The rest is the same."
+    traps:
+      - "Linking the raw nodes, `parent[u] = v`, instead of the roots `find(u)` and `find(v)`, cuts u away from its old component, and later cycle tests are wrong."
+      - "A disconnected graph gives a forest. Check `used == n - 1` before you return the total."
+      - "In LC 1489, *pseudo-critical* is not *skipping it keeps the weight*: that holds for e6 in the sample, and no MST uses e6. Force the edge in and compare."
+    practice: [min-cost-to-connect-all-points, remove-max-number-of-edges-to-keep-graph-fully-traversable, checking-existence-of-edge-length-limited-paths, find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree]
+
+  - id: prim
+    title: Prim's MST (dense or heap)
+    short: Prim's MST
+    signal: MST of a dense or complete graph (every pair of points), or a tree grown from one node.
+    spot:
+      - "*Connect all points* where every pair is an edge: n ≤ 1000, so an edge list holds 5·10⁵ entries but n² is only 10⁶."
+      - The graph is given as an adjacency list and you can grow the tree from one node.
+      - "*Lowest possible highest cell (or edge) on the way* to a target: grow the tree from the start, always taking the lowest step."
+    idea: |
+      Prim grows one tree from node 0. `best[v]` is the cheapest edge from the tree
+      to v. Each step adds the outside node with the smallest `best`, then lowers
+      `best` for the rest. Every step is safe by the cut property from [[kruskal]],
+      with the tree on one side of the split.
+
+      The array version scans all n nodes to pick one and all n again to update:
+      O(n²) in total, and it never stores an edge. For a complete graph, with
+      m = n(n − 1)/2, that beats the O(m log m) of sorting or of a heap.
+
+      On a sparse graph (m close to n) the heap wins. Push `{w, v}` for each edge out
+      of the new node, and skip a popped node that is already in the tree: O(m log m).
+      It is Dijkstra's loop with the key `w` instead of `d + w`.
+
+      Choose by m: near n², the array; near n, the heap or [[kruskal]].
+    trace_title: "LC 1584 sample 1: points (0,0), (2,2), (3,10), (5,2), (7,0)"
+    trace: |
+      step  take  cost  total  best[0..4] after (- = in tree)
+        0     0     0     0   [-, 4, 13, 7, 7]
+        1     1     4     4   [-, -, 9, 3, 7]
+        2     3     3     7   [-, -, 9, -, 4]
+        3     4     4    11   [-, -, 9, -, -]
+        4     2     9    20   [-, -, -, -, -]
+    code:
+      - file: P09Prim.java
+        region: dense
+        title: O(n²) Prim for all pairs of points
+        tag: memorise
+      - file: P09Prim.java
+        region: heap
+        title: Prim with a heap (sparse graphs)
+        tag: variant
+    time: O(n²)
+    space: O(n)
+    cost_note: The array version runs n rounds of two O(n) scans. The heap version is O(m log m) time with an O(m) heap.
+    variants:
+      - "Swim in rising water: grow from (0, 0) with a heap keyed by cell height. The answer is the highest cell taken by the time the corner joins."
+      - "Points from grid queries (LC 2503): sort the queries; for each one keep popping cells lower than it from the same growing heap. The number taken so far is its answer."
+      - "Minimize the maximum edge weight (LC 3419): reverse the edges and grow from node 0 with a heap keyed by weight. The answer is the largest edge taken, or −1 if a node never joins."
+      - "Practise the array version on min cost to connect all points from [[kruskal]], and compare the run times."
+    traps:
+      - "Dijkstra's key `dist[u] + w` in place of `w` builds a shortest-path tree, not an MST: on sample 1 its edges add up to 31, not 20."
+      - "In the heap version a node can be popped again after it joined. Without `if (inTree[u]) continue` its edge is counted twice."
+      - "In a disconnected graph the heap empties with `taken < n`. Return −1, not the weight of one component."
+    practice: [minimize-the-maximum-edge-weight-of-graph, swim-in-rising-water, maximum-number-of-points-from-grid-queries]
+
+  - id: bridges
+    title: Bridges and articulation points
+    short: Bridges & cut vertices
+    signal: An edge or a vertex whose removal disconnects an undirected graph.
+    spot:
+      - "*Critical connections*: which single cable or road, if cut, splits the network."
+      - "*Remove one cell, node or router* so that the rest falls apart: articulation (cut) vertices."
+      - n and m up to 10⁵, so removing each edge in turn and running a DFS, O(m·(n + m)), is too slow.
+    idea: |
+      Run one DFS and stamp each node with its entry time `tin[u]`. `low[u]` is the
+      smallest `tin` that the subtree of u can reach with tree edges down and then one
+      back edge up. Compute it on the way back up: start at `tin[u]`, take `tin[v]`
+      for each back edge, and `low[v]` for each child v.
+
+      A tree edge u–v is a bridge exactly when `low[v] > tin[u]`. Any other way out of
+      v's subtree is a back edge, and none of them reaches u or higher, so removing
+      u–v cuts the subtree off. A non-root u is a cut vertex when some child has
+      `low[v] >= tin[u]`: that subtree can climb back to u but not above it, so it
+      hangs on u alone. The root is a cut vertex when it has two or more DFS children,
+      because an undirected DFS leaves no edges between sibling subtrees.
+
+      One DFS looks at every edge twice: O(n + m).
+    trace_title: "LC 1192 sample 1: edges 0-1, 1-2, 2-0, 1-3; DFS from 0"
+    trace: |
+      enter 0: tin = low = 0
+        enter 1: tin = low = 1
+          enter 2: tin = low = 2
+            back edge 2-0: low[2] = 0
+        back at 1 from 2: low[1] = 0; low[2] = 0 <= tin[1] = 1
+          enter 3: tin = low = 3
+        back at 1 from 3: low[1] = 0; low[3] = 3 > tin[1] = 1: bridge 1-3
+      back at 0 from 1: low[0] = 0; low[1] = 0 <= tin[0] = 0
+        back edge 0-2: low[0] = 0
+    code:
+      - file: P09Bridges.java
+        region: bridges
+        title: Bridges (critical connections)
+        tag: memorise
+      - file: P09Bridges.java
+        region: cut
+        title: Articulation points
+        tag: variant
+    time: O(n + m)
+    space: O(n + m)
+    cost_note: Each vertex is entered once and each edge is looked at from both ends; the recursion can go n levels deep.
+    variants:
+      - "Minimum days to disconnect island (LC 1568): the answer is 0, 1 or 2. It is 0 if there is not exactly one island, 1 if the island is one cell or has a cut cell, else 2: the top-left land cell has at most two land neighbours, and removing them cuts it off (with only two cells, remove both)."
+      - "2-edge-connected components: delete the bridges, and each piece that stays connected is one component. Contracted, they form a tree whose edges are the bridges."
+      - "In a directed graph the question *which nodes reach each other both ways* is [[scc]]."
+      - LeetCode has only two free problems for low-link, both listed below and both Hard.
+    traps:
+      - "Skipping the parent by vertex (`v == parent`) instead of by edge id breaks on parallel edges: two edges 0-1 are not a bridge, but the vertex test reports 0-1."
+      - "`low[v] >= tin[u]` is the cut-vertex test. Used for bridges it also reports 0-1 on the sample, which lies on the cycle 0-1-2."
+      - "The cut-vertex test fails at the root: `low[v] >= tin[root]` holds for every child. Count the root's DFS children instead."
+      - "dfs recurses once per node on the current path; a 10⁵-node path overflowed Java's default 1 MB stack in the tests. Run it in `new Thread(null, task, \"dfs\", 1 << 26)`, or go iterative: keep `{u, next edge index}` frames on a stack and fold a frame's `low` into its parent's when you pop it."
+    practice: [critical-connections-in-a-network, minimum-number-of-days-to-disconnect-island]
+
+  - id: scc
+    title: Strongly connected components
+    short: SCC (Kosaraju)
+    signal: Groups of nodes in a directed graph that can all reach each other.
+    spot:
+      - "A directed graph where cycles matter: *reach each other*, *the same group both ways*, *treat every cycle as one node*."
+      - "Every node has at most one out-edge (`edges[i]`, `favorite[i]`): a functional graph, where each SCC is one cycle or one node."
+      - "LeetCode has few free SCC problems. The three below are functional graphs, where a walk finds each cycle without the full algorithm."
+    idea: |
+      Contract each SCC to one node and you get the condensation, which has no cycles:
+      a cycle of SCCs would merge them into one. Kosaraju uses this DAG in two passes.
+
+      Pass 1 runs DFS on g and lists the vertices by finish time. If an edge goes from
+      SCC A to SCC B, the latest finish in A is later than every finish in B. So the
+      vertex that finishes last lies in a source SCC.
+
+      Pass 2 takes vertices from the latest finish down and floods the **reversed**
+      graph from each one that has no label yet. Reversing keeps every SCC but flips
+      the DAG, so from a source SCC the flood reaches only its own SCC; nodes labelled
+      earlier are skipped. Each flood is one SCC, and the ids come out in topological
+      order. Both passes use an explicit stack, so a 10⁵-node path cannot overflow it.
+      Time O(n + m).
+    trace_title: "edges 0→1, 1→0, 1→2, 3→4, 4→5, 5→3, 5→0"
+    trace: |
+      pass 1, DFS on g: finish order 2, 1, 0, 5, 4, 3
+      pass 2, latest first, flood the reversed graph:
+        3      reaches 3, 5, 4  -> comp 0
+        4, 5   already labelled
+        0      reaches 0, 1     -> comp 1   (its rg edge to 5 is skipped)
+        1      already labelled
+        2      reaches 2        -> comp 2
+      comp = [1, 1, 2, 0, 0, 0]; edges 5->0 and 1->2 go from a lower id to a higher
+    code:
+      - file: P09Scc.java
+        region: kosaraju
+        title: Kosaraju (iterative)
+        tag: memorise
+      - file: P09Scc.java
+        region: functional
+        title: Longest cycle in a functional graph
+        tag: example
+    time: O(n + m)
+    space: O(n + m)
+    cost_note: Two passes over every vertex and edge, plus a copy of the graph reversed. The functional-graph walk is O(n).
+    variants:
+      - "Condensation DP: an edge `comp[u] -> comp[v]` for each `comp[u] != comp[v]`. Ids are topological, so a loop from the last id down to 0 sees every successor first. Count visited nodes (LC 2876): an SCC's answer is its size plus the answer of the SCC it points to."
+      - "Longest cycle with the full template: the answer is the size of the largest SCC with at least 2 nodes, or −1."
+      - "Maximum employees (LC 2127): a cycle of length ≥ 3 sits alone. Each 2-cycle seats both plus the longest chain into each end, and all of those groups fit at one table."
+      - "2-SAT: one node for x and one for ¬x, an edge for each implication. The formula has a solution unless some x and ¬x share an SCC."
+    traps:
+      - "Pass 2 must flood the reversed graph: flooding g from 3 in the example reaches all six nodes."
+      - "Pass 2 must start from the latest finish: flooding the reversed graph from `order[0]` = 2 also reaches all six nodes."
+      - "In longest cycle, `stamp[u] != 0` alone does not mean a cycle; u may belong to an earlier walk. Without `stamp[u] >= start`, sample 2 `[2, -1, 3, 1]` returns 3 instead of −1."
+    practice: [longest-cycle-in-a-graph, count-visited-nodes-in-a-directed-graph, maximum-employees-to-be-invited-to-a-meeting]
+
+  - id: euler-path
+    title: Euler path (Hierholzer)
+    signal: One walk that uses every edge exactly once.
+    spot:
+      - "*Use all the tickets (pairs, dominoes) exactly once* and return the order."
+      - "*Shortest string that contains every n-digit code* (a de Bruijn sequence)."
+      - "Every **node** once is a Hamiltonian path instead: see [[bitmask-dp]]."
+    idea: |
+      A directed graph has an Euler path when every vertex has out = in, except at
+      most one start with out − in = 1 and one end with in − out = 1, and all edges
+      are connected. If every vertex is balanced, the path is a circuit and can start
+      at any vertex with an edge.
+
+      Hierholzer walks from the start along unused edges until it is stuck. Stuck at u
+      means u has no unused edge left, so u can be the last vertex of what remains:
+      pop it and put it at the **front** of the answer, which grows from its end. The
+      walk then goes on from the vertex below it on the stack, which splices in the
+      cycles the first walk missed. Each edge is pushed once and popped once: O(n + m).
+
+      For the smallest lexical order, hand out each vertex's edges smallest first.
+    trace_title: "LC 332, tickets JFK→KUL, JFK→NRT, NRT→JFK: KUL is smallest but a dead end"
+    trace: |
+      top    action                 stack (bottom..top)          route
+      JFK    fly JFK->KUL           JFK KUL
+      KUL    stuck: pop KUL         JFK                          KUL
+      JFK    fly JFK->NRT           JFK NRT                      KUL
+      NRT    fly NRT->JFK           JFK NRT JFK                  KUL
+      JFK    stuck: pop JFK         JFK NRT                      JFK KUL
+      NRT    stuck: pop NRT         JFK                          NRT JFK KUL
+      JFK    stuck: pop JFK                                      JFK NRT JFK KUL
+    code:
+      - file: P09EulerPath.java
+        region: itinerary
+        title: Reconstruct itinerary (lexical order)
+        tag: memorise
+      - file: P09EulerPath.java
+        region: main
+        title: Any directed graph, with the start-vertex rule
+        tag: memorise
+      - file: P09EulerPath.java
+        region: safe
+        title: Cracking the safe (de Bruijn)
+        tag: example
+    time: O(n + m)
+    space: O(n + m)
+    cost_note: Every edge is pushed and popped once. The `PriorityQueue` per airport adds O(m log m) for the lexical order.
+    variants:
+      - "Valid arrangement of pairs (LC 2097): values go up to 10⁹, so compress them to small indexes ([[coord-compress]]), call `eulerPath`, and read the pairs off consecutive path values."
+      - "Undirected graph: all degrees even (circuit) or exactly two odd (start at one). Each edge sits in two adjacency lists, so mark it used by its id."
+      - "Word or domino chains: each word is an edge from its first letter to its last, so there are only 26 nodes and the same code runs."
+    traps:
+      - "Adding a vertex to the answer when you first reach it, instead of when it is stuck, breaks at dead ends: the example gives JFK KUL NRT JFK, and KUL→NRT is not a ticket."
+      - "*Always take the smallest ticket* without the stack gets stuck at KUL with two tickets unused."
+      - "The start must be the vertex with out − in = 1. Starting at `pairs[0][0]` in LC 2097 sample 1 means starting at 5, and the walk uses only the pair [5, 1]."
+      - "Taking tickets with `list.remove(0)` on an `ArrayList` costs O(deg) each time. A `PriorityQueue`, or a sorted list and an index, keeps it fast."
+    practice: [reconstruct-itinerary, valid-arrangement-of-pairs, cracking-the-safe]

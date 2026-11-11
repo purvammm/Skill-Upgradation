@@ -1,0 +1,360 @@
+/* DSA Patterns in Java: printable daily edition.
+   Pastel macOS look shared with java-dsa-methods-printable.pdf (PR #10):
+   menu bar on top, dock with the page number at the bottom, one window per pattern.
+   Body 10.5 pt Atkinson Hyperlegible Next at 1.45 leading; code 8.6 pt JetBrains Mono. */
+
+:root {
+  --ink: #1b1a24; --ink2: #4f4b62; --ink3: #6d6a82;
+  --line: #ddd6ea; --line2: #e8e4f1; --bar: #f0edf8; --paper: #fff; --soft: #f7f5fb;
+  --code-ink: #3b2f86;
+  --yellow-l: #fff4c9; --yellow-m: #ffe08a; --yellow-d: #8a5a00;
+  --peach-l: #ffe7d6; --peach-m: #ffc089; --peach-d: #9a4512;
+  --blue-l: #e0edff; --blue-m: #8bc4ff; --blue-d: #1f58a3;
+  --green-l: #d9f3e5; --green-m: #7ed5a3; --green-d: #166e41;
+  --pink-l: #ffe3ee; --pink-m: #ff9ec4; --pink-d: #a3245a;
+  --purple-l: #ece6ff; --purple-m: #b8a6ff; --purple-d: #5b3ab0;
+  --teal-l: #d7f2ef; --teal-m: #6ed2c7; --teal-d: #11665e;
+  --grey-l: #efedf5; --grey-m: #c4bed6; --grey-d: #4f4b62;
+}
+
+.c-yellow { --l: var(--yellow-l); --m: var(--yellow-m); --d: var(--yellow-d); }
+.c-peach  { --l: var(--peach-l);  --m: var(--peach-m);  --d: var(--peach-d); }
+.c-blue   { --l: var(--blue-l);   --m: var(--blue-m);   --d: var(--blue-d); }
+.c-green  { --l: var(--green-l);  --m: var(--green-m);  --d: var(--green-d); }
+.c-pink   { --l: var(--pink-l);   --m: var(--pink-m);   --d: var(--pink-d); }
+.c-purple { --l: var(--purple-l); --m: var(--purple-m); --d: var(--purple-d); }
+.c-teal   { --l: var(--teal-l);   --m: var(--teal-m);   --d: var(--teal-d); }
+.c-grey   { --l: var(--grey-l);   --m: var(--grey-m);   --d: var(--grey-d); }
+
+/* ------------------------------------------------------------------ pages */
+/* The menu bar is the three top margin boxes painted the same colour; the dock is
+   the bottom-centre margin box with an SVG tray behind the page number. */
+@page {
+  size: A4;
+  margin: 46pt 0 54pt 0;
+
+  @top-left {
+    content: "DSA Patterns in Java";
+    font: 800 8.5pt "Nunito"; color: #2b2838;
+    width: 205pt; height: 22pt; margin-bottom: 24pt; padding-left: 32pt; vertical-align: middle;
+    background: #f6f4fa url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='9' viewBox='0 0 10 9'><path d='M5 1.6C3.9 0 1 .3 1 2.6 1 4.6 3.3 6 5 7.6 6.7 6 9 4.6 9 2.6 9 .3 6.1 0 5 1.6z' fill='%23ff8fb8'/></svg>") no-repeat 15pt 7pt;
+    background-size: 10pt 9pt;
+    border-bottom: 0.8pt solid #e2dfed;
+  }
+  @top-center {
+    content: "File  Edit  View  Go  Window";
+    font: 600 8pt "Nunito"; color: #4f4b62; white-space: pre;
+    width: 121pt; height: 22pt; margin-bottom: 24pt; vertical-align: middle; text-align: center;
+    background: #f6f4fa; border-bottom: 0.8pt solid #e2dfed;
+  }
+  @top-right {
+    content: string(section);
+    font: 800 8.5pt "Nunito"; color: #2b2838; text-align: right;
+    width: 185pt; height: 22pt; margin-bottom: 24pt; padding-right: 52pt; vertical-align: middle;
+    background: #f6f4fa url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='12' viewBox='0 0 34 12'><g fill='none' stroke='%236d6a82' stroke-width='1.1' stroke-linecap='round'><path d='M1.5 4.2a7 7 0 0 1 9 0'/><path d='M3.3 6.3a4.2 4.2 0 0 1 5.4 0'/></g><circle cx='6' cy='8.6' r='0.9' fill='%236d6a82'/><rect x='15.5' y='1.8' width='15' height='8.4' rx='2' fill='none' stroke='%236d6a82' stroke-width='0.9'/><rect x='17' y='3.3' width='12' height='5.4' rx='1' fill='%237ed5a3'/><rect x='31' y='4.4' width='1.4' height='3.2' rx='0.6' fill='%236d6a82'/></svg>") no-repeat right 12pt top 5pt;
+    background-size: 34pt 12pt;
+    border-bottom: 0.8pt solid #e2dfed;
+  }
+  @bottom-center {
+    content: counter(page);
+    font: 900 9pt "Nunito"; color: #2b2838; text-align: center; vertical-align: middle;
+    width: 160pt; height: 26pt; margin-top: 15pt; margin-bottom: 13pt;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='26' viewBox='0 0 160 26'><rect x='0.5' y='0.5' width='159' height='25' rx='7' fill='%23f3f1f8' stroke='%23e2dfed'/><rect x='6' y='5.5' width='15' height='15' rx='4' fill='%23ff9ec4'/><rect x='24' y='5.5' width='15' height='15' rx='4' fill='%23ffc089'/><rect x='42' y='5.5' width='15' height='15' rx='4' fill='%23f5cf4f'/><rect x='64' y='4.5' width='32' height='17' rx='4' fill='%23ffffff' stroke='%23ddd6ea'/><rect x='103' y='5.5' width='15' height='15' rx='4' fill='%238bc4ff'/><rect x='121' y='5.5' width='15' height='15' rx='4' fill='%23b8a6ff'/><rect x='139' y='5.5' width='15' height='15' rx='4' fill='%236ed2c7'/></svg>") no-repeat 0 0;
+    background-size: 160pt 26pt;
+  }
+}
+
+@page cover {
+  margin: 34pt 0 30pt 0;
+  @top-left { content: none; background: none; border: 0; }
+  @top-center { content: none; background: none; border: 0; }
+  @top-right { content: none; background: none; border: 0; }
+  @bottom-center { content: none; background: none; }
+}
+
+html { font-family: "Atkinson", "Noto Sans", "Noto Sans Math", "Noto Sans Symbols 2", sans-serif;
+       font-size: 10.5pt; line-height: 1.45; color: var(--ink);
+       hyphens: manual; text-rendering: optimizeLegibility; }
+body { margin: 0 40pt; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0 0 6pt; orphans: 2; widows: 2; }
+b, strong { font-weight: 700; }
+ul, ol { margin: 0; padding-left: 14pt; }
+li { margin: 0 0 2.5pt; }
+code {
+  font-family: "JB Mono", "Noto Sans Math", "Noto Sans Symbols 2", monospace; font-size: 0.86em;
+  color: var(--code-ink); background: #f0edf8; border-radius: 2.5pt; padding: 0.2pt 2pt;
+  white-space: pre-wrap;
+}
+h1, h2, h3, h4 { font-family: "Nunito", "Noto Sans", sans-serif; margin: 0; line-height: 1.2; }
+h3 { font-weight: 900; font-size: 11pt; margin: 9pt 0 3pt; bookmark-level: none; break-after: avoid; }
+a.pg::after { content: target-counter(attr(href), page); }
+.box { display: inline-block; width: 8.5pt; height: 8.5pt; border: 1pt solid #8f89a8; border-radius: 2pt;
+       vertical-align: -1pt; background: #fff; }
+
+/* ------------------------------------------------------------------ pills */
+.pill { display: inline-block; font: 800 7.6pt/1 "Nunito"; padding: 2.2pt 6pt 2.4pt; border-radius: 6pt;
+        color: #fff; letter-spacing: 0.1pt; white-space: nowrap; }
+.pill-yellow { background: #8a5a00; }
+.pill-pink   { background: #b8336a; }
+.pill-red    { background: #c0392b; }
+.pill-blue   { background: #2463b8; }
+.pill-green  { background: #1d7a49; }
+.pill-purple { background: #6a43c6; }
+.pill-grey   { background: #6d6a82; }
+.cover .pill-pink   { background: #ffe0ec; color: #a3245a; }
+.cover .pill-blue   { background: #dcebff; color: #1f58a3; }
+.cover .pill-green  { background: #d6f3e3; color: #166e41; }
+.cover .pill-purple { background: #ebe4ff; color: #5b3ab0; }
+.cover .pill { font-size: 8.4pt; padding: 3.5pt 8pt; }
+.o { font-family: "JB Mono", "Noto Sans Math", monospace; font-weight: 700; font-size: 8.8pt; }
+
+/* ------------------------------------------------------------------ windows */
+.win {
+  border: 1pt solid var(--line); border-radius: 12pt; background: var(--paper);
+  margin: 0 0 14pt; box-decoration-break: clone; padding-bottom: 4pt;
+}
+.win > .bar {
+  background: var(--l); border-bottom: 1pt solid var(--m);
+  border-radius: 11pt 11pt 0 0; padding: 7pt 12pt 7pt 12pt;
+  display: flex; align-items: center; break-after: avoid;
+}
+.dots { display: inline-block; white-space: nowrap; margin-right: 9pt; flex: none; }
+.dots i { display: inline-block; width: 7.5pt; height: 7.5pt; border-radius: 50%; margin-right: 3.2pt; vertical-align: middle; }
+.dots i:nth-child(1) { background: #ff6b62; border: 0.6pt solid #df443b; }
+.dots i:nth-child(2) { background: #ffc530; border: 0.6pt solid #dea10f; }
+.dots i:nth-child(3) { background: #2ecc4b; border: 0.6pt solid #1ea838; }
+.win h2 { font-weight: 900; font-size: 14.5pt; color: var(--ink); flex: 1; bookmark-level: 2;
+          }
+.win h2, .part h1 { string-set: section attr(data-run); }
+.win h2 .num { display: inline-block; font-size: 9.5pt; color: #fff; background: var(--d); border-radius: 6pt;
+               padding: 2pt 5.5pt 2.2pt; vertical-align: 2pt; margin-right: 3pt; }
+.win .bigo { font: 700 8.6pt "JB Mono", "Noto Sans Math"; color: var(--d); background: #fff;
+             border: 0.8pt solid var(--m); border-radius: 6pt; padding: 1.8pt 6pt; white-space: nowrap; flex: none;
+             margin-left: 8pt; }
+.wbody { padding: 9pt 14pt 6pt; }
+.wbody > *:first-child { margin-top: 0; }
+.front .win h2, .win.front h2, .win.back h2 { bookmark-level: 1; }
+.frontpage { break-before: page; }
+.placeholder { color: #c0392b; font-weight: 700; }
+
+/* ------------------------------------------------------------------ parts */
+.part { break-before: page; }
+.part-panel { background: var(--l); border-radius: 12pt; padding: 14pt 16pt 10pt; margin-bottom: 14pt; }
+.phead { display: flex; align-items: center; margin-bottom: 6pt; }
+.folder { width: 50pt; height: 38pt; flex: none; margin-right: 14pt; }
+.kicker { font: 900 9.5pt "Nunito"; color: var(--d); letter-spacing: 1pt; }
+.part h1 { font-weight: 900; font-size: 21pt; bookmark-level: 1; }
+.pintro { margin: 4pt 0 9pt; color: #2b2838; }
+.ptoc { width: 100%; border-collapse: separate; border-spacing: 0 3pt; }
+.ptoc td { background: rgba(255, 255, 255, 0.72); padding: 3.4pt 8pt; }
+.ptoc td.tn { font: 900 10pt "Nunito"; color: var(--d); width: 30pt; border-radius: 5pt 0 0 5pt; }
+.ptoc td.tt a { font-weight: 700; }
+.ptoc .sig { font-size: 8.8pt; line-height: 1.3; color: var(--ink2); margin-top: 0.5pt; }
+.ptoc td { vertical-align: top; }
+.ptoc td.to { font: 8.4pt "JB Mono", "Noto Sans Math"; color: var(--ink2); text-align: right; white-space: nowrap; }
+.ptoc td.tp { text-align: right; width: 36pt; border-radius: 0 5pt 5pt 0; white-space: nowrap; color: var(--ink2); }
+.ptoc td.tp b { color: var(--ink); }
+
+/* ------------------------------------------------------------------ callouts */
+.call { border-radius: 9pt; padding: 7pt 11pt 6pt; margin: 8pt 0; break-inside: avoid; }
+.call ul { padding-left: 13pt; }
+.call li { margin-bottom: 2.5pt; }
+.clbl { margin-bottom: 4pt; }
+.clbl .ltxt { font: 700 8.6pt "Nunito"; color: var(--ink2); margin-left: 6pt; }
+.spot { background: #fff6d2; }
+.spot li::marker { color: #8a5a00; }
+.variants { background: #e8f1ff; }
+.variants li::marker { color: #2463b8; }
+.traps { background: #ffe8ef; }
+.traps li::marker { color: #c0392b; }
+.routine { background: #e3f6ea; }
+.routine ol { padding-left: 15pt; }
+.routine li { margin-bottom: 3.5pt; }
+
+.trace { border: 1pt dashed #c9c2dc; border-radius: 8pt; padding: 6pt 10pt 5pt; margin: 8pt 0; break-inside: avoid; background: #fcfbfe; }
+.trace .tlbl { margin-bottom: 3pt; }
+.trace .ttl { font: 700 9pt "Atkinson"; margin-left: 6pt; color: var(--ink2); }
+.trace pre { margin: 0; font: 8.4pt/1.4 "JB Mono", "Noto Sans Math", "Noto Sans Symbols 2", monospace; color: #2b2838; white-space: pre; }
+
+.cost { display: flex; flex-wrap: wrap; align-items: baseline; margin: 7pt 0 8pt; padding: 5pt 10pt; background: var(--soft);
+        border: 0.8pt solid var(--line2); border-radius: 8pt; break-inside: avoid; }
+.cost .pill { margin-right: 8pt; }
+.cost .cv { margin-right: 12pt; white-space: nowrap; }
+.cost .cv .o { background: #fff; border: 0.8pt solid var(--line); border-radius: 4pt; padding: 0.5pt 4pt; }
+.cost .cn { color: var(--ink2); font-size: 9.6pt; }
+
+/* ------------------------------------------------------------------ code */
+figure.code { margin: 8pt 0; border: 1pt solid #e2dfed; border-radius: 9pt; break-inside: avoid; background: #fff; }
+.cbar { background: #f6f4fa; border-bottom: 0.8pt solid #e8e4f1; border-radius: 8pt 8pt 0 0; padding: 4pt 10pt;
+        display: flex; align-items: center; }
+.mini i { display: inline-block; width: 6pt; height: 6pt; border-radius: 50%; margin-right: 2.6pt; vertical-align: middle; }
+.mini i:nth-child(1) { background: #ff6b62; } .mini i:nth-child(2) { background: #ffc530; } .mini i:nth-child(3) { background: #2ecc4b; }
+.mini { margin-right: 7pt; flex: none; }
+.ctitle { font: 900 9.6pt "Nunito"; flex: 1; }
+.ctitle code { font-size: 8.4pt; }
+.ctag { font: 800 7.2pt/1 "Nunito"; border-radius: 6pt; padding: 1.8pt 5pt 2pt; border: 0.9pt solid; flex: none; }
+.t-memorise { color: #166e41; border-color: #166e41; background: #effaf3; }
+.t-variant  { color: #5b3ab0; border-color: #8f74e0; background: #f5f1ff; }
+.t-example, .t-usage { color: #1f58a3; border-color: #6b9fe0; background: #eef5ff; }
+.t-helper   { color: #6d6a82; border-color: #a9a4bd; background: #f6f5fa; }
+figure.code pre {
+  margin: 0; padding: 6pt 9pt 6pt; white-space: pre;
+  font: 9pt/1.4 "JB Mono", "Noto Sans Math", "Noto Sans Symbols 2", monospace; color: var(--ink);
+}
+pre, code, .o, .bigo, .ptable td.pn { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+.cnote { font-size: 9.4pt; color: var(--ink2); padding: 0 10pt 5pt; }
+pre .k  { color: #962088; font-weight: 700; }
+pre .kt { color: #5f2a9c; font-weight: 700; }
+pre .t  { color: #255a7c; }
+pre .s  { color: #b0230e; }
+pre .n  { color: #1d27c4; }
+pre .c  { color: #2f6a24; font-style: normal; }
+pre .a  { color: #7a5a00; }
+
+/* ------------------------------------------------------------------ practice & recall */
+.practice { background: #f3efff; border-radius: 9pt; padding: 6pt 11pt 5pt; margin: 8pt 0; break-inside: avoid; }
+.plbl { margin-bottom: 2pt; }
+.phint { font: 700 8.6pt "Nunito"; color: var(--ink2); margin-left: 6pt; }
+.ptable { width: 100%; border-collapse: collapse; }
+.ptable td { padding: 1.6pt 4pt 1.6pt 0; vertical-align: baseline; }
+.ptable td.pb { width: 13pt; }
+.ptable td.pn { font: 700 8.6pt "JB Mono"; color: var(--purple-d); width: 46pt; white-space: nowrap; }
+.ptable td.pd { text-align: right; width: 48pt; }
+.diff { font: 800 7.4pt/1 "Nunito"; padding: 1.8pt 5pt; border-radius: 5pt; }
+.d-easy { background: #d6f3e3; color: #166e41; }
+.d-medium { background: #fff0c2; color: #8a5a00; }
+.d-hard { background: #ffe0e6; color: #b3203a; }
+.recall { margin: 7pt 0 3pt; padding: 5pt 10pt; border: 1pt dashed #c9c2dc; border-radius: 8pt; break-inside: avoid;
+          font-size: 9.2pt; color: var(--ink2); }
+.recall .rl { font: 800 8.8pt "Nunito"; color: #2b2838; margin-right: 8pt; }
+.recall .rc { margin-right: 9pt; white-space: nowrap; }
+.recall .rc .box { margin-right: 3pt; }
+
+/* ------------------------------------------------------------------ cross refs */
+a.xref { color: #3b2f86; font-weight: 700; }
+a.xref .xn { font: 900 0.86em "Nunito"; color: #fff; background: #6d6a82; border-radius: 4pt; padding: 0.3pt 3pt 0.6pt; }
+a.xref::after { content: " (p. " target-counter(attr(href), page) ")"; font-weight: 400; color: var(--ink2); }
+a.xref.short::after { content: " p. " target-counter(attr(href), page); }
+.xref-missing { color: #c0392b; font-weight: 700; }
+
+/* ------------------------------------------------------------------ cover */
+.cover { page: cover; text-align: center; }
+.laptop { margin: 6pt 34pt 0; background: #2d2b38; border-radius: 16pt 16pt 4pt 4pt; padding: 11pt 11pt 13pt; }
+.screen { position: relative; border-radius: 6pt; height: 318pt; overflow: hidden;
+          background: linear-gradient(135deg, #ffe0ec 0%, #ffe7d6 22%, #fff4c9 42%, #e0edff 66%, #ece6ff 84%, #d7f2ef 100%); }
+.menubar-mini { text-align: left; background: rgba(255, 255, 255, 0.72); font: 600 7pt "Nunito"; color: #2b2838; padding: 3.5pt 10pt; }
+.menubar-mini b { font-weight: 900; margin-right: 8pt; }
+.menubar-mini span { margin-right: 7pt; }
+.menubar-mini .mb-r { float: right; margin-right: 0; font-weight: 800; }
+.spark { position: absolute; font-family: "Noto Sans Symbols 2", "Noto Sans"; }
+.s1 { left: 22pt; top: 34pt; color: #6ed2c7; font-size: 14pt; }
+.s2 { right: 30pt; top: 26pt; color: #f5cf4f; font-size: 22pt; }
+.s3 { left: 30pt; top: 160pt; color: #ff8fb8; font-size: 15pt; }
+.s4 { right: 34pt; top: 150pt; color: #b8a6ff; font-size: 17pt; }
+.cwin { position: absolute; left: 50pt; right: 50pt; top: 40pt; background: #fff; border-radius: 10pt;
+        border: 0.8pt solid #e2dfed; text-align: left; }
+.cbar2 { background: #f3f1f8; border-radius: 10pt 10pt 0 0; padding: 5pt 10pt; border-bottom: 0.8pt solid #e8e4f1; }
+.cfile { font: 700 7.6pt "Nunito"; color: var(--ink2); margin-left: 70pt; }
+.cwin-body { padding: 10pt 16pt 12pt; }
+.ckicker { font: 900 8pt "Nunito"; color: #b8336a; letter-spacing: 0.3pt; }
+.ctitle-big { font: 900 31pt/1.08 "Nunito"; color: var(--ink); margin: 3pt 0 6pt; }
+.csub { font-size: 10.5pt; color: #2b2838; margin-bottom: 9pt; }
+.cpills .pill { margin: 0 4pt 4pt 0; }
+.dock { position: absolute; left: 0; right: 0; bottom: 12pt; text-align: center; }
+.dock .dk { display: inline-block; width: 15pt; height: 15pt; border-radius: 4pt; margin: 0 2pt; background: var(--m); }
+.laptop-base { margin: 0 10pt; height: 10pt; background: linear-gradient(#e6e3ee, #c9c5d6); border-radius: 0 0 14pt 14pt; }
+.folders { display: grid; grid-template-columns: repeat(5, 1fr); margin: 30pt 6pt 6pt; row-gap: 18pt; column-gap: 6pt; }
+.fold { display: block; text-align: center; }
+.fold .folder { display: block; margin: 0 auto 3pt; width: 46pt; height: 35pt; }
+.fold .fl { display: block; font: 900 9.2pt/1.2 "Nunito"; color: var(--ink); }
+.fold .fp { display: block; font: 700 7.8pt "Nunito"; color: var(--ink2); }
+.prepared { margin-top: 16pt; font-size: 9.4pt; color: var(--ink2); }
+.startline { margin: 22pt 40pt 0; padding: 9pt 14pt; border: 1pt dashed #c9c2dc; border-radius: 10pt; display: flex; font: 800 9.4pt "Nunito"; color: #2b2838; text-align: left; }
+.startline span { flex: 1; }
+.startline i { display: inline-block; width: 70pt; border-bottom: 0.9pt solid #8f89a8; margin-left: 5pt; height: 9pt; }
+.prepared b { color: #3b2f86; }
+
+/* ------------------------------------------------------------------ front pages */
+.lead p { font-size: 11pt; }
+.anatomy { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 7pt; row-gap: 6pt; margin: 4pt 0 6pt; }
+.an { display: flex; background: var(--soft); border-radius: 8pt; padding: 6pt 8pt; font-size: 9.4pt; line-height: 1.35; }
+.ann { flex: none; display: inline-block; width: 13pt; height: 13pt; border-radius: 50%; background: #ff8fb8; color: #fff;
+       font: 900 8pt/13pt "Nunito"; text-align: center; margin-right: 7pt; }
+.notes { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 7pt; row-gap: 8pt; margin-top: 8pt; }
+.note { background: var(--l); border-radius: 9pt; padding: 7pt 9pt 4pt; font-size: 9.4pt; line-height: 1.38; break-inside: avoid; }
+.note .ntitle { font: 900 9.6pt "Nunito"; margin-left: 5pt; }
+.note p { margin-bottom: 4pt; }
+
+.cchips { margin-bottom: 8pt; }
+.cchip { display: inline-block; background: #f0edf8; border-radius: 6pt; padding: 2.5pt 7pt; margin: 0 4pt 4pt 0;
+         font: 800 8.6pt "Nunito"; }
+.cchip b { color: #6a43c6; }
+.ccols, .costcols { columns: 2; column-gap: 12pt; }
+.cpart { break-inside: avoid; margin-bottom: 8pt; }
+.cph { background: var(--l); border-radius: 6pt; padding: 3pt 8pt; font: 900 9.6pt "Nunito"; display: flex; }
+.cph span { flex: 1; }
+.cph .pg, .cph .cphr { color: var(--d); }
+.cphr { font: 700 8pt "Nunito"; text-align: right; flex: none !important; }
+.cpart table { width: 100%; border-collapse: collapse; font-size: 9pt; line-height: 1.25; }
+.cpart td { padding: 1.7pt 3pt; vertical-align: top; }
+.cpart td.tn { font: 900 8.6pt "Nunito"; color: var(--d); width: 22pt; }
+.cpart td.tp { text-align: right; font-weight: 700; width: 18pt; }
+.cpart td.ct, .cpart td.cs { font: 7.8pt "JB Mono", "Noto Sans Math"; color: var(--ink2); white-space: nowrap; text-align: right; }
+
+table.plan { width: 100%; border-collapse: collapse; font-size: 8.9pt; line-height: 1.3; margin-top: 4pt; }
+table.plan th { font: 900 8.4pt "Nunito"; text-align: left; color: var(--green-d); background: var(--green-l);
+                padding: 3pt 4pt; }
+table.plan td { border-bottom: 0.8pt solid var(--line2); padding: 2.6pt 4pt; vertical-align: top; }
+table.plan tr { break-inside: avoid; }
+table.plan td.dn { font: 900 11pt "Nunito"; color: var(--green-d); width: 18pt; text-align: center; }
+table.plan td.dd { width: 40pt; border-bottom: 0.8pt solid var(--line2); }
+table.plan td.dl .pl { display: block; }
+table.plan td.dl b { font-family: "Nunito"; font-weight: 900; color: var(--green-d); margin-right: 2pt; }
+table.plan td.dp { width: 22pt; font-weight: 700; text-align: right; }
+table.plan td.dr { width: 150pt; color: var(--ink2); font-size: 8.3pt; line-height: 1.35; }
+table.plan .rv { white-space: nowrap; }
+table.plan .rvd { font: 800 7.6pt "Nunito"; color: var(--ink3); }
+table.plan td.dc { width: 22pt; text-align: center; }
+table.plan tr.xtra td.dl { font-weight: 700; }
+thead { display: table-header-group; }
+
+.wg { margin-bottom: 7pt; }
+.wgh { font: 900 10pt "Nunito"; color: var(--yellow-d); background: var(--yellow-l); border-radius: 6pt; padding: 2.5pt 8pt; margin-bottom: 1pt; break-after: avoid; }
+table.which { width: 100%; border-collapse: collapse; font-size: 9.3pt; line-height: 1.28; }
+table.which tr { break-inside: avoid; }
+table.which td { padding: 2.2pt 5pt; border-bottom: 0.8pt solid var(--line2); vertical-align: top; }
+table.which td.wc { width: 52%; }
+table.which .try { display: block; }
+table.which a.xref::after { font-size: 8.4pt; }
+
+table.sizes { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; }
+table.sizes th { font: 900 8.6pt "Nunito"; text-align: left; background: var(--pink-l); color: var(--pink-d); padding: 3pt 6pt; }
+table.sizes td { padding: 3.4pt 6pt; border-bottom: 0.8pt solid var(--line2); vertical-align: top; }
+table.sizes td.sn { white-space: nowrap; font-weight: 700; width: 70pt; }
+table.sizes td.so { white-space: nowrap; width: 110pt; }
+
+.lccols { columns: 3; column-gap: 10pt; font-size: 8pt; line-height: 1.28; }
+.lci { break-inside: avoid; margin-bottom: 1.6pt; padding-left: 14pt; text-indent: -14pt; }
+.lcn { font: 900 8pt "Nunito"; color: var(--blue-d); }
+.lcr { color: var(--ink2); white-space: nowrap; }
+.lcr a { font-weight: 700; color: #3b2f86; }
+.endnote { text-align: center; color: var(--ink2); font-size: 9pt; margin-top: 10pt; }
+
+table.costs { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 9.2pt; line-height: 1.3; }
+table.costs th { font: 900 8.4pt "Nunito"; text-align: left; color: var(--pink-d); padding: 2pt 4pt; border-bottom: 1pt solid var(--line); }
+table.costs td { padding: 1.9pt 4pt; border-bottom: 0.6pt solid var(--line2); vertical-align: top; }
+table.costs tr { break-inside: avoid; }
+table.costs tr.cphrow td { background: var(--l); font: 900 9.4pt "Nunito"; color: var(--d); padding: 3pt 6pt; border-radius: 0; }
+table.costs tr.cphrow { break-after: avoid; }
+table.costs td.tn { font: 900 8.6pt "Nunito"; color: var(--d); width: 26pt; }
+table.costs td.ct, table.costs td.cs { font: 8pt "JB Mono", "Noto Sans Math"; color: var(--ink2); white-space: nowrap; }
+table.costs td.tp { text-align: right; font-weight: 700; width: 26pt; }
+
+.jcols { columns: 2; column-gap: 12pt; }
+.jg { break-inside: avoid; margin-bottom: 7pt; }
+.jgh { font: 900 9.4pt "Nunito"; background: var(--pink-l); color: var(--pink-d); border-radius: 5pt; padding: 2pt 7pt; }
+table.jcost { width: 100%; border-collapse: collapse; font-size: 9pt; line-height: 1.28; }
+table.jcost td { padding: 1.8pt 4pt; border-bottom: 0.6pt solid var(--line2); vertical-align: top; }
+table.jcost td.jc { text-align: right; white-space: nowrap; }
+table.jcost .o { font-size: 8pt; font-weight: 600; }

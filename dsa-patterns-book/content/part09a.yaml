@@ -1,0 +1,549 @@
+intro: >-
+  A graph is a set of nodes and edges. Store it as adjacency lists, where `g[u]` lists the
+  neighbours of u, so one full traversal costs O(V + E) for V nodes and E edges (n and m
+  in some windows). The first half of this part works on unweighted
+  graphs: DFS for components, BFS for fewest steps, two-colouring,
+  cycle checks, topological order and Union-Find; the second half puts weights on the
+  edges for shortest paths and minimum spanning trees, and ends with bridges, strongly
+  connected components and Euler paths.
+
+patterns:
+  - id: graph-dfs
+    title: Graph DFS and connected components
+    signal: "Which nodes or cells can reach each other: count the groups, measure them, or copy the graph."
+    spot:
+      - "*Number of connected components*, *provinces*, *islands*, *groups*: count the pieces of a graph or a grid."
+      - "The input is an edge list `edges[i] = [u, v]`, an n × n matrix `isConnected`, or a grid of `'1'` and `'0'` cells joined up, down, left and right."
+      - "Only reachability matters, not the length of a path (fewest steps is BFS, [[graph-bfs]])."
+      - "n and the edge count reach 10⁵ (or a 300 × 300 grid), so aim for O(V + E)."
+    idea: |
+      Build the lists once: for each edge `[u, v]`, add v to `g[u]` and u to `g[v]`.
+      `dfs(u)` marks u, then recurses into every unmarked neighbour. When it returns,
+      it has marked exactly the nodes reachable from u: on a path from u, the first
+      unmarked node would come right after a marked node whose whole list was scanned.
+
+      To count components, start a DFS from every node that is still unmarked. Each
+      start finds one new component, so the number of starts is the answer. A node is
+      marked once and never unmarked, and each list is scanned once, so the whole loop
+      costs O(V + E) however many DFS calls it makes.
+
+      A grid is a graph whose nodes are cells and whose edges go to the four
+      neighbours in `DIRS`. Overwriting a land cell with water is the mark, so no
+      `seen` array is needed, and the DFS that sinks an island can also count its cells.
+    trace_title: "countComponents(6, [[0,1], [1,2], [3,4], [0,2]])"
+    trace: |
+      g = [[1, 2], [0, 2], [1, 0], [4], [3], []]
+      v  seen[v]  count  dfs(v) enters
+      0  false    1      0 1 2
+      1  true     1      -
+      2  true     1      -
+      3  false    2      3 4
+      4  true     2      -
+      5  false    3      5        (no edges: a component of its own)
+    code:
+      - file: P09GraphDfs.java
+        region: components
+        title: Adjacency lists and connected components
+        tag: memorise
+      - file: P09GraphDfs.java
+        region: iterative
+        title: Iterative DFS with an explicit stack
+        tag: variant
+        note: "Marking on push puts each node on the stack once. It reaches the same set as `dfs`, in a different order."
+      - file: P09GraphDfs.java
+        region: islands
+        title: Number of islands; max area of island
+        tag: memorise
+    time: O(V + E)
+    space: O(V)
+    cost_note: Each node is marked once and each list is scanned once (an undirected edge from both ends). A grid costs O(mn). The recursion can be V deep.
+    variants:
+      - "Number of provinces gives an n × n matrix instead of edges: in the DFS, loop `v` over `0..n-1` and follow `isConnected[u][v] == 1`. That is O(n²), the size of the input."
+      - "Clone graph: DFS with a `HashMap<Node, Node>` from each old node to its copy. Put the copy in the map *before* visiting the neighbours, so a cycle finds the copy instead of recursing forever."
+      - "Flood from the border (surrounded regions, number of enclaves): start a DFS from every border cell; whatever it cannot reach is enclosed. Pacific Atlantic floods from each ocean and keeps the cells both reach."
+      - "Edges arrive over time and you only need *same component?* or the count: Union-Find ([[dsu]]) needs no lists."
+    traps:
+      - "An undirected edge needs `g[u].add(v)` **and** `g[v].add(u)`. With only the first, n = 2 and edges `[[1, 0]]` gives 2 components: the DFS from 0 cannot see 1."
+      - "Mark the cell before recursing. A `sink` that tests for `'1'` but never writes `'0'` bounces between two land cells until StackOverflowError."
+      - "The recursion is as deep as the DFS path. On Java's default 1 MB stack, `dfs` on a path of 10⁴ nodes throws StackOverflowError (measured), and a snake-shaped island in a 300 × 300 grid has about 4.5·10⁴ cells. Use `dfsIter` when the depth can pass a few thousand."
+    practice: [find-if-path-exists-in-graph, number-of-provinces, number-of-islands, max-area-of-island, clone-graph, surrounded-regions]
+
+  - id: graph-bfs
+    title: BFS shortest path (unweighted)
+    signal: Fewest moves or edges from a start to a target when every step costs the same.
+    spot:
+      - "*Minimum number of steps*, *shortest path*, *fewest moves*, *nearest exit*, where every move costs 1."
+      - "A graph or grid of up to about 10⁵ nodes; the answer is a distance, and sometimes the path itself."
+      - "If moves cost different amounts, this is the wrong tool: see [[dijkstra]], or [[zero-one-bfs]] when costs are 0 and 1."
+    idea: |
+      BFS takes nodes from a FIFO queue, so it finishes every node at distance d
+      before it pops any node at distance d + 1. The queue only ever holds part of
+      level d followed by part of level d + 1. So the first time BFS reaches a node,
+      it reaches it by a shortest path: a shorter one would have reached it from an
+      earlier level.
+
+      That is why `dist[v]` is written when v is **pushed**, not when it is popped.
+      `dist[v] != -1` then doubles as the visited test, every node enters the queue
+      once, and the cost is O(V + E). Record `parent[v] = u` at the same moment.
+      Walking `parent` back from the target gives one shortest path in reverse.
+
+      In a grid, the nodes are cells and the edges are the 4 or 8 moves. Either store
+      a `dist` grid, or process the queue one level at a time (`size = q.size()`)
+      and count the levels. Stop as soon as the target is reached.
+    trace_title: "bfs(g, 0) with edges 0-1, 0-2, 1-2, 1-3, 2-4, 3-5, 4-5"
+    trace: |
+      pop u  dist[u]  push v (dist, parent)  already set  queue after
+      0      0        1 (1, 0), 2 (1, 0)                  [1, 2]
+      1      1        3 (2, 1)               0 2          [2, 3]
+      2      1        4 (2, 2)               0 1          [3, 4]
+      3      2        5 (3, 3)               1            [4, 5]
+      4      2                               2 5          [5]
+      5      3                               3 4          []
+      dist = [0, 1, 1, 2, 2, 3], parent = [-1, 0, 0, 1, 2, 3]
+      path(5) walks 5, 3, 1, 0, adding at the front: [0, 1, 3, 5]
+      Popping 4 did not push 5 again: dist[5] was already set by 3.
+    code:
+      - file: P09GraphBfs.java
+        region: bfs
+        title: Distances, parents and the path
+        tag: memorise
+      - file: P09GraphBfs.java
+        region: matrix
+        title: Shortest path in binary matrix (8 directions)
+        tag: variant
+      - file: P09GraphBfs.java
+        region: maze
+        title: Nearest exit, one level per step
+        tag: variant
+    time: O(V + E)
+    space: O(V)
+    cost_note: Every node is pushed and popped at most once, and each adjacency list is scanned once. A grid costs O(mn).
+    variants:
+      - "Many starts at once (every rotten orange, every 0): push them all at distance 0 ([[multi-bfs]])."
+      - "The position alone does not decide the future (keys held, walls broken, a lock code): BFS over states ([[state-bfs]])."
+      - "Snakes and ladders: squares are nodes and a die roll gives up to 6 edges. Follow the snake or ladder first, then test `dist` of the square you land on."
+      - "Jump game IV: index i has edges to i ± 1 and to every index with the same value. Clear a value's list after using it once, or a long run of equal values costs O(n²)."
+    traps:
+      - "Marking a node visited when it is popped, while writing `dist` when it is pushed, lets it be pushed twice, and the second push overwrites its distance. On the triangle 0-1, 0-2, 1-2, `dist[2]` from 0 comes out 2 instead of 1."
+      - "A DFS (a stack) finds *a* path, not the shortest: on the same triangle it can reach 2 through 1, at depth 2."
+      - "Binary matrix counts cells, not edges, so `dist[0][0] = 1`. Test `grid[0][0]` before you start: without that test `[[1, 0], [0, 0]]` returns 2 instead of −1."
+      - "Nearest exit: test for an exit when you push a neighbour, not when you pop. Testing on pop counts the entrance itself, so LC 1926 sample 3 (`[\".+\"]`, entrance `[0, 0]`) returns 0 instead of −1."
+    practice: [jump-game-iii, nearest-exit-from-entrance-in-maze, shortest-path-in-binary-matrix, snakes-and-ladders, jump-game-iv]
+
+  - id: multi-bfs
+    title: Multi-source BFS
+    signal: Distance from every cell to the nearest of many sources, or the time for something to spread from all of them.
+    spot:
+      - "*Distance to the nearest 0*, *nearest land*, *closest gate*, asked for every cell at once."
+      - "Something spreads from several places at the same time: rotting oranges, fire, rising water; *minimum minutes until every cell...*"
+      - "m·n is up to 10⁴ or 10⁵, so one BFS per source, or per cell, is too slow."
+    idea: |
+      Push every source into the queue at distance 0, then run one ordinary BFS
+      ([[graph-bfs]]). Think of a new node S with an edge to each source. A BFS from S
+      reaches all the sources after one step and then does exactly what this BFS
+      does, so `dist[cell]` here is the BFS distance from S minus 1: the distance to
+      the *nearest* source. Each cell is still pushed once, so the cost is O(mn)
+      however many sources there are.
+
+      When something spreads over time, one BFS level is one minute. Rotting oranges
+      counts the fresh oranges first and stops as soon as the count is 0. Oranges
+      still fresh at the end are cut off, and the answer is −1. The `fresh > 0` test
+      in the loop matters: without it, the last level, which rots nothing, would
+      count as one more minute.
+
+      01 matrix and *as far from land as possible* are both one call to `nearest`,
+      with the zeros or the land cells as the sources.
+    trace_title: "orangesRotting, rotten oranges at two opposite corners"
+    trace: |
+      minute 0     minute 1     minute 2     minute 3
+      2 1 1 1 1    2 2 1 1 1    2 2 2 1 2    2 2 2 2 2
+      1 1 0 1 1    2 1 0 1 2    2 2 0 2 2    2 2 0 2 2
+      1 1 1 1 2    1 1 1 2 2    2 1 2 2 2    2 2 2 2 2
+      fresh 12     fresh 8      fresh 2      fresh 0
+      queue 2      queue 4      queue 6      queue 2
+      answer 3. With only one of the two corners rotten it takes 6 minutes.
+    code:
+      - file: P09MultiBfs.java
+        region: oranges
+        title: Rotting oranges (one level = one minute)
+        tag: memorise
+      - file: P09MultiBfs.java
+        region: nearest
+        title: Distance to the nearest source; 01 matrix; far from land
+        tag: memorise
+    time: O(mn)
+    space: O(mn)
+    cost_note: Each cell is pushed at most once, whatever the number of sources. One BFS per source would cost O(k·mn).
+    variants:
+      - "Map of highest peak: the water cells are the sources, and each land cell's height is its distance to water."
+      - "Shortest bridge: mark one island with a DFS ([[graph-dfs]]) and push all its cells at distance 0. When the BFS first reaches a cell of the other island at distance d, the bridge needs d − 1 cells."
+      - "Walls stop the spread: skip them in the neighbour test. Cells they cut off keep −1."
+      - "Find the safest path in a grid: a multi-source BFS from every thief gives each cell's safety; then find the path whose smallest safety is largest, by [[bs-answer]] or a max-heap in the style of [[dijkstra]]."
+    traps:
+      - "`while (!q.isEmpty())` with `minutes++` per level also counts the last level, which rots nothing: LC 994 sample 1 returns 5 instead of 4, and `[[0, 2]]` returns 1 instead of 0."
+      - "Rotting an orange when it is popped instead of when it is pushed lets two neighbours push it, so `fresh--` runs twice for it and sample 1 returns −1 instead of 4."
+      - "A separate BFS from every cell to its nearest source is O((mn)²): 10⁸ steps on a 100 × 100 grid."
+      - "As far from land returns −1 both when there is no land and when there is no water. `best <= 0` covers both cases."
+    practice: [rotting-oranges, 01-matrix, map-of-highest-peak, as-far-from-land-as-possible, shortest-bridge]
+
+  - id: state-bfs
+    title: BFS over states
+    signal: "Fewest moves when the position alone is not enough: the node also carries walls broken, nodes visited, or a whole board."
+    spot:
+      - "*Minimum number of moves* where each move changes a whole configuration: a lock, a word, a puzzle board."
+      - "A walk with a resource or a memory: *you may eliminate at most k obstacles*, keys and doors, *visit every node*."
+      - "The states can be counted: 10⁴ lock codes, 6! = 720 boards, 40·40·(k + 1) cells with breaks left, n·2ⁿ with n ≤ 12."
+    idea: |
+      Plain BFS ([[graph-bfs]]) is correct on any graph whose edges all cost 1, and
+      nothing says a node must be a cell. Make the node everything that decides the
+      moves still possible: the four wheels of the lock, the cell plus the
+      eliminations left, the current node plus the set already visited. Two paths
+      that reach the same state have the same futures, so the first arrival is the
+      shortest and the state is marked for good.
+
+      Choose the state with care. Leave out a part, and different situations merge:
+      with only the cell in `seen`, an early arrival with no eliminations left blocks
+      a later arrival that still has some. The cost is O(S·b) for S states with b
+      moves each, so count S first: 10⁴ for the lock, 1600·(k + 1) for a 40 × 40
+      grid, 12·2¹² = 49152 for 12 nodes.
+
+      Generate neighbours on the fly. Keep `seen` in a `HashSet<String>`, an array
+      indexed by the parts of the state, or an `int` bitmask.
+    trace_title: "openLock, deadends [0201, 0101, 0102, 1212, 2002], target 0202"
+    trace: |
+      moves  queue size  front of the queue
+      0        1         0000
+      1        8         1000 9000 0100 0900 0010 0090 ...
+      2       31         2000 1100 1900 1010 1090 1001 ...
+      3       86         3000 2100 2900 2010 2090 2001 ...
+      4      190         4000 3100 3900 3010 3090 3001 ...
+      5      356         5000 4100 4900 4010 4090 4001 ...
+      6      576         ... 0202 is in this level: answer 6
+      one shortest path: 0000 1000 1100 1200 1201 1202 0202
+      seen holds 1511 of the 10000 codes (dead ends included) when 0202 is popped
+    code:
+      - file: P09StateBfs.java
+        region: lock
+        title: Open the lock
+        tag: memorise
+      - file: P09StateBfs.java
+        region: obstacles
+        title: Grid with obstacles elimination
+        tag: variant
+        note: The step count travels inside the state here, instead of a level loop.
+      - file: P09StateBfs.java
+        region: allnodes
+        title: Shortest path visiting all nodes
+        tag: variant
+    time: O(S·b)
+    space: O(S)
+    cost_note: "Each state is pushed once: 10⁴ × 8 moves for the lock, mn(k + 1) × 4 for the grid."
+    variants:
+      - "Word ladder: a state is a word. Its neighbours change one position to each of `a..z` and must be in the word set: 26·L tries per word instead of comparing every pair of words."
+      - "Sliding puzzle: the state is the board written as a string of 6 digits, and each move swaps the `0` with one of its neighbours."
+      - "Shortest path with alternating colours: the state is (node, colour of the last edge), so `seen` is a `boolean[n][2]`."
+      - "Obstacles elimination: when `k >= m + n - 3`, you can break every cell of an L-shaped path between the corners, so return `m + n - 2` without a BFS."
+    traps:
+      - "Turning a wheel down with `(c - '0' - 1) % 10` gives −1 for 0, because Java's `%` keeps the sign, and `'0'` becomes `'/'`. Add 9 instead, as the template does."
+      - "In the obstacle grid, marking only the cell is wrong: on `[[0,0],[1,1],[1,1],[1,0]]` with k = 2, a 2D `seen` returns −1; the answer is 4."
+      - "Visiting all nodes may start anywhere, so every `(v, 1 << v)` starts at step 0. Starting only from node 0 gives 5 on LC 847 sample 1 (`[[1,2,3],[0],[0],[0]]`); the answer is 4."
+    practice: [shortest-path-with-alternating-colors, open-the-lock, word-ladder, sliding-puzzle, shortest-path-in-a-grid-with-obstacles-elimination, shortest-path-visiting-all-nodes]
+
+  - id: bipartite
+    title: Bipartite check (two colours)
+    signal: Split the nodes into two groups so that every edge goes across; an odd cycle makes it impossible.
+    spot:
+      - "*Is the graph bipartite?* *Split into two groups* so that no disliking pair is together."
+      - "An edge means *these two must differ*: two teams, two colours, even and odd positions."
+      - "*The graph may not be connected*: every component needs its own start."
+    idea: |
+      Colour a start node 1. Its neighbours must be −1, their neighbours 1, and so
+      on, so every colour in the component is forced: it is the parity of the node's
+      BFS distance from the start. If an edge joins two nodes of the same colour, no
+      split exists. The two BFS tree paths from those nodes up to their common
+      ancestor have lengths of the same parity, so with the edge they close a cycle
+      of odd length, and an odd cycle cannot alternate two colours. If no edge
+      clashes, the colouring itself is the split.
+
+      The first colour is a free choice, but only inside its own component. So loop
+      over all nodes and start a new BFS from each one that is still uncoloured.
+      DFS colouring works the same way. Both look at each node once and each edge
+      from both ends: O(V + E).
+    trace_title: "isBipartite([[1,2,3], [0,2], [0,1,3], [0,2]]), LC 785 sample 1"
+    trace: |
+      start 0: color[0] = 1
+      pop u  color[u]  v  color[v]  action
+      0        1       1    0       color[1] = -1, push
+      0        1       2    0       color[2] = -1, push
+      0        1       3    0       color[3] = -1, push
+      1       -1       0    1       differs: ok
+      1       -1       2   -1       same colour: odd cycle 0-1-2, return false
+    code:
+      - file: P09Bipartite.java
+        region: bfs
+        title: BFS colouring over every component
+        tag: memorise
+      - file: P09Bipartite.java
+        region: dfs
+        title: Possible bipartition (DFS colouring)
+        tag: variant
+    time: O(V + E)
+    space: O(V)
+    cost_note: Each node is coloured once and each edge is checked from both ends.
+    variants:
+      - "Need the two groups? After a successful check they are the nodes with colour 1 and the nodes with colour −1."
+      - "Maximize target nodes after connecting trees II: in a tree, the nodes at even distance from i are exactly those with i's colour, so count each colour class once instead of running a BFS per node."
+      - "Divide nodes into the maximum number of groups: if the graph is not bipartite the answer is −1; otherwise, for each component, take the most BFS levels from any of its nodes, and add these up."
+    traps:
+      - "Starting the BFS only from node 0 misses the other components: `[[], [2,3], [1,3], [1,2]]` (node 0 alone, then a triangle) returns true; the answer is false."
+      - "Use three values (0 = none, 1, −1). With a `boolean[]` colour, an uncoloured node looks the same as a node coloured false."
+      - "Possible bipartition numbers people 1..n. Arrays of size n throw `ArrayIndexOutOfBoundsException` on person n; allocate n + 1 and loop from 1."
+      - "`paint` recurses as deep as the component. That is fine for n ≤ 2000 in LC 886; for 10⁵ nodes use the BFS version."
+    practice: [is-graph-bipartite, possible-bipartition, maximize-the-number-of-target-nodes-after-connecting-trees-ii, divide-nodes-into-the-maximum-number-of-groups]
+
+  - id: directed-cycle
+    title: Directed cycles with three colours
+    signal: "Does a directed graph have a cycle, and which nodes can reach one? Prerequisites, deadlocks, safe states."
+    spot:
+      - "Directed edges, a before b: *can you finish all courses?*, *is there a circular dependency?*"
+      - "*Safe* or *eventually terminal* nodes: every path from them ends, so none of them reaches a loop."
+      - "n up to 10⁴ with a few times that many edges: one O(V + E) pass."
+    idea: |
+      Run a DFS with three states: 0 = not visited, 1 = on the current DFS path
+      (entered, not finished), 2 = finished. There is a cycle exactly when the DFS
+      follows an edge into a state-1 node. That node is an ancestor of the current
+      one, so the path down from it plus this edge is a cycle. Conversely, take the
+      first node c of a cycle that the DFS enters. The rest of the cycle is still
+      unvisited, so the DFS reaches c's predecessor before it finishes c, and sees
+      the edge into c while c is still 1.
+
+      An edge into a state-2 node is not a cycle: that node finished earlier without
+      finding one. That is why two states are not enough. Every node is entered once
+      and finished once: O(V + E).
+
+      In an undirected graph each edge shows up from both ends, so the node you came
+      from always looks visited. There the test is *visited and not the parent*.
+    trace_title: "hasCycle(g, 0), edges 0→1, 0→2, 0→3, 1→2, 3→4, 4→3"
+    trace: |
+      step             state[0..4]
+      enter 0          1 0 0 0 0
+      enter 1          1 1 0 0 0
+      enter 2          1 1 1 0 0
+      finish 2         1 1 2 0 0
+      finish 1         1 2 2 0 0
+      0 -> 2: state 2  1 2 2 0 0   finished before: skip, not a cycle
+      enter 3          1 2 2 1 0
+      enter 4          1 2 2 1 1
+      4 -> 3: state 1  1 2 2 1 1   back edge: cycle 3 -> 4 -> 3
+    code:
+      - file: P09DirectedCycle.java
+        region: colours
+        title: Course schedule with three states
+        tag: memorise
+      - file: P09DirectedCycle.java
+        region: safe
+        title: Eventual safe states
+        tag: variant
+        note: Returning early leaves every node that leads into a cycle at state 1, so a later visit reads it as unsafe.
+      - file: P09DirectedCycle.java
+        region: undirected
+        title: "Contrast: the parent check in an undirected graph"
+        tag: variant
+        note: Call it with parent `-1` for each start node.
+    time: O(V + E)
+    space: O(V)
+    cost_note: Each node goes 0 → 1 → 2 once and each edge is followed once. The recursion can be V deep.
+    variants:
+      - "Need an order, not only yes or no? The reverse of the finish order is a topological order. Or use Kahn's algorithm ([[topo-sort]]), where fewer than n popped nodes means a cycle."
+      - "Eventual safe states without recursion: reverse every edge and run Kahn's algorithm from the nodes with no outgoing edges; exactly the popped nodes are safe."
+      - "Detect cycles in 2D grid: the undirected parent check, over cells with the same letter."
+      - "At most one outgoing edge per node (longest cycle in a graph): stamp each node with the step at which the current walk reached it; meeting a node stamped in this walk closes a cycle of `step - stamp[v]` nodes."
+    traps:
+      - "One `visited` boolean in a directed graph reports cycles that are not there: on 0→1, 0→2, 1→2, node 2 is already visited when the DFS comes back to 0."
+      - "Resetting the state to 0 on exit, instead of 2, keeps the answer right but explores every path again: 20 diamonds in a row (61 nodes) take 4·10⁶ calls."
+      - "The recursion is as deep as the longest path. `hasCycle` on a path of 10⁴ nodes throws StackOverflowError on Java's default stack (measured); for larger inputs use Kahn's algorithm ([[topo-sort]])."
+    practice: [course-schedule, find-eventual-safe-states, detect-cycles-in-2d-grid]
+
+  - id: topo-sort
+    title: Topological sort (Kahn's algorithm)
+    short: Topological sort (Kahn)
+    signal: Order tasks so that every dependency comes first, or prove that no such order exists.
+    spot:
+      - "*Return an order* in which to take the courses, build the projects or apply the steps; *any valid order* is accepted."
+      - "Pairs `[a, b]` meaning *b must come before a*, or a list of what each item depends on."
+      - "*If it is impossible, return an empty array*: a cycle must be detected along the way."
+    idea: |
+      A node with indegree 0 has no prerequisite left, so it can go next. Kahn's
+      algorithm queues every such node. It pops one, appends it to the order, and
+      removes its outgoing edges by decrementing each target's indegree. A target
+      that reaches 0 has lost its last prerequisite, so it joins the queue. An
+      edge u → v is removed only when u is popped, so v reaches 0, and is placed,
+      after u.
+
+      On a cycle no node ever reaches indegree 0, because each one waits for the node
+      before it. Those nodes, and everything that depends on them, are never popped.
+      So `order.size() < n` is the cycle test, with no separate DFS. Each node is
+      pushed once and each edge decrements once: O(V + E).
+
+      The queue can hold several nodes at once, and any of them may go next, so there
+      are often many valid orders. A `PriorityQueue` gives the smallest one.
+    trace_title: "edges 0→1, 0→2, 1→3, 2→3 (LC 210 sample 2), then with 3→1 added"
+    trace: |
+      indeg = [0, 1, 1, 2], queue = [0]
+      pop u  order         indeg updates      queue after
+      0      [0]           1: 1->0, 2: 1->0   [1, 2]
+      1      [0, 1]        3: 2->1            [2]
+      2      [0, 1, 2]     3: 1->0            [3]
+      3      [0, 1, 2, 3]                     []
+      ---- add 3 -> 1: indeg = [0, 2, 1, 2] ----
+      0      [0]           1: 2->1, 2: 1->0   [2]
+      2      [0, 2]        3: 2->1            []
+      2 of 4 popped: 1 and 3 wait for each other, so there is a cycle
+    code:
+      - file: P09TopoSort.java
+        region: kahn
+        title: Kahn's algorithm; course schedule II
+        tag: memorise
+      - file: P09TopoSort.java
+        region: matrix
+        title: Build a matrix with conditions
+        tag: variant
+      - file: P09TopoSort.java
+        region: groups
+        title: Sort items by groups (two levels of order)
+        tag: example
+        note: Items inside a group keep their order from `itemOrder`, so the dependencies between them hold too.
+    time: O(V + E)
+    space: O(V + E)
+    cost_note: Every node is pushed and popped once, and every edge lowers one indegree once.
+    variants:
+      - "Smallest order in lexicographic order: replace the queue with a `PriorityQueue<Integer>`; the cost becomes O(V log V + E)."
+      - "All ancestors of a node in a DAG: in topological order, a node's ancestors are its parents plus the union of their ancestor sets. With `boolean[n]` sets that is O(n·E); for n ≤ 100, the closure in [[floyd]] is shorter."
+      - "Find all possible recipes: recipes and ingredients are the nodes, and the supplies start in the queue."
+      - "Minimum height trees: peel the leaves (degree 1) layer by layer, Kahn-style on an undirected tree; the last one or two nodes left are the centres."
+    traps:
+      - "For `[a, b]` the edge is `b -> a`. Writing `g[a].add(b)` returns the order backwards: `[1, 0]` for LC 210 sample 1, whose only answer is `[0, 1]`."
+      - "Returning `order` without checking its size hands back a partial order when there is a cycle: the second run in the trace would return `[0, 2]` instead of `[]`."
+      - "Sort items by groups: give every item with group −1 a group of its own. If they all share one, groups `[-1, 0, -1]` with 1 after 0 and 2 after 1 come out impossible, although `[0, 1, 2]` works."
+    practice: [course-schedule-ii, find-all-possible-recipes-from-given-supplies, all-ancestors-of-a-node-in-a-directed-acyclic-graph, build-a-matrix-with-conditions, sort-items-by-groups-respecting-dependencies]
+
+  - id: dag-paths
+    title: DP on a DAG in topological order
+    short: DP on a DAG
+    signal: Longest path, number of paths or earliest finish time in a directed graph without cycles.
+    spot:
+      - "*Minimum time to finish all courses* when courses can run in parallel; the *longest* chain of dependent tasks."
+      - "*Largest value along any path*, *number of paths*, *longest increasing path*: the best or the total over all paths."
+      - "Edges go only one way (prerequisites, strictly increasing values), so there is no cycle, or a cycle must be reported."
+    idea: |
+      On a general graph, the longest simple path is NP-hard. On a DAG it is a DP:
+      the answer for v depends only on its predecessors, and a topological order puts
+      every predecessor before v. So run Kahn's algorithm ([[topo-sort]]) and, when
+      you pop u, push its value along each edge, as in `best[v] = max(best[v],
+      best[u] + w)`. By the time v is popped, all its incoming edges have been
+      relaxed, so its value is final. Each edge is relaxed once: O(V + E).
+
+      Parallel courses III keeps `start[v]`, the latest finish among v's
+      prerequisites; v then finishes at `start[v] + time[v]`. Counting paths uses a
+      sum instead of max. The largest colour value keeps 26 counts per node and
+      relaxes all of them, and the same loop reports a cycle: fewer than n popped.
+
+      When the DAG is implicit, as with strictly increasing steps in a matrix, a
+      memoised DFS is shorter: each cell is solved once, after the cells it can
+      step to.
+    trace_title: "minimumTime(5, [[1,5], [2,5], [3,5], [3,4], [4,5]], time = [1, 2, 3, 4, 5])"
+    trace: |
+      pop  start  time  finish  relax start[v]        best
+      1    0      1     1       5: 0 -> 1             1
+      2    0      2     2       5: 1 -> 2             2
+      3    0      3     3       5: 2 -> 3, 4: 0 -> 3  3
+      4    3      4     7       5: 3 -> 7             7
+      5    7      5     12                            12
+      Course 5 starts when its slowest prerequisite (4, after 3) ends.
+    code:
+      - file: P09DagPaths.java
+        region: finish
+        title: Parallel courses III (earliest finish)
+        tag: memorise
+      - file: P09DagPaths.java
+        region: colours
+        title: Largest colour value (26 DPs at once)
+        tag: variant
+      - file: P09DagPaths.java
+        region: matrix
+        title: Longest increasing path (memoised DFS)
+        tag: variant
+    time: O(V + E)
+    space: O(V + E)
+    cost_note: One relaxation per edge (26 in the colour version); the matrix version solves each cell once.
+    variants:
+      - "Count paths from s to t: `ways[s] = 1`, then `ways[v] += ways[u]` along each edge in topological order, mod 10⁹ + 7 (number of increasing paths in a grid)."
+      - "Loud and rich: the answer for x is the quietest person among x and everyone richer than x, a min over the *richer than* DAG; memoised DFS or Kahn."
+      - "Shortest path in a weighted DAG: the same relaxation with min. It works with negative weights, which [[dijkstra]] does not."
+    traps:
+      - "`start[v] = finish` keeps the prerequisite popped last, not the slowest: relations `[[1,3],[2,3]]` with time `[10, 2, 1]` give 10, not 11. Take the max."
+      - "The colour version must return −1 on a cycle. Without the `done < n` test, `\"a\"` with the self-loop `[[0, 0]]` returns 0."
+      - "The matrix DFS needs strict `>`. With `>=`, two equal neighbours form a cycle and call each other forever, because the memo is written only on return: `[[1, 1]]` throws StackOverflowError."
+      - "A 200 × 200 matrix can hold an increasing path of 20101 cells, and the memoised DFS then overflows Java's default stack (measured). Without recursion: Kahn's algorithm on cells, starting from those with no smaller neighbour; the number of levels is the answer."
+    practice: [loud-and-rich, longest-increasing-path-in-a-matrix, parallel-courses-iii, number-of-increasing-paths-in-a-grid, largest-color-value-in-a-directed-graph]
+
+  - id: dsu
+    title: Union-Find (disjoint set union)
+    short: Union-Find
+    signal: Merge groups as connections arrive, and ask whether two items share a group or how many groups are left.
+    spot:
+      - "Connections arrive one at a time: *are a and b connected now?*, *how many groups remain?*"
+      - "Items joined by something shared: the same email, row or column, or an `a==b` equation."
+      - "Up to 10⁵ items and unions, so a fresh DFS for every query (O(V + E) each) is too slow."
+    idea: |
+      Each set is a tree stored in `parent[]`, and its root names the set. `find(x)`
+      walks up to the root; `union(a, b)` hangs one root under the other. Two items
+      are in the same set exactly when their roots are equal.
+
+      Two rules keep the trees flat. **Union by size** hangs the smaller tree under
+      the bigger one, so a node gets one level deeper only when the size of its tree
+      at least doubles: no node is deeper than log₂ n. **Path compression** points
+      every node that `find` passes straight at the root, so the next `find` from any
+      of them takes one step. Together they make each operation O(α(n)) amortised,
+      where α, the inverse Ackermann function, is at most 4 for any n you will meet.
+
+      `union` returns false when both items already have the same root. That is the
+      cycle test in redundant connection. `count` starts at n and drops by one per
+      successful union, so it is always the number of components.
+    trace_title: "DSU(5): five unions, then find(1)"
+    trace: |
+      op           roots  result  parent           count
+      start                       [0, 1, 2, 3, 4]  5
+      union(0, 1)  0, 1   joined  [0, 0, 2, 3, 4]  4
+      union(2, 3)  2, 3   joined  [0, 0, 2, 2, 4]  3
+      union(3, 4)  2, 4   joined  [0, 0, 2, 2, 2]  2   size 2 vs 1: 4 under 2
+      union(1, 4)  0, 2   joined  [2, 0, 2, 2, 2]  1   size 2 vs 3: 0 under 2
+      union(0, 3)  2, 2   false   [2, 0, 2, 2, 2]  1   same root: extra edge
+      find(1)      1 -> 0 -> 2    [2, 2, 2, 2, 2]      compressed: 1 points at 2
+    code:
+      - file: P09Dsu.java
+        region: dsu
+        title: DSU with union by size and path compression
+        tag: memorise
+      - file: P09Dsu.java
+        region: uses
+        title: Redundant connection; equality equations
+        tag: example
+      - file: P09Dsu.java
+        region: accounts
+        title: Accounts merge
+        tag: example
+    time: O(α(n)) per op
+    space: O(n)
+    cost_note: With both rules, m operations cost O(m·α(n)), which is O(m) for every practical n. Union by size alone gives O(log n) per find.
+    variants:
+      - "Number of provinces, or operations to make a network connected: union every edge and read `count`. The network needs `count - 1` moved cables, provided it has at least n − 1 edges."
+      - "Most stones removed: union each stone's row with its column (shift the column ids past the row ids). The answer is the number of stones minus the number of sets that hold a stone."
+      - "Smallest string with swaps: union the swap pairs; each set gets its letters in sorted order."
+      - "Sorted edges plus a DSU give a minimum spanning tree: [[kruskal]]."
+    traps:
+      - "`union` must link roots. `parent[a] = b` moves one node and cuts it from its set: after `union(0, 1)` and `union(0, 2)` written that way, node 1 is a root on its own again."
+      - "Compare `find(a) == find(b)`, not `parent[a] == parent[b]`. After `union(0,1)`, `union(2,3)`, `union(0,2)`, `parent` is `[0, 0, 0, 2]`: 1 and 3 are in one set, but their parents differ."
+      - "Without union by size, the unions `(0,1), (1,2), …` build a chain, and the recursive `find(0)` on a chain of 10⁵ nodes throws StackOverflowError (measured). By size, depth ≤ log₂ n."
+      - "Redundant connection numbers nodes 1..n: use `new DSU(n + 1)`, or node n is out of bounds."
+    practice: [redundant-connection, satisfiability-of-equality-equations, number-of-operations-to-make-network-connected, accounts-merge, smallest-string-with-swaps, most-stones-removed-with-same-row-or-column]

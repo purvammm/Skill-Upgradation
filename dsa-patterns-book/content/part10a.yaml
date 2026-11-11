@@ -1,0 +1,432 @@
+intro: >-
+  Dynamic programming answers a question from the answers to smaller versions of it,
+  and solves each of them once. Every pattern here is the same recipe with a different
+  state: a position, a cell, a capacity, two prefixes, a range, a mask or a digit.
+  Reach for it when you need a count, a minimum, a maximum or a yes/no over many
+  choices, and no greedy rule is safe.
+
+patterns:
+  - id: dp-recipe
+    title: The DP recipe (memo, table, rolling)
+    short: The DP recipe
+    signal: Best total or number of ways when each choice limits the next ones.
+    spot:
+      - "*Number of ways*, *minimum cost*, *maximum amount* or *is it possible*, over a sequence of choices."
+      - "A choice now limits later choices (rob house i and you cannot rob house i + 1), and no fixed rule picks the right one."
+      - "A plain recursion is easy to write but calls itself with the same arguments again and again."
+      - "n up to 10⁴ or 10⁵: the 2ⁿ choice sequences are far too many, but n states with O(1) work each fit."
+    idea: |
+      Write five things down before any code. **State**: what `f(i)` means in words
+      (most money from the first i houses). **Transition**: how `f(i)` follows from
+      smaller states (skip house i−1 or rob it: `max(f(i-1), f(i-2) + a[i-1])`).
+      **Base case**: `f(0) = 0`. **Order**: smaller i first. **Answer**: `f(n)`.
+
+      The plain recursion is correct but slow: `f(i-2)` is called from `f(i)` and
+      again from `f(i-1)`, so for n = 40 it makes 535,828,591 calls. These are
+      *overlapping subproblems*. A memo solves each state once: 81 calls. The table
+      fills the same values in a loop with no recursion, and since `dp[i]` reads only
+      the last two entries, two variables can replace the array.
+
+      Use DP when the best answer for i is built from best answers of smaller
+      states (*optimal substructure*) and those states repeat (*overlapping
+      subproblems*). Greedy needs more: a proof that one choice is always safe
+      ([[jump-greedy]]). On `[3, 4, 3]`, robbing the richest house first gets 4; the
+      answer is 6.
+    trace_title: "rob(a), a = [2, 7, 9, 3, 1]: dp[i] = max(skip, rob)"
+    trace: |
+      i  a[i-1]  skip: dp[i-1]  rob: dp[i-2] + a[i-1]  dp[i]
+      0       -              -                     -      0
+      1       2              0             0 + 2 = 2      2
+      2       7              2             0 + 7 = 7      7
+      3       9              7            2 + 9 = 11     11
+      4       3             11            7 + 3 = 10     11
+      5       1             11           11 + 1 = 12     12
+      n = 40: plain recursion makes 535,828,591 calls; with the memo, 81.
+    code:
+      - file: P10DpRecipe.java
+        region: memo
+        title: "Top-down: recursion + memo"
+        tag: memorise
+      - file: P10DpRecipe.java
+        region: table
+        title: Bottom-up table, then two variables
+        tag: memorise
+      - file: P10DpRecipe.java
+        region: stairs
+        title: Climbing stairs and min cost climbing stairs
+        tag: example
+    time: O(n)
+    space: O(1)
+    cost_note: Each of the n + 1 states is solved once in O(1). The memo and the table take O(n) memory; the rolling version keeps two numbers.
+    variants:
+      - "Memo as `long[]` filled with −1: use it when answers need `long`. It only works if −1 is never a real answer."
+      - "N-th Tribonacci: the rolling version with three variables instead of two."
+      - "House robber on a binary tree: the state is a node plus *robbed or not* ([[tree-dp]])."
+      - "Two or more values per position (holding a stock or not, in cooldown): a state machine, see [[stock-dp]]."
+    traps:
+      - "An `int[]` memo with 0 for *not solved* cannot tell it from the answer 0. On 30 houses of value 0 it makes 4,356,617 calls, as many as no memo. Use `Integer[]` and `null`, or fill with −1."
+      - "`prev1 = cur; prev2 = prev1;` updates in the wrong order and sets both to `cur`: `[2, 7, 9, 3, 1]` gives 22 instead of 12. Move `prev2` first."
+      - "The memo version recurses n deep. On a default Java stack, n = 5000 already threw `StackOverflowError` in a test run. When n is large, use the table."
+      - "Climbing stairs grows like Fibonacci: n = 45 gives 1,836,311,903, the last value that fits in `int`, and n = 46 wraps to −1,323,752,223. Use `long` or the modulus the problem gives."
+    practice: [climbing-stairs, n-th-tribonacci-number, min-cost-climbing-stairs, house-robber]
+
+  - id: linear-dp
+    title: Linear DP over a sequence
+    signal: An answer for each prefix, built from the answers a few positions back.
+    spot:
+      - "A string or array where the answer for the first i elements depends on how the last piece ends: one digit or two, which word, rob or skip."
+      - "*Number of ways to decode*, *can s be segmented into words*, houses *arranged in a circle*, *deleting x also deletes x − 1 and x + 1*."
+      - n up to 10⁵, and each position looks back at only a few earlier positions (or at most L, the longest word).
+    idea: |
+      Let `dp[i]` be the answer for the first i elements (`dp[0]` is the empty
+      prefix) and ask how the prefix can end. In decode ways the last letter is one
+      digit (`1`–`9`) or two (`10`–`26`), so `dp[i] = dp[i-1] + dp[i-2]`, each term
+      only when its digits form a letter. A `0` cannot stand alone: it must pair with
+      a 1 or 2 before it, and after any other digit the count drops to 0.
+
+      Word break asks the same question: the last word is `s[j..i)` for some j with
+      `ok[j]`. Only j with `i - j ≤ L`, the longest word length, can work, so the
+      inner loop is short.
+
+      Two problems reduce to house robber. In a circle, houses 0 and n−1 are
+      neighbours, so every answer skips at least one: take the better of two line
+      runs. In delete and earn, taking v forbids every v−1 and v+1 but no other copy
+      of v, so take all copies: total the points per value and rob the values.
+    trace_title: "numDecodings(\"11206\")"
+    trace: |
+      i  s[i-1]  one digit         two digits          dp[i]
+      0       -                                            1
+      1       1  1 ok: +dp[0] = 1  -                       1
+      2       1  1 ok: +dp[1] = 1  11 ok: +dp[0] = 1       2
+      3       2  2 ok: +dp[2] = 2  12 ok: +dp[1] = 1       3
+      4       0  0: no             20 ok: +dp[2] = 2       2
+      5       6  6 ok: +dp[4] = 2  06: no                  2
+      "12305": dp = [1, 1, 2, 3, 0, 0]. "30" is no letter, so nothing ends at the 0.
+    code:
+      - file: P10LinearDp.java
+        region: decode
+        title: Decode ways (zeros included)
+        tag: memorise
+      - file: P10LinearDp.java
+        region: wordbreak
+        title: Word break (set and longest word)
+        tag: memorise
+      - file: P10LinearDp.java
+        region: reduce
+        title: House robber II and delete and earn
+        tag: variant
+    time: O(n)
+    space: O(n)
+    cost_note: Decode ways and both robbers are one pass. Word break tries at most L ends per position, each a substring and hash of length ≤ L, so O(n·L²). Delete and earn adds O(max value) for the points array.
+    variants:
+      - "Maximum subarray sum with one deletion: two states per i. `keep` is Kadane ([[kadane]]); `del = max(del + a[i], keep)`, with `keep` from before `a[i]`: the deletion was earlier, or it is `a[i]`."
+      - "Solving questions with brainpower: fill from the back, `dp[i] = max(dp[i+1], points[i] + dp[i+1+skip[i]])`, past the end counting as 0. Use `long`: the total can reach 10¹⁰."
+      - "Decode ways II (`*` is any of 1–9): the same two terms, each multiplied by how many digits or pairs the stars allow, mod 10⁹ + 7."
+      - "Word break II (list every sentence) is a search ([[palindrome-partition]]); `ok[]` from this table prunes the dead branches."
+    traps:
+      - "Testing the pair with only `two <= 26` lets \"06\" count as a letter: `\"106\"` gives 2 instead of 1. The pair must be in 10–26."
+      - "House robber II without the `n == 1` case: both runs skip the only house, so `[5]` returns 0."
+      - "Greedy word break fails both ways: on \"goalspecial\" with `[go, goal, goals, special]`, the shortest first match (go) and the longest (goals) both get stuck; goal + special works."
+      - "Robbing the sorted distinct values as a line makes 2 and 4 neighbours: `[2, 4]` gives 4, but they do not conflict and the answer is 6. Index `points` by value so the gaps stay."
+    practice: [house-robber-ii, delete-and-earn, solving-questions-with-brainpower, minimum-cost-for-tickets, decode-ways, word-break]
+
+  - id: grid-dp
+    title: Grid DP (one row or in place)
+    signal: "Right and down moves only: count paths, cheapest path, largest square."
+    spot:
+      - "You may move only **right or down** (or down a triangle), so no path can come back to a cell."
+      - "*Number of unique paths*, *minimum path sum*, *largest square of 1s*, *minimum initial health*."
+      - m and n up to 100 or 200, so O(m·n) cells with O(1) work each is the target.
+    idea: |
+      A cell (r, c) is entered from (r−1, c) above or from (r, c−1) on the left, so
+      filling row by row, left to right, has both ready. Paths: `ways = up + left`,
+      and a rock is 0. Cheapest path: `g[r][c] += min(up, left)`, in place. One row
+      is enough: before `ways[c]` is updated it still holds the row above, while
+      `ways[c-1]` already holds the current row.
+
+      Maximal square: a square of side k ends at (r, c) exactly when squares of side
+      k − 1 end above, to the left and on the diagonal. So
+      `side = 1 + min(up, left, diag)`.
+
+      Dungeon game runs backwards. Forward, a cell would need two numbers, the
+      health needed so far and the health left, and the way in that needs less may
+      have less left, so neither number picks the better way in. Backward, one
+      number describes the rest of the path:
+      `need = max(1, min(need below, need right) - d[r][c])`.
+    trace_title: LC samples for minPathSum (in place) and calculateMinimumHP
+    trace: |
+      minPathSum                     calculateMinimumHP
+      grid       cost to reach       d             need on entering
+       1  3  1    1  4  5             -2  -3   3    7  5  2
+       1  5  1    2  7  6             -5 -10   1    6 11  5
+       4  2  1    6  8  7             10  30  -5    1  1  6
+      top-left first: answer 7       bottom-right first: answer 7
+    code:
+      - file: P10GridDp.java
+        region: paths
+        title: Unique paths II (one row), min path sum (in place)
+        tag: memorise
+      - file: P10GridDp.java
+        region: square
+        title: Maximal square
+        tag: variant
+      - file: P10GridDp.java
+        region: dungeon
+        title: Dungeon game, filled backwards
+        tag: variant
+    time: O(m·n)
+    space: O(n)
+    cost_note: Each cell is filled once from at most three neighbours. Paths keeps one row, min path sum reuses the grid, and the other two keep a padded (m + 1) × (n + 1) table.
+    variants:
+      - "Triangle: fill from the bottom row up, `t[r][c] += min(t[r+1][c], t[r+1][c+1])`; the top holds the answer and there are no edge cases."
+      - "Minimum falling path sum: each cell takes the min of the three cells above it (up-left, up, up-right)."
+      - "Count square submatrices of 1s: the same `side` table; each corner adds `side[r][c]` squares, so sum them."
+      - "Moves in all four directions allow cycles, so no fill order exists. Use a shortest-path search: [[graph-bfs]] or [[dijkstra]]."
+    traps:
+      - "Padding with 0 instead of infinity for min path sum lets every border cell pretend a free cell sits outside: the LC sample returns 3 instead of 7."
+      - "Filling the first row and column with 1 for unique paths ignores rocks there: `[[0, 1, 0]]` gives 1 instead of 0. Everything after a rock in that row or column is 0."
+      - "Dungeon game forward, keeping the way in that needed less health so far: on `[[0, -1, 2], [0, 0, -2]]` it answers 3, but the path along the top row needs only 2."
+      - "Maximal square asks for the area: return `best * best`, not the side."
+    practice: [unique-paths, minimum-path-sum, unique-paths-ii, triangle, maximal-square, dungeon-game]
+
+  - id: knapsack-01
+    title: 0/1 knapsack (reverse loop)
+    signal: Pick a subset, each item at most once, under a capacity or to an exact sum.
+    spot:
+      - "Each item is used **at most once**: a subset with total weight ≤ W, or a sum of exactly S."
+      - "*Partition into two subsets with equal sum*, *put + or − before each number*, *smash stones together*, *at most m zeros and n ones*."
+      - The capacity or the sum is small (up to about 10⁴), while 2ⁿ subsets is far too many.
+    idea: |
+      Let `best[i][c]` be the most value from the first i items within weight c.
+      Item i is skipped or taken once: `max(best[i-1][c], best[i-1][c-w] + v)`. Row
+      i reads only row i − 1, so one array can hold both.
+
+      The loop over c must go **down**. Then `best[c - w]` is not updated for this
+      item yet and still means *without item i*. Going up, `best[c - w]` may
+      already contain item i, which is then taken twice: that is
+      [[unbounded-knapsack]].
+
+      The same loop answers yes/no (`can[s - x]` sets `can[s]`) and counts
+      (`ways[s] += ways[s - x]`). Target sum is a count: the plus set P and the
+      minus set N have `P − N = target` and `P + N = total`, so count subsets with
+      sum `(total + target) / 2`. Two capacities give a 2D array with both loops
+      reversed. A yes/no row is a row of bits: shifting it left by x and OR-ing
+      adds x to every reachable sum, 64 sums per `long`.
+    trace_title: "knapsack(w = [1, 3, 4, 5], v = [1, 4, 5, 7], cap = 7): best[c] after each item"
+    trace: |
+      c                 0  1  2  3  4  5  6  7
+      w=1 v=1           0  1  1  1  1  1  1  1
+      w=3 v=4           0  1  1  4  5  5  5  5
+      w=4 v=5           0  1  1  4  5  6  6  9
+      w=5 v=7           0  1  1  4  5  7  8  9   best[7] = 9: w=3 and w=4
+      forward, w=1      0  1  2  3  4  5  6  7   item 0 taken up to 7 times
+    code:
+      - file: P10Knapsack01.java
+        region: core
+        title: Knapsack and equal partition
+        tag: memorise
+      - file: P10Knapsack01.java
+        region: bits
+        title: Equal partition with a bitset
+        tag: variant
+      - file: P10Knapsack01.java
+        region: count
+        title: Target sum and ones and zeroes
+        tag: variant
+    time: O(n·W)
+    space: O(W)
+    cost_note: n items times W + 1 capacities, where W is the capacity or half the sum. The bitset does the same work in about W/64 word operations per item.
+    variants:
+      - "Last stone weight II: the smashes split the stones into two piles and leave their difference. Find the largest reachable s ≤ total/2 and return `total - 2·s`."
+      - "Target sum with an offset: `dp[s + total]` over every s in −total..total, each number sending counts to `s + x` and `s − x`. Same answer, twice the width."
+      - "Profitable schemes: two dimensions again (members used, profit capped at `minProfit`), counts mod 10⁹ + 7."
+      - "n ≤ 40 with huge weights: no table fits, so split the items in half and combine ([[meet-middle]])."
+    traps:
+      - "A forward loop, `for (int s = x; s <= half; s++)`, reuses a number: `[1, 2, 5]` reports true (1 + 1 + 1 + 1 = 4) although no subset sums to 4."
+      - "Target sum without the `Math.abs(target) > total` check: `[1, 1]` with target −4 gives `p = -1`, so `new int[0]` and then `ways[0] = 1` throws."
+      - "Skipping zeros loses answers: each 0 can take + or −, so `[0, 0, 1]` with target 1 has 4 ways. With x = 0 the loop `s >= x` runs down to s = 0 and doubles every count, which is right."
+    practice: [partition-equal-subset-sum, target-sum, last-stone-weight-ii, ones-and-zeroes, profitable-schemes]
+
+  - id: unbounded-knapsack
+    title: Unbounded knapsack (forward loop)
+    signal: "Coins you can use any number of times: fewest coins or number of ways."
+    spot:
+      - "*An infinite number of each kind of coin*, *you may reuse* an element, *any number of times*."
+      - "*Fewest coins*, *number of combinations*, or a *number of combinations* where different orders count as different (LC 377)."
+      - The amount is small (up to about 10⁴), so an array indexed by amount fits.
+    idea: |
+      `dp[a]` describes the amount a. When every coin can be used again, the last
+      coin of a solution for a can be any coin c, and the rest is a solution for
+      a − c that may use c too. So the inner loop goes **up**: `dp[a - c]` is
+      already updated for coin c, which is the reuse. This is the one line that
+      differs from [[knapsack-01]].
+
+      For fewest coins, unreachable amounts hold `INF = amount + 1`: more than any
+      real answer (at most `amount` coins of value 1), and safe to add 1 to.
+
+      For counting, the loop order decides what is counted. **Coins outside, amounts
+      inside counts combinations**: coin c is added only after the earlier coins
+      are done, so every multiset is built in one fixed coin order and counted
+      once. **Amounts outside, coins inside counts sequences**: for each amount every
+      coin may come last, so (1, 2) and (2, 1) both count.
+    trace_title: "nums = [1, 2, 3], amount 4: the loop order changes the count"
+    trace: |
+      a                     0  1  2  3  4
+      coins outer: start    1  0  0  0  0
+        after coin 1        1  1  1  1  1
+        after coin 2        1  1  2  2  3
+        after coin 3        1  1  2  3  4   combinations: 1111 112 13 22
+      amount outer          1  1  2  4  7   sequences: 1111 112 121 13 211 22 31
+    code:
+      - file: P10Unbounded.java
+        region: coins
+        title: Coin change (fewest coins)
+        tag: memorise
+      - file: P10Unbounded.java
+        region: count
+        title: Combinations vs sequences
+        tag: memorise
+        note: "**Loop order rule:** coins outside → combinations (LC 518); amount outside → sequences (LC 377)."
+      - file: P10Unbounded.java
+        region: squares
+        title: Perfect squares
+        tag: example
+    time: O(k·A)
+    space: O(A)
+    cost_note: For k coins and amount A, each (coin, amount) pair is one O(1) step. Perfect squares has √n coins, so O(n·√n).
+    variants:
+      - "Rod cutting or any reusable piece with a price: the same forward loop with `max` instead of `min`."
+      - "Perfect squares by BFS: amounts are nodes and each square is an edge; the level where BFS first reaches 0 is the answer ([[graph-bfs]])."
+      - "Largest number from digit costs (LC 1449): first the most digits for each cost (a max unbounded knapsack), then build from the left, taking the largest digit that keeps the count at that maximum."
+      - "List the combinations instead of counting them: that is backtracking ([[combination-sum]])."
+    traps:
+      - "`Arrays.fill(dp, Integer.MAX_VALUE)` and then `dp[a - coin] + 1` overflows: coins `[2]`, amount 3 gives `dp[3] = -2147483648`, which beats every real answer. Use `amount + 1`."
+      - "Swapping the loops in coin change II counts orders: coins `[1, 2, 5]`, amount 5 gives 9 instead of 4."
+      - "The reverse loop copied from [[knapsack-01]] uses each coin once: coins `[1, 2, 5]`, amount 11 gives −1 instead of 3."
+      - "LC 377 promises only that the final answer fits in an `int`; a smaller amount can have far more sequences (about 3·10²⁹ on one 100-number input). Java's `int` wraps mod 2³², so the final sum still comes out right, but never compare or `min` such values."
+    practice: [coin-change, perfect-squares, coin-change-ii, combination-sum-iv, form-largest-integer-with-digits-that-add-up-to-target]
+
+  - id: lis
+    title: Longest increasing subsequence
+    signal: Longest increasing chain, not necessarily adjacent, or pairs that nest.
+    spot:
+      - "*Subsequence* (any elements, order kept) that is *strictly increasing* or *non-decreasing*."
+      - n up to 2500 allows the O(n²) dp; n up to 10⁵ needs O(n log n).
+      - "Pairs that must nest in both dimensions (envelopes, boxes): sort by one, LIS on the other."
+      - "*Number of* longest increasing subsequences, or the *fewest removals* to sort (n − LIS)."
+    idea: |
+      O(n²): `len[i]`, the LIS that ends at i, is 1 + the largest `len[j]` with
+      `j < i` and `a[j] < a[i]`.
+
+      O(n log n) keeps `tails[k]`, the smallest last value of any increasing
+      subsequence of length k + 1. A smaller last value is never worse: whatever
+      extends a larger one also extends it. `tails` is strictly increasing, so binary
+      search for the first `tails[k] >= x` ([[lower-bound]]). If none exists, x
+      makes the longest one longer; otherwise x becomes the smaller end for length
+      k + 1. The answer is `len`, the number of entries. For non-decreasing, an
+      equal value may extend, so search for the first `tails[k] > x` (upper bound).
+
+      Envelopes: sort by width ascending and, for equal widths, height
+      **descending**. Equal widths cannot nest, and with heights descending no two of
+      them form an increasing pair. A strict LIS on the heights then uses strictly
+      larger widths too.
+    trace_title: "lis(a, true), a = [10, 9, 2, 5, 3, 7, 101, 18]"
+    trace: |
+      x    pos  action   tails
+      10     0  extend   [10]
+      9      0  replace  [9]
+      2      0  replace  [2]
+      5      1  extend   [2, 5]
+      3      1  replace  [2, 3]
+      7      2  extend   [2, 3, 7]
+      101    3  extend   [2, 3, 7, 101]
+      18     3  replace  [2, 3, 7, 18]     length 4
+    code:
+      - file: P10Lis.java
+        region: tails
+        title: LIS in O(n log n), strict or non-decreasing
+        tag: memorise
+      - file: P10Lis.java
+        region: count
+        title: O(n²) dp and the number of LIS
+        tag: variant
+      - file: P10Lis.java
+        region: envelopes
+        title: Russian doll envelopes
+        tag: variant
+    time: O(n log n)
+    space: O(n)
+    cost_note: One binary search over at most n tails per element. Counting the LIS needs the O(n²) dp.
+    variants:
+      - "Longest string chain, largest divisible subset: sort, then the O(n²) dp with another `j → i` test."
+      - "Fewest removals to make a mountain: the LIS ending at each i from the left and from the right; the answer is the smallest `n - (left[i] + right[i] - 1)` over peaks where both are > 1."
+      - "Print one LIS in O(n log n): store indices in `tails`, and when i is placed at k, set `parent[i]` to the index at `k − 1`."
+      - "Fewest removals to leave a non-decreasing array: n − the non-decreasing LIS."
+    traps:
+      - "The lower bound for non-decreasing: `[7, 7, 7]` gives 1, and the answer is 3. Equal values need the upper bound."
+      - "Equal widths sorted by height ascending: `[[1, 1], [1, 2]]` gives 2, but they cannot nest; the answer is 1."
+      - "Number of LIS: returning `cnt[n-1]` instead of summing `cnt[i]` over every i with the best length. `[1, 2, 4, 3]` gives 1 instead of 2."
+      - "Printing `tails` as the LIS: `[2, 5, 3, 7, 4, 1]` leaves `[1, 3, 4]`, but 1 comes last in the array."
+    practice: [longest-increasing-subsequence, largest-divisible-subset, longest-string-chain, number-of-longest-increasing-subsequence, russian-doll-envelopes, minimum-number-of-removals-to-make-mountain-array]
+
+  - id: lcs
+    title: Longest common subsequence
+    signal: "Two strings: the longest subsequence they share, and what follows from it."
+    spot:
+      - "Two sequences and the word *subsequence*: characters in order, not necessarily adjacent."
+      - "*Fewest deletions to make two strings equal*, *shortest string that has both as subsequences*, *lines between equal numbers that do not cross*."
+      - Lengths up to 1000 each, so an (m + 1) × (n + 1) table of about 10⁶ cells fits.
+    idea: |
+      `dp[i][j]` is the LCS length of the prefixes `a[0..i)` and `b[0..j)`; row 0
+      and column 0 are the empty prefixes. Look at the last characters. If
+      `a[i-1] == b[j-1]`, some LCS pairs them, so `dp[i][j] = dp[i-1][j-1] + 1`. If
+      not, no common subsequence can pair them, so one of them can be dropped:
+      `max(dp[i-1][j], dp[i][j-1])`.
+
+      To get one LCS, walk back from (m, n). A match is part of it; otherwise step
+      to the neighbour with the larger value, which is where the length came from.
+
+      Deleting until the strings are equal leaves a common subsequence, so the
+      fewest deletions is `m + n − 2·LCS`. A common supersequence writes every
+      character once and the shared ones only once, so the shortest has
+      `m + n − LCS` characters, and the same walk builds it. Uncrossed lines are an
+      LCS of two arrays. Row i reads only row i − 1, so one row plus the saved
+      diagonal gives O(n) space.
+    trace_title: "a = \"abcbdab\" (rows), b = \"bdcaba\" (columns); * = match on the walk back"
+    trace: |
+      dp   ""   b   d   c   a   b   a
+       ""   0   0   0   0   0   0   0
+        a   0   0   0   0   1   1   1
+        b   0   1*  1.  1   1   2   2
+        c   0   1   1   2*  2.  2   2
+        b   0   1   1   2   2   3*  3
+        d   0   1   2   2   2   3.  3
+        a   0   1   2   2   3   3   4*
+        b   0   1   2   2   3   4   4.
+      . = step without a match. LCS = "bcba"; deletions 13 − 8 = 5; SCS 13 − 4 = 9
+    code:
+      - file: P10Lcs.java
+        region: table
+        title: The LCS table
+        tag: memorise
+      - file: P10Lcs.java
+        region: walks
+        title: "Walk back: one LCS, shortest supersequence"
+        tag: memorise
+      - file: P10Lcs.java
+        region: rolling
+        title: "One row: uncrossed lines"
+        tag: variant
+    time: O(m·n)
+    space: O(m·n)
+    cost_note: One O(1) step per cell; the walk back adds O(m + n). The one-row version needs O(n) memory but cannot rebuild the string.
+    variants:
+      - "Edit distance also allows a replace: the mismatch case becomes `1 + min` of three neighbours ([[edit-distance]])."
+      - "Longest common substring (maximum length of repeated subarray): on a mismatch the cell is 0, not a max, and the answer is the largest cell."
+      - "Longest palindromic subsequence is the LCS of s and its reverse, though the interval form is more usual ([[palindrome-dp]])."
+      - "Minimum ASCII delete sum: the same table, but it stores the largest ASCII total kept instead of a length."
+    traps:
+      - "Checking the neighbours before the match in the walk back: for `\"a\"` and `\"a\"`, `dp[0][1] >= dp[1][0]` moves up and the LCS comes out empty."
+      - "The one-row version with `row[j] + 1` on a match reads the new row, not the diagonal: `[1]` and `[1, 1]` gives 2 instead of 1."
+      - "The supersequence walk without the two leftover loops drops the rest of one string: `\"abac\"`, `\"cab\"` gives \"abac\", which does not contain \"cab\"."
+    practice: [longest-common-subsequence, delete-operation-for-two-strings, uncrossed-lines, maximum-length-of-repeated-subarray, shortest-common-supersequence]

@@ -1,0 +1,647 @@
+intro: >-
+  Binary search needs a yes/no test that is false up to some point and true from there
+  on; about log₂ n tests then find the switch point. The test can be on an index, a
+  candidate answer, a real number or a slope. Sorting by value or by your own rule turns
+  many problems into a scan or a search, and merge sort, quickselect and buckets also
+  answer counting and k-th questions directly.
+
+patterns:
+  - id: lower-bound
+    title: Lower bound and upper bound
+    signal: Sorted array; find the first index where a condition starts to hold.
+    spot:
+      - The array is sorted and you get many queries, so each one must cost O(log n), not O(n).
+      - "*First* or *last* position of x, *insert position*, or *how many* values lie in [lo, hi]."
+      - "*Smallest element ≥ x* (ceiling) or *largest element ≤ x* (floor)."
+    idea: |
+      Keep a half-open range `[lo, hi)` and one invariant: everything left of `lo` is
+      `< x`, everything from `hi` on is ≥ x. At the start nothing is known, so `lo = 0`
+      and `hi = n`. If `a[mid] < x`, then `mid` and everything left of it are `< x`, so
+      `lo = mid + 1`. Otherwise `mid` may be the answer, and `hi = mid` keeps it. When
+      `lo == hi` the two zones meet: `lo` is the first index with `a[i] >= x`, or `n` if
+      there is none.
+
+      Each step at least halves `hi - lo`, so there are about log₂ n steps. `mid` is
+      always below `hi`, so `a[mid]` never reads past the end. Write `lo + (hi - lo) / 2`:
+      `(lo + hi) / 2` overflows once the sum passes 2³¹ − 1, which happens when you search
+      big answer ranges ([[bs-answer]]). Upper bound changes only `<` to `<=`. Every other
+      question in this window is one or two of these calls.
+    trace_title: "a = [1, 3, 3, 3, 5, 8], x = 3"
+    trace: |
+      lo hi mid a[mid]  lowerBound: is a[mid] < 3?
+       0  6   3    3    no  -> hi = 3
+       0  3   1    3    no  -> hi = 1
+       0  1   0    1    yes -> lo = 1
+       1  1             first index with a[i] >= 3 is 1
+      lo hi mid a[mid]  upperBound: is a[mid] <= 3?
+       0  6   3    3    yes -> lo = 4
+       4  6   5    8    no  -> hi = 5
+       4  5   4    5    no  -> hi = 4
+       4  4             first index with a[i] > 3 is 4; count of 3s = 4 - 1 = 3
+    code:
+      - file: P03LowerBound.java
+        region: bounds
+        title: Lower bound and upper bound
+        tag: memorise
+      - file: P03LowerBound.java
+        region: uses
+        title: Everything else is one or two calls
+        tag: usage
+    time: O(log n)
+    space: O(1)
+    cost_note: Each step halves hi − lo, so ⌈log₂(n + 1)⌉ steps; 20 for n = 10⁶.
+    variants:
+      - "Values `< x`: `lowerBound(a, x)` of them. Values `> x`: `n - upperBound(a, x)`."
+      - "Search a 2D matrix whose rows continue each other (LC 74): search the flat index range `[0, rows * cols)` and read `m[mid / cols][mid % cols]`."
+      - "Time-based key-value store (LC 981): each key's timestamps arrive sorted; answer `get(key, t)` with `upperBound(times, t) - 1`."
+      - "The set changes between queries? `TreeSet.ceiling(x)` and `floor(x)` give the same answers in O(log n) ([[ordered-map]])."
+    traps:
+      - "`Arrays.binarySearch` returns `-(insertion point) - 1` when x is missing: on `{1, 3, 5, 6}` with x = 4 it returns -3. With duplicates it returns *some* match: on `{3, 3, 3, 3, 3}` it returns 2, not 0."
+      - "Mixing templates: `while (lo <= hi)` with `hi = mid` loops forever once `lo == hi` (or reads `a[n]`). Half-open means `hi = a.length`, `lo < hi`, `hi = mid`, `lo = mid + 1`."
+      - "Reading `a[first]` before checking `first < a.length` throws when x is bigger than every element."
+    practice: [binary-search, search-insert-position, find-smallest-letter-greater-than-target, find-first-and-last-position-of-element-in-sorted-array, search-a-2d-matrix, time-based-key-value-store]
+
+  - id: rotated-search
+    title: Search in a rotated sorted array
+    short: Rotated sorted array
+    signal: Sorted array rotated at an unknown point; find a value or the minimum.
+    spot:
+      - "*Sorted in ascending order, then rotated* at an unknown pivot, like `[4, 5, 6, 7, 0, 1, 2]`."
+      - "*You must write an algorithm with O(log n) runtime*: a linear scan is not accepted."
+      - Find a target, the minimum, or how many times the array was rotated (the minimum's index).
+    idea: |
+      Cut a rotated array at any `mid` and at least one side is sorted. If
+      `a[lo] <= a[mid]`, the drop is not inside `[lo, mid]`, so that half is sorted and
+      one range test, `a[lo] <= target < a[mid]`, says whether the target can be there.
+      Otherwise `[mid, hi]` is sorted and you test that half. Either way half the range
+      goes. You look for an exact value and stop when you see it, so the closed range
+      `[lo, hi]` with `lo <= hi` is the natural shape here.
+
+      The minimum is a plain lower bound. Every value of the left run is `> a[n-1]` and
+      every value of the right run is `<= a[n-1]`, so the test `a[i] <= a[n-1]` reads
+      false, …, false, true, …, true and its first true index holds the minimum.
+
+      With duplicates, `a[lo] == a[mid] == a[hi]` hides which side is sorted. Dropping
+      both ends is safe, since neither is the target, but it removes only two elements,
+      so the worst case is O(n).
+    trace_title: "a = [6, 7, 0, 1, 2, 4, 5]"
+    trace: |
+      search(a, 0)
+      lo hi mid a[mid]  sorted half     is 0 in it?
+       0  6   3    1    right [1..5]    no  -> hi = 2
+       0  2   1    7    left  [6..7]    no  -> lo = 2
+       2  2   2    0    found at index 2
+      findMin(a): is a[mid] > a[6] = 5?
+       0  6   3    1    no  -> hi = 3
+       0  3   1    7    yes -> lo = 2
+       2  3   2    0    no  -> hi = 2
+       2  2             minimum is a[2] = 0
+    code:
+      - file: P03RotatedSearch.java
+        region: search
+        title: Search (distinct values)
+        tag: memorise
+      - file: P03RotatedSearch.java
+        region: min
+        title: Find the minimum
+        tag: memorise
+      - file: P03RotatedSearch.java
+        region: dup
+        title: Search with duplicates
+        tag: variant
+    time: O(log n)
+    space: O(1)
+    cost_note: Each step drops half the range; with duplicates the lo++, hi-- step can repeat, so O(n) in the worst case.
+    variants:
+      - "Minimum with duplicates (LC 154): compare `a[mid]` with the moving `a[hi]`; if `a[mid] > a[hi]` go right, if smaller `hi = mid`, if equal `hi--` (a copy of `a[hi]` remains at `mid`). Worst case O(n)."
+      - "Rotation count: the index of the minimum, which is `lo` when `findMin` ends."
+      - "Search without the two-case logic: find the minimum's index `p`, then run [[lower-bound]] on `[0, p)` if `target >= a[0]` (and p > 0), else on `[p, n)`."
+    traps:
+      - "`a[lo] < a[mid]` instead of `<=`: when `lo == mid` the one-element left half counts as unsorted, and `search([3, 1], 1)` returns -1."
+      - "The distinct-value code on repeated values is wrong: on `[1, 0, 1, 1, 1]` it decides the left half `[1, 0, 1]` is sorted and never finds 0."
+      - "`a[lo] < target` instead of `a[lo] <= target` skips a target sitting at `a[lo]`: `search([4, 5, 6, 7, 0, 1, 2], 4)` then returns -1."
+    practice: [find-minimum-in-rotated-sorted-array, search-in-rotated-sorted-array, search-in-rotated-sorted-array-ii, find-minimum-in-rotated-sorted-array-ii]
+
+  - id: bs-answer
+    title: Binary search on the answer
+    signal: Smallest x that works, when "does x work?" is cheap and monotone.
+    spot:
+      - "*Minimum* speed, capacity or days, *minimise the largest* sum, or *maximise the smallest* distance."
+      - If x works, every bigger x also works (or every smaller one).
+      - The answer range is huge (10⁹, or sums up to 10¹⁴), but checking one x is a greedy O(n) pass.
+    idea: |
+      Turn the optimisation into a yes/no question `ok(x)`. For Koko, `ok(k)` is "eating
+      k bananas an hour finishes within h hours". If speed k works, any faster speed
+      works too, so `ok` reads false, …, false, true, …, true over the answer range, and
+      the answer is its first true: the [[lower-bound]] loop with `ok(mid)` in place of
+      `a[mid] >= x`.
+
+      Choose `lo` as the smallest answer that could make sense and `hi` as a value that
+      surely works (the biggest pile, the total weight). Then the loop needs no "not
+      found" case. Each probe runs the check once, so the cost is log₂(hi − lo) checks:
+      30 for a range of 10⁹, 47 for 10¹⁴.
+
+      The check is usually greedy. To ship with capacity `cap`, load each day until the
+      next package does not fit. That uses the fewest days possible for `cap`, so
+      `days <= d` is exactly the right test.
+    trace_title: "LC 875: piles = [3, 6, 7, 11], h = 8"
+    trace: |
+      k        1   2   3   4   5   6   7   8   9  10  11
+      hours   27  15  10   8   8   6   5   5   5   5   4    ok(k): hours <= 8
+      lo hi mid hours(mid)
+       1 11   6     6     ok -> hi = 6
+       1  6   3    10     no -> lo = 4
+       4  6   5     8     ok -> hi = 5
+       4  5   4     8     ok -> hi = 4
+       4  4               answer k = 4
+    code:
+      - file: P03BsAnswer.java
+        region: shape
+        title: Smallest x with ok(x)
+        tag: memorise
+      - file: P03BsAnswer.java
+        region: koko
+        title: Koko eating bananas; m bouquets
+        tag: example
+      - file: P03BsAnswer.java
+        region: ship
+        title: Ship packages within d days
+        tag: example
+        note: "Split array largest sum (LC 410) is `shipWithinDays(nums, k)`: the same greedy counts parts."
+    time: O(n log R)
+    space: O(1)
+    cost_note: R = hi − lo is the answer range; each of the log₂ R probes runs an O(n) check.
+    variants:
+      - "Largest x with `ok(x)` when ok reads true, …, true, false, …, false (magnetic force between balls, LC 1552): find the smallest x where ok *fails* and subtract 1."
+      - "Sqrt(x) on integers (LC 69): the largest m with `m * m <= x`; compute `m * m` as `long`."
+      - "Answer is a real number? The same idea with a fixed number of halvings: [[bs-real]]."
+    traps:
+      - "An `hi` that does not work: if `ok(hi)` is false, the loop still returns `hi`. Pick a value that surely works, or test `ok(lo)` after the loop."
+      - "Starting the shipping search at 1 instead of the heaviest package: with capacity 5 the check counts `[1, 9, 1]` as 3 days, though 9 never fits."
+      - "Overflow in the check: Koko's hours reach 10⁴ · 10⁹ at k = 1. An `int` sum wraps around and `hours <= h` can wrongly say yes."
+      - "`Math.ceil(p / k)` with ints divides first and rounds down; write `(p + k - 1) / k`."
+    practice: [sqrtx, koko-eating-bananas, capacity-to-ship-packages-within-d-days, minimum-number-of-days-to-make-m-bouquets, magnetic-force-between-two-balls, split-array-largest-sum]
+
+  - id: bs-real
+    title: Binary search on real numbers
+    short: Binary search on reals
+    signal: A real answer within 10⁻⁵ from a monotone test, or a unimodal minimum.
+    spot:
+      - "*Answers within 10⁻⁵ of the actual answer will be accepted.*"
+      - A quantity that only rises or only falls as x grows (area below a line, travel time at a speed), and you need the x where it reaches a target.
+      - "A cost that falls and then rises as x moves (a sum of distances): ternary search finds its minimum."
+    idea: |
+      This is the integer loop with `lo = mid` and `hi = mid` in place of mid ± 1, run a
+      fixed number of times. 100 halvings shrink the range by 2¹⁰⁰ ≈ 10³⁰, so a range of
+      2·10⁹ ends far below 10⁻⁵ and the loop always stops. An epsilon loop
+      `while (hi - lo > 1e-9)` can spin forever: near 10⁹ neighbouring doubles are
+      1.2·10⁻⁷ apart, so once `mid` rounds to `lo` or `hi` the gap stops shrinking.
+
+      The invariant is the one from [[lower-bound]]: the test is false at `lo` and true at
+      `hi`, so the switch point stays in `[lo, hi]`. In LC 3453 the area below a line
+      never decreases as the line rises, so the first y with `2 * below >= total` is the
+      lowest line that halves the area.
+
+      Ternary search minimises a function that falls, then rises. Compare `f` at the two
+      third points and drop the outer third next to the larger value, which cannot hold
+      the minimum.
+    trace_title: "sqrt(2): lo = 0, hi = 2"
+    trace: |
+      it  lo        hi        mid       mid*mid   move
+       0  0.000000  2.000000  1.000000  1.000000  < 2  -> lo = mid
+       1  1.000000  2.000000  1.500000  2.250000  >= 2 -> hi = mid
+       2  1.000000  1.500000  1.250000  1.562500  < 2  -> lo = mid
+       3  1.250000  1.500000  1.375000  1.890625  < 2  -> lo = mid
+       4  1.375000  1.500000  1.437500  2.066406  >= 2 -> hi = mid
+       5  1.375000  1.437500  1.406250  1.977539  < 2  -> lo = mid
+      ...
+      53  lo and hi are neighbouring doubles; mid rounds to one of them
+      99  hi = 1.4142135623730951, the same double as Math.sqrt(2)
+    code:
+      - file: P03BsReal.java
+        region: sqrt
+        title: Real binary search (square root)
+        tag: memorise
+      - file: P03BsReal.java
+        region: squares
+        title: Separate squares I (LC 3453)
+        tag: example
+      - file: P03BsReal.java
+        region: ternary
+        title: Ternary search on a unimodal function
+        tag: variant
+    time: O(100 · n)
+    space: O(1)
+    cost_note: 100 halvings, each running the O(n) test. Ternary search needs about 170 steps (2 calls each) for the same shrink; the code runs 200.
+    variants:
+      - "K-th smallest prime fraction (LC 786): binary search a real v in (0, 1), count fractions ≤ v with two pointers, keep the largest one seen, and stop when the count is k ([[bs-count]])."
+      - "Convex cost on integers (LC 2448): binary search the first x with `f(x) <= f(x + 1)`, the slope test of [[peak-search]]."
+      - "Two variables (LC 1515, best position for a service centre): the sum of distances is convex in x and in y, so nest one ternary search inside the other."
+    traps:
+      - "`while (hi - lo > 1e-9)` near 10⁹ never ends, because neighbouring doubles there are 1.2·10⁻⁷ apart. Loop a fixed 100 times."
+      - "One `double` for big totals: near 10¹² a double keeps about 4 decimal places. Summing every area in one double put a thin square's answer off by 3·10⁻⁵ (tolerance 10⁻⁵); the code adds whole squares in a `long`."
+      - "Ternary search on a function with a flat stretch away from the minimum: on the plateau `f(m1) == f(m2)` and you may drop the third that holds the minimum. It is safe for strictly unimodal or convex functions."
+      - "Using `float`: 24 bits give only about 7 significant digits."
+    practice: [separate-squares-i, k-th-smallest-prime-fraction, minimum-cost-to-make-array-equal, best-position-for-a-service-centre]
+
+  - id: peak-search
+    title: Binary search on a slope
+    signal: Values rise and fall; compare a[mid] with a[mid + 1], go uphill.
+    spot:
+      - "*Peak element*, *mountain array*, *bitonic*: the values go up and then down, or wiggle."
+      - "Neighbours are never equal (`nums[i] != nums[i + 1]`), and the array is not sorted."
+      - "*O(log n)* is required, or reads are limited (*more than 100 calls to get is Wrong Answer*)."
+    idea: |
+      Comparing `a[mid]` with `a[mid + 1]` tells you which way the ground slopes at
+      `mid`. If it goes up, walk right from `mid + 1`: the values either rise to the end,
+      where a[n] = −∞ makes the last element a peak, or they fall somewhere, and the top
+      before the fall is a peak. So a peak lies in `[mid + 1, hi]`. If it goes down, the
+      same walk leftwards puts a peak in `[lo, mid]`.
+
+      The invariant is "a peak lies in `[lo, hi]`". Each step halves the range, so after
+      log₂ n steps the one index left is a peak. Only the local slope matters, so the
+      array need not be sorted, and `mid < hi` means `a[mid + 1]` exists.
+
+      In a mountain array the test reads up, …, up, down, …, down, so the same loop
+      finds the one peak. Both sides of it are sorted: two more binary searches, the
+      falling one with the test reversed, find a value.
+    trace_title: "LC 162: a = [1, 2, 1, 3, 5, 6, 4]"
+    trace: |
+      lo hi mid  a[mid] vs a[mid+1]
+       0  6   3   3 < 5   uphill   -> lo = 4
+       4  6   5   6 > 4   downhill -> hi = 5
+       4  5   4   5 < 6   uphill   -> lo = 5
+       5  5               peak at index 5 (value 6); index 1 is a peak too
+    code:
+      - file: P03PeakSearch.java
+        region: peak
+        title: Find a peak
+        tag: memorise
+      - file: P03PeakSearch.java
+        region: mountain
+        title: Find in mountain array (LC 1095)
+        tag: example
+        note: "LeetCode supplies `MountainArray`; the interface line is only there so the file compiles."
+    time: O(log n)
+    space: O(1)
+    cost_note: Halves the range each step. LC 1095 used at most 56 get() calls at n = 10⁴ in our tests (limit 100).
+    variants:
+      - "Peak index in a mountain array (LC 852): exactly the same `findPeak`; there is one peak."
+      - "2D peak (LC 1901): binary search the row. Take the largest value in row `mid`; if the cell below it is bigger, a peak is below (`lo = mid + 1`), else `hi = mid`."
+      - "Single element in a sorted array (LC 540): before the single element `a[i] == a[i ^ 1]` holds, after it fails; a [[lower-bound]] on that test."
+    traps:
+      - "Comparing with `a[mid - 1]` when `mid` can be 0 reads `a[-1]`. Compare with `a[mid + 1]`; `mid < hi` makes it safe."
+      - "Equal neighbours break the argument: on `[1, 3, 3, 3, 4, 1]` the loop returns index 1, which is not a peak. LeetCode promises `nums[i] != nums[i + 1]`."
+      - "Searching the falling side with the rising test: there the values go down, so the test flips to `v > x`."
+    practice: [peak-index-in-a-mountain-array, find-peak-element, single-element-in-a-sorted-array, find-a-peak-element-ii, find-in-mountain-array]
+
+  - id: bs-count
+    title: K-th smallest by counting
+    signal: K-th smallest of a set too big to list; search the value, count those ≤ it.
+    spot:
+      - "*K-th smallest* (or k-th largest) element, distance, product or fraction."
+      - "Too many candidates to list (5·10⁷ pairs in LC 719, 9·10⁸ cells in LC 668), but you *can* count those ≤ v quickly."
+      - Rows and columns are sorted, or sorting the input turns counting into a two-pointer pass.
+    idea: |
+      Let `count(v)` be how many candidates are ≤ v. It never decreases as v grows,
+      and the k-th smallest is the smallest v with `count(v) >= k`. That is
+      [[bs-answer]] with `ok(v) = count(v) >= k`, searched over values instead of
+      positions.
+
+      The result is always a real candidate. `count` only changes at candidate values,
+      so the smallest v that reaches k is one of them; you never need an "is it in the
+      set?" check.
+
+      The work is in counting in O(n). In a matrix with sorted rows and columns, start
+      at the bottom-left. If the entry is ≤ v, the whole column above it is too, so add
+      `row + 1` and step right; otherwise step up. Each step leaves a row or a column,
+      so there are at most 2n steps. For pair distances, sort first; for each `j` the
+      close-enough `i` form a window whose left end only moves right
+      ([[sliding-window]]).
+    trace_title: "LC 378: m = [[1, 5, 9], [10, 11, 13], [12, 13, 15]], k = 8"
+    trace: |
+      lo hi mid count(<= mid)
+       1 15   8     2     < 8  -> lo = 9
+       9 15  12     6     < 8  -> lo = 13
+      13 15  14     8     >= 8 -> hi = 14   (14 is not in m; keep going)
+      13 14  13     8     >= 8 -> hi = 13
+      13 13               answer 13
+      staircase for mid = 12, starting at m[2][0] = 12:
+        12 <= 12: +3, right    13 > 12: up    11 <= 12: +2, right
+        13 > 12: up            9 <= 12: +1, right (off the grid)    count = 6
+    code:
+      - file: P03BsCount.java
+        region: matrix
+        title: K-th smallest in a sorted matrix
+        tag: memorise
+      - file: P03BsCount.java
+        region: pairs
+        title: K-th smallest pair distance
+        tag: example
+      - file: P03BsCount.java
+        region: median
+        title: "Median of two sorted arrays: search the cut"
+        tag: variant
+    time: O(n log R)
+    space: O(1)
+    cost_note: R is the value range; log₂ R counts of O(n) each. Sorting adds O(n log n). The median search is O(log min(n, m)).
+    variants:
+      - "Multiplication table (LC 668): row i holds i, 2i, …, n·i, so `count(v)` is the sum of `min(v / i, n)` over rows i = 1..m."
+      - "Find the duplicate number (LC 287): n + 1 values in 1..n. The duplicate is the smallest v with more than v values ≤ v; O(n log n) time, O(1) space, array untouched."
+      - "K-th smallest prime fraction: the same with a real-valued v ([[bs-real]])."
+      - "The k-th largest of an array you can hold in memory: use [[quickselect]] or a heap ([[top-k]])."
+    traps:
+      - "`(lo + hi) / 2` rounds toward zero: for lo = -3, hi = -2 it gives -2 = hi, and `hi = mid` loops forever. `lo + (hi - lo) / 2` gives -3."
+      - "Returning `mid` as soon as `count(mid) == k`: mid may not be a candidate (in the trace, count(14) = 8 but 14 is not in the matrix). Keep shrinking to the smallest such v."
+      - "In the median search, call it with the shorter array as `a`; otherwise `j = half - i` can go negative."
+    practice: [find-the-duplicate-number, kth-smallest-element-in-a-sorted-matrix, kth-smallest-number-in-multiplication-table, find-k-th-smallest-pair-distance, median-of-two-sorted-arrays]
+
+  - id: custom-sort
+    title: Custom sort and comparators
+    signal: "Sort by a rule of your own: several keys, frequency, or a+b against b+a."
+    spot:
+      - "*Arrange* the items to form the largest or smallest result, or *sort by X, then by Y*."
+      - Sort by frequency, by a custom alphabet, by a column of a 2D array, or by distance.
+      - You still need the original positions after sorting (sort an index array).
+    idea: |
+      A comparator returns a negative number when `a` goes first, a positive one when `b`
+      goes first, and 0 for a tie. Build it key by key: compare the first key, and only
+      on a tie compare the next.
+
+      For *largest number*, use the exchange argument. Swapping two neighbours `a` and
+      `b` changes only their part of the string, so `a` belongs first exactly when
+      `a + b > b + a`. The test is transitive (it orders numbers by the fraction
+      a / (10^len(a) − 1)), so sorting by it is valid. Any other order has a neighbour
+      pair in the wrong order, and swapping it never makes the string smaller, so the
+      sorted order is the best.
+
+      In Java, `Arrays.sort(int[])` takes no comparator, so box to `Integer[]` or sort an
+      index array. Sorting objects is stable (TimSort): ties keep
+      their input order. A comparator must be consistent: `compare(a, b)` has the
+      opposite sign of `compare(b, a)`, and a < b, b < c must give a < c.
+    trace_title: "LC 179: nums = [3, 30, 34, 5, 9]"
+    trace: |
+      a    b    a+b    b+a    goes first
+      3    30   330    303    3
+      3    34   334    343    34
+      30   34   3034   3430   34
+      5    9    59     95     9
+      34   5    345    534    5
+      sorted: [9, 5, 34, 3, 30]  ->  "9534330"
+    code:
+      - file: P03CustomSort.java
+        region: largest
+        title: Largest number
+        tag: memorise
+      - file: P03CustomSort.java
+        region: keys
+        title: Two keys (frequency, then value)
+        tag: memorise
+      - file: P03CustomSort.java
+        region: rows
+        title: Columns, helpers and index sorts
+        tag: usage
+    time: O(n log n)
+    space: O(n)
+    cost_note: O(n log n) comparisons; in LC 179 each one builds two strings of at most 20 characters.
+    variants:
+      - "Custom alphabet (LC 791): compare letters by their position in the given order."
+      - "Relative sort array (LC 1122): key = index in `arr2` if present, else `1000 + value`."
+      - "Queue reconstruction by height (LC 406): sort by height down, then k up, and insert each person at index k of a list."
+      - "Reorder log files (LC 937): letter-logs by content, then identifier; digit-logs after them in input order, which a stable sort keeps."
+    traps:
+      - "`(x, y) -> x - y` overflows: `Integer.MIN_VALUE - 1` wraps to a positive number, so 1 is put before `Integer.MIN_VALUE`. Use `Integer.compare(x, y)`."
+      - "A comparator that never returns 0, such as `(x, y) -> x < y ? -1 : 1`, breaks the contract. TimSort can throw *Comparison method violates its general contract!*; it did in most of our runs on 100 values from 0..4."
+      - "`Arrays.sort(nums, comparator)` on an `int[]` does not compile; box to `Integer[]` first or sort indices."
+      - "Largest number with only zeros: `[0, 0]` must give \"0\", not \"00\"."
+    practice: [relative-sort-array, sort-array-by-increasing-frequency, largest-number, reorder-data-in-log-files, queue-reconstruction-by-height, rank-teams-by-votes]
+
+  - id: merge-sort
+    title: Merge sort with counting
+    signal: Count pairs i < j with a[i] > a[j] (or a[i] > 2·a[j]) in O(n log n).
+    spot:
+      - "*Count inversions*, *reverse pairs*, *count of smaller numbers after self*: a condition on pairs with i < j."
+      - n reaches 5·10⁴ to 10⁵, so the O(n²) double loop times out.
+      - "You need a guaranteed O(n log n) sort, or you are sorting a linked list (no random access)."
+    idea: |
+      Merge sort splits `[lo, hi)` at `mid`, sorts both halves, then merges them with
+      two pointers. Every pair `i < j` is looked at on exactly one level: the one where
+      `i` and `j` first land in different halves. At that moment both halves are sorted,
+      which makes counting cheap.
+
+      When the merge takes a right element `a[j]` before what is left of the left half,
+      `a[j]` is smaller than all of `a[i..mid)`, so it adds `mid - i` inversions at once.
+      Take equal values from the left (`<=`) so equal pairs are not counted.
+
+      For count-of-smaller-after-self you need one count per original index, so sort an
+      array of indices by value and add to `cnt[idx[i]]`. For reverse pairs the test
+      `a[i] > 2 * a[j]` does not follow the merge order, so count first with a separate
+      two-pointer pass over the two sorted halves, then merge. There are log₂ n levels
+      and each does O(n) work.
+    trace_title: "Count inversions of a = [5, 2, 6, 1, 3]"
+    trace: |
+      range  left     right      merged           added
+      [0,2)  [5]      [2]        [2, 5]           +1   2 jumps 5
+      [3,5)  [1]      [3]        [1, 3]           +0
+      [2,5)  [6]      [1, 3]     [1, 3, 6]        +2   1 and 3 jump 6
+      [0,5)  [2, 5]   [1, 3, 6]  [1, 2, 3, 5, 6]  +3   1 jumps 2 and 5; 3 jumps 5
+      total 1 + 0 + 2 + 3 = 6 inversions
+    code:
+      - file: P03MergeSort.java
+        region: sort
+        title: Sort and count inversions
+        tag: memorise
+      - file: P03MergeSort.java
+        region: smaller
+        title: Count of smaller numbers after self
+        tag: example
+      - file: P03MergeSort.java
+        region: reverse
+        title: "Reverse pairs: count, then merge"
+        tag: example
+    time: O(n log n)
+    space: O(n)
+    cost_note: log₂ n levels, each merging n elements; one shared tmp array of size n; recursion depth log₂ n.
+    variants:
+      - "Count of range sum (LC 327): merge-sort the prefix sums; for each left prefix `p[i]`, two pointers find the right prefixes with lower ≤ p[j] − p[i] ≤ upper."
+      - "Global and local inversions (LC 775): count all inversions with `sortCount` and compare with the adjacent ones."
+      - "Sort list (LC 148): the same merge on a linked list; find the middle with [[fast-slow]], then merge behind a dummy head ([[dummy-merge]])."
+      - "The same counts with a Fenwick tree over compressed values: [[coord-compress]]."
+    traps:
+      - "`a[i] < a[j]` instead of `<=` takes an equal right value first and counts equal pairs: `[2, 2]` gets 1 inversion instead of 0."
+      - "`2 * a[j]` overflows `int` once a[j] ≥ 2³⁰ or a[j] < −2³⁰, and LC 493 allows values up to 2³¹ − 1; write `2L * a[j]`."
+      - "A new temp array in every call allocates O(n log n) cells in total; pass one `tmp` down."
+      - "Inversions reach n²/2 ≈ 2·10¹⁰ for n = 2·10⁵; count in a `long`."
+    practice: [sort-an-array, sort-list, global-and-local-inversions, count-of-smaller-numbers-after-self, reverse-pairs, count-of-range-sum]
+
+  - id: quickselect
+    title: Quickselect
+    signal: K-th smallest or largest, or the k smallest in any order, in expected O(n).
+    spot:
+      - "*K-th largest element*, *k closest points*, the *median*, when the order of the k items does not matter."
+      - One query on an array you may reorder; n up to 10⁵ or 10⁶.
+      - "*Can you solve it without sorting?*: the follow-up wants better than O(n log n)."
+    idea: |
+      Pick a random pivot and partition `[lo, hi]` so smaller values go left and larger
+      ones go right. Only one side can hold index k, so continue there and forget the
+      other; with one side per round, a loop replaces the recursion.
+
+      The partition is Hoare-style: `i` scans right past values `< pivot`, `j` scans left
+      past values `> pivot`, and the two are swapped. Both scans stop on values *equal*
+      to the pivot, so equal values spread over both sides. Lomuto's one-scan partition
+      is shorter but sends every equal value to one side; on 2000 equal values it took
+      1.5 million steps to find the middle one.
+
+      A random pivot lands in the middle half of the values half the time, and then at
+      most 3/4 of the range is kept. So on average two rounds cut the range to 3/4, and
+      the expected work is at most 2n(1 + 3/4 + (3/4)² + …) = 8n. O(n²) needs bad
+      pivots round after round, which is very unlikely.
+    trace_title: "LC 215: a = [3, 2, 1, 5, 6, 4], 2nd largest = kthSmallest(a, 4)"
+    trace: |
+      lo hi pivot  a after partition     j  i   next
+       0  5   3    [1, 2, 3, 5, 6, 4]    1  2   k >= i -> lo = 2
+       2  5   4    [1, 2, 3, 4, 6, 5]    3  4   k >= i -> lo = 4
+       4  5   6    [1, 2, 3, 4, 5, 6]    4  5   k <= j -> hi = 4
+       4  4                                     lo == hi: a[4] = 5
+      (pivots from one seeded run; another run picks others, same answer)
+    code:
+      - file: P03Quickselect.java
+        region: select
+        title: Quickselect (k-th smallest)
+        tag: memorise
+      - file: P03Quickselect.java
+        region: closest
+        title: K closest points to the origin
+        tag: example
+    time: O(n) expected
+    space: O(1)
+    cost_note: "Expected O(n): the median of 10⁶ values took about 3.6n comparisons. Worst case O(n²); a size-k heap is O(n log k)."
+    variants:
+      - "Heap instead: a max-heap of size k keeps the k smallest in O(n log k). It works on a stream and has no O(n²) case; see [[top-k]]."
+      - "Median (LC 462, minimum moves to equal array elements II): select index n/2, then add up |a[i] − median|."
+      - "Wiggle sort II (LC 324): find the median with quickselect, then a three-way partition around it ([[dutch-flag]]) on virtual indices."
+      - "K-th largest integer as strings (LC 1985): the same loop with a comparator: shorter is smaller, equal lengths compare as strings."
+    traps:
+      - "A fixed pivot (`a[hi]` or `a[lo]`) on sorted input removes one element per round: O(n²). Always pick it at random."
+      - "Lomuto on many equal values is quadratic even with a random pivot; use the two-scan partition above or a three-way partition."
+      - "LC 215's k is 1-based and counts from the largest, so the index to select is `n - k`."
+      - "`while (a[i] <= pivot) i++` (with `<=`) can run past the end when the pivot is the maximum; the scans must stop on equal values."
+    practice: [kth-largest-element-in-an-array, k-closest-points-to-origin, minimum-moves-to-equal-array-elements-ii, find-the-kth-largest-integer-in-the-array, wiggle-sort-ii]
+
+  - id: bucket-sort
+    title: Counting sort and buckets
+    signal: "Small integer keys (counts, letters): index an array, skip comparisons."
+    spot:
+      - Values in a small range (letters, 1..100, a count from 1 to n), so an array indexed by value replaces sorting.
+      - "*Top k frequent*, *sort by frequency*: every frequency lies between 1 and n."
+      - "*Linear time and linear extra space* is required (LC 164), so O(n log n) sorting is not allowed."
+    idea: |
+      Any comparison sort needs about n log₂ n comparisons at worst. You avoid them when
+      the key can index an array. Counting sort fills `cnt[v]` for each value v in a range
+      of size K, then writes each value `cnt[v]` times in order: O(n + K).
+
+      A frequency is a key from 1 to n, so a value can go into `bucket[f]` by how often
+      it appears. Reading the buckets from `f = n` down gives values from most to least
+      frequent in O(n), without sorting the frequencies.
+
+      Maximum gap uses the pigeonhole principle. n values in `[min, max]` leave n − 1
+      gaps that add up to max − min, so the largest gap is at least
+      (max − min) / (n − 1). Make buckets of `width = max(1, (max - min) / (n - 1))`.
+      Two values in one bucket differ by less than `width`, which is at most the answer,
+      so the answer lies between buckets: a non-empty bucket's min minus the previous
+      non-empty bucket's max.
+    trace_title: "LC 164: a = [1, 14, 3, 9, 6, 2]"
+    trace: |
+      n = 6, min = 1, max = 14, width = 13 / 5 = 2, buckets = 13 / 2 + 1 = 7
+      bucket  range    values  min  max
+        0     1..2     1, 2     1    2
+        1     3..4     3        3    3
+        2     5..6     6        6    6
+        3     7..8     -
+        4     9..10    9        9    9
+        5     11..12   -
+        6     13..14   14      14   14
+      gaps between buckets: 3-2 = 1, 6-3 = 3, 9-6 = 3, 14-9 = 5  -> answer 5
+    code:
+      - file: P03BucketSort.java
+        region: topk
+        title: "Top k frequent: buckets by frequency"
+        tag: memorise
+      - file: P03BucketSort.java
+        region: chars
+        title: Sort characters by frequency
+        tag: example
+      - file: P03BucketSort.java
+        region: gap
+        title: "Maximum gap: pigeonhole buckets"
+        tag: example
+    time: O(n + K)
+    space: O(n + K)
+    cost_note: K is the key range; 128 characters, n + 1 frequencies, or fewer than 2n gap buckets.
+    variants:
+      - "H-index (LC 274): counts in buckets 0..n, with every paper of ≥ n citations in bucket n; walk down from n until the running total reaches the bucket index."
+      - "Height checker (LC 1051): counting sort of heights 1..100, then compare with the input."
+      - "Contains duplicate III (LC 220): buckets of width `valueDiff + 1` over a sliding window of `indexDiff`; a match sits in the same or a neighbouring bucket."
+      - "Top k with a heap instead: O(n log k), see [[top-k]]."
+    traps:
+      - "A bucket array sized by the number of distinct values instead of n + 1: a value seen n times indexes past the end."
+      - "`(max - min) / (n - 1)` is 0 when the values are close together; without `Math.max(1, ...)` the bucket index divides by zero."
+      - "Counting sort over values up to 10⁹ allocates gigabytes. It pays only when K is about n or less; otherwise sort normally, or index by rank ([[coord-compress]])."
+    practice: [height-checker, sort-characters-by-frequency, top-k-frequent-elements, h-index, maximum-gap, contains-duplicate-iii]
+
+  - id: coord-compress
+    title: Coordinate compression
+    signal: Huge values where only the order matters; map them to ranks 0..m − 1.
+    spot:
+      - Values up to 10⁹ or below 0, n ≤ 10⁵, and you want an array or a Fenwick tree indexed by value.
+      - "Only comparisons between values matter, never their size: *rank*, *count smaller*, *how many before*."
+      - Interval ends or rectangle corners on a huge grid, with only a few hundred distinct coordinates.
+    idea: |
+      Sort a copy and remove duplicates; a value's position in that list is its rank.
+      Ranks keep the order (`a[i] < a[j]` exactly when `rank[i] < rank[j]`), equal values
+      get equal ranks, and the ranks run from 0 to m − 1 with m ≤ n. Any algorithm that
+      only compares values gives the same answer on the ranks.
+
+      This matters because a Fenwick tree ([[fenwick]]) or a count array needs one slot
+      per possible value. For values up to 10⁹ that is 4 GB of `int`s; for ranks it is
+      n + 1 slots. To count inversions, walk from the right and ask the tree how many
+      ranks below the current one are already in it.
+
+      Each lookup is a binary search in the unique list, O(log m). Every value is in the
+      list, so `Arrays.binarySearch` is safe here. For a value that may be missing (a
+      query point between coordinates), use [[lower-bound]].
+    trace_title: "a = [1000000000, -7, 42, -7, 500]"
+    trace: |
+      sorted = [-7, -7, 42, 500, 1000000000]
+      unique = [-7, 42, 500, 1000000000]     m = 4
+      rank   = [3, 0, 1, 0, 2]
+      inversions, right to left; the tree holds the ranks seen so far:
+      i  a[i]        rank  ranks below already in tree   total
+      4  500          2    0                             0
+      3  -7           0    0                             0
+      2  42           1    1  (the -7 at i = 3)          1
+      1  -7           0    0                             1
+      0  1000000000   3    4                             5
+    code:
+      - file: P03CoordCompress.java
+        region: compress
+        title: Sort, unique, binary search
+        tag: memorise
+      - file: P03CoordCompress.java
+        region: fenwick
+        title: Inversions with a Fenwick tree over ranks
+        tag: example
+    time: O(n log n)
+    space: O(n)
+    cost_note: One sort plus n binary searches; the Fenwick tree then does O(log n) per step on n + 1 slots.
+    variants:
+      - "Rank transform of an array (LC 1331): the ranks plus 1."
+      - "A `HashMap<Integer, Integer>` from value to rank, filled after the unique step: O(1) lookups, but more memory and boxing."
+      - "2D: compress x and y separately. Rectangle area II (LC 850) then works on a grid of at most 2n × 2n cells, each with its real width and height."
+      - "Falling squares (LC 699): compress the left and right edges, then use a plain array or a [[segment-tree]] over the compressed points."
+    traps:
+      - "Skipping the unique step: the ranks get gaps. Rank transform (LC 1331) on `[40, 10, 10, 30]` then gives `[4, 2, 2, 3]`, not `[3, 1, 1, 2]`."
+      - "Querying with a value that was not compressed: `binarySearch` returns a negative number. Add every query value before compressing, or use a lower bound."
+      - "Updating Fenwick slot 0: `p += p & -p` adds 0 and loops forever. Rank r goes to slot r + 1."
+      - "Grid problems need the real distances: cell i is `xs[i + 1] - xs[i]` wide, not 1."
+    practice: [rank-transform-of-an-array, count-number-of-teams, minimum-number-of-operations-to-make-array-continuous, rectangle-area-ii, falling-squares, number-of-pairs-satisfying-inequality]

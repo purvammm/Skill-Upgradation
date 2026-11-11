@@ -1,0 +1,766 @@
+intro: >-
+  Every subtree is a tree, so most tree answers are built by combining what the two
+  children report, or by passing state down the path from the root. The first eight
+  windows use LeetCode's `TreeNode`; the last five mostly take a general tree as n and an edge
+  list, walk it once without recursion, and then answer subtree, ancestor and
+  every-root questions in O(n) or O(log n) each. Reach for this part when the input is a
+  `TreeNode root`, or n nodes joined by exactly n − 1 edges.
+
+patterns:
+  - id: tree-traversal
+    title: Preorder, inorder, postorder
+    signal: Visit every node in root-left-right, left-root-right or left-right-root order, by recursion or with your own stack.
+    spot:
+      - "*Return the inorder (preorder, postorder) traversal*, often with the follow-up *recursion is trivial, could you do it iteratively?*"
+      - A BST question that needs the values in sorted order. Inorder visits them smallest first.
+      - "The tree can be a chain, so its height can reach n, and n can be 10⁴ or 10⁵."
+    idea: |
+      All three orders come from one recursive walk. The only difference is where the
+      node is recorded: before both subtrees (pre), between them (in) or after both
+      (post). Each node is entered once and the call stack holds one root-to-node path,
+      so the walk costs O(n) time and O(h) space for a tree of height h.
+
+      The iterative versions keep that stack themselves. Inorder pushes the whole left
+      spine, pops the deepest node, records it and moves to its right child. The
+      invariant is that the stack holds exactly the ancestors whose left side is still
+      being visited. Preorder pops a node, records it, and pushes the right child before
+      the left, so the left comes off first. Postorder (left, right, root) is
+      root-right-left read backwards: run preorder with the two pushes swapped and
+      prepend each value. The last-visited version records a node only when its right
+      child is missing or is the node it recorded last.
+    trace_title: "inorder(root), root = [4, 2, 6, 1, 3, 5]; stack bottom to top"
+    trace: |
+      push    pop  out                 stack   cur = right child
+      4 2 1   1    [1]                 [4, 2]  null
+      -       2    [1, 2]              [4]     3
+      3       3    [1, 2, 3]           [4]     null
+      -       4    [1, 2, 3, 4]        []      6
+      6 5     5    [1, 2, 3, 4, 5]     [6]     null
+      -       6    [1, 2, 3, 4, 5, 6]  []      null
+    code:
+      - file: P08TreeTraversal.java
+        region: recursive
+        title: One recursive walk, three orders
+        tag: memorise
+      - file: P08TreeTraversal.java
+        region: inorder
+        title: Iterative inorder (push the left spine)
+        tag: memorise
+      - file: P08TreeTraversal.java
+        region: prepost
+        title: Iterative preorder and postorder
+        tag: variant
+    time: O(n)
+    space: O(h)
+    cost_note: Every node is pushed and popped once. The stack holds one root-to-node path, so h is about log n when balanced and n for a chain.
+    variants:
+      - "Morris inorder, O(1) extra space: before going left, point the rightmost node of the left subtree back at the current node. When that link brings you back to the node, remove it, record the node and go right."
+      - "Recover a BST with two swapped values: inorder with a `prev` pointer. The swapped pair shows up where `prev.val > cur.val`, once if they are adjacent in inorder, twice otherwise."
+      - "Flatten to a linked list in preorder: visit right, left, root (preorder backwards) and set each node's `right` to the node visited before it and its `left` to null."
+      - "Postorder the short way: the preorder loop with `st.push(t.left)` before `st.push(t.right)`, and `out.addFirst(t.val)` into a `LinkedList`. Root-right-left read backwards is left-right-root."
+    traps:
+      - "Preorder that pushes the left child before the right pops the right one first: `[1, 2, 3]` comes out as `[1, 3, 2]`."
+      - "Inorder with `while (!st.isEmpty())` and no `cur != null ||` stops as soon as popping the root empties the stack. If you push the root first, `[4, 2, 6, 1, 3, 5]` returns `[1, 2, 3, 4]` and the right subtree is lost."
+      - "Recursion depth is the height. On a 10⁴-node chain the recursive walk threw `StackOverflowError` under Java's default 1 MB thread stack in testing; the iterative versions handled 10⁵."
+      - "Reversed postorder with `ArrayList.add(0, x)` shifts the whole list each time: O(n²). Use `LinkedList.addFirst`, or append and reverse once."
+    practice: [binary-tree-inorder-traversal, binary-tree-preorder-traversal, binary-tree-postorder-traversal, flatten-binary-tree-to-linked-list, recover-binary-search-tree]
+
+  - id: level-order
+    title: Level order (BFS by levels)
+    signal: Anything per depth of a binary tree, such as each level as a list, the last node of each level, zigzag order or the widest level.
+    spot:
+      - "*Level by level, from left to right*, *zigzag*, *right side view*, *average* or *largest value in each row*."
+      - "The answer is a `List<List<Integer>>` with one inner list per depth, or one number per depth."
+      - "*Width* counts the gaps between the two end nodes, as if the level were part of a full binary tree."
+    idea: |
+      A queue hands out nodes in order of depth: each node is queued after its parent's
+      whole level, so depth d comes out before depth d + 1. Read `q.size()` when a level
+      starts. At that moment the queue holds exactly that level, so polling `size` nodes
+      takes the level and nothing else, while their children wait behind it. Each node
+      is queued and polled once: O(n). Right side view and zigzag only post-process the
+      levels: take the last value of each, or reverse every second one.
+
+      For width, number the nodes as in a heap: the children of `i` are `2i + 1` and
+      `2i + 2`, and a level's width is `last - first + 1`, gaps included. The numbers
+      double on each level and would need hundreds of bits on a deep, thin tree.
+      Subtracting the level's first index before numbering the children keeps each
+      number at most twice the width of the level above.
+    trace_title: "widthOfBinaryTree on [1, 3, 2, 5, null, null, 9, 6, null, 7]"
+    trace: |
+      level  size  values   index -> rebased    last  width  best
+      0      1     [1]      0->0                0     1      1
+      1      2     [3,2]    1->0  2->1          1     2      2
+      2      2     [5,9]    1->0  4->3          3     4      4
+      3      2     [6,7]    1->0  7->6          6     7      7
+      The values column is levelOrder: [[1], [3, 2], [5, 9], [6, 7]].
+    code:
+      - file: P08LevelOrder.java
+        region: levels
+        title: Level order with the level size
+        tag: memorise
+      - file: P08LevelOrder.java
+        region: views
+        title: Right side view; zigzag
+        tag: variant
+      - file: P08LevelOrder.java
+        region: width
+        title: Maximum width with rebased indices
+        tag: variant
+    time: O(n)
+    space: O(w)
+    cost_note: Each node is queued and polled once. The queue holds at most one level plus its children; w, the widest level, can be about n/2. The returned lists hold n values.
+    variants:
+      - "Average, maximum or sum of each level (LC 637, 515, 1161): the same loop with a running total or maximum instead of a list."
+      - "Minimum depth: return the depth of the first leaf polled. BFS reaches the shallowest leaf before any deeper node."
+      - "Populating next right pointers: inside the level loop, link each polled node to the next one; the last node of the level keeps `null`."
+      - "Bottom-up level order (LC 107): build the same list and reverse it once at the end."
+    traps:
+      - "`for (int i = 0; i < q.size(); i++)` reads the size again while children are being added: on [3, 9, 20, null, null, 15, 7] the levels come out `[[3, 9], [20, 15], [7]]`."
+      - "Zigzag by changing which child is queued first breaks the next level: on [1, 2, 3, 4, 5, 6, 7] the last level comes out `[6, 7, 4, 5]` instead of `[4, 5, 6, 7]`. Keep the queue order; reverse only what you write."
+      - "Width is not the number of nodes on a level: in the trace the last level has 2 nodes but width 7."
+      - "Right side view is not the right spine: on [1, 2, 3, 4], following `.right` gives `[1, 3]`, but 4 sticks out on the left, so the answer is `[1, 3, 4]`."
+    practice: [average-of-levels-in-binary-tree, binary-tree-level-order-traversal, binary-tree-right-side-view, binary-tree-zigzag-level-order-traversal, maximum-level-sum-of-a-binary-tree, maximum-width-of-binary-tree]
+
+  - id: tree-bottom-up
+    title: Return a value up the tree
+    signal: A node's answer comes from its children's answers, as with height, balance, diameter, or subtree sums and counts.
+    spot:
+      - "*Height*, *maximum depth*, *balanced*, *diameter*, *tilt*, or *count the nodes whose subtree* has some property."
+      - Each node needs one or two numbers from each child and nothing from its parent.
+      - "The best answer need not pass through the root, as with the diameter, which can bend at any node."
+    idea: |
+      Write a function that returns one fact about a subtree and computes it from the
+      facts of the two children; height is `1 + max(left, right)`. This is a postorder:
+      a node finishes after both children, so their values are ready when it needs them.
+      Each node does O(1) work, so the whole tree costs O(n).
+
+      Balance needs more than the height: a tree is balanced only if every node is. So
+      `height` returns −1 as soon as one subtree fails, and every caller passes the −1
+      straight up. One int carries both the height and the verdict.
+
+      The diameter is the longest path between any two nodes. Its highest node is where
+      it bends, and there its length is left height + right height. So `depth` returns
+      the height, since only one side can continue up to the parent, and records `l + r`
+      in a field at every node. The largest value recorded is the answer.
+    trace_title: "diameterOfBinaryTree on [1, 2, 3, 4, 5], nodes in finishing order"
+    trace: |
+      node  l   r   l + r  returns  best
+      4     0   0   0      1        0
+      5     0   0   0      1        0
+      2     1   1   2      2        2
+      3     0   0   0      1        2
+      1     2   1   3      3        3
+      The longest path, 4-2-1-3 or 5-2-1-3, has 3 edges.
+    code:
+      - file: P08BottomUp.java
+        region: depth
+        title: Height; balanced with −1
+        tag: memorise
+      - file: P08BottomUp.java
+        region: diameter
+        title: "Diameter: return height, record l + r"
+        tag: memorise
+    time: O(n)
+    space: O(h)
+    cost_note: One postorder pass with O(1) work per node; the recursion holds one root-to-leaf path.
+    variants:
+      - "Return two values when one is not enough: `int[] {sum, count}` for *count nodes equal to the average of their subtree*."
+      - "Distribute coins: return a subtree's coins minus its size. That many coins cross the edge to the parent, so add `|left| + |right|` moves at each node."
+      - "Tilt: return the subtree sum and add `|left sum - right sum|` to a field."
+      - "Arms with negative values that may be dropped, and paths scored by sums: [[max-path-sum]]."
+    traps:
+      - "Checking balance only at the root: [1, 2, 2, 3, null, null, 3, 4, null, null, 4] has equal heights under the root, so that check says true; the tree is not balanced."
+      - "`maxDepth(root.left) + maxDepth(root.right)` measures only paths through the root: [1, 2, null, 3, 4, 5, null, null, 6] gives 3, but the diameter is 4 and bends at node 2."
+      - "LeetCode runs all test cases in one JVM, so a `static` field keeps its value from the previous case. Reset `best` at the start of every call."
+      - "Recursion depth is the height. In testing, `maxDepth` handled a 10⁴-node chain on Java's default 1 MB thread stack but overflowed at 5·10⁴; for deeper trees, use the iterative postorder of [[tree-traversal]]."
+    practice: [maximum-depth-of-binary-tree, balanced-binary-tree, diameter-of-binary-tree, binary-tree-tilt, count-nodes-equal-to-average-of-subtree, distribute-coins-in-binary-tree]
+
+  - id: max-path-sum
+    title: Maximum path sum (one arm up)
+    short: Maximum path sum
+    signal: The best path anywhere in the tree, with any start and any end, scored by its values or by its length under a rule.
+    spot:
+      - "*The path may start and end at any node* and *does not need to pass through the root*."
+      - Values can be negative, so the best path may leave out an arm, or be a single node.
+      - "*Longest path* in which neighbours must be equal (univalue) or different (adjacent characters)."
+    idea: |
+      Every path has one highest node, where it bends, and from there at most two
+      downward arms. So compute `gain(t)` for every node: the best downward path that
+      starts at t. It is `t.val` plus the better child gain, where a negative gain
+      becomes 0 (leave that arm off).
+
+      Each node then gives two numbers. The best path bending at t is `t.val + l + r`,
+      which goes into the global `best`. The parent gets `t.val + max(l, r)`, because it
+      can extend only one arm; a path that kept both would fork. Every node takes its
+      turn as the bend, so one O(n) postorder finds the answer. Longest univalue path
+      works the same way; an arm only continues into a child with an equal value.
+    trace_title: "maxPathSum on [1, -2, 3, 4, -5, -6, 2]: 8, the path 4, -2, 1, 3, 2"
+    trace: |
+      node  l        r        t + l + r        returns  best
+      4     -        -        4 + 0 + 0 = 4    4        4
+      -5    -        -        -5 + 0 + 0 = -5  -5       4
+      -2    4        -5 -> 0  -2 + 4 + 0 = 2   2        4
+      -6    -        -        -6 + 0 + 0 = -6  -6       4
+      2     -        -        2 + 0 + 0 = 2    2        4
+      3     -6 -> 0  2        3 + 0 + 2 = 5    5        5
+      1     2        5        1 + 2 + 5 = 8    6        8
+    code:
+      - file: P08MaxPathSum.java
+        region: maxpath
+        title: Binary tree maximum path sum
+        tag: memorise
+      - file: P08MaxPathSum.java
+        region: univalue
+        title: Longest univalue path
+        tag: variant
+    time: O(n)
+    space: O(h)
+    cost_note: One postorder pass with O(1) work per node; the call stack holds one root-to-leaf path.
+    variants:
+      - "General tree, longest path with different adjacent characters (LC 2246): keep the two longest child arms that pass the rule; `best = max(best, 1 + top1 + top2)` and return `1 + top1`. Fill them children-first over the order of [[tree-edges]]."
+      - "Longest zigzag path: return two arms, one that starts by going left and one that starts by going right. `goLeft = 1 + left.goRight`, `goRight = 1 + right.goLeft`."
+      - "The diameter is this pattern with every value 1, minus 1 because it counts edges ([[tree-bottom-up]])."
+      - "Count paths with a given sum instead of finding the best: prefix sums on the root path ([[path-sum]])."
+    traps:
+      - "Starting `best` at 0: a tree of only negative values, such as [-3], returns 0, but a path has at least one node, so the answer is −3."
+      - "Returning `t.val + l + r` to the parent: on [1, 2, 3, 4, 5] node 2 hands up the forked path 4-2-5 and the root reports 15; the answer is 11."
+      - "In univalue, recursing only into children with the same value skips paths further down: on [1, 2, null, 2, null, 2] the chain of 2s is never reached and the answer is 0 instead of 2."
+      - "`gain` recurses as deep as the tree. A 3·10⁴-node chain, which LC 124 allows, overflowed Java's default 1 MB thread stack in testing; if that happens, compute the gains in the iterative postorder of [[tree-traversal]]."
+    practice: [longest-univalue-path, longest-zigzag-path-in-a-binary-tree, binary-tree-maximum-path-sum, longest-path-with-different-adjacent-characters]
+
+  - id: path-sum
+    title: Root-to-leaf paths and path sums
+    short: Path sums
+    signal: Paths that go down the tree; list the root-to-leaf paths with a property, build a number along them, or count downward paths with a given sum.
+    spot:
+      - "*Root-to-leaf path*: a leaf has no children, and the path must end at one."
+      - "*Return all paths* as a list of lists, or *the sum of all root-to-leaf numbers*."
+      - "*The path does not need to start at the root or end at a leaf, but it must go downwards*: count, do not list."
+    idea: |
+      Pass state down as parameters: the sum still needed, or the number built so far,
+      `sofar * 10 + t.val`. To list paths, share one `path` list. Add t on the way in and
+      remove it on the way out, so `path` always holds the root-to-t path. At a leaf with
+      the right sum, store a copy. This is backtracking ([[subsets]]) on a tree.
+
+      For downward paths that may start anywhere, use prefix sums along the root path
+      ([[prefix-hash]]). Let `cur` be the sum from the root to t. A path that ends at t
+      and starts right below ancestor a has sum `cur - prefix(a)`, so the paths ending at
+      t with sum target are counted by how many ancestors have prefix `cur - target`. The
+      map must hold t's ancestors only: add `cur` before visiting the children and take
+      it out after. Each node then does O(1) map work, O(n) in total, instead of trying
+      every start in O(n·h).
+    trace_title: "pathSumAny(root, 8), root = [10, 5, -3, 3, 2, null, 11, 3, -2, null, 1]"
+    trace: |
+      node  root path      cur  cur - 8  count  path found
+      10    [10]           10   2        0
+      5     [10,5]         15   7        0
+      3     [10,5,3]       18   10       1      [5, 3]
+      3     [10,5,3,3]     21   13       0
+      -2    [10,5,3,-2]    16   8        0
+      2     [10,5,2]       17   9        0
+      1     [10,5,2,1]     18   10       1      [5, 2, 1]
+      -3    [10,-3]        7    -1       0
+      11    [10,-3,11]     18   10       1      [-3, 11]
+      total 3; count = how many ancestors have prefix cur - 8
+    code:
+      - file: P08PathSum.java
+        region: paths
+        title: Path sum II with backtracking
+        tag: memorise
+      - file: P08PathSum.java
+        region: numbers
+        title: Sum root to leaf numbers
+        tag: variant
+      - file: P08PathSum.java
+        region: prefix
+        title: "Path sum III: prefix sums on the path"
+        tag: memorise
+    time: O(n)
+    space: O(n)
+    cost_note: Path sum III does O(1) map work per node; a key whose count drops to 0 stays, so the map can reach n keys. Path sum II also copies every matching path, O(h) per copy.
+    variants:
+      - "Path sum I (is there such a path?): return `true` at the first leaf where `remain == 0`."
+      - "Binary numbers on the paths (LC 1022): `sofar * 2 + t.val`."
+      - "Pseudo-palindromic paths: pass a bit mask of digit parities down. At a leaf the path can be rearranged into a palindrome iff `(mask & (mask - 1)) == 0`."
+      - "Binary tree paths as strings: the same backtracking with a `StringBuilder`; undo with `setLength`."
+    traps:
+      - "`out.add(path)` without a copy stores the same list every time. It is empty when the walk ends, so LC 113 sample 1 returns `[[], []]`."
+      - "Testing `remain == 0` at a `null` child instead of at a leaf accepts nodes with one child: [1, 2] with target 1 reports the path [1], but 1 is not a leaf."
+      - "Without `seen.put(0L, 1)` no path can start at the root: LC 437 sample 2 gives 1 instead of 3. Keep the sums `long` too; in `int`, LC 437's chain of 10⁹ values wraps and gives 2 instead of 0."
+      - "Without the decrement on the way back, a sibling's prefix stays in the map: on [-2, 1, 0] with target −1 the count is 2 (a bogus 1 → 0 across the root) instead of 1."
+    practice: [path-sum, binary-tree-paths, sum-of-root-to-leaf-binary-numbers, sum-root-to-leaf-numbers, path-sum-ii, path-sum-iii]
+
+  - id: bst-ops
+    title: Binary search tree operations
+    short: BST operations
+    signal: A binary search tree; find, insert or delete a key, check the BST rule, or read the values in sorted order.
+    spot:
+      - "*Binary search tree*: every key in the left subtree is smaller than the node and every key in the right subtree is larger."
+      - "Search, insert, delete, *k-th smallest*, or *an iterator over the BST in sorted order*."
+      - "*Validate*: decide whether any binary tree follows the rule, with values from −2³¹ to 2³¹ − 1."
+    idea: |
+      The BST rule turns every operation into a walk down one path. At each node the key
+      is either here, in the left subtree if smaller, or in the right if larger. Search
+      and insert cost O(h): O(log n) on a balanced tree, O(n) on a chain.
+
+      Delete has three cases. A node with no left child is replaced by its right
+      subtree, and the mirror case likewise. A node with two children takes the value of
+      its successor, the smallest key on its right (one step right, then left to the
+      end), and the successor is deleted from the right subtree. It has no left child,
+      so that second delete is an easy case.
+
+      To validate, comparing a node with its children is not enough: the rule is about
+      whole subtrees. Pass down the open range `(lo, hi)` that the ancestors allow;
+      going left sets `hi = t.val`, going right sets `lo = t.val`. Inorder visits a BST
+      in increasing order, so the k-th pop of the iterative inorder is the k-th smallest.
+    trace_title: "delete(root, 3) on [5, 3, 6, 2, 4, null, 7]; then validate another tree"
+    trace: |
+      delete(5, 3): 3 < 5, go left
+        delete(3, 3): found, 2 children: successor 4, copy it here
+          delete(4, 4): found, no left child: return its right child, null
+      result (5 (4 (2 # #) #) (6 # (7 # #))) = [5, 4, 6, 2, null, null, 7]
+      ---- isValidBST([5, 4, 6, null, null, 3, 7]) ----
+      5 in (-inf, +inf)? true
+      4 in (-inf, 5)? true
+      6 in (5, +inf)? true
+      3 in (5, 6)? false
+    code:
+      - file: P08BstOps.java
+        region: ops
+        title: Search and insert
+        tag: memorise
+      - file: P08BstOps.java
+        region: delete
+        title: Delete with the successor
+        tag: memorise
+      - file: P08BstOps.java
+        region: validate
+        title: Validate with long bounds; k-th smallest
+        tag: memorise
+    time: O(h)
+    space: O(h)
+    cost_note: Search, insert and delete walk one root-to-leaf path. h is about log n for random inserts and n for sorted ones; validate is O(n), k-th smallest O(h + k).
+    variants:
+      - "Range sum of a BST: skip the left subtree when `t.val < low` and the right one when `t.val > high`."
+      - "BST iterator (LC 173): keep the inorder stack as a field. The constructor pushes the left spine; `next()` pops t, pushes the left spine of `t.right` and returns `t.val`. O(h) memory and O(1) amortised per call."
+      - "Inorder successor of a node: the leftmost node of its right subtree if it has one, else the last ancestor at which the search went left."
+      - "No tree given, but you need floor, ceiling or ordered keys? Java's `TreeMap` and `TreeSet` are balanced BSTs ([[ordered-map]])."
+    traps:
+      - "Comparing each node only with its children: [5, 4, 6, null, null, 3, 7] passes that check, but 3 is in the right subtree of 5 (the trace)."
+      - "`int` bounds that start at `Integer.MIN_VALUE` reject the valid tree [-2147483648], because `t.val <= lo` is true. Use `long` bounds, or `Integer` bounds with `null` for none."
+      - "After copying the successor, `t.right = delete(t.right, key)` looks for the old key, which is not on the right: deleting 3 from [5, 3, 6, 2, 4, null, 7] leaves two 4s."
+      - "Sorted inserts build a chain, so h = n and the recursive insert and delete go n calls deep. With n near 10⁴ or more, walk down with a loop as `search` does."
+    practice: [search-in-a-binary-search-tree, insert-into-a-binary-search-tree, validate-binary-search-tree, kth-smallest-element-in-a-bst, delete-node-in-a-bst, binary-search-tree-iterator]
+
+  - id: lca
+    title: Lowest common ancestor
+    signal: The deepest node that has both p and q in its subtree; also the path, distance or directions between two nodes.
+    spot:
+      - "*Lowest common ancestor of p and q*, where a node counts as a descendant of itself."
+      - "A path between two nodes: it climbs from one to their LCA and goes down to the other, so lengths and directions come from it."
+      - In a BST, the values alone say which side p and q are on.
+    idea: |
+      Each call answers *is p or q in this subtree?* with a node: t itself if t is p or
+      q, null for an empty subtree, else a combination of its children. If both sides
+      return non-null, p and q are on different sides, so t is the lowest node above
+      both. If one side found something, pass it up: p, q, or an LCA found lower down.
+
+      Returning at p without looking below it is safe. If q is under p, p is the answer;
+      if not, another branch finds q and the two meet higher up. Each node is visited at
+      most once: O(n).
+
+      In a BST, both values below `t.val` put the LCA on the left, both above put it on
+      the right, and anything else means t separates them: an O(h) walk.
+
+      The path from s to d climbs to the LCA, then goes down. Written as L and R moves,
+      the two root-to-node paths share a prefix that leads to the LCA.
+    trace_title: "lowestCommonAncestor(p = 6, q = 2), root = [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]"
+    trace: |
+      node  left   right  returns          (in finishing order)
+      6     -      -      6 (it is p, stop)
+      2     -      -      2 (it is q, stop; 7 and 4 are never visited)
+      5     6      2      5 (both sides: the LCA)
+      0     null   null   null
+      8     null   null   null
+      1     null   null   null
+      3     5      null   5
+    code:
+      - file: P08Lca.java
+        region: binary
+        title: LCA in a binary tree
+        tag: memorise
+      - file: P08Lca.java
+        region: directions
+        title: Step-by-step directions (LC 2096)
+        tag: example
+      - file: P08Lca.java
+        region: bst
+        title: LCA in a BST
+        tag: memorise
+    time: O(n)
+    space: O(h)
+    cost_note: The binary tree version visits each node at most once; the BST walk is O(h); directions makes two root-to-node searches.
+    variants:
+      - "LCA of the deepest leaves (LC 1123): each subtree returns `(depth, node)`. Equal depths on both sides make t the answer; otherwise pass up the deeper side."
+      - "Distance between p and q: `depth(p) + depth(q) - 2 * depth(lca)`."
+      - "With parent pointers: walk p and q up together; when one passes the root, restart it at the other node. They meet at the LCA, as two linked lists meet at their intersection."
+      - "Many LCA queries on a large general tree: [[binary-lifting]] answers each in O(log n), and [[euler-tour]] gives the ancestor test in O(1)."
+    traps:
+      - "The template assumes p and q are both in the tree. If q is missing it returns p as if p were the LCA; when that can happen, count how many of the two you actually found."
+      - "In the BST walk, `||` instead of `&&`: for p = 2 and q = 8 in [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], `p.val < t.val || q.val < t.val` goes left at 6 and returns 2 instead of 6."
+      - "Directions built as `path + \"L\"` copy the string at every level, O(n²) on a chain. LC 2096 allows 10⁵ nodes, so a chain also means a recursion 10⁵ deep; if `find` overflows, fill a parent map with a loop and climb up from s and d."
+    practice: [lowest-common-ancestor-of-a-binary-search-tree, lowest-common-ancestor-of-a-binary-tree, lowest-common-ancestor-of-deepest-leaves, step-by-step-directions-from-a-binary-tree-node-to-another]
+
+  - id: tree-build
+    title: Build and serialize a tree
+    signal: Rebuild a binary tree from two traversals, or turn a tree into a string and back.
+    spot:
+      - "*Construct the binary tree from preorder and inorder* (or inorder and postorder); *values are unique*."
+      - "*Serialize and deserialize*: you design the format, and decoding must give back the same tree."
+      - "n up to 3000, so even an O(n²) inorder search for each root passes."
+    idea: |
+      Preorder lists a root before its whole subtree; inorder lists the left subtree,
+      the root, then the right subtree. So the next preorder value is the root, and its
+      position `mid` in inorder splits the range into the left subtree `[lo, mid - 1]`
+      and the right subtree `[mid + 1, hi]`. Build the left side first: preorder lists
+      all of it before the right, so one counter `next` always points at the root of
+      the range being built. A `HashMap` from value to inorder index makes each step
+      O(1), so the build is O(n).
+
+      One traversal alone does not fix the shape: preorder `1, 2` fits 2 as either
+      child. A marker for every null child removes the doubt. Reading the tokens back in
+      order rebuilds the tree: each token is a null, or a node followed by its subtrees.
+    trace_title: "buildTree(pre = [3, 9, 20, 15, 7], in = [9, 3, 15, 20, 7])"
+    trace: |
+      in range   next  root  mid  left range     right range
+      [0, 4]     0     3     1    [0, 0] [9]     [2, 4] [15,20,7]
+      [0, 0]     1     9     0    -              -
+      [2, 4]     2     20    3    [2, 2] [15]    [4, 4] [7]
+      [2, 2]     3     15    2    -              -
+      [4, 4]     4     7     4    -              -
+      tree [3, 9, 20, null, null, 15, 7]; serialize: 3,9,#,#,20,15,#,#,7,#,#,
+    code:
+      - file: P08TreeBuild.java
+        region: build
+        title: Preorder + inorder with an index map
+        tag: memorise
+      - file: P08TreeBuild.java
+        region: serialize
+        title: "Serialize: preorder with # for null"
+        tag: memorise
+      - file: P08TreeBuild.java
+        region: deserialize
+        title: Deserialize in the same order
+        tag: memorise
+    time: O(n)
+    space: O(n)
+    cost_note: Each value is placed once with an O(1) map lookup; the map and the token queue hold n entries, the recursion one path.
+    variants:
+      - "Inorder + postorder (LC 106): take roots from the end of postorder and build the **right** subtree first."
+      - "Preorder + postorder (LC 889): the value after the root in preorder is the left child, and its position in postorder gives the size of the left subtree. The tree may not be unique."
+      - "BST from preorder alone (LC 1008): pass an upper bound down and take the next value while it is below the bound; O(n), no inorder needed. The same idea lets a BST serialize without null markers (LC 449)."
+      - "LeetCode's level-order strings such as `[1,2,null,3]`: BFS, write both children of each polled node, and read them back two at a time ([[level-order]])."
+    traps:
+      - "Building `t.right` before `t.left` takes the wrong values as roots: on the LC 105 sample it runs past the end of preorder with `ArrayIndexOutOfBoundsException`."
+      - "`next` and `pos` are static. Without the reset at the top of `buildTree`, a second test case starts at the old index."
+      - "Without null markers the string is ambiguous: `1,2` decodes the same whether 2 was a left or a right child, so the round trip can fail."
+      - "Repeated values break the index map: a value's inorder position is no longer unique, so the build can split at the wrong place."
+    practice: [construct-binary-search-tree-from-preorder-traversal, construct-binary-tree-from-preorder-and-inorder-traversal, construct-binary-tree-from-inorder-and-postorder-traversal, construct-binary-tree-from-preorder-and-postorder-traversal, serialize-and-deserialize-bst, serialize-and-deserialize-binary-tree]
+
+  - id: tree-edges
+    title: General tree from an edge list
+    short: Trees as edge lists
+    signal: A tree given as n and n − 1 edges; you need parents, depths, subtree sizes or a children-first pass, with n up to 10⁵.
+    spot:
+      - "*n nodes labelled 0 to n − 1 and n − 1 edges*, *rooted at node 0*, with each edge in no particular direction."
+      - "n up to 10⁵: a recursive DFS on a path of that length can overflow Java's stack."
+      - "The answer adds up over subtrees: apples below a node, people in a subtree, labels below, sizes."
+    idea: |
+      Store the tree as adjacency lists. Each edge goes into both lists, because the input
+      does not say which end is the parent. A DFS with an explicit stack from the root
+      then fixes the direction: when v is popped, every neighbour except `parent[v]` is a
+      child, so it gets `parent = v` and `depth[v] + 1`. A tree has no cycles, so skipping
+      the parent is enough to never meet a node twice.
+
+      `order[]` lists nodes as they are popped. Every node is pushed by its parent, so a
+      parent always comes before its children, and read backwards the children always
+      come first. That is all a bottom-up pass needs. Subtree sizes take one loop that adds
+      `size[v]` into `size[parent[v]]`, and the same loop shape combines anything else:
+      apples below, people crossing an edge, label counts.
+
+      Each node is pushed once and each edge is read from both ends, so the walk is O(n).
+      The only stack is a `Deque` on the heap, which holds 10⁵ nodes without trouble.
+    trace_title: "walk(g, 0), edges = [[0,1], [0,2], [1,4], [1,5], [2,3], [2,6]]; stack bottom to top"
+    trace: |
+      pop  parent  depth   push   stack after
+      0    -1      0       1 2    [1, 2]
+      2    0       1       3 6    [1, 3, 6]
+      6    2       2       -      [1, 3]
+      3    2       2       -      [1]
+      1    0       1       4 5    [4, 5]
+      5    1       2       -      [4]
+      4    1       2       -      []
+      order [0, 2, 6, 3, 1, 5, 4]; backwards: 4 5 1 3 6 2 0
+      size  [7, 3, 3, 1, 1, 1, 1]  (by node 0..6)
+    code:
+      - file: P08TreeEdges.java
+        region: adjacency
+        title: Adjacency lists from an edge list
+        tag: memorise
+      - file: P08TreeEdges.java
+        region: walk
+        title: "Iterative walk: parent, depth, order, size"
+        tag: memorise
+      - file: P08TreeEdges.java
+        region: apples
+        title: Minimum time to collect all apples
+        tag: example
+    time: O(n)
+    space: O(n)
+    cost_note: Every node is pushed and popped once and every edge is read from both ends; parent, depth, order and size are four int arrays.
+    variants:
+      - "Minimum fuel cost (LC 2477): the `size[v]` people of v's subtree all cross the edge to `parent[v]`, in `(size[v] + seats - 1) / seats` cars. The answer is that sum over every v except the root."
+      - "Same label in the subtree (LC 1519): an `int[26]` count per node. Walking `order` backwards, add each node's counts into its parent's; the answer for v is its count of its own label."
+      - "Reorder routes to city 0: walk from 0; an original road `[a, b]` with `parent[b] == a` points away from 0 and must be reversed. K-divisible components (LC 2872): count the nodes whose subtree sum is divisible by k."
+      - "A parent array instead of edges (LC 2049): build child lists from `parents[]`. Removing v leaves parts of size `size[child]` and `n - size[v]`."
+    traps:
+      - "Assuming `edges[i][0]` is the parent: LC 1443 has edges `[[0, 2], [0, 3], [1, 2]]`, where 1 hangs below 2. With an apple only at 1 that version answers 0 instead of 4."
+      - "Leaving `parent[root]` at 0 instead of −1: the size loop adds the root into itself, and `size[0]` comes out 14 for the 7-node trace."
+      - "A recursive DFS overflowed Java's default 1 MB thread stack in testing on a path of 10⁴ nodes. The iterative walk handles 10⁵."
+      - "Fuel needs ceiling division, `(size[v] + seats - 1) / seats`, and a `long` total: one seat per car on a 10⁵-node path costs 4,999,950,000 litres."
+    practice: [reorder-routes-to-make-all-paths-lead-to-the-city-zero, minimum-time-to-collect-all-apples-in-a-tree, number-of-nodes-in-the-sub-tree-with-the-same-label, count-nodes-with-the-highest-score, minimum-fuel-cost-to-report-to-the-capital, maximum-number-of-k-divisible-components]
+
+  - id: binary-lifting
+    title: Binary lifting (k-th ancestor, LCA)
+    short: Binary lifting
+    signal: Many queries on a fixed tree, such as the k-th ancestor of v or the LCA of a pair, each answered in O(log n).
+    spot:
+      - "Up to 5·10⁴ or 10⁵ queries on a tree of up to 10⁵ nodes, so climbing one parent at a time (O(n) per query) is too slow."
+      - "*k-th ancestor*, *LCA of many pairs*, or questions about the path between two nodes (its length, the weights on it)."
+      - The tree does not change between queries.
+    idea: |
+      Store `up[j][v]`, the ancestor 2^j levels above v, or −1 if there is none. Row 0 is
+      the parent array. A jump of 2^j is two jumps of 2^(j−1), so
+      `up[j][v] = up[j-1][up[j-1][v]]`, and each row is built from the finished row below
+      it. With 2^LOG ≥ n the table has n·LOG entries: O(n log n) time and memory.
+
+      To go k levels up, write k in binary and make one jump per set bit; 13 = 8 + 4 + 1
+      is three jumps. That is at most LOG jumps.
+
+      For the LCA of a and b, first lift the deeper one to the other's depth. If they meet,
+      that node is the answer. Otherwise try the jumps from the largest down, and take a
+      jump only if a and b land on different nodes. The LCA and everything above it are
+      shared, so a jump that keeps them apart stays below the LCA. After the last jump
+      they are two different children of the LCA, which is `up[0][a]`.
+    trace_title: "edges [[0,1], [1,2], [2,3], [3,4], [4,5], [1,6], [6,7], [3,8]], root 0, LOG = 4"
+    trace: |
+      v            0  1  2  3  4  5  6  7  8
+      depth        0  1  2  3  4  5  2  3  4
+      up[0]  +1   -1  0  1  2  3  4  1  6  3
+      up[1]  +2   -1 -1  0  1  2  3  0  1  2
+      up[2]  +4   -1 -1 -1 -1  0  1 -1 -1  0
+      up[3]  +8   -1 -1 -1 -1 -1 -1 -1 -1 -1
+      kthAncestor(5, 5), 5 = 101b: up[0][5] = 4, then up[2][4] = 0
+      lca(5, 7): lift 5 by 2 to 3, depth 3 like 7
+        j = 3, 2: both land on -1, stay;  j = 1: both land on 1, stay
+        j = 0: up[0][3] = 2, up[0][7] = 6 differ, jump; answer up[0][2] = 1
+    code:
+      - file: P08BinaryLifting.java
+        region: lift
+        title: The up table and the k-th ancestor
+        tag: memorise
+      - file: P08BinaryLifting.java
+        region: lca
+        title: LCA by lifting
+        tag: memorise
+      - file: P08BinaryLifting.java
+        region: equilibrium
+        title: Edge weight equilibrium queries
+        tag: example
+    time: O(log n) each
+    space: O(n log n)
+    cost_note: Building the table is O(n log n) time and memory; a k-th ancestor query makes at most LOG jumps and an LCA query at most 2·LOG.
+    variants:
+      - "LC 1483 wraps the same code in a class: build `up` in the constructor from `parent`, and answer `getKthAncestor` with the bit loop."
+      - "Path minimum, maximum or sum: store with each jump the value over the edges it covers, `mn[j][v] = min(mn[j-1][v], mn[j-1][up[j-1][v]])`, and combine them while lifting."
+      - "Counts on a path need no lifting beyond the LCA: keep counts on each root path, as in the equilibrium code; the path a-b has `cnt[a] + cnt[b] - 2 * cnt[lca]`."
+      - "One successor per node, cycles allowed (the ball passing game, LC 2836): the same table jumps k steps in O(log k). There k reaches 10¹⁰, so LOG must cover k, not n."
+    traps:
+      - "`LOG = (int) (Math.log(n) / Math.log(2))` is 2 for n = 5, so a jump of 4 has no row: on the path 0-1-2-3-4, `kthAncestor(4, 4)` throws `ArrayIndexOutOfBoundsException`. Grow LOG until `1 << LOG >= n`."
+      - "Filling the table with v in the outer loop reads entries of nodes not done yet: for parent `[-1, 2, 3, 0, 0]` the 4th ancestor of node 1 comes out 0 instead of −1. Loop over j outside."
+      - "Without `if (a == b) return a` after the first lift, the loop never moves when b is an ancestor of a, and the answer is b's parent: `lca(5, 3)` in the trace tree gives 2 instead of 3."
+    practice: [kth-ancestor-of-a-tree-node, minimum-edge-weight-equilibrium-queries-in-a-tree, maximize-value-of-function-in-a-ball-passing-game]
+
+  - id: tree-dp
+    title: Tree DP (take or skip a node)
+    short: Tree DP
+    signal: Optimise a choice made at every node, such as rob it or not, or put a camera there or not, when neighbours restrict each other.
+    spot:
+      - "*No two directly linked nodes* may both be chosen: houses, halved prices, an independent set."
+      - "Every node must be covered by a chosen node at distance at most 1: cameras, guards."
+      - "Taking every other level fails on small examples; what a node may do depends on what its children did."
+    idea: |
+      Solve each subtree once for every state its root can be in, and return all the
+      answers. For house robber the states are *robbed* and *not robbed*. If t is robbed
+      its children are not: `take = t.val + l[1] + r[1]`. If not, each child is free:
+      `skip = max(l) + max(r)`. The rest of the tree meets the subtree only through t's
+      state, so these two numbers are all the parent needs, at O(1) per node.
+
+      Cameras need three states: t has a camera, t is covered by a child's camera, or t
+      is not covered yet and its parent must cover it. A null child counts as covered but
+      cannot hold a camera, so its camera state is `INF`. On a general tree, fill the
+      states children-first over the `order` of [[tree-edges]], read backwards.
+    trace_title: "rob(root), root = [3, 4, 5, 1, 3, null, 1]; pairs are [take, skip]"
+    trace: |
+      node        left     right    take            skip          returns
+      1 under 4   [0, 0]   [0, 0]   1 + 0 + 0 = 1   0 + 0 = 0     [1, 0]
+      3 under 4   [0, 0]   [0, 0]   3 + 0 + 0 = 3   0 + 0 = 0     [3, 0]
+      4 under 3   [1, 0]   [3, 0]   4 + 0 + 0 = 4   1 + 3 = 4     [4, 4]
+      1 under 5   [0, 0]   [0, 0]   1 + 0 + 0 = 1   0 + 0 = 0     [1, 0]
+      5 under 3   [0, 0]   [1, 0]   5 + 0 + 0 = 5   0 + 1 = 1     [5, 1]
+      3 (root)    [4, 4]   [5, 1]   3 + 4 + 1 = 8   4 + 5 = 9     [8, 9]
+      answer max(8, 9) = 9: rob 4 and 5
+    code:
+      - file: P08TreeDp.java
+        region: rob
+        title: "House robber III: {take, skip}"
+        tag: memorise
+      - file: P08TreeDp.java
+        region: cameras
+        title: "Binary tree cameras: three states"
+        tag: variant
+      - file: P08TreeDp.java
+        region: mis
+        title: Max weight independent set, general tree
+        tag: example
+    time: O(n)
+    space: O(h)
+    cost_note: O(1) work per state per node. The binary versions recurse one path deep; the general version keeps two long arrays, O(n).
+    variants:
+      - "Cameras greedily: put a camera at a node only when a child is uncovered, and return one of three codes (needs cover, covered, has camera). Same answer, one int per node."
+      - "Minimize the total price of the trips (LC 2646): count how many trips pass each node, then run take/skip where *take* halves a node's price and its neighbours must stay full price."
+      - "Maximum score after operations (LC 2925): `keep[v]`, the least value left in v's subtree so every root-to-leaf path keeps a node, is `val[v]` at a leaf, else `min(val[v], sum of keep[children])`. The answer is total − keep[root]."
+      - "More states when the rule needs them: the distance to the nearest chosen node, a count of chosen nodes, or a parity."
+    traps:
+      - "Taking every other level: on [4, 1, null, 2, null, 3] the levels give max(4 + 2, 1 + 3) = 6, but robbing 4 and 3, which are not linked, gives 7."
+      - "`rob(t) = max(t.val + rob(grandchildren), rob(children))` without a memo solves each node again from its parent and its grandparent; on a chain the calls grow like Fibonacci numbers."
+      - "`Integer.MAX_VALUE` as INF overflows when 1 is added: [0, null, 0] answers −2147483648 instead of 1. Use an INF with headroom, such as `1 << 20`."
+      - "At the root, taking the min of all three camera states counts *not covered*: [0] returns 0. Nobody is above the root, so only the first two states count."
+    practice: [house-robber-iii, maximum-score-after-applying-operations-on-a-tree, binary-tree-cameras, minimize-the-total-price-of-the-trips]
+
+  - id: rerooting
+    title: Rerooting (every node as root)
+    short: Rerooting
+    signal: The same tree question asked once for every possible root, such as the sum of distances, edges to flip, correct guesses or height.
+    spot:
+      - "*For each node i, return ...*: an answer array of length n with n up to 3·10⁴ or 10⁵, so a separate DFS from every node, O(n²), is too slow."
+      - "*Which nodes could be the root?* or *the best root*."
+      - Moving the root across one edge changes the answer in a way you can compute in O(1).
+    idea: |
+      Solve for one root, node 0, with the children-first pass of [[tree-edges]]. Then
+      move the root along the edges, parents first, and compute `ans[v]` from
+      `ans[parent[v]]`. When the root moves from p to its child v, only the edge (p, v)
+      turns around. Every other edge keeps its direction relative to the root, so the
+      change depends only on the two sides of that edge, `size[v]` nodes and
+      `n - size[v]` nodes, and costs O(1).
+
+      For the sum of distances, `ans[0]` is the sum of all depths. Moving to v brings
+      v's `size[v]` nodes one step closer and the other `n - size[v]` one step further:
+      `ans[v] = ans[p] - size[v] + (n - size[v])`. For edge reversals, an edge that points
+      down (p → v) was fine for root p and must flip for root v: +1. One that points up:
+      −1.
+    trace_title: "sumOfDistancesInTree(6, [[0,1], [0,2], [2,3], [2,4], [2,5]]); order [0, 2, 5, 4, 3, 1]"
+    trace: |
+      v   parent  depth  size  ans[v] = ans[parent] - size + (n - size)
+      0   -1      0      6     sum of depths = 8
+      2   0       1      4     8 - 4 + 2 = 6
+      5   2       2      1     6 - 1 + 5 = 10
+      4   2       2      1     6 - 1 + 5 = 10
+      3   2       2      1     6 - 1 + 5 = 10
+      1   0       1      1     8 - 1 + 5 = 12
+      answer [8, 12, 6, 10, 10, 10]
+    code:
+      - file: P08Rerooting.java
+        region: distances
+        title: Sum of distances in tree
+        tag: memorise
+      - file: P08Rerooting.java
+        region: reversals
+        title: Minimum edge reversals for every root
+        tag: variant
+      - file: P08Rerooting.java
+        region: guesses
+        title: Count the possible roots (guesses)
+        tag: example
+    time: O(n)
+    space: O(n)
+    cost_note: One walk for root 0 and one O(1) update per edge; the guess set adds O(g) for g guesses.
+    variants:
+      - "When the value for a root is a maximum (height from every root for minimum height trees, max price sum), removing v from p's answer needs the best child other than v: keep the top two child values per node and use the second when the best came through v."
+      - "Count possible roots (LC 2581): when the root moves from p to v, guess `[p, v]` stops being true and `[v, p]` becomes true, as in `rootCount`."
+      - "Answers for every node that depend on all other nodes: first work out what crossing one edge changes, before writing n DFS runs."
+    traps:
+      - "Updating in label order, `for (v = 1; v < n; v++)`, instead of over `order[]` reads `ans[parent]` before it is set: on edges [[0, 2], [2, 1]] node 1 gets 1 instead of 3."
+      - "A BFS from every node is O(n²): about 9·10⁸ steps at n = 3·10⁴, far over the time limit."
+      - "`q[0] * n + q[1]` in `int` overflows at n = 10⁵, since 10¹⁰ > 2³¹. Cast to `long` before multiplying, as `rootCount` does."
+      - "The sum of distances fits `int` for LC 834 (a 3·10⁴-node path gives 449,985,000), but a 10⁵-node path reaches about 5·10⁹: use `long` for larger n."
+    practice: [minimum-height-trees, sum-of-distances-in-tree, minimum-edge-reversals-so-every-node-is-reachable, count-number-of-possible-root-nodes, difference-between-maximum-and-minimum-price-sum]
+
+  - id: euler-tour
+    title: Euler tour (subtree = range)
+    short: Euler tour
+    signal: Turn every subtree into one contiguous block of positions, so the ancestor test is O(1) and subtree queries become range queries.
+    spot:
+      - "Queries or updates on *the subtree of v* (a sum, XOR or count), mixed with point updates."
+      - "Many *is u an ancestor of v* tests, such as trying every pair of removed edges with n ≤ 1000."
+      - "An edge weight changes, and with it the root distance of every node below it: a range update over a subtree."
+    idea: |
+      Number the nodes in DFS preorder: `tin[v]` is v's position. A DFS finishes v's
+      whole subtree before it moves on, so the subtree fills the positions `tin[v]` to
+      `tout[v] = tin[v] + size[v] - 1`. The stack walk of [[tree-edges]] does the same:
+      when v is popped its children go on top, and nothing below them comes off until
+      all of v's descendants are done. So its `order[]` is the tour, with no recursion.
+
+      Now u is an ancestor of v exactly when `tin[v]` is inside u's block, an O(1) test,
+      and a subtree question is a range question over positions. Without updates the
+      children-first pass already gives subtree sums; with point updates, a Fenwick tree
+      ([[fenwick]]) answers each one in O(log n).
+    trace_title: "tour(g, 0), edges [[0,1], [0,2], [1,4], [1,5], [2,3], [2,6]]; order [0, 2, 6, 3, 1, 5, 4]"
+    trace: |
+      v   val  tin   tout  size order[tin..tout]  subtreeSum
+      0   5    0     6     7    [0,2,6,3,1,5,4]   28
+      1   1    4     6     3    [1,5,4]           10
+      2   4    1     3     3    [2,6,3]           13
+      3   2    3     3     1    [3]               2
+      4   3    6     6     1    [4]               3
+      5   6    5     5     1    [5]               6
+      6   7    2     2     1    [6]               7
+      isAncestor(2, 6) = true, isAncestor(1, 6) = false
+      add(6, 10): subtreeSum(2) = 23, subtreeSum(1) = 10, subtreeSum(0) = 38
+    code:
+      - file: P08EulerTour.java
+        region: tour
+        title: tin, tout and the ancestor test
+        tag: memorise
+      - file: P08EulerTour.java
+        region: removals
+        title: Minimum score after removals
+        tag: example
+      - file: P08EulerTour.java
+        region: fenwick
+        title: Subtree sums with point updates
+        tag: variant
+    time: O(n)
+    space: O(n)
+    cost_note: The tour is one O(n) walk and each ancestor test is O(1); a Fenwick update or subtree sum is O(log n); the removals example tries all O(n²) pairs.
+    variants:
+      - "Range update, point query (LC 3515): changing edge (p, v) from w to w' adds w' − w to the root distance of every node in v's subtree. Add at `tin[v]`, subtract at `tout[v] + 1` in a Fenwick over differences; a node's distance is the prefix sum up to `tin[x]`."
+      - "Postorder numbering works too: v's subtree is the block of length `size[v]` that ends at v. LC 3327 builds its DFS string in postorder once and checks each subtree's block for a palindrome ([[rolling-hash]] or [[manacher]])."
+      - "Paths are not ranges in this numbering. For path questions use [[binary-lifting]]."
+      - "The recursive tour sets `tin` on entry and `tout` on exit with one counter. Each subtree is again one block, but it recurses n deep on a path."
+    traps:
+      - "`tout = tin + size` is one too far: node 2's block becomes positions 1 to 4 and takes in node 1 at position 4, so `isAncestor(2, 1)` says true."
+      - "A BFS order is not a tour: in [0, 1, 2, 4, 5, 3, 6] the subtree {1, 4, 5} sits at positions 1, 3 and 4, not in one block."
+      - "A Fenwick tree at position 0 loops forever, since `i += i & -i` never moves from 0. Shift by one, as `add` does with `tin[v] + 1`."
+      - "Removals without the ancestor test treat nested cuts as two separate subtrees: LC 2322 sample 1 gives 1 instead of 9."
+    practice: [minimum-score-after-removals-on-a-tree, shortest-path-in-a-weighted-tree, check-if-dfs-strings-are-palindromes]

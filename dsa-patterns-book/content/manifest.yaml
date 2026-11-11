@@ -1,0 +1,98 @@
+# Book structure. Each part's patterns live in content/partNN.yaml and must use
+# exactly these ids, in this order. Numbering (2.7 etc.) comes from this order.
+title: DSA Patterns in Java
+subtitle: Every common algorithm and problem-solving pattern, with a Java template you can learn by heart.
+for: Purvam Prajapati
+plan_days: 60
+
+parts:
+  - num: 1
+    file: part01.yaml
+    title: Arrays, hashing and prefix sums
+    short: Arrays & hashing
+    color: yellow
+    patterns: [freq-count, seen-map, prefix-sum, prefix-hash, prefix-2d, diff-array, kadane, majority-vote, cyclic-sort, matrix-moves]
+
+  - num: 2
+    file: part02.yaml
+    title: Two pointers and sliding windows
+    short: Two pointers & windows
+    color: peach
+    patterns: [opposite-pointers, k-sum, read-write, dutch-flag, merge-sorted, fixed-window, sliding-window, exactly-k, min-window, window-max]
+
+  - num: 3
+    file: part03.yaml
+    title: Binary search and sorting
+    short: Search & sort
+    color: blue
+    patterns: [lower-bound, rotated-search, bs-answer, bs-real, peak-search, bs-count, custom-sort, merge-sort, quickselect, bucket-sort, coord-compress]
+
+  - num: 4
+    file: part04.yaml
+    title: Stacks, queues and heaps
+    short: Stacks & heaps
+    color: green
+    patterns: [stack-match, expr-eval, next-greater, histogram, contribution, stack-design, top-k, two-heaps, k-way-merge, heap-greedy]
+
+  - num: 5
+    file: part05.yaml
+    title: Linked lists
+    short: Linked lists
+    color: pink
+    patterns: [dummy-merge, list-reverse, fast-slow, gap-pointers, lru-cache]
+
+  - num: 6
+    file: part06.yaml
+    title: Intervals and greedy
+    short: Intervals & greedy
+    color: purple
+    patterns: [merge-intervals, insert-interval, interval-scheduling, sweep-line, jump-greedy, gas-station, two-pass]
+
+  - num: 7
+    file: part07.yaml
+    title: Recursion and backtracking
+    short: Backtracking
+    color: teal
+    patterns: [subsets, subsets-dup, permutations, combination-sum, n-queens, grid-backtrack, palindrome-partition, meet-middle]
+
+  - num: 8
+    file: part08.yaml
+    title: Trees
+    short: Trees
+    color: green
+    patterns: [tree-traversal, level-order, tree-bottom-up, max-path-sum, path-sum, bst-ops, lca, tree-build, tree-edges, binary-lifting, tree-dp, rerooting, euler-tour]
+
+  - num: 9
+    file: [part09a.yaml, part09b.yaml]
+    title: Graphs
+    short: Graphs
+    color: blue
+    patterns: [graph-dfs, graph-bfs, multi-bfs, state-bfs, bipartite, directed-cycle, topo-sort, dag-paths, dsu, dijkstra, zero-one-bfs, bellman-ford, floyd, kruskal, prim, bridges, scc, euler-path]
+
+  - num: 10
+    file: [part10a.yaml, part10b.yaml]
+    title: Dynamic programming
+    short: Dynamic programming
+    color: peach
+    patterns: [dp-recipe, linear-dp, grid-dp, knapsack-01, unbounded-knapsack, lis, lcs, edit-distance, palindrome-dp, interval-dp, stock-dp, bitmask-dp, digit-dp, partition-dp]
+
+  - num: 11
+    file: part11.yaml
+    title: Strings
+    short: Strings
+    color: pink
+    patterns: [expand-center, kmp, z-function, rolling-hash, trie, manacher]
+
+  - num: 12
+    file: part12.yaml
+    title: Math and bits
+    short: Math & bits
+    color: purple
+    patterns: [bit-tricks, xor-tricks, xor-trie, gcd, mod-pow, sieve, ncr-mod, matrix-pow]
+
+  - num: 13
+    file: part13.yaml
+    title: Range queries and ordered maps
+    short: Range queries
+    color: teal
+    patterns: [sparse-table, fenwick, segment-tree, lazy-segtree, ordered-map]
