@@ -1,0 +1,389 @@
+intro: >-
+  Sort by the right key, then make one pass in which every choice is final.
+  A greedy choice is safe when an argument (often an exchange) shows it never blocks
+  an optimal answer, and each window below gives that argument. Reach for this part when the input
+  is a list of [start, end] pairs, a reach or fuel budget along a line, or an array where
+  each position depends on both of its sides.
+
+patterns:
+  - id: merge-intervals
+    title: Merge overlapping intervals
+    signal: A list of [start, end] pairs; combine every group that overlaps into one interval.
+    spot:
+      - "The input is `int[][] intervals` of `[start, end]` pairs in no particular order."
+      - The question says *merge*, *union*, *total time covered* or *remove intervals covered by another*.
+      - n is up to 10⁴ or 10⁵, so one O(n log n) sort fits the budget.
+    idea: |
+      Sort by start. The output list stays sorted and disjoint, and only its last
+      interval can overlap the current one `cur`: every earlier output interval ends
+      before `last` starts, and `last` starts no later than `cur`. So there are two
+      cases. If `cur[0] <= last[1]` they overlap, so set `last[1] = max(last[1], cur[1])`.
+      The `max` matters because `cur` may sit entirely inside `last`. Otherwise there is
+      a gap and `cur` starts a new output interval.
+
+      The comparison decides what *touching* means. LeetCode 56 uses closed intervals,
+      so `[1,4]` and `[4,5]` share the point 4 and merge: use `<=`. Half-open times such
+      as meetings `[9, 10)` and `[10, 11)` do not overlap: use `<`.
+
+      The sort costs O(n log n) and the pass is O(n).
+    trace_title: "intervals = [[8,10], [1,3], [2,6], [15,18], [6,7]]"
+    trace: |
+      sorted: [1,3] [2,6] [6,7] [8,10] [15,18]
+      cur      last    action             out
+      [1,3]    -       first: new         [1,3]
+      [2,6]    [1,3]   2 <= 3: extend     [1,6]
+      [6,7]    [1,6]   6 <= 6: extend     [1,7]
+      [8,10]   [1,7]   8 > 7: new         [1,7] [8,10]
+      [15,18]  [8,10]  15 > 10: new       [1,7] [8,10] [15,18]
+    code:
+      - file: P06MergeIntervals.java
+        region: merge
+        title: Merge intervals
+        tag: memorise
+      - file: P06MergeIntervals.java
+        region: covered
+        title: Remove covered intervals
+        tag: variant
+        note: "An interval is covered when some earlier one (in this order) already reaches its end."
+    time: O(n log n)
+    space: O(n)
+    cost_note: The sort dominates; the output can hold all n intervals.
+    variants:
+      - "Total length covered: merge, then add `end - start` per merged interval, or `end - start + 1` if you count integer points (points that intersect with cars)."
+      - "Partition labels: each letter spans from its first to its last occurrence. Merge those spans and print their lengths."
+      - "Count days without meetings: merge the meetings, then subtract the covered days from the total."
+      - "Intervals arrive one at a time and must stay merged: keep them in a `TreeMap<start, end>` ([[ordered-map]])."
+    traps:
+      - "`last[1] = cur[1]` instead of `Math.max(last[1], cur[1])`: merging `[1,10]` with `[2,3]` shrinks it to `[1,3]`."
+      - "Sorting by end: in `[2,3] [4,5] [1,10]` the last interval overlaps both earlier ones, but the loop only compares it with `[4,5]`, so `[2,3]` survives."
+      - "The comparator `(x, y) -> x[0] - y[0]` overflows when starts are near ±2·10⁹; use `Integer.compare`."
+      - "`<` versus `<=` in the overlap test: check whether touching intervals count as overlapping before you write it."
+    practice: [points-that-intersect-with-cars, merge-intervals, remove-covered-intervals, partition-labels, count-days-without-meetings]
+
+  - id: insert-interval
+    title: Insert and intersect intervals
+    signal: The intervals are already sorted and disjoint; add one interval, or intersect two such lists, in one O(n) pass.
+    spot:
+      - The statement says the intervals are *sorted by start* and *non-overlapping*.
+      - You insert one new interval (merging if needed), or intersect two lists.
+      - There is no need to sort, so the expected cost is O(n) or O(m + n).
+    idea: |
+      In a sorted, disjoint list the intervals that overlap the new one `[s, e]` form
+      one block in the middle. So walk once, in three phases. Phase 1 copies every
+      interval that ends before `s`. Phase 2 absorbs every interval that starts at or
+      before `e`: each one overlaps, so widen `s` and `e` to cover it. Then push
+      `[s, e]`. Phase 3 copies the rest, which all start after `e`. Each interval is
+      read once, so the cost is O(n).
+
+      To intersect two sorted lists `a` and `b`, keep one pointer in each. The common
+      part of `a[i]` and `b[j]` is `[max of the starts, min of the ends]` when that is
+      not empty. Then drop whichever interval ends first. If `a[i]` ends before `b[j]`,
+      it cannot reach `b[j+1]`, which starts after `b[j]` ends.
+    trace_title: "intervals = [[1,2], [3,5], [6,7], [8,10], [12,16]], insert [4,8]"
+    trace: |
+      i  a[i]     phase                        s, e
+      0  [1,2]    1. ends 2 < 4: copy          4, 8
+      1  [3,5]    2. starts 3 <= 8: absorb     3, 8
+      2  [6,7]    2. starts 6 <= 8: absorb     3, 8
+      3  [8,10]   2. starts 8 <= 8: absorb     3, 10
+                  push [3,10]
+      4  [12,16]  3. starts 12 > 10: copy
+      result: [1,2] [3,10] [12,16]
+    code:
+      - file: P06InsertInterval.java
+        region: insert
+        title: "Insert interval: three phases"
+        tag: memorise
+      - file: P06InsertInterval.java
+        region: intersect
+        title: Interval list intersections
+        tag: memorise
+    time: O(n)
+    space: O(n)
+    cost_note: Each interval is read once; the output list is the only extra memory. Intersections cost O(m + n).
+    variants:
+      - "Remove a range `[s, e)`: phases 1 and 3 copy as before; in phase 2 keep only the parts that stick out to the left (`[a, s)`) and to the right (`[e, b)`)."
+      - "Many inserts and queries (range module, count integers in intervals): store merged intervals in a `TreeMap<start, end>` and run phase 2 with `floorEntry` and `higherEntry` ([[ordered-map]])."
+      - "My calendar I: a booking `[s, e)` fits if it overlaps no stored booking; two half-open intervals overlap when `max(starts) < min(ends)`."
+    traps:
+      - "Phase 1 tests the *end* (`intervals[i][1] < s`), phase 2 the *start* (`intervals[i][0] <= e`). Writing `intervals[i][0] < s` in phase 1 copies an interval that overlaps the new one."
+      - "Pushing `[s, e]` inside the phase 2 loop, or only when phase 2 ran: an empty list, or a new interval that overlaps nothing, then loses it."
+      - "Intersections: moving the pointer whose interval ends *later* loses overlaps. With `a = [[0,10]]` and `b = [[1,2],[5,6]]`, dropping `a[0]` first misses `[5,6]`."
+    practice: [insert-interval, interval-list-intersections, my-calendar-i, count-integers-in-intervals]
+
+  - id: interval-scheduling
+    title: Interval scheduling (sort by end)
+    signal: Keep the most intervals with no overlap, or find the fewest points that hit every interval.
+    spot:
+      - "*Minimum number of intervals to remove* so the rest do not overlap: n minus the most you can keep."
+      - Fewest arrows, points or stabs so that every interval contains one.
+      - The longest chain in which each pair must start after the previous one ends.
+    idea: |
+      Sort by **end** and walk once. Keep an interval if it does not overlap the last
+      kept one; otherwise drop it. The exchange argument says why the earliest end is
+      safe. Take any best selection. The greedy first pick ends no later than its first
+      interval, so swapping it in keeps every other chosen interval compatible. Repeat
+      for the second pick, and so on: greedy is never behind, so it keeps as many.
+      Sorting by start fails: `[1,100]` starts first and blocks `[2,3]`, `[4,5]`, `[6,7]`.
+
+      The same pass counts arrows. Shoot at the end of each kept interval. Kept
+      intervals are pairwise disjoint, so each needs its own arrow. Each dropped one
+      starts at or before the current arrow and, being later in end order, ends at or
+      after it, so it is already burst. Only the tie rule changes: `>=` when touching
+      intervals may both stay, `>` when a shared point bursts both.
+    trace_title: "intervals = [[1,2], [2,3], [3,4], [1,3]], touching allowed (LC 435)"
+    trace: |
+      sorted by end: [1,2] [2,3] [1,3] [3,4]
+      cur    lastEnd  decision         kept
+      [1,2]  -inf     first: keep      1
+      [2,3]  2        2 >= 2: keep     2
+      [1,3]  3        1 < 3: remove    2
+      [3,4]  3        3 >= 3: keep     3
+      removed = 4 - 3 = 1
+    code:
+      - file: P06IntervalScheduling.java
+        region: erase
+        title: Non-overlapping intervals (remove fewest)
+        tag: memorise
+      - file: P06IntervalScheduling.java
+        region: arrows
+        title: Minimum arrows to burst balloons
+        tag: memorise
+    time: O(n log n)
+    space: O(1)
+    cost_note: Sorting dominates; the pass keeps one number besides the sort's own memory.
+    variants:
+      - "Maximum length of pair chain: `[c, d]` may follow `[a, b]` only if `c > b`. Run the arrows loop and return the count it keeps."
+      - "Activity selection (most meetings in one room): return the kept count itself."
+      - "Every interval must contain at least *two* chosen points (set intersection size at least two): sort by end, and by start descending on ties; add `end - 1` and `end` when an interval has no chosen point, only `end` when it has one."
+      - "Intervals with weights (maximise total profit) break the greedy: use DP over intervals sorted by end, with a binary search for the last compatible one ([[lower-bound]])."
+    traps:
+      - "The comparator `x[1] - y[1]` overflows for balloons near ±2³¹ (LeetCode 452 tests this) and sorts wrongly; use `Integer.compare`."
+      - "Starting `arrow` at `Integer.MIN_VALUE` with the test `s > arrow`: a balloon `[-2³¹, -2³¹]` is never counted. Start from `Long.MIN_VALUE`, or take the first interval before the loop."
+      - "Sorting by start or by length and keeping whatever fits keeps too few; see `[1,100]` above."
+      - "Mixing up `>=` and `>`: LeetCode 435 keeps both `[1,2]` and `[2,3]`; LeetCode 452 bursts both with one arrow at 2."
+    practice: [maximum-length-of-pair-chain, non-overlapping-intervals, minimum-number-of-arrows-to-burst-balloons, set-intersection-size-at-least-two]
+
+  - id: sweep-line
+    title: Sweep line (start and end events)
+    signal: How many intervals are active at the same moment, the peak load, or the outline of their union.
+    spot:
+      - Most intervals overlapping at one point; fewest rooms, groups or platforms.
+      - "A capacity limit along a line: never more than `capacity` passengers in the car."
+      - "The answer is a shape over time: a skyline, a coverage count, the year with the most people alive."
+    idea: |
+      Turn every interval into two events: `+1` at its start and `-1` at its end.
+      Sort the events by position and add them up in that order. After each event the
+      running sum is the number of intervals covering that position, so the peak load
+      is the largest sum. The peak is also the fewest groups: the intervals at the peak
+      share a point, so each needs its own group, and that many groups always suffice.
+
+      Equal positions need a tie rule. With closed intervals `[1,5]` and `[5,8]`, point
+      5 is in both, so `+1` must come before `-1`. With half-open ones (a passenger
+      leaves at `to`), `-1` comes first. Adding up all changes at one position in a
+      `TreeMap` gives the half-open rule for free.
+
+      For the skyline, keep the live heights in a `TreeMap` used as a multiset. If the
+      maximum height differs after all events at x, `[x, max]` is a key point. Sorting
+      2n events costs O(n log n).
+    trace_title: "intervals = [[5,10], [6,8], [1,5], [2,3], [1,10]], closed (LC 2406)"
+    trace: |
+      pos      1   1   2   3   5   5   6   8  10  10
+      event   +1  +1  +1  -1  +1  -1  +1  -1  -1  -1
+      open     1   2   3   2   3   2   3   2   1   0
+      best     1   2   3   3   3   3   3   3   3   3
+      At 5 the +1 of [5,10] comes before the -1 of [1,5]: they share point 5.
+      Answer: 3 groups.
+    code:
+      - file: P06SweepLine.java
+        region: overlap
+        title: Most overlapping intervals (fewest groups)
+        tag: memorise
+      - file: P06SweepLine.java
+        region: carpool
+        title: "Car pooling: net change per stop"
+        tag: variant
+      - file: P06SweepLine.java
+        region: skyline
+        title: The skyline problem
+        tag: variant
+    time: O(n log n)
+    space: O(n)
+    cost_note: Sorting 2n events dominates; the skyline's TreeMap adds O(log n) per event.
+    variants:
+      - "Small coordinates (car pooling stops ≤ 1000, years 1950 to 2050): use a difference array and a prefix sum instead of sorting ([[diff-array]])."
+      - "Fewest rooms for half-open meetings: sort starts and ends separately and walk both; a room frees up when `end[j] <= start[i]`."
+      - "My calendar II: keep a `TreeMap` of net changes, add the new booking, sweep, and undo the booking if the count ever reaches 3."
+      - "Total length of the union: sweep and add `x - prevX` whenever the count before x was above 0."
+    traps:
+      - "Wrong tie order: with `-1` first, `[1,5]` and `[5,10]` look disjoint, so LeetCode 2406 answers 1 group for them instead of 2."
+      - "Skyline: emitting a point per event instead of per position prints pairs like `[2,10], [2,15]`. Finish every event at x, then compare with the previous height."
+      - "Skyline: `live.remove(h)` when two buildings share height h removes both. Keep a count per height."
+      - "Skyline: without the ground `live.put(0, 1)`, `lastKey()` throws once the last building ends."
+    practice: [maximum-population-year, car-pooling, divide-intervals-into-minimum-number-of-groups, my-calendar-ii, the-skyline-problem]
+
+  - id: jump-greedy
+    title: Jump game (farthest reach)
+    signal: From index i you may move up to a[i] steps (or a tap covers a range); can you reach the end, and in how few moves?
+    spot:
+      - "`a[i]` is the *maximum* jump length from index i."
+      - Fewest jumps, video clips or taps needed to cover `[0, n]` or `[0, time]`.
+      - n is up to 10⁴ or 10⁵, so the O(n²) DP over every jump is too slow or close to it.
+    idea: |
+      **Can reach.** Scan left to right keeping `far`, the farthest index reachable from
+      any index seen so far. Invariant: every index up to `far` is reachable, because
+      each reachable `i` adds the whole range `i..i+a[i]` and these ranges join up. So
+      the first `i > far` proves the end is out of reach.
+
+      **Fewest jumps.** This is BFS where each layer is a range of indices. Layer 0 is
+      index 0. While scanning the layer that ends at `end`, track `far`; the next layer
+      is `end+1..far`. When `i` reaches `end`, count a jump and set `end = far`. Each
+      index is scanned once, so the cost is O(n), not O(n²) edges.
+
+      **Covering with ranges** (taps, video clips). Store `reach[x]`, the farthest point
+      a range starting at x covers, then run the same layered scan over positions. If
+      `far` has not passed x when a layer ends, a gap is left: return -1.
+    trace_title: "a = [2, 3, 1, 1, 4], fewest jumps"
+    trace: |
+      i  a[i]  far  i == end?   jumps, end
+      0  2     2    yes: jump   1, 2
+      1  3     4    no          1, 2
+      2  1     4    yes: jump   2, 4
+      3  1     4    no          2, 4
+      answer 2 (0 -> 1 -> 4)
+    code:
+      - file: P06JumpGreedy.java
+        region: canjump
+        title: "Jump game: can you reach the end?"
+        tag: memorise
+      - file: P06JumpGreedy.java
+        region: jumps
+        title: "Jump game II: fewest jumps"
+        tag: memorise
+      - file: P06JumpGreedy.java
+        region: taps
+        title: Fewest taps to water a garden
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: One pass; the taps version adds the `reach` array, O(n).
+    variants:
+      - "Video stitching: clip `[s, e]` sets `reach[s] = max(reach[s], e)` for `s ≤ time`; then run the taps loop up to `time`."
+      - "Jump game III and IV allow backward moves or jumps to equal values, so the reachable set is no longer a prefix: use BFS ([[graph-bfs]])."
+      - "Fewest refuelling stops: you decide which passed stations to use, which is a max-heap greedy ([[heap-greedy]])."
+    traps:
+      - "Jump game II looping to `i < n` instead of `i < n - 1`: when `end` lands on `n - 1`, the extra step counts one jump too many (3 for `[2, 3, 1, 1, 4]`)."
+      - "Updating `far` before testing `i > far`: then `far ≥ i` always holds, and `[0, 1]` reports true."
+      - "Jumping as far as possible each time is wrong. From `[2, 3, 1, 1, 4]` it lands on index 2 and needs 3 jumps; the `far` scan picks the best landing spot in the layer."
+      - "Taps: not clamping `i - r[i]` at 0 gives a negative index; leaving out the `far <= x` check carries on past a gap."
+    practice: [jump-game, jump-game-ii, video-stitching, minimum-number-of-taps-to-open-to-water-a-garden]
+
+  - id: gas-station
+    title: Gas station (running balance)
+    signal: Gains and costs along a route; find where the running balance never drops below zero, resetting when it does.
+    spot:
+      - "A circular route with `gas[i]` gained and `cost[i]` spent per step; travel around once."
+      - Return the start index or -1; the answer is unique if it exists.
+      - Fewest fixes so a running count never goes negative, such as unmatched brackets.
+      - n is up to 10⁵, so trying every start (O(n²)) is too slow.
+    idea: |
+      Let `d[i] = gas[i] - cost[i]`. If the total of `d` is negative, no start works.
+      Otherwise scan once with `tank`, the fuel gathered since `start`. When `tank`
+      drops below 0 at station i, no start in `start..i` can pass i: a later start s
+      only skips `start..s-1`, whose sum is ≥ 0 (or you would have reset there), so
+      it reaches i with no more fuel. Set `start = i + 1` and `tank = 0`.
+
+      Why the last `start` works when the total is ≥ 0: each reset block has a negative
+      sum but no negative prefix, so every suffix of a block is negative. Up to the
+      last station the fuel is `tank`, which stayed ≥ 0. After the wrap, at station k,
+      it is the total minus the stations still ahead, `k+1..start-1`: a block suffix
+      plus whole blocks, all negative. So the fuel is at least the total, hence ≥ 0.
+
+      Brackets reset the same way: `+1` for `(`, `-1` for `)`. At -1 that `)` needs
+      an added `(`: count it and reset to 0.
+    trace_title: "gas = [3, 1, 1, 5, 1], cost = [1, 4, 2, 1, 2]"
+    trace: |
+      i  d = gas - cost  tank  total  action
+      0  3 - 1 = 2          2      2
+      1  1 - 4 = -3        -1     -1  tank < 0: start = 2, tank = 0
+      2  1 - 2 = -1        -1     -2  tank < 0: start = 3, tank = 0
+      3  5 - 1 = 4          4      2
+      4  1 - 2 = -1         3      1
+      total = 1 >= 0 -> answer 3
+      start 0 reaches station 1 with 2 and still fails there; start 1 fails at once
+    code:
+      - file: P06GasStation.java
+        region: gas
+        title: Gas station
+        tag: memorise
+      - file: P06GasStation.java
+        region: parens
+        title: Minimum add to make parentheses valid
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: One pass with two running sums.
+    variants:
+      - "Kadane's maximum subarray is the same loop: reset the running sum when it goes negative and keep the best value seen ([[kadane]])."
+      - "Each `(` needs `))` (minimum insertions): keep `need`, the `)` still owed. `(` adds 2, inserting one `)` first if `need` is odd; `)` subtracts 1, and at -1 insert a `(` and set `need = 1`."
+      - "Minimum swaps to balance `[` and `]`: when a `]` would take the balance below 0, swap it with the last `[`; count a swap and set the balance to 1."
+    traps:
+      - "Returning `start` without the `total >= 0` check: for `gas = [2, 3, 4]`, `cost = [3, 4, 3]` the loop ends with `start = 2`, but the answer is -1."
+      - "Resetting with `start = i` instead of `i + 1`: station i is the one that made the tank negative, so starting there fails at once."
+      - "Brackets: returning only `added` forgets the `(` still open at the end; `\"(((\"` needs 3."
+    practice: [minimum-add-to-make-parentheses-valid, gas-station, minimum-number-of-swaps-to-make-the-string-balanced, minimum-insertions-to-balance-a-parentheses-string]
+
+  - id: two-pass
+    title: "Two passes: left, then right"
+    signal: Each position's answer depends on what lies to its left and what lies to its right.
+    spot:
+      - "A rule about both neighbours: a child rated higher than a neighbour gets more candy."
+      - Water above each bar, the distance to the nearest X on either side, a falling run before a day and a rising run after it.
+      - The naive answer scans both ways from every index, O(n²); the target is O(n).
+    idea: |
+      Split the two-sided rule into two one-sided rules. Pass 1 runs left to right and
+      computes `L[i]` from `L[i-1]`; pass 2 runs right to left and computes `R[i]` from
+      `R[i+1]`. Then combine each position with `max`, `min` or `+`.
+
+      **Candy.** Pass 1 sets `c[i] = c[i-1] + 1` on every rise. Pass 2 does the same
+      from the right and keeps the larger value. Each pass gives a lower bound (a
+      rising run of length k forces k candies at its top), and their max obeys both
+      rules, so the total is the minimum.
+
+      **Trapping rain water.** Bar i holds `min(maxL[i], maxR[i]) - h[i]`, set by the
+      lower of the tallest walls on each side. Two passes fill `maxL` and `maxR`. To
+      drop the arrays, move two pointers inward with running `lMax` and `rMax`. If
+      `lMax < rMax`, the true right maximum of `l` is at least `rMax`, so bar `l` holds
+      exactly `lMax - h[l]`: settle it and move `l`.
+    trace_title: "h = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]"
+    trace: |
+      i       0  1  2  3  4  5  6  7  8  9 10 11
+      h       0  1  0  2  1  0  1  3  2  1  2  1
+      maxL    0  1  1  2  2  2  2  3  3  3  3  3
+      maxR    3  3  3  3  3  3  3  3  2  2  2  1
+      water   0  0  1  0  1  2  1  0  0  1  0  0   total 6
+    code:
+      - file: P06TwoPass.java
+        region: candy
+        title: Candy
+        tag: memorise
+      - file: P06TwoPass.java
+        region: trap
+        title: "Trapping rain water: two passes"
+        tag: memorise
+      - file: P06TwoPass.java
+        region: trap2
+        title: "Trapping rain water: two pointers"
+        tag: variant
+    time: O(n)
+    space: O(n)
+    cost_note: A few linear passes; the arrays cost O(n), the two-pointer version O(1).
+    variants:
+      - "Shortest distance to a character: pass 1 stores `i - (last c on the left)`, pass 2 takes the min with `(next c on the right) - i`."
+      - "Good days to rob the bank: `dec[i]` counts the days right before i that keep falling or stay level (left pass), `inc[i]` the days right after i that keep rising or stay level (right pass); day i is good if both are ≥ time."
+      - "Longest mountain: `up[i]` from the left, `down[i]` from the right; a peak with both above 0 gives a mountain of `up + down + 1`."
+    traps:
+      - "Candy pass 2 writing `c[i] = c[i + 1] + 1` without `max` throws away pass 1: ratings `[1, 2, 3, 1]` give index 2 only 2 candies, the same as index 1."
+      - "Equal ratings need no relation: `[1, 2, 2]` gets `1, 2, 1`. Testing `>=` hands out extra candy."
+      - "Two pointers: adding `lMax - h[l]` before updating `lMax` makes the water negative when `h[l]` is a new maximum."
+    practice: [shortest-distance-to-a-character, find-good-days-to-rob-the-bank, longest-mountain-in-array, candy, trapping-rain-water]

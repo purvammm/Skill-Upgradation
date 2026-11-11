@@ -1,0 +1,479 @@
+intro: >-
+  A backtracking function builds one answer a piece at a time: choose, recurse, undo.
+  The recursion tree has a leaf for every candidate, so the cost is the number of
+  candidates times the work per leaf, and limits like n ≤ 10, n ≤ 16 or n ≤ 20 are the
+  clue. Pruning cuts branches that cannot succeed, and meet in the middle stretches
+  the reach to n ≈ 40.
+
+patterns:
+  - id: subsets
+    title: Subsets (include or exclude)
+    signal: List every subset, or every yes/no choice per element; n ≤ 20.
+    spot:
+      - "*Return all possible subsets (the power set)*; every way to change the case of the letters."
+      - "n is 10 to 20: 2ⁿ fits (2²⁰ ≈ 10⁶ subsets)."
+      - Each element is in or out on its own, or has a small fixed number of choices.
+    idea: |
+      `pick(i)` tries element i both ways: first without it, then with it (add to
+      `path`, recurse, remove). When `i == n` every element is decided, so `path` is one
+      subset. Store a **copy**: `path` is one list shared by the whole search and keeps
+      changing after you store it. The tree is binary with depth n, so it has 2ⁿ
+      leaves, and copying each costs up to n: O(n·2ⁿ). The recursion is only n deep.
+
+      Read the choices at a leaf as binary digits and the leaves come out in counting
+      order: leaf 5 is in, out, in, which is `[1, 3]`. The bitmask loop uses this
+      directly. `mask` runs from 0 to 2ⁿ − 1, and bit i set means `a[i]` is in. It needs
+      no recursion, and it is the form to use when you test every subset, as in
+      [[meet-middle]] and [[bitmask-dp]].
+
+      Letter case permutation is the same tree, with one branch at a digit and two at
+      a letter.
+    trace_title: "a = [1, 2, 3]: leaves in the order pick() reaches them"
+    trace: |
+      leaf  a[0] a[1] a[2]  path
+      0     out  out  out   []
+      1     out  out  in    [3]
+      2     out  in   out   [2]
+      3     out  in   in    [2, 3]
+      4     in   out  out   [1]
+      5     in   out  in    [1, 3]
+      6     in   in   out   [1, 2]
+      7     in   in   in    [1, 2, 3]
+    code:
+      - file: P07Subsets.java
+        region: subsets
+        title: "Subsets: include or exclude"
+        tag: memorise
+      - file: P07Subsets.java
+        region: bitmask
+        title: "Subsets: bitmask loop"
+        tag: memorise
+      - file: P07Subsets.java
+        region: lettercase
+        title: Letter case permutation
+        tag: variant
+    time: O(n·2ⁿ)
+    space: O(n)
+    cost_note: 2ⁿ leaves, each copied in O(n); besides the output, the stack and the path hold n items.
+    variants:
+      - "Sum of all subset XOR totals: pass the running XOR down instead of a path and add it at each leaf."
+      - "Count subsets with a property (maximum bitwise OR, beautiful subsets): return a count from the recursion instead of storing lists, and prune a branch as soon as a choice breaks the rule."
+      - "Subsets of a list with repeated values must not repeat: see [[subsets-dup]]. Subsets of one size k: see [[combination-sum]]."
+    traps:
+      - "`out.add(path)` without a copy: every stored subset is the same list, and at the end they all print as `[]`."
+      - "`path.remove(a[i])` on a `List<Integer>` calls `remove(int index)`: it removes the element at *position* `a[i]`, or throws. Use `path.remove(path.size() - 1)`."
+      - "`1 << n` overflows from n = 31, and above n ≈ 20 the 2ⁿ subsets are too many anyway: try [[meet-middle]] or DP."
+      - "`c[i] ^= 32` swaps case only for ASCII letters. Without the `Character.isLetter` check, `'1'` becomes a control character."
+    practice: [sum-of-all-subset-xor-totals, subsets, letter-case-permutation, count-number-of-maximum-bitwise-or-subsets, the-number-of-beautiful-subsets]
+
+  - id: subsets-dup
+    title: Skip duplicates at the same depth
+    signal: The input has repeated values, and the answer must not list the same subset or combination twice.
+    spot:
+      - The array *may contain duplicates*, and the solution set *must not contain duplicate* subsets or combinations.
+      - Each number may be used once (combination sum II), and the answers are multisets.
+      - "A `HashSet<List<Integer>>` of answers would remove repeats, but only after wasting time on every repeated branch."
+    idea: |
+      Use the loop form. `build(start)` records `path` as a subset, then tries each `i`
+      in `start..n-1` as the **next** element and recurses with `i + 1`. Sort first, so
+      equal values sit side by side. At one depth, taking the first `2` or the second
+      `2` as the next element leads to identical subtrees, so skip `a[i]` when
+      `i > start && a[i] == a[i-1]`.
+
+      The `i > start` part keeps the right answers. The first copy at each depth is
+      always allowed, so the path `[2]` can still take the second `2` one level deeper
+      and make `[2, 2]`. Each distinct multiset is built exactly once, as the sequence
+      that uses the leftmost copies of each value.
+
+      Combination sum II adds a target. Because `a` is sorted, `break` as soon as
+      `a[i] > remain`: every later value is at least as big.
+    trace_title: "a = [1, 2, 2], subsets II"
+    trace: |
+      path       start  loop over i
+      []         0      i=0 take 1, i=1 take 2, i=2 skip
+      [1]        1      i=1 take 2, i=2 skip
+      [1, 2]     2      i=2 take 2
+      [1, 2, 2]  3      -
+      [2]        2      i=2 take 2
+      [2, 2]     3      -
+      output: [[], [1], [1, 2], [1, 2, 2], [2], [2, 2]]
+    code:
+      - file: P07SubsetsDup.java
+        region: subsetsdup
+        title: Subsets II
+        tag: memorise
+      - file: P07SubsetsDup.java
+        region: combsum2
+        title: Combination sum II
+        tag: memorise
+    time: O(n·2ⁿ)
+    space: O(n)
+    cost_note: At most 2ⁿ distinct subsets, each copied in O(n); the sort adds O(n log n).
+    variants:
+      - "Non-decreasing subsequences: order matters, so you cannot sort. Keep a `HashSet<Integer>` in each call and skip a value already tried at this depth."
+      - "Letter tile possibilities: count the letters into `int[26]`, and at each depth try each letter whose count is above 0. Equal tiles never make two branches."
+      - "Permutations of a list with repeats use a different skip rule: see [[permutations]]."
+    traps:
+      - "`i > 0` instead of `i > start`: the second `2` is skipped even one level deeper, and `[2, 2]` is lost."
+      - "Forgetting `Arrays.sort(a)`: equal values are not side by side, so `a[i] == a[i-1]` misses the repeat in `[2, 1, 2]`."
+      - "`break` instead of `continue` on the duplicate test ends the loop: in `[1, 2, 2, 3]` the path `[1]` never tries 3, and `[1, 3]` is lost."
+    practice: [subsets-ii, combination-sum-ii, letter-tile-possibilities, non-decreasing-subsequences]
+
+  - id: permutations
+    title: Permutations (used[] array)
+    signal: Every ordering of the input; n ≤ 8 to 10 (8! = 40,320 and 10! ≈ 3.6·10⁶).
+    spot:
+      - "*Return all possible permutations*, arrangements or orderings."
+      - n is about 8 at most, since the output alone has n! entries.
+      - The next arrangement in dictionary order, in place with O(1) extra memory (next permutation).
+    idea: |
+      Fill positions left to right. `used[i]` marks the input elements already in
+      `path`. At each depth, try every unused i: mark it, add it, recurse, then remove
+      and unmark it. Depth k has n − k choices, so there are n! leaves, each copied in
+      O(n): O(n·n!).
+
+      **Duplicates.** Sort, and also skip i when `a[i] == a[i-1] && !used[i-1]`. This
+      forces equal values into the path left to right: the second `1` may only be
+      placed after the first one. Any other order of the copies is skipped, so each
+      distinct permutation appears once.
+
+      **Next permutation.** From the right, find the pivot: the last i with
+      `a[i] < a[i+1]`. Everything after it is descending, the largest order of those
+      values. Swap `a[i]` with the rightmost larger value, then reverse the suffix to
+      get its smallest order. `[1,3,5,4,2]` swaps 3 and 4 to `[1,4,5,3,2]`, then
+      becomes `[1,4,2,3,5]`. With no pivot, reverse the whole array.
+    trace_title: "a = [1, 1, 2], permutations II (indices already used are not shown)"
+    trace: |
+      path       i  a[i]  decision
+      []         0  1     take
+      [1]        1  1     take
+      [1, 1]     2  2     take  -> [1, 1, 2]
+      [1]        2  2     take
+      [1, 2]     1  1     take  -> [1, 2, 1]
+      []         1  1     skip (a[0] equal and unused)
+      []         2  2     take
+      [2]        0  1     take
+      [2, 1]     1  1     take  -> [2, 1, 1]
+      [2]        1  1     skip (a[0] equal and unused)
+    code:
+      - file: P07Permutations.java
+        region: permute
+        title: Permutations
+        tag: memorise
+      - file: P07Permutations.java
+        region: permuteunique
+        title: Permutations II (with duplicates)
+        tag: memorise
+      - file: P07Permutations.java
+        region: nextperm
+        title: Next permutation
+        tag: variant
+    time: O(n·n!)
+    space: O(n)
+    cost_note: n! leaves, each copied in O(n). Next permutation alone is O(n) time and O(1) space.
+    variants:
+      - "Beautiful arrangement: fill position p only with an unused number that divides p or is divided by it; the check cuts most of the n! tree."
+      - "Squareful arrays: permutations II plus a check that each new number and the previous one add up to a perfect square."
+      - "Swap version: swap `a[k]` with each `a[i]` for `i ≥ k`, recurse on `k + 1`, swap back. It needs no `used[]`, but the output is not in sorted order."
+    traps:
+      - "Skipping every `a[i] == a[i-1]` without the `!used[i-1]` part: the second `1` can never be placed, and `[1, 1, 2]` returns nothing."
+      - "Next permutation with `a[i] > a[i+1]` in step 1: an equal pair such as `[1, 1]` becomes a pivot, and step 2 runs `j` off the front of the array."
+      - "Next permutation without the final reverse gives a later permutation, not the next: `[1,3,5,4,2]` becomes `[1,4,5,3,2]`."
+    practice: [permutations, permutations-ii, next-permutation, beautiful-arrangement, number-of-squareful-arrays]
+
+  - id: combination-sum
+    title: Combinations from a start index
+    signal: Choose k items, or items that add up to a target, where the order inside an answer does not matter.
+    spot:
+      - "*Combinations*, *choose k numbers from 1..n*, *unique combinations that sum to target*."
+      - "*The same number may be chosen an unlimited number of times* (reuse), or each number is used once."
+      - "Small limits: n ≤ 20 or 30, target ≤ 40, k ≤ 9, and the number of answers is promised to be small."
+    idea: |
+      `grow(start, remain)` picks the next element from index `start` onward. Every
+      combination is built in increasing index order, so `[2, 3]` is made once and
+      `[3, 2]` never. The recursive call decides reuse: pass `i` to allow `a[i]` again,
+      or `i + 1` to use each element at most once.
+
+      Prune the loop, not only the leaves. With the candidates sorted, stop when
+      `a[i] > remain`, because every later one is bigger. When choosing k of 1..n with
+      `need` slots left, the next number can be at most `n - need + 1`, or too few
+      numbers remain after it. Then every branch the search enters has an answer below
+      it, so n choose k costs O(k·C(n, k)).
+
+      Letter combinations of a phone number is the same tree with one digit per depth:
+      the choices at depth i are the letters on key `digits[i]`, up to 4ⁿ leaves.
+    trace_title: "a = [2, 3, 6, 7], target = 7, reuse allowed"
+    trace: |
+      path       remain  loop
+      []         7       i from 0
+      [2]        5       i from 0   stop at 6 > 5
+      [2, 2]     3       i from 0   stop at 6 > 3
+      [2, 2, 2]  1       i from 0   stop at 2 > 1
+      [2, 2, 3]  0       found
+      [2, 3]     2       i from 1   stop at 3 > 2
+      [3]        4       i from 1   stop at 6 > 4
+      [3, 3]     1       i from 1   stop at 3 > 1
+      [6]        1       i from 2   stop at 6 > 1
+      [7]        0       found
+    code:
+      - file: P07CombinationSum.java
+        region: combsum
+        title: Combination sum (reuse allowed)
+        tag: memorise
+      - file: P07CombinationSum.java
+        region: combine
+        title: "Combinations: n choose k"
+        tag: memorise
+      - file: P07CombinationSum.java
+        region: phone
+        title: Letter combinations of a phone number
+        tag: variant
+    time: O(k·C(n, k))
+    space: O(k)
+    cost_note: "For n choose k: C(n, k) leaves, each copied in O(k). Combination sum has no neat formula; the sorted break keeps dead branches short."
+    variants:
+      - "Combination sum III (k numbers from 1..9 that add up to n): `pickK` over 1..9 with a `remain`, stopping when `x > remain`."
+      - "Binary watch: choose k of the 10 LEDs (the bitmask loop from [[subsets]] also works) and keep times with hours < 12 and minutes < 60."
+      - "Candidates with repeats, each used once: add the skip rule from [[subsets-dup]]."
+      - "Only the *number* of combinations is asked: that is a knapsack count ([[unbounded-knapsack]]), not a search."
+    traps:
+      - "Recursing with `0` instead of `i` as the new start: `[2, 2, 3]`, `[2, 3, 2]` and `[3, 2, 2]` all appear."
+      - "Recursing with `i + 1` in combination sum forbids reuse, so `[2, 2, 3]` for target 7 is missed."
+      - "Letter combinations of `\"\"`: LeetCode expects `[]`, but without the early return the recursion gives `[\"\"]`."
+      - "The `a[i] <= remain` loop test only works on sorted input; unsorted, it stops before smaller candidates further right."
+    practice: [binary-watch, letter-combinations-of-a-phone-number, combinations, combination-sum, combination-sum-iii]
+
+  - id: n-queens
+    title: Constraint backtracking (N-Queens)
+    signal: Place items under rules that forbid conflicts (rows, columns, diagonals, boxes); list or count every valid board.
+    spot:
+      - "*No two queens attack each other*; *each digit once per row, column and 3×3 box*."
+      - The board is tiny, n ≤ 9 for queens and a fixed 9×9 grid for sudoku.
+      - "Return *all distinct solutions*, *the number of solutions*, or fill the one solution in place."
+    idea: |
+      Put one queen in each row, row by row, so rows never clash. Before placing at
+      (r, c), check three boolean arrays in O(1): the column `c`, the `\` diagonal
+      where `r - c` is constant (shifted to `r - c + n - 1` so the index runs 0..2n−2),
+      and the `/` diagonal where `r + c` is constant. Mark all three, recurse to row
+      `r + 1`, then clear them.
+
+      The checks cut branches early. For n = 8, `place` runs 2,057 times, against
+      40,320 column orders and 8⁸ ≈ 1.7·10⁷ blind placements. The cost is bounded by
+      O(n!), since each row has fewer free columns than the one before.
+
+      Sudoku is the same shape on cells. Take the next empty cell, try each digit not
+      yet in its row, column or box (`r / 3 * 3 + c / 3`), and undo on failure. `fill`
+      returns `true` at the first full board, so the search stops there and the board
+      keeps the answer.
+    trace_title: "n = 4 until the first solution (undo steps not shown)"
+    trace: |
+      r=0 c=0  diag 3, anti 0  place
+        r=1 c=2  diag 2, anti 3  place
+          r=2: every column attacked -> back
+        r=1 c=3  diag 1, anti 4  place
+          r=2 c=1  diag 4, anti 3  place
+            r=3: every column attacked -> back
+      r=0 c=1  diag 2, anti 1  place
+        r=1 c=3  diag 1, anti 4  place
+          r=2 c=0  diag 5, anti 2  place
+            r=3 c=2  diag 4, anti 5  place
+              r=4: all rows filled -> solution .Q.. ...Q Q... ..Q.
+    code:
+      - file: P07NQueens.java
+        region: nqueens
+        title: N-Queens
+        tag: memorise
+      - file: P07NQueens.java
+        region: sudoku
+        title: Sudoku solver
+        tag: variant
+    time: O(n!)
+    space: O(n)
+    cost_note: Each row has fewer free columns, so at most n! placements; the diagonal checks prune far below that.
+    variants:
+      - "N-Queens II: the same `place`, with `count++` instead of `draw()`."
+      - "Bitmasks instead of arrays: the free columns in a row are `~(cols | d | a) & ((1 << n) - 1)`, take them one at a time with `free & -free`, and shift `d` left and `a` right for the next row."
+      - "Matchsticks to square: put each stick on one of 4 sides of length sum / 4. Sort longest first, and skip a side whose length equals an earlier side's, which removes mirror-image branches."
+    traps:
+      - "On LeetCode, `static` fields keep their values from one test case to the next. Reset every array in the entry method, as `solveNQueens` does."
+      - "Indexing the `\\` diagonal with `r - c` alone gives negative indices; add `n - 1`, and size both diagonal arrays `2n - 1`."
+      - "Sudoku: if `fill` returns `void`, the undo steps wipe the solution on the way back. Return `true` and stop at the first full board."
+      - "Sudoku: forgetting to mark the given digits before the search lets it place a digit that the row already has."
+    practice: [n-queens-ii, n-queens, matchsticks-to-square, sudoku-solver]
+
+  - id: grid-backtrack
+    title: Grid DFS with mark and restore
+    signal: Find or count paths on a small grid that use each cell at most once.
+    spot:
+      - "*The same cell may not be used more than once*; *walk over every empty square exactly once*."
+      - "Tiny grids: up to 6×6 for word search, at most 25 cells with gold, m·n ≤ 20 for unique paths III."
+      - You need any path, the best path or every path, not the shortest one (shortest is BFS, [[graph-bfs]]).
+    idea: |
+      Run a DFS from each possible start. On entering a cell, mark it as in use by
+      overwriting it (`'#'`, `0` or `-1`), try the four neighbours, then write the
+      original value back before returning. The restore is what makes it backtracking:
+      a cell blocked for the current path is free again for every other path. A flood
+      fill never restores, which is why it is O(mn) but cannot count or compare paths.
+
+      Check the cheap things first. Word search rejects a cell as soon as its letter
+      differs from `word[k]`, and a marked `'#'` never equals a letter, so "in use"
+      needs no extra array. After the first step each cell has at most 3 new
+      directions, so a word of length L costs O(m·n·3^L) in the worst case.
+
+      For unique paths III, count the open cells first. Reaching the end counts only
+      if it is the last open cell, `left == 1`.
+    trace_title: "word ABCB on [ABCE / SFCS / ADEE] from (0,0); off-board moves not shown"
+    trace: |
+      k  cell   letter  result
+      0  (0,0)  A       ok, mark '#'
+      1  (1,0)  S       != B
+      1  (0,1)  B       ok, mark '#'
+      2  (1,1)  F       != C
+      2  (0,0)  #       != C (in use)
+      2  (0,2)  C       ok, mark '#'
+      3  (1,2)  C       != B
+      3  (0,1)  #       != B (in use)
+      3  (0,3)  E       != B
+         restore (0,2), (0,1), (0,0): no path from (0,0)
+    code:
+      - file: P07GridBacktrack.java
+        region: wordsearch
+        title: Word search
+        tag: memorise
+      - file: P07GridBacktrack.java
+        region: gold
+        title: Path with maximum gold
+        tag: variant
+      - file: P07GridBacktrack.java
+        region: paths3
+        title: Unique paths III
+        tag: variant
+    time: O(mn·3^L)
+    space: O(L)
+    cost_note: Each start tries at most 4·3^(L−1) paths of length L; the recursion is as deep as the path.
+    variants:
+      - "Word search II (many words): walk the board once with a trie of all the words, and remove a word from the trie once found ([[trie]])."
+      - "Path with maximum gold: start from every gold cell; a cell is worth its gold plus the best of its neighbours."
+      - "Only reachability matters, with no per-path rule: mark without restoring. That is a flood fill ([[graph-dfs]])."
+    traps:
+      - "Forgetting the restore, or a `visited[][]` that is set but never cleared: the first path through a cell blocks it for every later path, and counts come out too low."
+      - "Testing `k == word.length()` after the bounds check: on a 1×1 board with a one-letter word every neighbour is off the board, so the match is never reported. Test `k == len - 1` once the letter matches."
+      - "The recursion is as deep as the path, up to m·n. That is fine for these limits, but the method is exponential, so it only suits tiny grids."
+    practice: [word-search, path-with-maximum-gold, unique-paths-iii, word-search-ii]
+
+  - id: palindrome-partition
+    title: Cut a prefix, recurse on the rest
+    signal: Split a string into pieces that each pass a test, listing every split; or build strings under counting rules.
+    spot:
+      - "*Partition s so that every substring is a palindrome; return all possible partitions*."
+      - Return all valid IP addresses made by inserting dots; split into the most unique pieces; all sentences from a dictionary.
+      - Short input (length ≤ 16 or 20, n ≤ 8 pairs of brackets), because the output itself grows exponentially.
+    idea: |
+      `cut(start)` chooses the first piece. It tries every end from `start` to n − 1.
+      If `s[start..end]` passes the test, add it to `path`, recurse on `cut(end + 1)`,
+      then remove it. When `start == n` the pieces cover the string, so `path` is one
+      answer. A string of length n has 2^(n−1) ways to cut, so with the copies the
+      worst case is O(n·2ⁿ).
+
+      Make the test O(1). Before the search, fill `isPal[i][j]`: `s[i] == s[j]` and the
+      inside `s[i+1..j-1]` is a palindrome or shorter than 2. Fill i from n − 1 down so
+      the inside is ready when you read it.
+
+      Restore IP addresses has four pieces of 1 to 3 digits, each ≤ 255 with no leading
+      zero; prune when the digits left cannot fill the pieces left. Generate
+      parentheses builds instead of cutting: add `(` while `open < n` and `)` while
+      `close < open`, so every prefix stays valid.
+    trace_title: 's = "aab"'
+    trace: |
+      start  piece  isPal  path
+      0      "a"    yes    [a]
+      1      "a"    yes    [a, a]
+      2      "b"    yes    [a, a, b]  -> answer
+      1      "ab"   no
+      0      "aa"   yes    [aa]
+      2      "b"    yes    [aa, b]  -> answer
+      0      "aab"  no
+    code:
+      - file: P07PalindromePartition.java
+        region: partition
+        title: Palindrome partitioning
+        tag: memorise
+      - file: P07PalindromePartition.java
+        region: ip
+        title: Restore IP addresses
+        tag: variant
+      - file: P07PalindromePartition.java
+        region: parens
+        title: Generate parentheses
+        tag: variant
+    time: O(n·2ⁿ)
+    space: O(n²)
+    cost_note: Up to 2^(n−1) partitions, each copied in O(n); the isPal table is n².
+    variants:
+      - "Word break II: the test is \"the piece is in the dictionary\" (a `HashSet`); memoise the answers for each `start` if the same suffix comes up often."
+      - "Most unique substrings: keep a `HashSet` of the pieces in use, add and remove like `path`, and track the largest size."
+      - "Only the *fewest* cuts or the *number* of partitions is asked: that is DP over `start` ([[palindrome-dp]]), not a listing."
+    traps:
+      - "IP: `Integer.parseInt(\"012\")` is 12, so test for a leading zero on the string first."
+      - "IP: without the length check the search tries every split of a long string; return when `rest > 3 * left` or `rest < left`."
+      - "Filling `isPal` with i going up: `isPal[i+1][j-1]` is still false when you read it, so `\"aba\"` is missed."
+      - "Generate parentheses: allowing `)` while `close < n` instead of `close < open` builds invalid strings like `)(`."
+    practice: [generate-parentheses, palindrome-partitioning, restore-ip-addresses, split-a-string-into-the-max-number-of-unique-substrings, word-break-ii]
+
+  - id: meet-middle
+    title: Meet in the middle
+    signal: A subset question with n ≈ 30 to 40, where 2ⁿ is too slow but 2^(n/2) ≈ 10⁶ fits.
+    spot:
+      - "n ≤ 40 (or 2n ≤ 30): 2⁴⁰ ≈ 10¹² is far too many, 2²⁰ ≈ 10⁶ is fine."
+      - Values up to 10⁷ or 10⁹, possibly negative, so a DP over sums is impossible.
+      - "*Closest to goal*, *minimise the difference*, *count subsets with sum ≤ X*."
+    idea: |
+      Split the array into a left and a right half. Every subset of the whole is a
+      subset of the left plus a subset of the right, so its sum is `x + y` with x a left
+      sum and y a right sum. Each half has only 2^(n/2) subsets.
+
+      List each half's sums in O(1) per sum: `sums[mask]` is the sum of `mask` without
+      its lowest bit, plus that element. Sort both lists. For the closest sum, run two
+      pointers as in [[opposite-pointers]]: i climbs the left list, j comes down the
+      right list, and you move the end that brings `x + y` toward the goal. Or, for
+      each x, binary search the right list for `goal - x` and check its neighbours.
+      Either way the cost is O(2^(n/2)·n).
+
+      When both groups must have exactly n elements, group the half sums by how many
+      elements they use: k from the left pairs only with n − k from the right.
+    trace_title: "a = [7, -9, 15, -2], goal = -5 (LC 1755)"
+    trace: |
+      L = sums of [7, -9]  = [0, 7, -9, -2]   sorted [-9, -2, 0, 7]
+      R = sums of [15, -2] = [0, 15, -2, 13]  sorted [-2, 0, 13, 15]
+      i  j  L[i] + R[j]   best  move
+      0  3  -9 + 15 = 6   11    6 > -5: j--
+      0  2  -9 + 13 = 4   9     4 > -5: j--
+      0  1  -9 + 0 = -9   4     -9 < -5: i++
+      1  1  -2 + 0 = -2   3     -2 > -5: j--
+      1  0  -2 + -2 = -4  1     -4 > -5: j--
+      j < 0: stop. Answer 1, from {7, -9} + {-2} = -4
+    code:
+      - file: P07MeetMiddle.java
+        region: sums
+        title: All subset sums of a range
+        tag: helper
+      - file: P07MeetMiddle.java
+        region: closest
+        title: Closest subsequence sum
+        tag: memorise
+      - file: P07MeetMiddle.java
+        region: partition
+        title: Two groups of n with the closest sums
+        tag: variant
+    time: O(2^(n/2)·n)
+    space: O(2^(n/2))
+    cost_note: Each half has 2^(n/2) sums, and sorting them adds the factor n; for n = 40 that is about 10⁶ sums per half.
+    variants:
+      - "4Sum II: put every `a + b` sum of the first two arrays in a `HashMap` of counts, then look up `-(c + d)`. Same split, with hashing instead of sorting."
+      - "Count subsets with sum ≤ X: sort the right sums, and for each left sum x add the number of right sums ≤ X − x ([[lower-bound]])."
+      - "Split array with same average: a group of size k works if its sum is `k · total / len`. Group the half sums by count and look for a left sum of k₁ numbers and a right sum of k − k₁ numbers that add up to it."
+    traps:
+      - "Storing the sums in `int`: 20 values of 10⁹ overflow. Use `long`."
+      - "Pairing any left sum with any right sum in the equal-size version ignores the size rule; k from the left needs exactly n − k from the right."
+      - "Building 2²⁰ boxed `Long` values is slow and memory-heavy; keep `long[]` when you do not need the groups (the grouped version can afford lists because 2n ≤ 30)."
+    practice: [4sum-ii, closest-subsequence-sum, partition-array-into-two-arrays-to-minimize-sum-difference, split-array-with-same-average]

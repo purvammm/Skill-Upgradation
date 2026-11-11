@@ -1,0 +1,307 @@
+intro: >-
+  A linked list gives O(1) insert and delete at a node you hold but no indexing, so every
+  pattern here is about which nodes you hold while you walk. A dummy head removes the special
+  case of a changing head, and three pointers reverse links in place. Two pointers at different
+  speeds or with a fixed gap find positions without knowing the length.
+
+patterns:
+  - id: dummy-merge
+    title: Dummy head node
+    signal: You build a result list node by node, or the head itself may be removed.
+    spot:
+      - "*Merge*, *partition*, *remove all nodes with value*, *add two numbers*: the output is a list you append to."
+      - The first node of the answer is not known in advance, or the old head may be deleted.
+      - "*Return the head of the new list.*"
+    idea: |
+      Create one spare node, `dummy`, and a pointer `tail` to the last node of the
+      result. Appending is always `tail.next = node; tail = node;`, even for the first
+      node, and the answer is `dummy.next`. Without the dummy every loop needs an
+      `if (head == null)` branch, and that branch is where the bugs are.
+
+      For deletion, stand on the node *before* the one you test and look at
+      `prev.next`. The dummy is a "before" node for the head, so deleting the head is
+      the same as deleting any other node. After an unlink, stay on `prev`: the new
+      `prev.next` has not been tested yet.
+
+      Merging and partitioning relink the existing nodes, so they use O(1) extra
+      space. Each step uses up one input node, so the cost is O(m + n).
+    trace_title: "mergeTwoLists(1 -> 2 -> 4, 1 -> 3 -> 4)"
+    trace: |
+      a            b            take  result so far
+      1 -> 2 -> 4  1 -> 3 -> 4  a 1   1
+      2 -> 4       1 -> 3 -> 4  b 1   1 -> 1
+      2 -> 4       3 -> 4       a 2   1 -> 1 -> 2
+      4            3 -> 4       b 3   1 -> 1 -> 2 -> 3
+      4            4            a 4   1 -> 1 -> 2 -> 3 -> 4
+      null         4            a is used up: tail.next = b
+      result: 1 -> 1 -> 2 -> 3 -> 4 -> 4  (ties take a, so the merge is stable)
+    code:
+      - file: P05DummyMerge.java
+        region: merge
+        title: Merge two sorted lists
+        tag: memorise
+      - file: P05DummyMerge.java
+        region: remove
+        title: Remove nodes; partition with two dummies
+        tag: variant
+      - file: P05DummyMerge.java
+        region: add
+        title: Add two numbers with a carry
+        tag: variant
+    time: O(m + n)
+    space: O(1)
+    cost_note: One pass over each list. Merge and partition relink existing nodes; add two numbers creates only the output nodes.
+    variants:
+      - "Remove duplicates from sorted list II (drop every value that repeats): from `prev`, if `prev.next` starts a run of equal values, link `prev.next` past the whole run."
+      - "Odd even linked list: two tails (odd positions and even positions) in one pass, then link the odd tail to the even head."
+      - "Add two numbers II (most significant digit first): reverse both lists ([[list-reverse]]), add, reverse the result. Or push the digits on two stacks."
+      - "Merge k sorted lists: the same dummy and tail with a heap of the k heads ([[k-way-merge]]). Sort list is [[merge-sort]] with this merge."
+    traps:
+      - "Partition without `more.next = null`: the last node of the second group keeps its old `next`. On `[1, 4, 3, 2, 5, 2]`, x = 3, node 5 still points at the last 2, and the result is a cycle."
+      - "Stepping after an unlink (`prev = prev.next` every time) skips a node: `[1, 6, 6, 2]` with val 6 keeps one 6."
+      - "Add two numbers with `while (a != null || b != null)` loses the last carry: `[5] + [5]` gives `[0]` instead of `[0, 1]`."
+      - Returning `dummy` instead of `dummy.next` puts a stray 0 at the front of the answer.
+    practice: [merge-two-sorted-lists, remove-linked-list-elements, partition-list, add-two-numbers, remove-duplicates-from-sorted-list-ii, odd-even-linked-list]
+
+  - id: list-reverse
+    title: In-place reversal (prev, cur, next)
+    short: In-place reversal
+    signal: Reverse a list, a part of it, or every group of k nodes, with O(1) extra space.
+    spot:
+      - "*Reverse the list*, *reverse from position left to right*, *reverse nodes in k-group*, *swap pairs*."
+      - "*In one pass* or *with O(1) memory*: no copying values into an array."
+      - A step inside another problem, such as the back half of a palindrome check or digits stored most significant first.
+    idea: |
+      Walk once with three pointers. `prev` is the head of the part already reversed
+      and `cur` is the first node not yet reversed. Each step saves
+      `next = cur.next`, points `cur.next` back at `prev`, and moves both pointers one
+      node on. When `cur` is null, `prev` is the new head. Each arrow is turned once:
+      O(n) time, O(1) space.
+
+      To reverse a segment of k nodes, stand on `pre`, the node before it (the dummy
+      if the segment starts at the head), and run the same loop k times from
+      `first = pre.next`. Afterwards `prev` is the segment's new first node and `cur`
+      is the node after the segment, so two links reconnect it: `pre.next = prev` and
+      `first.next = cur`. `first` is now the segment's last node, which makes it the
+      `pre` of the next group in k-group reversal.
+    trace_title: "reverseList(1 -> 2 -> 3 -> 4), then the segment versions on 1..5"
+    trace: |
+      step  prev (reversed part)   cur (rest)
+      0     null                   1 -> 2 -> 3 -> 4
+      1     1                      2 -> 3 -> 4
+      2     2 -> 1                 3 -> 4
+      3     3 -> 2 -> 1            4
+      4     4 -> 3 -> 2 -> 1       null           return prev
+      ---- segments of 1 -> 2 -> 3 -> 4 -> 5 ----
+      reverseBetween(head, 2, 4)   1 -> 4 -> 3 -> 2 -> 5
+      reverseKGroup(head, 2)       2 -> 1 -> 4 -> 3 -> 5
+      reverseKGroup(head, 3)       3 -> 2 -> 1 -> 4 -> 5   (short group kept)
+    code:
+      - file: P05ListReverse.java
+        region: reverse
+        title: Reverse the whole list
+        tag: memorise
+      - file: P05ListReverse.java
+        region: segment
+        title: Reverse a segment, between, k-group
+        tag: memorise
+      - file: P05ListReverse.java
+        region: recursive
+        title: Recursive version
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: Each link is turned once. k-group also walks k nodes ahead per group to check that a full group remains, so each node is visited at most twice. The recursive version uses O(n) stack.
+    variants:
+      - "Swap nodes in pairs (LC 24): k-group with k = 2. The problem forbids swapping values, which is exactly what relinking avoids."
+      - "Reverse nodes in even-length groups: group sizes 1, 2, 3, ...; count each group's real size (the last may be short) and reverse it only if that size is even."
+      - "Head insertion for left..right: keep `pre` fixed and move each following node to right after `pre`. Same cost, no reconnect step at the end."
+      - "Palindrome list and reorder list reverse the back half ([[fast-slow]])."
+    traps:
+      - "Writing `cur.next = prev` before saving `next` loses the rest of the list: the loop stops after one node."
+      - "Returning `head` instead of `prev`: the old head is now the tail with `next == null`, so the caller sees a one-node list."
+      - "The recursive version is n calls deep. LC 206 has n ≤ 5000, which is fine, but a default 1 MB JVM stack can overflow from about 10⁴ nodes. Use the loop."
+      - "In k-group, reversing before checking that k nodes remain also reverses the short last group: 1..5 with k = 3 must end `4 -> 5`, not `5 -> 4`."
+    practice: [reverse-linked-list, reverse-linked-list-ii, swap-nodes-in-pairs, reverse-nodes-in-even-length-groups, reverse-nodes-in-k-group]
+
+  - id: fast-slow
+    title: Fast and slow pointers
+    signal: Find the middle, detect a cycle, or find where it starts, in one pass and O(1) space.
+    spot:
+      - "*Middle node*, *does the list have a cycle*, *return the node where the cycle begins*."
+      - "*O(1) extra memory*, which rules out a `HashSet` of visited nodes."
+      - "A value that maps to a value, where a repeat means a loop: the digits of a number, `i -> a[i]`."
+    idea: |
+      `slow` moves one node per step and `fast` two. When `fast` reaches the end,
+      `slow` has gone half as far: the middle. If there is a cycle, `fast` never
+      reaches the end. Once both are in the cycle, the gap between them shrinks by one
+      node per step, so they meet within one lap.
+
+      Where does the cycle start? Let `a` be the distance from the head to the start,
+      `b` from the start to the meeting point, and `c` the cycle length. Slow walked
+      `a + b` and fast `2(a + b)`. The difference is whole laps, so `a + b = m·c` and
+      `a = m·c − b`: walking `a` steps from the meeting point lands on the start. Put
+      `p` at the head and step `p` and `slow` together; they meet at the start.
+
+      Any function x → f(x) on a finite set is a list that ends in a cycle, so the
+      same code finds a repeated value without storing what it has seen.
+    trace_title: "1 -> 2 -> ... -> 8 with 8 linked back to 4 (a = 3, c = 5)"
+    trace: |
+      step  slow  fast
+      0     1     1
+      1     2     3
+      2     3     5
+      3     4     7
+      4     5     4
+      5     6     6     meet: b = 2, a + b = 5 = 1·c
+      phase 2: p from the head, slow from the meeting point
+      0     p=1   slow=6
+      1     p=2   slow=7
+      2     p=3   slow=8
+      3     p=4   slow=4  same node after a = 3 steps: the start
+    code:
+      - file: P05FastSlow.java
+        region: floyd
+        title: Middle node and cycle start
+        tag: memorise
+      - file: P05FastSlow.java
+        region: halves
+        title: Palindrome and reorder (middle + reverse)
+        tag: variant
+        note: "`reverse` is the loop from [[list-reverse]]."
+      - file: P05FastSlow.java
+        region: function
+        title: Floyd on a function
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: Phase 1 ends within a + c steps and phase 2 takes a steps. Palindrome and reorder are a few linear passes.
+    variants:
+      - "Linked list cycle (LC 141): phase 1 only; return true when the two meet."
+      - "Delete the middle node: start `fast` at `head.next.next`, so `slow` stops on the node before the middle."
+      - "Length of the cycle: after they meet, walk one pointer around until it comes back, counting steps."
+      - "Find the duplicate when you may change the array: [[cyclic-sort]] puts each value at its own index."
+    traps:
+      - "`while (fast.next != null)` without `fast != null` throws `NullPointerException` when `fast` steps past the end: `[1, 2]`."
+      - "Compare nodes, `slow == fast`, not values: `1 -> 2 -> 1 -> 2 -> 1` has no cycle, but `slow.val == fast.val` says it has."
+      - "Phase 2 needs both pointers to start at `head`. Starting with `fast = head.next` (fine for LC 141) moves the meeting point, and on the trace list phase 2 never ends."
+      - "`isPalindrome` above leaves the back half reversed. Reverse it again before returning if the caller still uses the list."
+    practice: [middle-of-the-linked-list, linked-list-cycle, palindrome-linked-list, linked-list-cycle-ii, reorder-list, find-the-duplicate-number]
+
+  - id: gap-pointers
+    title: Gap pointers and head switching
+    short: Gap pointers
+    signal: A position counted from the end, a rotation by k, or the node where two lists join.
+    spot:
+      - "*Remove the n-th node from the end*, *in one pass*."
+      - "*Rotate the list to the right by k*, with k up to 2·10⁹."
+      - "*Two lists that may share a tail*: return the first common node with O(1) memory."
+    idea: |
+      Two pointers a fixed gap apart tell you about the end without knowing the length.
+      Move `fast` n + 1 links ahead of `slow`, both starting at a dummy, then move both
+      until `fast` is null. `slow` is now n + 1 links before the end, the node *before*
+      the n-th from the end, so `slow.next = slow.next.next` removes it. The dummy
+      covers n = length, where the head itself goes. Rotation uses a gap of `k % len`,
+      and `slow` stops on the new tail.
+
+      For the intersection, say the lists have private parts of lengths `a` and `b` and
+      a shared tail of length `c`. Each pointer walks its own list, then switches to the
+      other head. After `a + c + 1 + b` steps (the 1 is the step from null) both stand
+      on the first shared node, or earlier if `a == b`. With no shared tail both reach
+      null together, and `p == q` ends the loop with null.
+    trace_title: "removeNthFromEnd(1 -> 2 -> 3 -> 4 -> 5, n = 2), then LC 160 sample 1"
+    trace: |
+      step    fast   slow
+      start   dummy  dummy
+      gap 1   1      dummy
+      gap 2   2      dummy
+      gap 3   3      dummy    gap is n + 1 = 3 links
+      both    4      1
+      both    5      2
+      both    null   3        unlink slow.next (4): 1 -> 2 -> 3 -> 5
+      ---- intersection: A = 4 1 [8 4 5], B = 5 6 1 [8 4 5] ----
+      p: 4 1 8 4 5 null 5 6 1 [8]
+      q: 5 6 1 8 4 5 null 4 1 [8]   after 2 + 3 + 1 + 3 = 9 steps both are on 8
+    code:
+      - file: P05GapPointers.java
+        region: nth
+        title: Remove the n-th node from the end
+        tag: memorise
+      - file: P05GapPointers.java
+        region: rotate
+        title: Rotate right by k
+        tag: variant
+      - file: P05GapPointers.java
+        region: intersect
+        title: Intersection by switching heads
+        tag: memorise
+    time: O(n)
+    space: O(1)
+    cost_note: One pass for the gap; rotation adds one pass to count the length; the head switch takes at most m + n + 1 steps.
+    variants:
+      - "k-th node from the end: the same walk with a gap of k, starting at `head`. When `fast` is null, `slow` is the k-th node from the end."
+      - "Swapping nodes (k-th from the start and k-th from the end): walk `fast` to the k-th node and keep it; then move `fast` and a new pointer from the head until `fast.next` is null. Swap the two values."
+      - "Intersection by lengths: count both lengths, move the longer list's pointer ahead by the difference, then walk together."
+      - "Rotate left by k is rotate right by `len - k % len`."
+    traps:
+      - "A gap of n leaves `slow` *on* the target, and the unlink drops the node after it: 1..5, n = 2 loses 5, not 4."
+      - "Without the dummy there is no node before the head, so n = length needs a special case that returns `head.next`."
+      - "Without `k %= len` the gap walk runs off the list (`NullPointerException`) whenever k ≥ len, and k can be 2·10⁹."
+      - "Compare nodes (`p != q`), not values: the LC sample has a 1 in each list, on different nodes."
+    practice: [intersection-of-two-linked-lists, remove-nth-node-from-end-of-list, rotate-list, swapping-nodes-in-a-linked-list]
+
+  - id: lru-cache
+    title: LRU cache (hash map + linked list)
+    short: LRU cache
+    signal: Design a cache with O(1) get and put that evicts the least recently used key.
+    spot:
+      - "*Design* a class with `get(key)` and `put(key, value)`, both O(1) on average."
+      - "*Evict the least recently used* (or the oldest, or the least frequent) key when the cache is full."
+      - Up to 2·10⁵ calls, so scanning a list on every call (O(capacity)) is too slow.
+    idea: |
+      No single structure does both jobs. A `HashMap` finds a key in O(1) but keeps no
+      order. A doubly linked list keeps the order of use, front = newest and back =
+      oldest, and can move or remove a node in O(1) *if you already hold it*. So the
+      map stores key → node and the list links the nodes.
+
+      `get` looks the node up, unlinks it and adds it at the front. `put` on an
+      existing key updates the value and moves the node the same way. A new key at
+      full capacity first evicts `tail.prev`, the oldest node, from both the list and
+      the map; the node stores its key so the map entry can be found. The sentinels
+      `head` and `tail` give every real node a `prev` and a `next`, so unlink and
+      insert need no null checks.
+    trace_title: "capacity 2, the LC 146 sample"
+    trace: |
+      op          returns  list after (front = newest, back = oldest)
+      put(1, 1)            [1=1]
+      put(2, 2)            [2=2, 1=1]
+      get(1)      1        [1=1, 2=2]
+      put(3, 3)            [3=3, 1=1]        full: evict 2 from the back
+      get(2)      -1       [3=3, 1=1]
+      put(4, 4)            [4=4, 3=3]        full: evict 1
+      get(1)      -1       [4=4, 3=3]
+      get(3)      3        [3=3, 4=4]
+      get(4)      4        [4=4, 3=3]
+    code:
+      - file: P05LruCache.java
+        region: lru
+        title: HashMap + doubly linked list
+        tag: memorise
+        note: "On LeetCode, write `class LRUCache` at the top level with `public` methods; here it is nested so all the files compile together."
+      - file: P05LruCache.java
+        region: linked
+        title: LinkedHashMap version
+        tag: variant
+    time: O(1)
+    space: O(capacity)
+    cost_note: Each call is one hash lookup and a few pointer changes; at most capacity + 2 nodes.
+    variants:
+      - "LFU cache (harder): key → node, frequency → its own list, and `minFreq`. A use moves the node to the `freq + 1` list; evict the oldest node of the `minFreq` list."
+      - "All O(1) data structure: a list of count buckets holding their keys, plus key → bucket."
+      - "Browser history: a doubly linked list with a `cur` pointer; a new visit cuts off everything after `cur`."
+    traps:
+      - "Evicting before checking whether the key exists: with capacity 2, `put(1,1)`, `put(2,2)`, `put(2,20)` evicts key 1, so `get(1)` returns −1 instead of 1."
+      - A `get` that does not move the node to the front lets a key you just used be evicted next.
+      - "LinkedHashMap without `accessOrder = true` keeps insertion order, a FIFO cache: the LC sample gives `[1, 2, -1, 3, 4]` instead of `[1, -1, -1, 3, 4]`."
+      - "Java 8 rejects the diamond `<>` on an anonymous class: write `<Integer, Integer>`."
+    practice: [design-browser-history, design-linked-list, lru-cache, lfu-cache, all-oone-data-structure]

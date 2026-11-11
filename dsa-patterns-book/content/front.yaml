@@ -1,0 +1,419 @@
+howto:
+  lead: |
+    This book has one window per pattern: 125 of them, from counting with a hash map to lazy
+    segment trees. Each window teaches you to recognise the pattern from a problem statement,
+    explains why it works, and gives you a Java template to learn by heart. Read one or two
+    windows a day, write the template from memory, then solve a problem with it.
+  anatomy:
+    - name: Spot it.
+      text: What the problem statement and its limits look like when this pattern is the answer.
+    - name: How it works.
+      text: The idea, the reason it is correct, and the reason for its cost.
+    - name: Worked example.
+      text: A small input traced step by step. Every number in it was printed by the code.
+    - name: Template.
+      text: "The Java to learn. The one tagged **memorise** is the one to write from memory; **variant** and **example** blocks show the same idea on other problems."
+    - name: Cost, Variants, Traps.
+      text: Time and space, the small changes that solve related problems, and the bugs people really write.
+    - name: Practise.
+      text: Free LeetCode problems that use the pattern, easiest first. Tick the box when you solve one.
+  routine:
+    - step: Read the window.
+      text: "Read *Spot it* and *How it works*. Trace the worked example with a pencil before you read the code."
+    - step: Learn the template.
+      text: Read the **memorise** block line by line until you can say why each line is there.
+    - step: Write it from memory.
+      text: "Close the book and write the template on paper or in a blank editor. Compare, fix, and tick **read it** in the box at the bottom of the window."
+    - step: Solve one problem.
+      text: Open the first unticked practice problem and solve it without looking at the book. Look only when you have been stuck for 20 minutes.
+    - step: Review old windows.
+      text: "The plan's right-hand column lists windows from 1, 3, 7 and 14 days ago. Rewrite each template from memory and tick its next box (+1 day, +3 days, +7 days, +21 days)."
+  notes:
+    - color: yellow
+      pill: yellow
+      label: Java
+      title: What the code assumes
+      text: |
+        Every template compiles with `javac --release 8`, so it runs on any judge. It assumes
+        `import java.util.*;` and nothing else. Methods are `static` so you can paste them into
+        LeetCode's `class Solution` as they are. `ListNode` and `TreeNode` are LeetCode's own
+        classes (see the Java kit page).
+    - color: green
+      pill: green
+      label: Tested
+      title: Why you can trust the code
+      text: |
+        All code in the book is cut from Java files that were compiled and run. Each template
+        was compared with a slow brute force on thousands of random inputs and checked on the
+        LeetCode samples: {checks} checks in total, all passing.
+    - color: purple
+      pill: purple
+      label: Printing
+      title: For the best result
+      text: |
+        Print at **100% / Actual size** (not "fit to page"). Double-sided works well: choose
+        **flip on long edge**. Colour helps but greyscale is fine. The margins leave room for
+        a hole punch or a binder clip.
+
+plan_intro: |
+  About two windows a day, 60 to 90 minutes. Write the date in each row and tick **Done** when
+  you finish the day. *Learn* lists the new windows and the page where the first one starts.
+  *Rewrite from memory* lists the windows learned 1, 3, 7 and 14 days earlier: write those
+  templates again without looking. Short of time before a test? Do two rows a day.
+
+plan_extra:
+  - "**Review day.** Cover the right-hand column of the *Which pattern?* table and name the pattern for each clue. Reread every window you could not name."
+  - "**Review day.** Rewrite the ten templates you ticked least often. Then solve one unticked practice problem from each part."
+
+which_intro: |
+  Read the problem and its limits, find the clue that fits best, and start with the first
+  pattern listed. When two clues fit, the limits (next page) usually decide.
+
+which:
+  - group: Arrays and strings
+    rows:
+      - clue: Have I seen this value, or its complement, before?
+        try: [seen-map, freq-count]
+      - clue: Anagrams, character counts, "appears more than n/2 times"
+        try: [freq-count, majority-vote]
+      - clue: Many range-sum queries on an array that does not change
+        try: [prefix-sum, prefix-2d]
+      - clue: Count subarrays with sum k (negative numbers allowed)
+        try: [prefix-hash]
+      - clue: Many "add v to every element in [l, r]" updates, then read once
+        try: [diff-array]
+      - clue: Maximum-sum subarray
+        try: [kadane]
+      - clue: Values are 1..n and one is missing or repeated, O(1) extra space
+        try: [cyclic-sort, xor-tricks]
+      - clue: Rotate, spiral or zero a matrix in place
+        try: [matrix-moves]
+  - group: Pairs, windows and in-place moves
+    rows:
+      - clue: Sorted array, find a pair or triple with a target sum
+        try: [opposite-pointers, k-sum]
+      - clue: Longest or shortest substring or subarray with a rule
+        try: [sliding-window, min-window]
+      - clue: Count subarrays with exactly k of something
+        try: [exactly-k]
+      - clue: A window of fixed size k slides over the array
+        try: [fixed-window, window-max]
+      - clue: Remove, compact or partition in place with O(1) extra space
+        try: [read-write, dutch-flag]
+      - clue: Two sorted arrays or lists, merge or intersect them
+        try: [merge-sorted, dummy-merge]
+  - group: Sorted data and searching
+    rows:
+      - clue: Sorted array, find a position or the first/last occurrence
+        try: [lower-bound, rotated-search]
+      - clue: Minimise the maximum or maximise the minimum, and a bigger answer is always easier
+        try: [bs-answer, bs-real]
+      - clue: k-th smallest in a sorted matrix, a table, or among pair distances
+        try: [bs-count, k-way-merge]
+      - clue: Top k, k-th largest, k most frequent
+        try: [top-k, quickselect, bucket-sort]
+      - clue: Values up to 10⁹, but you need them as array indices
+        try: [coord-compress]
+      - clue: Count inversions or smaller elements after each position
+        try: [merge-sort, fenwick]
+      - clue: Order things by a rule of your own (largest number, by several keys)
+        try: [custom-sort]
+  - group: Stacks, heaps and ordered sets
+    rows:
+      - clue: Brackets, nesting, decoding, undo the most recent thing
+        try: [stack-match, expr-eval]
+      - clue: Next greater or smaller element, spans, temperatures
+        try: [next-greater]
+      - clue: Largest rectangle, or a sum of min/max over all subarrays
+        try: [histogram, contribution]
+      - clue: Running median, or keep two halves balanced
+        try: [two-heaps]
+      - clue: Repeatedly take the best option still available
+        try: [heap-greedy, top-k]
+      - clue: Nearest value above or below, bookings, a sorted set that changes
+        try: [ordered-map]
+      - clue: Design a stack or queue with an extra O(1) operation
+        try: [stack-design, lru-cache]
+  - group: Intervals and greedy
+    rows:
+      - clue: Overlapping intervals to merge or insert into
+        try: [merge-intervals, insert-interval]
+      - clue: Most non-overlapping intervals, fewest removals or arrows
+        try: [interval-scheduling]
+      - clue: Most things happening at the same time (rooms, capacity, overlap)
+        try: [sweep-line, diff-array]
+      - clue: Can you reach the end, fewest jumps
+        try: [jump-greedy]
+      - clue: Circular route or a running balance that must not go negative
+        try: [gas-station]
+      - clue: Each answer depends on everything to its left and to its right
+        try: [two-pass]
+  - group: Linked lists
+    rows:
+      - clue: Reverse a list, a part of it, or groups of k
+        try: [list-reverse]
+      - clue: Cycle, middle, palindrome list
+        try: [fast-slow]
+      - clue: k-th node from the end, rotate, where two lists meet
+        try: [gap-pointers]
+  - group: All combinations (small n)
+    rows:
+      - clue: List all subsets, combinations or permutations
+        try: [subsets, combination-sum, permutations]
+      - clue: The same, but the input has duplicates
+        try: [subsets-dup]
+      - clue: Place items under rules (queens, sudoku)
+        try: [n-queens]
+      - clue: Find a word or path in a grid, each cell used once
+        try: [grid-backtrack]
+      - clue: Split a string into valid pieces, generate valid strings
+        try: [palindrome-partition]
+      - clue: n is about 40 and you need subset sums
+        try: [meet-middle]
+  - group: Trees
+    rows:
+      - clue: Visit every node in some order, or level by level
+        try: [tree-traversal, level-order]
+      - clue: The answer comes from the children (height, diameter, balance)
+        try: [tree-bottom-up, max-path-sum]
+      - clue: Paths from the root, or any downward path, with a sum
+        try: [path-sum]
+      - clue: Binary search tree to search, validate, change or rank
+        try: [bst-ops]
+      - clue: Lowest common ancestor, k-th ancestor, distance between two nodes
+        try: [lca, binary-lifting]
+      - clue: Rebuild a tree from traversals, or serialise it
+        try: [tree-build]
+      - clue: Tree given as n nodes and n − 1 edges
+        try: [tree-edges]
+      - clue: Choose nodes with a rule about neighbours
+        try: [tree-dp]
+      - clue: The answer for every node taken as the root
+        try: [rerooting]
+      - clue: Many queries about whole subtrees
+        try: [euler-tour]
+  - group: Graphs
+    rows:
+      - clue: Count islands, components or groups; flood fill
+        try: [graph-dfs, dsu]
+      - clue: Fewest steps when every move costs 1
+        try: [graph-bfs, multi-bfs]
+      - clue: Fewest moves in a puzzle (locks, words, boards, keys)
+        try: [state-bfs]
+      - clue: Split into two groups so no edge stays inside a group
+        try: [bipartite]
+      - clue: Prerequisites, an order of tasks, or "is there a cycle?"
+        try: [topo-sort, directed-cycle]
+      - clue: Longest path or number of paths in a DAG
+        try: [dag-paths]
+      - clue: Cheapest path, weights ≥ 0
+        try: [dijkstra]
+      - clue: Every edge costs 0 or 1
+        try: [zero-one-bfs]
+      - clue: At most k edges, or negative weights
+        try: [bellman-ford]
+      - clue: Distances between all pairs, n ≤ 400
+        try: [floyd]
+      - clue: Connect everything at the lowest total cost
+        try: [kruskal, prim]
+      - clue: An edge or node whose removal disconnects the graph
+        try: [bridges]
+      - clue: Groups where everyone reaches everyone (directed)
+        try: [scc]
+      - clue: Use every edge exactly once
+        try: [euler-path]
+  - group: Dynamic programming
+    rows:
+      - clue: Count the ways or find the best cost, and choices overlap
+        try: [dp-recipe, linear-dp]
+      - clue: Move right or down on a grid
+        try: [grid-dp]
+      - clue: Pick items to reach a capacity or target, each at most once
+        try: [knapsack-01]
+      - clue: The same with unlimited copies (coins)
+        try: [unbounded-knapsack]
+      - clue: Longest increasing subsequence, chains, envelopes
+        try: [lis]
+      - clue: Two strings, common subsequence, or edit operations
+        try: [lcs, edit-distance]
+      - clue: Palindromic subsequence or fewest palindrome cuts
+        try: [palindrome-dp]
+      - clue: Merge, burst or cut a range; choose the best split point
+        try: [interval-dp]
+      - clue: Buy and sell with cooldowns, fees or k transactions
+        try: [stock-dp]
+      - clue: n ≤ 20 and you must assign or visit every item
+        try: [bitmask-dp]
+      - clue: Count numbers up to N with a digit rule
+        try: [digit-dp]
+      - clue: Split an array into k contiguous parts
+        try: [partition-dp, bs-answer]
+  - group: Strings
+    rows:
+      - clue: Find a pattern in a text in O(n + m)
+        try: [kmp, z-function, rolling-hash]
+      - clue: Prefix lookups, a dictionary of words
+        try: [trie]
+      - clue: Longest palindromic substring, count palindromes
+        try: [expand-center, manacher]
+  - group: Math, bits and range queries
+    rows:
+      - clue: Bits, subsets of a mask, powers of two
+        try: [bit-tricks]
+      - clue: Everything appears twice except one; pairs cancel
+        try: [xor-tricks]
+      - clue: Maximum XOR of two values
+        try: [xor-trie]
+      - clue: Answer modulo 10⁹ + 7, huge powers, nCr
+        try: [mod-pow, ncr-mod]
+      - clue: Primes, factors, divisibility
+        try: [sieve, gcd]
+      - clue: A linear recurrence with n up to 10¹⁸
+        try: [matrix-pow]
+      - clue: Range min or max on an array that does not change
+        try: [sparse-table]
+      - clue: Range sums or minimums while values change
+        try: [fenwick, segment-tree, lazy-segtree]
+
+checklist:
+  intro: |
+    Use the same steps on every problem. Most wrong answers come from skipping step 1 or 6.
+  steps:
+    - step: Pin down the output.
+      text: "What exactly is returned: a count, an index, the list itself? 0- or 1-indexed? Modulo something? What if there is no answer?"
+    - step: Read the limits.
+      text: Take the largest n and pick the target complexity from the table on the previous page. Note value ranges that need `long`.
+    - step: Work two examples by hand.
+      text: "Use the sample and one edge case of your own: empty, one element, all equal, negatives, the largest values."
+    - step: Say the brute force and its cost.
+      text: "Then find the repeated work it does. That repeated work is what the pattern removes. Look up the clue in *Which pattern?*."
+    - step: Write the template, then adapt it.
+      text: Start from the template you know by heart and change only what the problem needs. Keep its names so you can check it against the book.
+    - step: Test before you submit.
+      text: "Run the samples and your edge cases. Check overflow, off-by-one at both ends, an empty input, and that every path returns a value."
+  stuck:
+    - Would sorting the input help, and does the question still make sense after sorting?
+    - Is a bigger answer always easier (or always harder) to achieve? Then binary search the answer ([[bs-answer]]).
+    - Can you fix one element (the right end, the middle, the last step) and solve the rest quickly?
+    - Can you go backwards, from the target to the start, or think of the last operation first?
+    - Is there a graph hiding in it? States as nodes, moves as edges ([[state-bfs]]).
+    - Is it counting or optimising over choices that repeat? Write the recursion first, then memoise it ([[dp-recipe]]).
+
+collection_costs:
+  - name: "`ArrayList`"
+    ops:
+      - ["`get(i)`, `set(i, x)`, `size()`", "O(1)"]
+      - ["`add(x)` at the end", "O(1) amortised"]
+      - ["`add(i, x)`, `remove(i)`", "O(n − i)"]
+      - ["`contains(x)`, `indexOf(x)`, `remove(Object)`", "O(n)"]
+  - name: "`ArrayDeque` (stack and queue)"
+    ops:
+      - ["`push`, `pop`, `peek`, `offer`, `poll` at either end", "O(1) amortised"]
+      - ["`contains(x)`, `remove(Object)`", "O(n)"]
+  - name: "`HashMap`, `HashSet`"
+    ops:
+      - ["`get`, `put`, `remove`, `containsKey`, `merge`", "O(1) average"]
+      - ["iterate over all entries (in no fixed order)", "O(n + capacity)"]
+  - name: "`TreeMap`, `TreeSet`"
+    ops:
+      - ["`get`, `put`, `remove`, `containsKey`", "O(log n)"]
+      - ["`floorKey`, `ceilingKey`, `firstKey`, `pollFirst`", "O(log n)"]
+      - ["iterate in sorted order", "O(n)"]
+  - name: "`PriorityQueue`"
+    ops:
+      - ["`offer`, `poll`", "O(log n)"]
+      - ["`peek`, `size()`", "O(1)"]
+      - ["`remove(Object)`, `contains(x)`", "O(n)"]
+      - ["`new PriorityQueue<>(collection)`", "O(n)"]
+  - name: "`String`, `StringBuilder`"
+    ops:
+      - ["`charAt`, `length`; `sb.append(c)`", "O(1)"]
+      - ["`substring(i, j)`, `s + t`, `equals`, `toCharArray`", "O(length)"]
+      - ["`sb.insert(i, x)`, `sb.deleteCharAt(i)`", "O(n − i)"]
+      - ["`sb.reverse()`, `sb.toString()`", "O(n)"]
+  - name: "Sorting and arrays"
+    ops:
+      - ["`Arrays.sort(int[])` (quicksort)", "O(n log n)"]
+      - ["`Arrays.sort(T[], cmp)`, `Collections.sort` (stable)", "O(n log n)"]
+      - ["`Arrays.fill`, `Arrays.copyOfRange`, `Collections.reverse`", "O(n)"]
+
+collection_costs_after: |
+  `HashMap` is O(1) only on average; keys with a good `hashCode` keep it there. Sorting an
+  `int[]` uses a quicksort that crafted tests on Codeforces can slow down on older Java
+  versions: shuffle the array first, or sort an `Integer[]` or a `List` (merge sort).
+
+sizes_intro: |
+  Java does roughly 10⁸ simple steps per second, and judges allow 1–2 seconds. Find the
+  largest n in the constraints, then aim for the complexity in its row.
+
+sizes:
+  - n: "n ≤ 10"
+    o: "O(n!)"
+    eg: "All permutations, brute force over orders: [[#permutations]]"
+  - n: "n ≤ 20"
+    o: "O(2ⁿ · n)"
+    eg: "All subsets [[#subsets]], bitmask DP [[#bitmask-dp]]"
+  - n: "n ≤ 40"
+    o: "O(2^(n/2) · n)"
+    eg: "Meet in the middle [[#meet-middle]]"
+  - n: "n ≤ 500"
+    o: "O(n³)"
+    eg: "Floyd–Warshall [[#floyd]], interval DP [[#interval-dp]]"
+  - n: "n ≤ 5 000"
+    o: "O(n²)"
+    eg: "Two-string DP [[#lcs]] [[#edit-distance]], all pairs, the O(n²) LIS [[#lis]]"
+  - n: "n ≤ 10⁶"
+    o: "O(n log n)"
+    eg: "Sorting, heaps [[#top-k]], binary search [[#lower-bound]], Fenwick and segment trees [[#fenwick]], Dijkstra [[#dijkstra]]"
+  - n: "n ≤ 10⁸"
+    o: "O(n)"
+    eg: "Two pointers [[#opposite-pointers]], sliding windows [[#sliding-window]], prefix sums [[#prefix-sum]], BFS/DFS [[#graph-bfs]], a sieve [[#sieve]]"
+  - n: "n ≤ 10¹⁸"
+    o: "O(log n) or O(1)"
+    eg: "Binary search on the answer [[#bs-answer]], fast power [[#mod-pow]], matrix power [[#matrix-pow]], a formula"
+
+sizes_after: |
+  With q queries the total is the setup cost plus q times the cost per query, so n, q ≤ 10⁵
+  rules out O(n) per query and asks for O(log n): prefix sums, a Fenwick tree or a segment tree.
+
+  **Memory.** An `int` takes 4 bytes and a `long` 8, so `new int[10_000_000]` is 40 MB and fits
+  the usual 256 MB. A `HashMap<Integer, Integer>` costs about 50–80 bytes per entry, so 10⁶
+  entries are already 50–80 MB; use arrays when the keys are small integers.
+
+  **Overflow.** `int` holds up to about 2.1 · 10⁹. Sums of 10⁵ values up to 10⁹ need `long`.
+  When the answer is "modulo 10⁹ + 7", take the remainder after every addition and
+  multiplication, and multiply as `long`.
+
+javakit:
+  intro: |
+    The templates use the same few Java tools again and again. These are LeetCode's node
+    classes, the collection idioms, and a full program for judges that read from standard input
+    (Infosys, HackerRank, Codeforces). Everything here is compiled and tested too.
+  code:
+    - file: Nodes.java
+      region: nodes
+      title: "`ListNode` and `TreeNode`: LeetCode's node classes"
+      tag: helper
+    - file: Main.java
+      region: main
+      title: "A full program for stdin judges"
+      tag: memorise
+      note: "Most stdin judges want the class to be called `Main`; check the platform's instructions. The input `2 / 3 / 1 2 3 / 2 / -10 5` (one value or line per slash) prints `6` and `-5`."
+    - file: P00JavaKit.java
+      region: idioms
+      title: Collection idioms the templates use
+      tag: usage
+    - file: Main.java
+      region: reader
+      title: "`FastReader`: fast input, goes inside `Main`"
+      tag: memorise
+  traps:
+    - "`Integer` objects compared with `==` are equal by value only from −128 to 127. Use `.equals`, or unbox to `int` first."
+    - "`a * b` with two `int`s overflows before it is stored in a `long`. Write `(long) a * b`."
+    - "The comparator `(p, q) -> p - q` overflows for large values and then sorts wrongly. Use `Integer.compare(p, q)`."
+    - "`list.remove(i)` with an `int` removes the element at **index** i. To remove the value, write `list.remove(Integer.valueOf(x))`."
+    - "`s += c` in a loop copies the whole string every time, O(n²). Use a `StringBuilder`."
+    - "`Arrays.fill(grid, new int[m])` puts the *same* row in every slot. Create each row in a loop."
+    - "Recursion deeper than about 10⁴ calls can throw `StackOverflowError`. Use an explicit stack or a loop (see [[tree-edges]])."
+    - "`static` fields keep their values between LeetCode test cases. Reset them at the start of the method."
+    - "`Math.abs(Integer.MIN_VALUE)` is still negative. Work in `long` when a value can be −2³¹."

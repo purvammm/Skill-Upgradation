@@ -1,0 +1,317 @@
+intro: >-
+  A range query asks about a contiguous block of an array: its minimum, its sum, the
+  first position that reaches a bound. If the array never changes, prefix sums or a
+  sparse table answer in O(1). If values change between queries, a Fenwick tree or a
+  segment tree does the update and the query in O(log n) each, and lazy tags extend
+  that to updates on whole ranges. When the keys themselves come and go, Java's
+  TreeMap and TreeSet give the neighbours of any value in O(log n).
+
+patterns:
+  - id: sparse-table
+    title: Sparse table (static range min)
+    short: Sparse table
+    signal: Many min, max, gcd, AND or OR queries on ranges of an array that never changes.
+    spot:
+      - "The array is fixed, and there are 10⁵ or more queries for the min, max, gcd, AND or OR of `a[l..r]`."
+      - A two-pointer or binary-search loop needs the min or max of its current window in O(1).
+      - "The operation has no inverse, so the prefix difference trick of [[prefix-sum]] does not work."
+    idea: |
+      `st[k][i]` is the min of the 2^k values starting at i. Row 0 is the array, and
+      each cell of row k combines two cells of row k − 1:
+      `st[k][i] = min(st[k-1][i], st[k-1][i + 2^(k-1)])`. There are about log₂ n rows
+      of at most n cells, so the build is O(n log n) in time and memory.
+
+      A query `[l, r]` takes `k = floor(log2(r - l + 1))`. The block of length 2^k
+      that starts at l and the one that ends at r cover `[l, r]` together, because
+      2·2^k > r − l + 1. They usually overlap, and for a min that is harmless: a value
+      seen twice does not change a min. The same holds for every **idempotent**
+      operation, where `op(x, x) = x`: min, max, gcd, AND, OR. So a query is two
+      lookups, O(1).
+
+      A sum counts the overlap twice. It needs disjoint blocks, one per set bit of
+      the length, which is O(log n), and prefix sums do sums in O(1) anyway.
+    trace_title: "a = [5, 2, 4, 7, 1, 3, 6, 8], range min"
+    trace: |
+      i      0  1  2  3  4  5  6  7
+      k = 0  5  2  4  7  1  3  6  8    the array
+      k = 1  2  2  4  1  1  3  6       min of a[i..i+1]
+      k = 2  2  1  1  1  1             min of a[i..i+3]
+      k = 3  1                         min of a[i..i+7]
+      query(2, 6): length 5, k = lg[5] = 2
+        blocks a[2..5] and a[3..6]: st[2][2] = 1, st[2][3] = 1 -> min 1
+        a[3..5] is in both blocks, which a min does not mind
+      the same two blocks for a sum: 15 + 17 = 32, but a[2..6] sums to 21
+    code:
+      - file: P13SparseTable.java
+        region: table
+        title: Sparse table for range min or max
+        tag: memorise
+      - file: P13SparseTable.java
+        region: limit
+        title: Longest subarray with max − min ≤ limit
+        tag: example
+    time: O(1) per query
+    space: O(n log n)
+    cost_note: The build fills about log₂ n rows of up to n cells. A query is two lookups. LC 1438 adds an O(n) window walk to the O(n log n) build.
+    variants:
+      - "OR or AND of a range (LC 2411, LC 3171): both are idempotent, so change `op`. For a fixed l the OR only grows with r, so binary search r with O(1) queries."
+      - "Max and min of the same window (LC 1438): one table for each. LC 2398 needs only the max table, plus a prefix sum of the running costs."
+      - "Index of the minimum, as in LCA on an Euler tour ([[lca]]): store indexes in the table and compare their values in `op`."
+      - "Values change between queries: a [[segment-tree]] answers in O(log n) and updates in O(log n)."
+    traps:
+      - "Filling the table with i in the outer loop and k inside reads row k − 1 cells that are not built yet: on `[5, 2, 4, 7, 1, 3, 6, 8]` every cell of row 2 comes out 0. Build row by row."
+      - "`st[k][r - k + 1]` instead of `st[k][r - (1 << k) + 1]`: `query(0, 3)` above reads the block `a[2..5]` and returns 1 instead of 2."
+      - "The overlapping two-block query on a sum counts the overlap twice: 32 instead of 21 in the example."
+    practice: [smallest-subarrays-with-maximum-bitwise-or, longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit, maximum-number-of-robots-within-budget, find-subarray-with-bitwise-or-closest-to-k]
+
+  - id: fenwick
+    title: Fenwick tree (binary indexed)
+    short: Fenwick tree
+    signal: Prefix sums while values change; count how many earlier values are smaller than this one.
+    spot:
+      - "*Update one value* and *sum a range*, mixed, with 10⁵ or 3·10⁴ operations of each."
+      - "*How many earlier (or later) elements are smaller*: count of smaller numbers after self, inversions, the cost of inserting into a sorted list."
+      - Values are bounded (up to 10⁵) or can be compressed, so they can serve as indexes.
+    idea: |
+      Index from 1. `t[i]` holds the sum of `a(i - lowbit(i) .. i]`, where
+      `lowbit(i) = i & -i` is the lowest set bit of i: `t[6]` holds `a[5..6]` and
+      `t[8]` holds `a[1..8]`. The prefix `[1, i]` splits into such blocks: take
+      `t[i]`, clear the lowest bit with `i -= i & -i`, and repeat. Each step clears
+      one set bit, so `sum(i)` adds at most log₂ n + 1 cells.
+
+      The cells whose blocks contain `a[i]` are i, then `i + lowbit(i)`, and so on.
+      Adding the lowest bit carries into a higher bit, and that cell's block reaches
+      back over i. So `add(i, d)` also touches O(log n) cells, and a range sum is
+      `sum(r) - sum(l - 1)`.
+
+      For range add with point query, store the differences `d[i] = a[i] - a[i-1]`.
+      Adding v to `a[l..r]` changes only `d[l]` and `d[r+1]`, and `a[i]` is the
+      prefix sum of d.
+    trace_title: "a = [3, 1, 4, 1, 5, 9, 2, 6] at indexes 1..8"
+    trace: |
+      i  binary  i & -i  t[i] holds  t[i]
+      1  0001    1       a[1]          3
+      2  0010    2       a[1..2]       4
+      3  0011    1       a[3]          4
+      4  0100    4       a[1..4]       9
+      5  0101    1       a[5]          5
+      6  0110    2       a[5..6]      14
+      7  0111    1       a[7]          2
+      8  1000    8       a[1..8]      31
+      sum(7) = t[7] + t[6] + t[4] = 2 + 14 + 9 = 25     i: 7 -> 6 -> 4 -> 0
+      add(3, +2) changes t[3], t[4], t[8]                i: 3 -> 4 -> 8 -> 16 > 8
+    code:
+      - file: P13Fenwick.java
+        region: bit
+        title: Fenwick tree with i & -i
+        tag: memorise
+      - file: P13Fenwick.java
+        region: uses
+        title: Range sum mutable; range add, point query
+        tag: variant
+      - file: P13Fenwick.java
+        region: count
+        title: Count smaller after self; sorted inserts
+        tag: example
+        note: "`ranks(a)` gives each value its rank 1..m: the sort, unique and binary search of [[coord-compress]], plus 1."
+    time: O(log n)
+    space: O(n)
+    cost_note: Each add or sum touches at most log₂ n + 1 cells. LC 315 and LC 1649 do one add and one or two sums per element, O(n log n) with the sort for the ranks.
+    variants:
+      - "Build in O(n): copy a into t, then for i = 1..n add `t[i]` into `t[i + (i & -i)]` when that index is ≤ n."
+      - "k-th smallest of the counted values in O(log n): start at `pos = 0` and try each `step` from the highest power of two down. If `t[pos + step] < k`, subtract that cell from k and move `pos += step`. The answer is `pos + 1`."
+      - "Count good triplets (LC 2179): replace each value by its position in the other array, then for each middle element multiply smaller-before by larger-after."
+      - "Range add with range sum: two trees, or a [[lazy-segtree]]. Min or max of a range with updates: a [[segment-tree]]."
+    traps:
+      - "Index 0: `add(0, x)` never ends, because `0 & -0` is 0 and i never moves. LC 307 indexes from 0, so add 1."
+      - "LC 307 `update` sets a value. Adding `val` instead of `val - a[i]`: on `[1, 3, 5]`, `update(1, 2)` and then `sumRange(0, 2)` gives 11 instead of 8."
+      - "Forgetting `a[i] = val`: a second `update(1, 2)` subtracts 1 again, and the sum becomes 7."
+      - "Range add with `add(r, -v)` instead of `add(r + 1, -v)` takes the add back from `a[r]` itself."
+    practice: [queries-on-a-permutation-with-key, range-sum-query-mutable, count-of-smaller-numbers-after-self, create-sorted-array-through-instructions, count-good-triplets-in-an-array]
+
+  - id: segment-tree
+    title: Segment tree (point update)
+    short: Segment tree
+    signal: Point updates mixed with range queries for any associative operation, or the first index whose value reaches k.
+    spot:
+      - "Values change, and after each change you need the max, min, sum or gcd of a range; n and q up to 10⁵."
+      - "*The first position* (leftmost row, basket, seat) *with at least k*, while the values keep changing."
+      - "A DP over values where `dp[v]` needs the best `dp` over the value range `[v - k, v - 1]`."
+    idea: |
+      Node 1 covers the array. Node x with range `[lo, hi]` has children 2x for
+      `[lo, mid]` and 2x + 1 for `[mid+1, hi]`, and stores the max and the sum of its
+      range. There are about log₂ n levels.
+
+      `set(i, v)` changes one leaf and recomputes its ancestors. A query returns a
+      node's value when the node is inside `[l, r]`, the identity (0 for a sum, −∞
+      for a max) when it is outside, and asks both children otherwise. Only the two
+      ends of `[l, r]` cut nodes, at most two per level, so a query visits O(log n)
+      nodes.
+
+      The descent finds the smallest i ≤ r with `a[i] ≥ k`. A node whose max is below
+      k is skipped whole, so the search follows the path at r and one path down to
+      the answer: O(log n). The book uses the recursive tree with 4n slots. The
+      iterative 2n version is shorter, but unless n is a power of two its nodes do
+      not nest into one tree, and the descent and the tags of [[lazy-segtree]]
+      need one.
+    trace_title: "a = [5, 1, 4, 2, 6, 3]; each node shows [lo, hi] max/sum"
+    trace: |
+      x=1  [0,5] 6/21
+      x=2    [0,2] 5/10
+      x=4      [0,1] 5/6     children x=8 [0,0] 5/5, x=9 [1,1] 1/1
+      x=5      [2,2] 4/4
+      x=3    [3,5] 6/11
+      x=6      [3,4] 6/8     children x=12 [3,3] 2/2, x=13 [4,4] 6/6
+      x=7      [5,5] 3/3
+      sum(1, 4) = [1,1] + [2,2] + [3,4] = 1 + 4 + 8 = 13, three inside nodes
+      first(k = 5, r = 5): [0,5] -> [0,2] -> [0,1] -> [0,0]: index 0
+      first(k = 6, r = 5): [0,2] has max 5 < 6, skipped -> [3,5] -> [3,4]
+                           -> [3,3] has max 2, skipped -> [4,4]: index 4
+    code:
+      - file: P13SegmentTree.java
+        region: tree
+        title: Max and sum, point set, range query
+        tag: memorise
+      - file: P13SegmentTree.java
+        region: descent
+        title: Descent to the first a[i] ≥ k
+        tag: memorise
+      - file: P13SegmentTree.java
+        region: lis
+        title: Longest increasing subsequence II
+        tag: example
+    time: O(log n)
+    space: O(n)
+    cost_note: set, max, sum and the descent each visit O(log n) nodes. LC 2407 builds the tree over the values, so it costs O(n log V) for values up to V.
+    variants:
+      - "Range sum query mutable (LC 307): `set` and `sum` are enough; a [[fenwick]] tree is shorter when sums are all you need."
+      - "Fruits into baskets III (LC 3479): the descent over the whole array finds the leftmost basket that fits, and `set(i, 0)` uses it up."
+      - "Booking concert tickets (LC 2286): the tree holds each row's free seats. *gather* is the descent with bound maxRow, then a `set` on that row. *scatter* checks `sum(0, maxRow) ≥ k` and fills rows from a pointer to the first row that is not full. Each row fills once: O((n + q) log n) in total."
+      - "Richer nodes (LC 3165): each node keeps the best sum for each choice of using its first and last element, four numbers that merge in O(1)."
+    traps:
+      - "Arrays of size 2n for the recursive tree: n = 6 already uses node 13 (see the trace). Allocate 4n."
+      - "Returning 0 for an outside node in a max query is wrong when values can be negative: on `[-3, -5]`, `max(1, 1)` comes out 0. Return `Long.MIN_VALUE`."
+      - "LC 2407 with the range `[v - k, v]` lets a value follow an equal one: `[1, 1]` with k = 1 gives 2, but the subsequence must be strictly increasing, so the answer is 1."
+    practice: [fruits-into-baskets-iii, longest-increasing-subsequence-ii, booking-concert-tickets-in-groups, maximum-sum-of-subsequence-with-non-adjacent-elements]
+
+  - id: lazy-segtree
+    title: Lazy propagation (range updates)
+    short: Lazy propagation
+    signal: "Updates on whole ranges (add, assign, flip) mixed with range queries, each in O(log n)."
+    spot:
+      - "*Add v to every element in [l, r]*, *set [l, r] to v*, *flip the bits in [l, r]*, mixed with sum or max queries."
+      - n and q up to 10⁵, so touching every element of an update (O(n) each) is too slow.
+      - Squares or intervals dropped on a line, where each one reads the max over its range and then raises it.
+    idea: |
+      A range update stops at the O(log n) nodes that lie fully inside `[l, r]`, the
+      same nodes a query would use. Each gets its new value at once (`sm += v·len`)
+      and a **tag**, `lz += v`, meaning "my children have not received this add yet". Nothing
+      below is touched.
+
+      The invariant: `sm[x]` is right for x's range, but a child is right only once
+      the tags of all its ancestors have been handed down. So every call that goes
+      below a node first **pushes**: it applies the node's tag to both children and
+      clears it. After the children change, it **pulls**: `sm[x] = sm[2x] + sm[2x+1]`.
+      Push before going down, pull after coming back.
+
+      Each call still visits O(log n) nodes and a push is O(1), so updates and
+      queries are both O(log n). Tags must combine into one tag: two adds are one
+      add, two flips cancel, and an assign replaces any older tag.
+    trace_title: "n = 8, all 0; nodes are [lo, hi] with sm and lz"
+    trace: |
+      add(0, 5, +2)  [0,3] inside: sm 8, lz 2      [4,5] inside: sm 4, lz 2
+                     pull: [4,7] sm 4, [0,7] sm 12; the six leaves are untouched
+      add(2, 3, +3)  [0,3] is cut: push lz 2 to [0,1] (sm 4) and [2,3] (sm 4)
+                     [2,3] inside: sm 4 + 3*2 = 10, lz 2 + 3 = 5
+                     pull: [0,3] sm 4 + 10 = 14, [0,7] sm 14 + 4 = 18
+      sum(3, 3)      [2,3] is cut: push lz 5 to [2,2] and [3,3] (sm 5 each)
+                     [3,3] inside: the answer is 5
+                     without the push, [3,3] still has sm 0 and the answer is 0
+    code:
+      - file: P13LazySegTree.java
+        region: lazy
+        title: Range add, range sum
+        tag: memorise
+      - file: P13LazySegTree.java
+        region: flip
+        title: Range flip, count ones (LC 2569)
+        tag: variant
+        note: "For LC 2569, flip each 1 of nums1 into an empty tree, keep the sum of nums2 in a `long`, and on a type 2 query add `p * ones[1]`: the root counts every one."
+    time: O(log n)
+    space: O(n)
+    cost_note: Updates and queries each visit O(log n) nodes; push and pull are O(1). LC 2569 reads the root alone for a type 2 query.
+    variants:
+      - "Range assign: the tag is \"set to v\" plus a flag, since 0 is a real value. `apply` sets `sm = v·len` and replaces any older tag."
+      - "Range add with range max or min: `apply` adds v to `mx[x]`, with no length factor."
+      - "Falling squares (LC 699): compress the left and right edges. Each square reads the max height over its cells, adds its side, and raises the range to that height. The new height is above everything in the range, so a \"raise to at least h\" tag works like an assign."
+      - "Coordinates up to 10⁹ that arrive online (my calendar III, range module): create children only when a push or an update needs them. Each operation adds O(log 10⁹) nodes."
+    traps:
+      - "No push in the query: the children still hold old values. In the example, `sum(3, 3)` returns 0 instead of 5."
+      - "`sm[x] += v` without the length factor: adding 1 to all of `[0, 3]` raises the sum by 1, not 4."
+      - "Testing `lz[x] == 0` for \"no tag\" in range assign loses every assignment of 0. Keep a separate boolean."
+    practice: [handling-sum-queries-after-update, falling-squares, my-calendar-iii, range-module]
+
+  - id: ordered-map
+    title: Ordered maps (TreeMap, TreeSet)
+    short: TreeMap and TreeSet
+    signal: Keep keys sorted while they are added and removed, and find the nearest key above or below any value.
+    spot:
+      - "*The closest value to x* (≤ x, ≥ x, within d) in a set that changes: inserts, deletes and queries, up to 10⁵ of each."
+      - Intervals or bookings that arrive one at a time and must stay disjoint or merged.
+      - The max and min of a collection where any element can be removed or corrected, which a heap cannot do directly.
+    idea: |
+      `TreeMap` and `TreeSet` are red-black trees: keys stay sorted, and `put`,
+      `remove`, `get` and the neighbour queries `floorKey`, `ceilingKey`, `lowerKey`
+      and `higherKey` are all O(log n). `firstKey` and `lastKey` give the min and max.
+
+      Most uses rest on one argument: only the neighbours matter. Bookings that never
+      overlap, sorted by start, are also sorted by end. So a new booking `[s, e)` can
+      only collide with the last one starting at or before s, or the first one
+      starting at or after s, and two O(log n) lookups replace a scan. For *contains
+      duplicate III*, the only value among the last k that needs checking is the
+      smallest one ≥ x − d: if it is above x + d, no value is close enough.
+
+      Merging works the same way: an interval that overlaps or touches `[l, r]` must
+      start at or before r + 1, so `floorEntry(r + 1)` finds them one at a time, and
+      each stored interval is removed once.
+    trace_title: "MyCalendar.book, then Intervals.add (touching intervals merge)"
+    trace: |
+      book     floorEntry(s)  ceilingKey(s)  result
+      [10,20)  null           null           true   {10=20}
+      [15,25)  10=20          null           false  20 > 15: it runs into 15
+      [20,30)  10=20          null           true   {10=20, 20=30}
+      [5,12)   null           10             false  10 < 12: it starts first
+      [5,10)   null           10             true   {5=10, 10=20, 20=30}
+      add      map after          count()
+      [2,3]    {2=3}               2
+      [7,10]   {2=3, 7=10}         6
+      [5,8]    {2=3, 5=10}         8    absorbs 7=10
+      [11,11]  {2=3, 5=11}         9    touches 5=10
+      [1,1]    {1=3, 5=11}        10    touches 2=3
+    code:
+      - file: P13OrderedMap.java
+        region: calendar
+        title: My calendar I; contains duplicate III
+        tag: memorise
+      - file: P13OrderedMap.java
+        region: api
+        title: The calls you need, and a multiset
+        tag: usage
+      - file: P13OrderedMap.java
+        region: intervals
+        title: Disjoint intervals (LC 352, LC 2276)
+        tag: example
+    time: O(log n)
+    space: O(n)
+    cost_note: Each put, remove and neighbour query is O(log n). Every interval is merged away at most once, so n adds cost O(n log n) in total.
+    variants:
+      - "Stock price fluctuation (LC 2034): a `HashMap` from time to price, and a `TreeMap` multiset of prices. A correction takes one copy of the old price away; the max is `lastKey()`."
+      - "My calendar II and III: a `TreeMap` of +1 and −1 changes, swept in key order ([[sweep-line]])."
+      - "Equal values in a `TreeSet`: store `(long) value * n + index`, or pairs with a comparator that breaks ties by index."
+      - "Rank or k-th smallest is not in `TreeMap` (it keeps no subtree sizes): use a [[fenwick]] tree over compressed values ([[coord-compress]])."
+    traps:
+      - "`int k = map.floorKey(x);` throws `NullPointerException` when no key is ≤ x. Keep the `Integer` and test it for null."
+      - "A `TreeSet` of prices loses duplicates: after (t1, 10), (t2, 10) and a correction of t1 to 5, the set holds only 5, and the max says 5 instead of 10. Count copies in a `TreeMap`."
+      - "A comparator that returns 0 for different elements makes them one element: `new TreeSet<int[]>((x, y) -> Integer.compare(x[0], y[0]))` keeps only one of `[1, 2]` and `[1, 3]`."
+      - "Removing keys while looping over `tailMap(...).keySet()` throws `ConcurrentModificationException`. Find each key with a fresh `floorEntry` or `ceilingEntry`, as the merge does."
+    practice: [my-calendar-i, stock-price-fluctuation, contains-duplicate-iii, data-stream-as-disjoint-intervals, count-integers-in-intervals]

@@ -1,0 +1,587 @@
+intro: >-
+  Most array and string questions come down to a little bookkeeping done in one pass.
+  A hash map or an `int[26]` remembers what you have already seen, a prefix-sum array
+  answers any range sum in O(1), and a single running value (the best sum ending here,
+  a vote count) carries the answer forward. Reach for this part when the brute force
+  checks every pair or every subarray and n is around 10⁵, so you need O(n).
+
+patterns:
+  - id: freq-count
+    title: Frequency counting
+    signal: Same letters in any order, or how often each value occurs.
+    spot:
+      - "Anagram, permutation, \"can be rearranged into\", \"same characters\": compare counts, not order."
+      - "The limits say \"lowercase English letters only\": use `int[26]` instead of a map."
+      - First, most or least frequent element, or a character that appears exactly once.
+      - Group words that are equal up to reordering their letters.
+    idea: |
+      An anagram ignores order. All that matters is how many times each letter
+      appears, so turn each string into its letter counts and compare those. With
+      `int[26]` you index by `c - 'a'`, and each update is one array write. Counting
+      a string of length n is O(n); comparing two count arrays is O(26).
+
+      For valid anagram one array is enough: add one for each letter of `s` and take
+      one away for each letter of `t`. The strings are anagrams exactly when every
+      count ends at 0.
+
+      To group anagrams, turn the count array into the map key with
+      `Arrays.toString(cnt)`. Two words get the same key if and only if they have the
+      same counts, so each group collects in one bucket. For values that are not small
+      letters (ints up to 10⁹, any Unicode), use a `HashMap` and `merge(x, 1, Integer::sum)`.
+    trace_title: 'group anagrams of ["eat", "tea", "tan", "ate", "nat", "bat"]'
+    trace: |
+      word  counts (key)   its group so far
+      eat   a1 e1 t1       [eat]
+      tea   a1 e1 t1       [eat, tea]
+      tan   a1 n1 t1       [tan]
+      ate   a1 e1 t1       [eat, tea, ate]
+      nat   a1 n1 t1       [tan, nat]
+      bat   a1 b1 t1       [bat]
+      result: [[eat, tea, ate], [bat], [tan, nat]]   (3 keys, any order)
+    code:
+      - file: P01FreqCount.java
+        region: count
+        title: Count with a map or an int[26]
+        tag: memorise
+      - file: P01FreqCount.java
+        region: group
+        title: Group anagrams by a count key
+        tag: variant
+      - file: P01FreqCount.java
+        region: unique
+        title: First unique character
+        tag: example
+    time: O(n)
+    space: O(k)
+    cost_note: n = total characters, one array or map write each; k = distinct keys, and `int[26]` is O(1).
+    variants:
+      - "Take one away: `if (cnt.merge(x, -1, Integer::sum) == 0) cnt.remove(x);` keeps `cnt.size()` equal to the number of distinct values."
+      - "Ransom note: count the magazine, then spend those counts on the note; fail as soon as one drops below 0."
+      - "Sorted key for group anagrams: sort `w.toCharArray()` and use `new String(c)`. It costs O(L log L) per word instead of O(L + 26)."
+      - "Close strings: both words use the same set of letters, and their sorted `int[26]` arrays are equal."
+    traps:
+      - "`cnt.put(x, cnt.get(x) + 1)` throws `NullPointerException` the first time `x` appears. Use `merge` or `getOrDefault(x, 0)`."
+      - "`map.get(a) == map.get(b)` compares two `Integer` objects. Java caches only -128..127, so two counts of 128 are not `==`. Use `.equals` or unbox to `int`."
+      - "`c - 'a'` assumes lowercase letters. Uppercase letters or digits give a negative index; use `int[128]` for ASCII, or a map."
+      - "An `int[]` as a map key uses identity, so `map.get(new int[] {...})` never finds anything. Convert the counts to a `String` first."
+    practice: [valid-anagram, ransom-note, first-unique-character-in-a-string, group-anagrams, determine-if-two-strings-are-close]
+
+  - id: seen-map
+    title: Seen-before hash map
+    signal: For each element, ask in O(1) whether its partner (or a copy) appeared earlier.
+    spot:
+      - "Unsorted array, find two indexes with `a[i] + a[j] == target` (or a given difference)."
+      - "\"Contains duplicate\", \"within distance k\", \"has this appeared before\"."
+      - n up to 10⁵ rules out the O(n²) pair loop, and sorting would lose the original indexes.
+      - Longest run of consecutive *values* in any order, asked for in O(n).
+    idea: |
+      The brute force checks every pair `i < j`. Turn it around: walk left to right
+      and keep a hash map of everything already passed. Then "is there a partner for
+      `a[i]`?" is one `get`, O(1) on average, and the whole scan is O(n).
+
+      For two sum the partner of `a[i]` is `target - a[i]`. Look it up **before** you
+      store `a[i]`, so an element cannot pair with itself. For "duplicate within k",
+      store each value's last index: the most recent copy is the closest one, so older
+      indexes never matter.
+
+      For longest consecutive sequence, put every value in a set and start counting
+      only at an `x` whose `x - 1` is missing, because that is where a run begins.
+      Every other value is skipped in O(1), and each value is walked over once by the
+      inner `while`, so the total is O(n), not O(n²).
+    trace_title: "two sum, a = [3, 8, 4, 6, 2], target = 10"
+    trace: |
+      i  a[i] need  seen?      map after (value=index)
+      0  3    7     no         {3=0}
+      1  8    2     no         {3=0, 8=1}
+      2  4    6     no         {3=0, 8=1, 4=2}
+      3  6    4     yes, at 2  return (2, 3)
+      ---- longest consecutive, a = [100, 4, 200, 1, 3, 2] ----
+      x = 1    0 not in set:     walk 1, 2, 3, 4 -> len 4
+      x = 100  99 not in set:    walk 100 -> len 1
+      x = 200  199 not in set:   walk 200 -> len 1
+      x = 2, 3, 4: x - 1 is in the set, skip.  best = 4
+    code:
+      - file: P01SeenMap.java
+        region: twosum
+        title: "Two sum: look back, then remember"
+        tag: memorise
+      - file: P01SeenMap.java
+        region: nearby
+        title: Duplicate within distance k
+        tag: variant
+      - file: P01SeenMap.java
+        region: consecutive
+        title: Longest consecutive sequence
+        tag: memorise
+    time: O(n)
+    space: O(n)
+    cost_note: One pass of O(1) average hash operations; the map or set holds up to n entries.
+    variants:
+      - "Count pairs instead of finding one: before storing `a[i]`, add `cnt.getOrDefault(target - a[i], 0)` to the answer."
+      - "4Sum II: put every `a + b` from the first two arrays in a count map, then look up `-(c + d)` for the other two. O(n²) instead of O(n⁴)."
+      - "Contains duplicate: `if (!set.add(x)) return true;`, because `add` returns false when `x` is already there."
+      - "Sorted input, or no indexes needed: two pointers with O(1) space ([[opposite-pointers]])."
+    traps:
+      - "Storing `a[i]` before the lookup lets it pair with itself: `[3, 2, 4]` with target 6 returns `(0, 0)`."
+      - "`i - j < k` instead of `<= k` misses pairs exactly k apart: `[1, 0, 1]` with k = 2 returns false."
+      - "Looping `for (int x : a)` instead of over the set in longest consecutive: with many copies of a run's first value, each copy walks the whole run, which is O(n²)."
+    practice: [two-sum, contains-duplicate, contains-duplicate-ii, longest-consecutive-sequence, 4sum-ii]
+
+  - id: prefix-sum
+    title: Prefix sums
+    signal: Many range-sum queries on a fixed array, or left sum against right sum.
+    spot:
+      - "Many queries \"sum of `a[l..r]`\" on a fixed array."
+      - "Compare the sum left of i with the sum right of i: pivot index, middle index, minimum average difference."
+      - "Product or sum of *everything except* `a[i]`, often with \"without using division\"."
+    idea: |
+      Store `pre[i]` = the sum of the first i elements, so `pre` has n + 1 entries
+      and `pre[0] = 0`. Every range sum is then a difference of two prefixes:
+      `sum(l..r) = pre[r + 1] - pre[l]`, because `pre[r + 1]` covers `a[0..r]` and
+      subtracting `pre[l]` removes `a[0..l-1]`. Building is O(n) and each query is O(1).
+
+      The extra slot is the reason for the n + 1 convention: a range that starts at 0
+      needs no special case, since `pre[0]` is 0.
+
+      The same idea works from both ends. In product of array except self, `ans[i]` is
+      the product of everything left of i times everything right of i. A forward pass
+      writes the left products into `ans`. A backward pass multiplies in a running
+      right product. No division, and nothing extra beyond the output array.
+    trace_title: "a = [3, -1, 4, 1, 5]"
+    trace: |
+      i         0   1   2   3   4   5
+      a[i]      3  -1   4   1   5
+      pre[i]    0   3   2   6   7  12
+      sum(1, 3) = pre[4] - pre[1] = 7 - 3 = 4
+      sum(0, 4) = pre[5] - pre[0] = 12 - 0 = 12
+      sum(2, 2) = pre[3] - pre[2] = 6 - 2 = 4
+    code:
+      - file: P01PrefixSum.java
+        region: range
+        title: Range sum query, pre[n + 1]
+        tag: memorise
+        note: "LeetCode's `sumRange` returns `int`: cast with `(int)` there."
+      - file: P01PrefixSum.java
+        region: pivot
+        title: Pivot index
+        tag: example
+      - file: P01PrefixSum.java
+        region: product
+        title: Product of array except self
+        tag: variant
+    time: O(n + q)
+    space: O(n)
+    cost_note: O(n) to build `pre`, then O(1) for each of q queries. Product except self needs O(1) beyond its output.
+    variants:
+      - "Running sum of 1d array: this is `pre` without the leading 0."
+      - "Count something in a range: take the prefix of an indicator, e.g. `pre[i + 1] = pre[i] + (a[i] % 2 != 0 ? 1 : 0)` counts odd values in any range."
+      - "Minimum average difference: one pass with `left` and `total - left`, as in pivot index."
+      - "Count subarrays with a given sum: add a hash map of prefixes ([[prefix-hash]]). Rectangles: [[prefix-2d]]."
+    traps:
+      - "Off by one: `pre[r] - pre[l]` is the sum of `a[l..r-1]`. The inclusive range needs `pre[r + 1]`."
+      - "`int[] pre` overflows when n = 10⁵ and values reach 10⁵ (total 10¹⁰). Use `long[]`."
+      - "Product except self with `total / a[i]` divides by zero on a 0, and is not allowed anyway. Use the two passes."
+      - "Pivot index compares the sums *without* `a[i]`: `left == total - left` counts `a[i]` on the right side."
+    practice: [running-sum-of-1d-array, range-sum-query-immutable, find-pivot-index, product-of-array-except-self, minimum-average-difference]
+
+  - id: prefix-hash
+    title: Prefix sum + hash map
+    signal: Count or measure subarrays with sum k when values can be negative.
+    spot:
+      - "\"Number of subarrays with sum k\" where values can be negative, so a sliding window breaks."
+      - "\"Sum is a multiple of k\" or \"divisible by k\": compare prefix sums mod k."
+      - "\"Equal number of 0s and 1s\" (or of any two kinds): count one kind as -1 and look for sum 0."
+      - Longest subarray with such a property, n up to 10⁵.
+    idea: |
+      A subarray's sum is the prefix sum at its end minus the prefix sum that ends
+      right before its start. So each subarray that ends at i with sum k matches one
+      earlier prefix equal to `pre - k`. Keep a map from prefix value to how many times you have seen
+      it. At each i, add `seen[pre - k]` to the answer, then record `pre`. That is one
+      pass with O(1) average work per step.
+
+      Put `(0, 1)` in the map before the loop. It stands for the empty prefix, so a
+      subarray that starts at index 0 is counted too.
+
+      For *longest* questions, store the **earliest** index of each prefix value and
+      never overwrite it (`putIfAbsent`), because the earliest start gives the longest
+      subarray. Remainders work the same way: if two prefixes leave the same remainder
+      mod k, the part between them is a multiple of k.
+    trace_title: "subarray sum equals k, a = [1, -1, 1, -1, 1], k = 1"
+    trace: |
+      start: seen {0=1}  (the empty prefix)
+      i  x   pre  pre-k  matches  count  seen after
+      0  1   1    0      1        1      {0=1, 1=1}
+      1  -1  0    -1     0        1      {0=2, 1=1}
+      2  1   1    0      2        3      {0=2, 1=2}
+      3  -1  0    -1     0        3      {0=3, 1=2}
+      4  1   1    0      3        6      {0=3, 1=3}
+    code:
+      - file: P01PrefixHash.java
+        region: count
+        title: Count subarrays with sum k
+        tag: memorise
+      - file: P01PrefixHash.java
+        region: modk
+        title: Multiple of k, earliest index
+        tag: variant
+      - file: P01PrefixHash.java
+        region: balance
+        title: Equal 0s and 1s (balance)
+        tag: variant
+    time: O(n)
+    space: O(n)
+    cost_note: One pass; the map holds at most n + 1 prefix values (at most k remainders).
+    variants:
+      - "Subarray sums divisible by k: count equal remainders as in the memorise template, keyed by `((pre % k) + k) % k`."
+      - "Longest subarray with sum k: map each prefix to its earliest index and take `i - first.get(pre - k)`."
+      - "Make sum divisible by p: remove the shortest subarray with sum ≡ total (mod p). For *shortest*, store the latest index of each remainder."
+      - "All values ≥ 0 and you want longest or shortest: a sliding window ([[sliding-window]]) needs O(1) space."
+    traps:
+      - "Forgetting `seen.put(0, 1)` (or `first.put(0, -1)`) misses subarrays that start at index 0: `[3]` with k = 3 returns 0."
+      - "Recording `pre` before the lookup: with k = 0 each prefix matches itself, so `[1, 2]` returns 2 instead of 0."
+      - "Java's `%` keeps the sign, `-1 % 5 == -1`. With negative values use `((pre % k) + k) % k`, or equal remainders look different."
+      - "`put` instead of `putIfAbsent` overwrites the earliest index, so you measure from a later start and get subarrays that are too short."
+    practice: [subarray-sum-equals-k, contiguous-array, subarray-sums-divisible-by-k, continuous-subarray-sum, make-sum-divisible-by-p]
+
+  - id: prefix-2d
+    title: 2D prefix sums
+    signal: Many rectangle-sum queries on a fixed grid, or a block sum around every cell.
+    spot:
+      - "\"Sum of the elements inside the rectangle from (row1, col1) to (row2, col2)\", asked many times."
+      - "Every cell needs the sum of the block around it: `|r - i| ≤ k` and `|c - j| ≤ k`."
+      - A grid up to about 300 × 300 where you try many squares or rectangles, so each sum must be O(1).
+    idea: |
+      Let `pre[i][j]` be the sum of the rectangle from (0, 0) to (i - 1, j - 1). The
+      extra zero row and column do what `pre[0] = 0` does in one dimension: no edge cases.
+
+      Build it by inclusion–exclusion. The rectangle up to a cell is the one above it
+      plus the one to its left, minus their overlap (counted twice), plus the cell
+      itself. A query runs this backwards: take the rectangle to the bottom-right
+      corner, subtract the strip above and the strip to the left, and add back the
+      top-left block you subtracted twice. Building is O(rows · cols) and each query
+      is four lookups.
+
+      To count submatrices with a target sum, fix the top and bottom rows. The column
+      sums between them form a 1D array, and the prefix-sum + hash map count from
+      [[prefix-hash]] finishes the job.
+    trace_title: "m is 3 × 3; sum of rows 1..2, columns 1..2"
+    trace: |
+      m          pre (zero row and column added)
+      3 0 1        0  0  0  0
+      5 6 3        0  3  3  4
+      1 2 0        0  8 14 18
+                   0  9 17 21
+      sumRegion(1, 1, 2, 2) = pre[3][3] - pre[1][3] - pre[3][1] + pre[1][1]
+        = 21 - 4 - 9 + 3 = 11   (6 + 3 + 2 + 0)
+    code:
+      - file: P01Prefix2D.java
+        region: matrix
+        title: Range sum query 2D
+        tag: memorise
+      - file: P01Prefix2D.java
+        region: block
+        title: Matrix block sum
+        tag: example
+      - file: P01Prefix2D.java
+        region: target
+        title: Submatrices that sum to target
+        tag: variant
+    time: O(rc + q)
+    space: O(rc)
+    cost_note: O(rows · cols) to build, O(1) per query. The target count is O(rows² · cols), so let the smaller side be the rows.
+    variants:
+      - "Submatrices that contain the top-left cell with sum ≤ k: check `pre[i + 1][j + 1] <= k` for every cell; no queries needed."
+      - "Largest square with sum ≤ threshold: for each corner, test the next side length in O(1); the answer only grows."
+      - "Many rectangle *updates*, then one read: the 2D difference array in [[diff-array]]."
+      - "Cells change between queries: a 2D Fenwick tree ([[fenwick]])."
+    traps:
+      - "Wrong sign on the corner: the query ends with `+ pre[r1][c1]`, which adds back the block subtracted twice."
+      - "Mixed indexes: `pre` is shifted by one, so the query uses `r2 + 1` and `c2 + 1` but plain `r1` and `c1`."
+      - "Large grids pass `int`: 1000 × 1000 cells of 10⁴ sum to 10¹⁰. The template stores `long`."
+    practice: [range-sum-query-2d-immutable, matrix-block-sum, count-submatrices-with-top-left-element-and-sum-less-than-k, maximum-side-length-of-a-square-with-sum-less-than-or-equal-to-threshold, number-of-submatrices-that-sum-to-target]
+
+  - id: diff-array
+    title: Difference array
+    signal: Many updates "add v to a[l..r]", then you read the array once.
+    spot:
+      - A list of bookings, trips or shifts, each adding a value to a whole range of positions.
+      - "\"Return the array after all operations\" or \"is the load ever above capacity?\""
+      - "Up to 10⁵ updates on 10⁵ positions: touching every element of every range is 10¹⁰ steps."
+    idea: |
+      Instead of changing every element in `[l, r]`, write two marks: `diff[l] += v`
+      and `diff[r + 1] -= v`. The final value at i is the prefix sum
+      `diff[0] + ... + diff[i]`. An update adds `v` to that sum exactly when
+      `l ≤ i ≤ r`: the `+v` is included once i reaches l, and the `-v` cancels it from
+      r + 1 on.
+
+      So each update costs O(1), and one prefix-sum pass at the end rebuilds the whole
+      array in O(n). The array needs n + 1 slots so that `r + 1` is always a valid index.
+
+      Check where a range really ends. In car pooling, people get out *at* stop `to`,
+      so they ride stops `from..to-1` and the minus goes at `to`, not `to + 1`. The 2D
+      version puts four marks at the corners of the rectangle and rebuilds the grid
+      with a 2D prefix sum.
+    trace_title: "n = 5, updates (l, r, v)"
+    trace: |
+      update       diff[0..5] after it
+      (1, 3, +2)     0   2   0   0  -2   0
+      (2, 4, +3)     0   2   3   0  -2  -3
+      (0, 2, -1)    -1   2   3   1  -2  -3
+      prefix sums   -1   1   4   5   3   <- a, the final values
+    code:
+      - file: P01DiffArray.java
+        region: adds
+        title: Range adds, then one pass
+        tag: memorise
+      - file: P01DiffArray.java
+        region: carpool
+        title: Car pooling (half-open trips)
+        tag: variant
+      - file: P01DiffArray.java
+        region: rect
+        title: 2D difference array
+        tag: variant
+    time: O(n + q)
+    space: O(n)
+    cost_note: O(1) per update and one O(n) pass at the end, instead of O(n) per update.
+    variants:
+      - "Corporate flight bookings: the template with 1-indexed input, so pass `first - 1` and `last - 1`."
+      - "Shifting letters II: the difference array holds +1 or -1 shifts per range; apply `((c - 'a' + shift) % 26 + 26) % 26` at the end."
+      - "Maximum population year: +1 at the birth year, -1 at the death year (not counted), then find the largest prefix sum."
+      - "Positions up to 10⁹: sort the start and end events instead of allocating an array ([[sweep-line]])."
+    traps:
+      - "`new int[n]` instead of `new int[n + 1]`: `diff[r + 1]` throws when `r = n - 1`."
+      - "Half-open ranges: in car pooling `diff[to + 1] -= p` keeps people on board at the stop where they get out. `[[2, 1, 5], [3, 5, 7]]` with capacity 3 then wrongly returns false."
+      - "Reading `diff[i]` as the value: it is only the change at i. Take the prefix sum first."
+    practice: [maximum-population-year, corporate-flight-bookings, car-pooling, shifting-letters-ii, increment-submatrices-by-one]
+
+  - id: kadane
+    title: Kadane's maximum subarray
+    signal: Largest (or smallest) sum or product of a contiguous subarray, in one pass.
+    spot:
+      - "\"Maximum sum of a contiguous subarray\", with negative numbers present."
+      - "A circular array plus maximum subarray: think total minus the minimum subarray."
+      - "Maximum *product* subarray: the same pass, but carry the minimum too."
+      - Any best-segment score you can extend one element at a time, such as one buy and one sell.
+    idea: |
+      Let `cur` be the best sum of a subarray that **ends exactly at i**. Such a subarray
+      is either `a[i]` alone or `a[i]` added to the best one ending at `i - 1`, so
+      `cur = max(a[i], cur + a[i])`. The answer is the largest `cur` you see. Put
+      another way, drop the running part as soon as it is negative, because it can
+      only lower whatever follows. This is a one-variable DP: O(n) time, O(1) space.
+
+      In a circular array the best subarray either does not wrap (plain Kadane) or
+      wraps past the end. A wrapping subarray leaves out a middle part, so its sum is
+      `total - (minimum subarray)`. Run Kadane for the max and the min in the same
+      loop. If every number is negative, the minimum subarray is the whole array and
+      `total - min` is 0, an empty subarray, so return the plain maximum.
+    trace_title: "a = [-2, 1, -3, 4, -1, 2, 1, -5, 4]"
+    trace: |
+      i  a[i]  cur = max(a[i], cur + a[i])  best
+      0  -2    -2  (start)                  -2
+      1  1     max(1, -1) = 1 restart       1
+      2  -3    max(-3, -2) = -2 extend      1
+      3  4     max(4, 2) = 4 restart        4
+      4  -1    max(-1, 3) = 3 extend        4
+      5  2     max(2, 5) = 5 extend         5
+      6  1     max(1, 6) = 6 extend         6
+      7  -5    max(-5, 1) = 1 extend        6
+      8  4     max(4, 5) = 5 extend         6
+    code:
+      - file: P01Kadane.java
+        region: max
+        title: Maximum subarray
+        tag: memorise
+      - file: P01Kadane.java
+        region: circular
+        title: Maximum circular subarray
+        tag: variant
+      - file: P01Kadane.java
+        region: product
+        title: Maximum product subarray
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: One pass that keeps a fixed number of running values.
+    variants:
+      - "Return the subarray too: set `start = i` whenever you restart, and save it as `bestStart` when `best` improves."
+      - "Maximum absolute sum: run max and min Kadane together and return `max(best, -worst)`."
+      - "Best time to buy and sell stock once: the profit is the maximum subarray of the day-to-day price changes, or 0 if that is negative (or keep the lowest price so far)."
+      - "One deletion allowed: two values per i, the best sum ending at i with no deletion and with one. More in [[linear-dp]]."
+    traps:
+      - "Starting from `cur = 0, best = 0` returns 0 for `[-3, -1, -2]`, but the subarray must be non-empty: the answer is -1. Start from `a[0]`."
+      - "Circular without the all-negative check: `max(bestMax, total - bestMin)` gives 0 for `[-3, -2, -3]` instead of -2."
+      - "Max product without the swap on a negative `x`: `[2, -4, 3, -2]` returns 3 instead of 48, because the large product comes from the smallest one."
+    practice: [best-time-to-buy-and-sell-stock, maximum-subarray, maximum-absolute-sum-of-any-subarray, maximum-sum-circular-subarray, maximum-product-subarray, maximum-subarray-sum-with-one-deletion]
+
+  - id: majority-vote
+    title: Boyer–Moore majority vote
+    signal: Find the value that appears more than n/2 (or n/3) times, with O(1) extra space.
+    spot:
+      - "\"Appears more than ⌊n/2⌋ times\", often with \"you may assume it always exists\"."
+      - "\"More than ⌊n/3⌋ times\": at most two values can, so keep two candidates."
+      - A follow-up asks for O(1) space, which rules out the counting map.
+    idea: |
+      Pair each copy of the majority value with a different value and cancel both.
+      The majority has more than half of the elements, so some of its copies are left
+      after any such cancelling. The vote does this in one pass with a candidate and a
+      counter: a match adds one, a mismatch cancels one, and when the counter is 0 the
+      next element becomes the candidate. If a majority exists, it is the candidate at
+      the end.
+
+      For "more than n/3", keep two candidates. A value that matches neither cancels
+      one vote from each, which removes three different elements at once. A value with
+      more than n/3 copies cannot lose all of them this way, so it ends as a candidate.
+      The candidates are only *possible* answers, so a second pass counts them and
+      keeps those above n/3.
+    trace_title: "a = [2, 2, 1, 1, 1, 2, 2]"
+    trace: |
+      i  x  cand  votes
+      0  2  2     1   (new candidate)
+      1  2  2     2
+      2  1  2     1
+      3  1  2     0
+      4  1  1     1   (new candidate)
+      5  2  1     0
+      6  2  2     1   (new candidate)
+      answer: 2
+    code:
+      - file: P01MajorityVote.java
+        region: majority
+        title: Majority element (more than n/2)
+        tag: memorise
+      - file: P01MajorityVote.java
+        region: two
+        title: Majority element II (more than n/3)
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: One pass (two for the n/3 version) with a fixed number of counters.
+    variants:
+      - "No promise that a majority exists: count the final candidate in a second pass and check `> n / 2`."
+      - "More than n/k times: keep k - 1 candidates and verify them the same way. O(n·k) time, O(k) space."
+      - "Minimum index of a valid split: find the dominant value by vote, then sweep with its running count."
+    traps:
+      - "Returning the candidate when a majority is not guaranteed: `[1, 2, 3]` returns 3."
+      - "Skipping the second pass in the n/3 version: `[1, 2, 3]` returns candidates 1 and 2."
+      - "`>= n / 3` instead of `> n / 3`: for n = 7 it accepts a value with only 2 copies."
+    practice: [majority-element, majority-element-ii, minimum-index-of-a-valid-split]
+
+  - id: cyclic-sort
+    title: Cyclic sort (index as hash)
+    signal: Values in 1..n; find what is missing or doubled with O(1) extra space.
+    spot:
+      - "\"Integers in the range [1, n]\" in an array of length n."
+      - Find the missing number, the duplicates, or the first missing positive.
+      - "\"O(n) time and constant extra space\": no hash set and no sorting."
+    idea: |
+      When the values are 1..n and there are n slots, value v has a natural home:
+      index v - 1. The array itself can then serve as the hash set.
+
+      Cyclic sort sends values home by swapping. At index i, while `a[i]` is in range
+      and its home does not already hold that value, swap it home. Each swap puts one
+      value at its home for good, so there are at most n swaps in total and the loop
+      is O(n), even with the inner `while`. Out-of-range values and extra copies stay
+      wherever they land. A final scan finds the first i with `a[i] != i + 1`: the
+      value i + 1 is missing, and that cell holds a duplicate or junk.
+
+      When you only need to *mark* that v was seen, make `a[v - 1]` negative instead
+      of swapping. Read values with `Math.abs`, because the sign may already be a flag.
+    trace_title: "first missing positive, a = [3, 4, -1, 1]"
+    trace: |
+      start             [3, 4, -1, 1]
+      i=0   3 -> a[2]   [-1, 4, 3, 1]
+      i=1   4 -> a[3]   [-1, 1, 3, 4]
+      i=1   1 -> a[0]   [1, -1, 3, 4]
+      scan: a[1] = -1, not 2  -> answer 2
+    code:
+      - file: P01CyclicSort.java
+        region: missing
+        title: Cyclic sort, first missing positive
+        tag: memorise
+      - file: P01CyclicSort.java
+        region: mismatch
+        title: Set mismatch
+        tag: variant
+      - file: P01CyclicSort.java
+        region: dups
+        title: All duplicates by sign marking
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: Every swap puts one value home for good, so at most n swaps happen in total.
+    variants:
+      - "Missing number (values 0..n, one missing): `n * (n + 1) / 2 - sum`, or XOR together 0..n and every value."
+      - "All numbers disappeared: sign-mark every value, then report each `i + 1` whose cell stayed positive."
+      - "Values 0..n-1: the home of v is index v, so drop the `- 1`."
+      - "You may not modify the array (find the duplicate number): treat `i -> a[i]` as a linked list and use [[fast-slow]]."
+    traps:
+      - "`if` instead of `while`: the value swapped in may also need to go home. `[3, 4, -1, 1]` then returns 1 instead of 2."
+      - "Loop condition `a[i] != i + 1` instead of `a[a[i] - 1] != a[i]`: with two copies of a value, they swap with each other for ever (`[2, 2]`)."
+      - "Sign marking with `a[a[i] - 1]` after `a[i]` was made negative gives a negative index. Use `Math.abs(a[i]) - 1`."
+      - The array is changed. Copy it first if the caller still needs it.
+    practice: [missing-number, set-mismatch, find-all-numbers-disappeared-in-an-array, find-all-duplicates-in-an-array, first-missing-positive]
+
+  - id: matrix-moves
+    title: In-place matrix moves
+    signal: Rotate, spiral-walk or zero out a matrix in place, with no second grid.
+    spot:
+      - "\"Rotate the image by 90 degrees, in place\" on an n × n matrix."
+      - Return the elements in spiral order, or fill a matrix in spiral order.
+      - "\"If an element is 0, set its entire row and column to 0\", with an O(1) space follow-up."
+      - Any grid walk that steps to neighbours (up, down, left, right).
+    idea: |
+      A 90° clockwise turn sends cell (i, j) to (j, n - 1 - i). Do it in place as two
+      moves. The transpose gives (j, i): for every pair with `j > i`, swap the two
+      cells across the diagonal. Reversing each row then gives (j, n - 1 - i).
+
+      Spiral order keeps four boundaries, `top`, `bottom`, `left` and `right`. Walk one
+      side, then move that boundary inward. The loop runs while
+      `top <= bottom && left <= right`, and the two inner checks stop a single leftover
+      row or column from being walked back. Each cell is visited once.
+
+      For set zeroes in O(1) space, row 0 and column 0 hold the marks, and two booleans
+      remember whether row 0 and column 0 had a zero of their own. Clear the inner
+      cells first and row 0 and column 0 last; in the other order the marks wipe out
+      the data you still need.
+    trace_title: "rotate a 3 × 3 matrix; spiral order of a 3 × 4 matrix"
+    trace: |
+      start      transpose  reverse rows
+      1 2 3      1 4 7      7 4 1
+      4 5 6      2 5 8      8 5 2
+      7 8 9      3 6 9      9 6 3
+      ---- spiral order of [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]] ----
+      right along row 0: 1 2 3 4    then top = 1
+      down along col 3:  8 12       then right = 2
+      left along row 2:  11 10 9    then bottom = 1
+      up along col 0:    5          then left = 1
+      right along row 1: 6 7        then top = 2
+      down along col 2:  (none)     then right = 1
+      up along col 1:    (none)     then left = 2
+    code:
+      - file: P01MatrixMoves.java
+        region: rotate
+        title: Rotate 90° clockwise in place
+        tag: memorise
+      - file: P01MatrixMoves.java
+        region: spiral
+        title: Spiral order with four boundaries
+        tag: memorise
+      - file: P01MatrixMoves.java
+        region: zeroes
+        title: Set matrix zeroes in O(1) space
+        tag: variant
+    time: O(r·c)
+    space: O(1)
+    cost_note: Each cell is read or swapped a constant number of times; only a few indexes are stored (plus the spiral's output list).
+    variants:
+      - "Grid neighbours: declare `int[][] DIRS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}` once. For each `d` the neighbour is `(i + d[0], j + d[1])`, if it is inside the grid. The order is clockwise, so a right turn is `k = (k + 1) % 4`."
+      - "Counter-clockwise: transpose, then reverse each column. 180°: reverse each row, then reverse the order of the rows."
+      - "Spiral matrix II (fill 1..n² in spiral order): the same four-boundary loop, writing instead of reading."
+      - "Game of life in place: store old and new state in one cell (e.g. 2 = was alive, now dead) and visit the 8 neighbours with an 8-entry DIRS."
+    traps:
+      - "Transposing with `j` from 0 instead of `i + 1` swaps every pair twice, so the transpose does nothing and you get a mirror image."
+      - "Dropping the two inner checks in spiral: `[[1, 2, 3]]` gives `[1, 2, 3, 2, 1]`."
+      - "Set zeroes: clearing row 0 before step 2 turns all its cells into marks, so every column is wiped."
+      - "A non-square r × c matrix cannot turn in place: fill `b[j][r - 1 - i] = m[i][j]` in a new c × r array."
+    practice: [transpose-matrix, determine-whether-matrix-can-be-obtained-by-rotation, rotate-image, spiral-matrix, set-matrix-zeroes, game-of-life]

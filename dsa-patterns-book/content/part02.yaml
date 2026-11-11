@@ -1,0 +1,536 @@
+intro: >-
+  Two indexes that only move forward (or only move inward) replace a nested loop.
+  Each index moves at most n times, so O(n²) brute force becomes O(n).
+  Reach for this part whenever the input is an array or string and the question is
+  about a pair, a contiguous range, or an in-place rearrangement.
+
+patterns:
+  - id: opposite-pointers
+    title: Opposite-end pointers
+    signal: Sorted array (or one you can sort); find a pair, or the best pair, using both ends.
+    spot:
+      - The array is sorted, or sorting it does not lose what the question asks for.
+      - You need a pair with a given sum, difference or product, or the pair that maximises something.
+      - Moving one end makes the value only bigger or only smaller.
+    idea: |
+      Start with `l = 0` and `r = n - 1`. Look at the pair, then move the end that
+      cannot be part of a better answer. In a sorted array, if `a[l] + a[r]` is too
+      small, `a[l]` is too small to pair with anything left of `r`, so drop it with `l++`.
+      Each step throws away one element for good, so there are at most n steps.
+
+      For *container with most water* the same argument works on heights: the shorter
+      wall limits every container that uses it, so move the shorter wall inward.
+    trace_title: "a = [1, 3, 4, 6, 9], target = 10"
+    trace: |
+      l  r  a[l]+a[r]  move
+      0  4  1 + 9 = 10 found: (0, 4)
+      ---- target = 13 ----
+      0  4  1 + 9 = 10 too small -> l++
+      1  4  3 + 9 = 12 too small -> l++
+      2  4  4 + 9 = 13 found: (2, 4)
+    code:
+      - file: P02OppositePointers.java
+        region: pair
+        title: Pair with a target sum
+        tag: memorise
+      - file: P02OppositePointers.java
+        region: water
+        title: Container with most water
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: Each step moves l or r once; add O(n log n) if you have to sort first.
+    variants:
+      - "Count pairs with sum < target: when `a[l] + a[r] < target`, all of `l+1..r` pair with `l`, so add `r - l` and move `l`."
+      - "Valid palindrome: skip non-alphanumerics, then compare `s[l]` and `s[r]` ignoring case."
+      - "Squares of a sorted array: the largest square is at one of the two ends; fill the answer from the back."
+      - "Need indices of an unsorted array? Use a hash map instead ([[seen-map]]); sorting loses the original indices."
+    traps:
+      - Use `l < r`, not `l <= r`; one element cannot pair with itself.
+      - "`a[l] + a[r]` can overflow `int` near 2·10⁹; add as `long`."
+      - Sorting changes the indices. If the answer needs original positions, sort an index array or pairs.
+    practice: [valid-palindrome, squares-of-a-sorted-array, two-sum-ii-input-array-is-sorted, container-with-most-water, boats-to-save-people]
+
+  - id: k-sum
+    title: K-sum (sort + two pointers)
+    signal: All unique triples or quadruples with a target sum, or the closest triple.
+    spot:
+      - "*Return all unique triplets* (or quadruplets) with sum X; the answer must not contain the same tuple twice."
+      - n is up to about 3000 for 3Sum and 200 for 4Sum, so O(n²) and O(n³) are the targets.
+      - The answer is values, not indices, so you are free to sort.
+    idea: |
+      Sort, fix the first element `a[i]`, and run the pair search from
+      [[opposite-pointers]] on `a[i+1..n-1]` for the sum `-a[i]`. The pair search is
+      O(n), so 3Sum costs O(n²). 4Sum fixes two elements with two loops: O(n³).
+
+      Sorting also makes duplicates easy to skip. Equal values sit next to each other, so a
+      tuple can repeat only if some level picks the same value twice. Skip `a[i]`
+      when it equals `a[i-1]`: every triple it could start was already found from
+      `a[i-1]`. After a hit, move `l` past copies of `a[l]`. `r` needs no skip: with a
+      new, larger `a[l]`, the old `a[r]` makes the sum too big and the search moves it.
+
+      For *closest*, keep the best sum seen. When the sum is below the target, every
+      smaller `r` is further below, so `a[l]` has no better partner and `l++` is safe.
+    trace_title: "a = [-1, 0, 1, 2, -1, -4], sorted to [-4, -1, -1, 0, 1, 2]"
+    trace: |
+      i  a[i]  l  r  sum  move
+      0   -4   1  5   -3  too small -> l++
+      0   -4   2  5   -3  too small -> l++
+      0   -4   3  5   -2  too small -> l++
+      0   -4   4  5   -1  too small -> l++
+      1   -1   2  5    0  found [-1, -1, 2]; l++, r--
+      1   -1   3  4    0  found [-1, 0, 1]; l++, r--
+      2   -1   skip: same value as a[1]
+      3    0   4  5    3  too big -> r--
+    code:
+      - file: P02KSum.java
+        region: three
+        title: 3Sum without duplicate triples
+        tag: memorise
+      - file: P02KSum.java
+        region: closest
+        title: 3Sum closest
+        tag: variant
+      - file: P02KSum.java
+        region: four
+        title: 4Sum with long sums
+        tag: variant
+        note: Each extra fixed index adds one loop, one factor of n, and the same skip rule.
+    time: O(n²)
+    space: O(1)
+    cost_note: Sorting is O(n log n); each fixed i runs one O(n) pair search. 4Sum is O(n³). Space excludes the output.
+    variants:
+      - "Count triples with sum < target: when `a[i] + a[l] + a[r] < target`, every `r' ≤ r` also works with this `l`, so add `r - l` and move `l`."
+      - "Valid triangle number: sort, fix the largest side `a[k]`, and count pairs `l < r < k` with `a[l] + a[r] > a[k]` the same way."
+      - "3Sum with multiplicity (count index triples): on a hit with `a[l] < a[r]`, multiply the run lengths of the two values; if `a[l] == a[r]`, add C(r − l + 1, 2)."
+      - "General k-sum: recurse, fixing one index per level, until k = 2 and the pair search runs."
+    traps:
+      - "Skipping with `a[i] == a[i+1]` instead of `a[i] == a[i-1]` throws away triples that use both copies: on the sample it loses `[-1, -1, 2]`."
+      - "In 4Sum, `a[i] + a[j] + a[l] + a[r]` in `int` overflows: four times 10⁹ wraps to −294967296 and matches that target. Cast the first term to `long`."
+      - "Copying the 3Sum early exit into 4Sum as `if (a[i] > target) break;` is wrong for negative targets: `[-5, -4, -3, -2]` with target −14 has an answer although −5 > −14."
+    practice: [3sum, 3sum-closest, 4sum, valid-triangle-number, 3sum-with-multiplicity]
+
+  - id: read-write
+    title: Read/write pointers (in place)
+    signal: Remove or compact elements of an array in place and return the new length.
+    spot:
+      - "*In place*, *O(1) extra memory*, *return k*: the judge reads only the first k elements."
+      - The elements you keep must stay in their original order.
+      - Remove duplicates, remove a value, move zeroes (or some other class of elements) to the end.
+    idea: |
+      `r` reads every element once; `w` is where the next kept element goes. When
+      `a[r]` should stay, copy it to `a[w]` and move `w`. The invariant is that
+      `a[0..w)` is the answer for the prefix `a[0..r)`. `w` moves at most once per
+      step of `r`, so `w ≤ r`: you only ever overwrite cells you have already read.
+
+      To keep each value at most k times in a sorted array, compare with the
+      **write** side. The kept part is sorted and `a[r]` is at least as big as all of
+      it, so if `a[w-k] == a[r]`, then `a[w-k..w)` are all copies of `a[r]` and there
+      are already k of them. One pass, O(1) space, and k = 1 and k = 2 are the same code.
+
+      Move zeroes swaps instead of copying, so the zeros collect in `a[w..r)` and
+      nothing is left to fill in at the end.
+    trace_title: "keepAtMostK(a, 2), a = [0, 0, 1, 1, 1, 1, 2, 3, 3]"
+    trace: |
+      r  a[r]  a[w-2]  keep?  w  a[0..w)
+      0    0     -     yes    1  [0]
+      1    0     -     yes    2  [0, 0]
+      2    1     0     yes    3  [0, 0, 1]
+      3    1     0     yes    4  [0, 0, 1, 1]
+      4    1     1     no     4  [0, 0, 1, 1]
+      5    1     1     no     4  [0, 0, 1, 1]
+      6    2     1     yes    5  [0, 0, 1, 1, 2]
+      7    3     1     yes    6  [0, 0, 1, 1, 2, 3]
+      8    3     2     yes    7  [0, 0, 1, 1, 2, 3, 3]
+    code:
+      - file: P02ReadWrite.java
+        region: dedup
+        title: Keep each value at most k times
+        tag: memorise
+      - file: P02ReadWrite.java
+        region: filter
+        title: Remove a value; move zeroes
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: One pass; each element is read once and written at most once (move zeroes swaps, two writes).
+    variants:
+      - "Remove all adjacent duplicates in a string: treat `a[0..w)` as a stack. If `a[r]` equals `a[w-1]`, do `w--`; otherwise write it."
+      - "String compression: `r` runs to the end of each block of equal chars; `w` writes the char, then the digits of the block length."
+      - "Duplicate zeros (fixed length): count the final length first, then write from the back, as in [[merge-sorted]]."
+      - "Order of the kept elements does not matter (LC 27 allows it): replace `a[i]` with `a[--n]` and test `a[i]` again. Fewer writes when few elements go."
+    traps:
+      - "For at most two copies, comparing on the read side, `a[r] != a[r-2]`, reads cells already overwritten: `[1, 1, 1, 2, 2, 3]` gives `[1, 1, 2, 3]` instead of `[1, 1, 2, 2, 3]`."
+      - "Move zeroes by copying (`a[w++] = a[r]`) needs a second loop that sets `a[w..n)` to 0. Without it the old values stay at the end."
+      - Return `w` and look only at `a[0..w)`; the cells after `w` hold leftovers, not zeros or blanks.
+    practice: [remove-element, remove-duplicates-from-sorted-array, move-zeroes, remove-all-adjacent-duplicates-in-string, remove-duplicates-from-sorted-array-ii, string-compression]
+
+  - id: dutch-flag
+    title: Three-way partition (Dutch flag)
+    signal: Sort three kinds of values, or split into < p, = p, > p, in one pass.
+    spot:
+      - "Values are only 0, 1 and 2 (or three classes, like negative, zero, positive) and the fix must be in place."
+      - "*One pass*, *constant extra space*, *without the library sort*."
+      - Partitioning around a pivot when many values repeat (quicksort or quickselect on duplicates).
+    idea: |
+      Keep four regions: `a[0..low)` holds 0s, `a[low..mid)` 1s, `a[mid..high]` is not
+      looked at yet, and `a(high..n-1]` holds 2s. Each step classifies `a[mid]`, the
+      first unseen value. A 1 is already in place, so `mid` moves on. A 0 swaps with
+      `a[low]`; that cell held a 1 (or `low == mid`), so `low` and `mid` both move on.
+
+      A 2 swaps with `a[high]` and only `high` moves. The value that lands on `mid`
+      came from the unseen region, so it has not been classified; `mid++` would skip
+      it. Every step shrinks the unseen region by one cell, so the loop runs exactly n
+      times, and `mid <= high` stops it when nothing is unseen.
+
+      With a pivot p the same loop sends `< p` left and `> p` right, and leaves the
+      `== p` block in the middle.
+    trace_title: "sortColors(a), a = [2, 0, 2, 1, 1, 0]"
+    trace: |
+      low mid high  a[mid]  action                    array after
+       0   0    5     2     swap(mid, high), high--   [0, 0, 2, 1, 1, 2]
+       0   0    4     0     swap(low, mid), both++    [0, 0, 2, 1, 1, 2]
+       1   1    4     0     swap(low, mid), both++    [0, 0, 2, 1, 1, 2]
+       2   2    4     2     swap(mid, high), high--   [0, 0, 1, 1, 2, 2]
+       2   2    3     1     mid++                     [0, 0, 1, 1, 2, 2]
+       2   3    3     1     mid++                     [0, 0, 1, 1, 2, 2]
+      end: low = 2, mid = 4, high = 3; nothing is unseen
+    code:
+      - file: P02DutchFlag.java
+        region: colors
+        title: Sort colors (0, 1, 2)
+        tag: memorise
+      - file: P02DutchFlag.java
+        region: pivot
+        title: Partition around a pivot
+        tag: variant
+    time: O(n)
+    space: O(1)
+    cost_note: Each step moves mid up or high down, so there are n steps; all swaps are in place.
+    variants:
+      - "Two groups only (sort by parity, negatives first): one write pointer, and `swap(a, w++, i)` when `a[i]` belongs on the left."
+      - "3-way quicksort: partition around a random pivot, then recurse only into `a[0..lt)` and `a(gt..]`. The `== p` block is finished, so many equal values cost nothing extra."
+      - "Quickselect with this partition ([[quickselect]]): if k falls inside `[lt, gt]`, the answer is p."
+      - "Only three known values and two passes are allowed? Count them and write them back."
+    traps:
+      - "`mid++` after swapping with `high` skips the value that came back: `[1, 2, 0]` ends as `[1, 0, 2]`."
+      - "`while (mid < high)` stops with one cell unseen: `[1, 0]` stays `[1, 0]`."
+      - The partition is not stable. If the order inside each group must be kept (LC 2161), collect the three groups in separate passes.
+    practice: [sort-array-by-parity, sort-colors, sort-an-array, wiggle-sort-ii]
+
+  - id: merge-sorted
+    title: Merge two sorted sequences
+    signal: "Two sorted arrays or strings: merge, intersect or match them in one pass."
+    spot:
+      - Both inputs are sorted, or the order inside each input is what matters (a subsequence).
+      - "*Merge into nums1*, which has empty slots at the end."
+      - "Common elements of two arrays, or *is s a subsequence of t*, with t up to 10⁴ or more."
+    idea: |
+      Put `i` on one sequence and `j` on the other. Compare `a[i]` with `b[j]` and
+      advance the pointer whose element is now decided. In a merge, the smaller one is
+      the next output. In an intersection, the smaller one is smaller than everything
+      left in the other array, so it has no partner. Each step uses up at least one
+      element: O(m + n).
+
+      To merge into `nums1` in place, fill from the back with the larger element. The
+      write index is `k = i + j + 1`, which stays above `i` while `j ≥ 0`, so no unread
+      `nums1` value is overwritten. When `nums2` runs out, what is left of `nums1` is
+      already in place.
+
+      *Is subsequence* is the same walk: match `s[i]` at its earliest place in `t`,
+      which leaves as much of `t` as possible for the rest of `s`.
+    trace_title: "merge(nums1 = [1, 2, 3, 0, 0, 0], m = 3, nums2 = [2, 5, 6], n = 3)"
+    trace: |
+      i  j  k  nums1[i]  nums2[j]  write          nums1 after
+      2  2  5     3         6      nums1[5] = 6   [1, 2, 3, 0, 0, 6]
+      2  1  4     3         5      nums1[4] = 5   [1, 2, 3, 0, 5, 6]
+      2  0  3     3         2      nums1[3] = 3   [1, 2, 3, 3, 5, 6]
+      1  0  2     2         2      nums1[2] = 2   [1, 2, 2, 3, 5, 6]
+      j = -1: stop. nums1[0..1] = [1, 2] never had to move.
+    code:
+      - file: P02MergeSorted.java
+        region: merge
+        title: Merge sorted array from the back
+        tag: memorise
+      - file: P02MergeSorted.java
+        region: walk
+        title: Intersection and is-subsequence
+        tag: variant
+    time: O(m + n)
+    space: O(1)
+    cost_note: Every step moves i or j (or both). The intersection's output array is the only extra memory.
+    variants:
+      - "Unique intersection (LC 349): on a match, also skip every copy of that value in both arrays."
+      - "Two sorted linked lists: the same comparison with a dummy head ([[dummy-merge]]). k sorted inputs: a heap of the k fronts ([[k-way-merge]])."
+      - "Interval list intersections: the overlap of the two current intervals is `[max(starts), min(ends)]`; advance the one that ends first."
+      - "Many queries against one long t: store the positions of each char of t and binary search the next one after the current position ([[lower-bound]])."
+    traps:
+      - Merging into nums1 from the front overwrites values you have not read yet. Go from the back.
+      - "`while (i >= 0 && j >= 0)` and nothing after it loses leftover nums2 values (leftover nums1 values are fine). `while (j >= 0)` covers both cases."
+      - "With `List<Integer>` inputs, `a.get(i) == b.get(j)` compares objects and can be false for equal values outside -128..127. Unbox to `int` or use `.equals`."
+    practice: [merge-sorted-array, is-subsequence, intersection-of-two-arrays-ii, interval-list-intersections, longest-word-in-dictionary-through-deleting]
+
+  - id: fixed-window
+    title: Fixed-size sliding window
+    signal: "Every window of exactly k elements: best sum, a count, or an anagram match."
+    spot:
+      - "*Subarray of length k*, *substring of size k*, *any k consecutive days*."
+      - "*Anagram* or *permutation of p* inside s: the window length is `p.length()`."
+      - n and k up to 10⁵, so recomputing each window from scratch (O(nk)) is too slow.
+    idea: |
+      Keep the window `[r-k+1, r]` and its state (a sum, a count, an `int[26]`). When
+      `r` moves, add `a[r]` and remove `a[r-k]`, the one element that left. Each update
+      is O(1), so all n − k + 1 windows cost O(n) in total. Record only once
+      `r ≥ k - 1`; before that the window is not full.
+
+      For anagrams, compare letter counts. Comparing two `int[26]` arrays costs 26 per
+      step; a match counter costs O(1). `match` is the number of letters whose window
+      count equals their count in p. Changing one letter's count can only change that
+      letter's equality, so each add or remove moves `match` by −1, 0 or +1. The
+      window is an anagram of p exactly when `match == 26`.
+    trace_title: "s = \"cbaebabacd\", p = \"abc\"; match starts at 23 (letters not in p)"
+    trace: |
+      r  in  out  window  match  anagram?
+      0  c   -    c        24
+      1  b   -    cb       25
+      2  a   -    cba      26    yes, start 0
+      3  e   c    bae      24
+      4  b   b    aeb      24
+      5  a   a    eba      24
+      6  b   e    bab      24
+      7  a   b    aba      24
+      8  c   a    bac      26    yes, start 6
+      9  d   b    acd      24
+    code:
+      - file: P02FixedWindow.java
+        region: sum
+        title: Max sum of k consecutive elements
+        tag: memorise
+      - file: P02FixedWindow.java
+        region: anagrams
+        title: All anagrams with a match counter
+        tag: memorise
+      - file: P02FixedWindow.java
+        region: vowels
+        title: Max vowels in a window of k
+        tag: example
+    time: O(n)
+    space: O(1)
+    cost_note: Each step does one add and one remove; the count arrays have a fixed size of 26.
+    variants:
+      - "Permutation in string (LC 567): the same loop; return true at the first `match == 26`."
+      - "Grumpy bookstore owner: count the customers who are happy anyway, then slide the window over the ones you could win back."
+      - "Max sum of a window whose k values are all distinct: keep a count map next to the sum; the window counts only when `map.size() == k`."
+      - "Max or min of each window: see [[window-max]]."
+    traps:
+      - "Starting with `best = 0` is wrong when every window is negative: LC 643 with `[-1]`, k = 1 returns 0 instead of −1. Start at `Long.MIN_VALUE`."
+      - "`if (r > k) sum -= a[r - k]` is off by one: `a[0]` is never removed, so every window from then on has k + 1 elements."
+      - "LC 643 wants a `double`, and `sum / k` on integers truncates (−7 / 2 is −3, not −3.5). Divide by `(double) k`."
+    practice: [maximum-average-subarray-i, minimum-recolors-to-get-k-consecutive-black-blocks, maximum-number-of-vowels-in-a-substring-of-given-length, permutation-in-string, find-all-anagrams-in-a-string, grumpy-bookstore-owner]
+
+  - id: sliding-window
+    title: Sliding window (variable size)
+    signal: Longest or shortest contiguous subarray or substring that satisfies a condition.
+    spot:
+      - "*Longest* or *shortest* subarray or substring with a rule: at most k distinct, no repeats, sum ≥ X."
+      - Shrinking a valid window keeps it valid (or growing an invalid one keeps it invalid).
+      - All numbers are non-negative, if the rule is about a sum.
+    idea: |
+      Move `r` one step at a time and add `a[r]` to the window's state (a count map,
+      a sum). While `[l, r]` breaks the rule, remove `a[l]` and move `l` right. After
+      that loop, `[l, r]` is the longest valid window that ends at `r`.
+
+      For the **shortest** window, flip it: while the window *is* valid, record its
+      length and shrink. Both pointers only move forward, so the total work is O(n)
+      even though there is a loop inside a loop.
+    trace_title: "a = [1, 2, 1, 3, 3, 2], at most 2 distinct"
+    trace: |
+      r  a[r]  window after shrinking        best
+      0    1   [1]                            1
+      1    2   [1, 2]                         2
+      2    1   [1, 2, 1]                      3
+      3    3   [1, 3]      (l moved 0 -> 2)   3
+      4    3   [1, 3, 3]                      3
+      5    2   [3, 3, 2]   (l moved 2 -> 3)   3
+    code:
+      - file: P02SlidingWindow.java
+        region: longest
+        title: Longest valid window
+        tag: memorise
+      - file: P02SlidingWindow.java
+        region: shortest
+        title: Shortest valid window
+        tag: memorise
+    time: O(n)
+    space: O(k)
+    cost_note: l and r each move at most n times; the map holds at most k + 1 keys.
+    variants:
+      - "Longest substring without repeats: the rule is \"every count ≤ 1\"; shrink while `cnt[c] > 1`."
+      - "Max consecutive ones with k flips: the rule is \"zeros in window ≤ k\"."
+      - "Count windows instead of measuring them: add `r - l + 1` for each `r` (every valid window ending at r). See [[exactly-k]]."
+      - "The window must contain all of some set (minimum window substring): see [[min-window]]."
+    traps:
+      - With negative numbers a sum rule is not monotone, so the window breaks. Use prefix sums ([[prefix-hash]]).
+      - "When a count drops to 0, remove the key; otherwise `map.size()` is wrong."
+      - "Record the answer at the right moment: after the shrink loop for *longest*, inside it for *shortest*."
+    practice: [longest-substring-without-repeating-characters, minimum-size-subarray-sum, max-consecutive-ones-iii, longest-repeating-character-replacement, fruit-into-baskets]
+
+  - id: exactly-k
+    title: Exactly k (two at-most counts)
+    signal: Count subarrays where a count (distinct values, ones, odds) is exactly k.
+    spot:
+      - "*Number of subarrays* with *exactly k* distinct integers, or with sum exactly `goal` in a 0/1 array."
+      - You count windows instead of measuring one, and n is 2·10⁴ or more, so trying every subarray is too slow.
+      - "The *at most k* version of the rule is monotone: shrinking a valid window keeps it valid."
+    idea: |
+      Fix the right end `r`. The starts that give *at most* k form a range `[l, r]`:
+      the window from [[sliding-window]] finds the smallest such `l`, and all
+      `r - l + 1` starts count. The starts that give *exactly* k form a range in the
+      middle, `[l1, l2]`, and one window cannot track both of its ends.
+
+      So count a difference. A window with exactly k is a window with at most k that
+      does not have at most k − 1: `exactly(k) = atMost(k) - atMost(k - 1)`. That is
+      two O(n) passes. The same works for sums of non-negative numbers, and *nice
+      subarrays* (exactly k odd numbers) becomes a 0/1 sum after `x -> x & 1`.
+    trace_title: "a = [1, 2, 1, 2, 3], exactly 2 distinct"
+    trace: |
+      r  a[r]  at most 2: [l..r]  +r-l+1   at most 1: [l..r]  +r-l+1
+      0   1    [1]                 1       [1]                 1
+      1   2    [1, 2]              2       [2]                 1
+      2   1    [1, 2, 1]           3       [1]                 1
+      3   2    [1, 2, 1, 2]        4       [2]                 1
+      4   3    [2, 3]              2       [3]                 1
+      total                       12                           5
+      exactly 2 = 12 - 5 = 7
+    code:
+      - file: P02ExactlyK.java
+        region: distinct
+        title: Exactly k distinct values
+        tag: memorise
+      - file: P02ExactlyK.java
+        region: sum
+        title: Binary sum and nice subarrays
+        tag: variant
+    time: O(n)
+    space: O(k)
+    cost_note: Two passes of the at-most window, each moving l and r at most n times; the map holds at most k + 1 keys.
+    variants:
+      - "*At least k* (substrings containing all three letters): `total - atMost(k - 1)`, or shrink while the window is valid and then add `l`, the number of starts that still work."
+      - "Exactly k plus a second rule (every vowel and exactly k consonants): `atLeast(k) - atLeast(k + 1)`, each a window that also checks the vowels."
+      - "Sum exactly k with negative numbers: no window works; count prefix sums in a hash map ([[prefix-hash]])."
+      - "Count vowel substrings (only vowels, all five present): inside each run of vowels, count windows with exactly 5 distinct letters."
+    traps:
+      - "`goal = 0` asks for `atMost(-1)`. Without `if (s < 0) return 0`, the shrink loop runs `l` past `r` and throws `ArrayIndexOutOfBoundsException`."
+      - "Adding 1 per `r` instead of `r - l + 1` counts only the longest window ending at `r`."
+      - The count can reach n(n+1)/2, which is 5·10⁹ for n = 10⁵. Keep it in a `long`; cast at the end if LeetCode wants an `int`.
+    practice: [count-vowel-substrings-of-a-string, binary-subarrays-with-sum, count-number-of-nice-subarrays, number-of-substrings-containing-all-three-characters, count-of-substrings-containing-every-vowel-and-k-consonants-ii, subarrays-with-k-different-integers]
+
+  - id: min-window
+    title: Minimum window substring
+    signal: Shortest substring or subarray that contains every required item.
+    spot:
+      - "*Smallest substring of s that contains all characters of t*, duplicates included."
+      - "*Shortest subarray that covers* a set: one element from each of k lists, every distinct value, every letter."
+      - Growing a valid window keeps it valid, so shrinking from the left is the only question.
+    idea: |
+      `need[c]` counts c in t, and `required` is the number of distinct chars in t.
+      `formed` counts the chars c of t with `have[c] >= need[c]`. It goes up only when
+      `have[c]` reaches `need[c]` exactly, and down only when it drops below, so extra
+      copies and chars not in t never change it. The window is valid exactly when
+      `formed == required`.
+
+      Grow `r`. While the window is valid, **record it first, then shrink**: the
+      current `[l, r]` is a candidate, and removing `s[l]` may break it. When the
+      loop exits, `l - 1` was the last start that worked for this `r`, so the
+      shortest valid window ending at `r` has been recorded. Both pointers only move
+      forward, so the cost is O(m + n) for m = |s| and n = |t|, with two `int[128]` arrays.
+    trace_title: "s = \"ADOBECODEBANC\", t = \"ABC\" (* = new best)"
+    trace: |
+      r      s[r]   formed  recorded while valid, then shrunk             l after
+      0..4   ADOBE  2/3     -                                             0
+      5      C      3/3     ADOBEC*                                       1
+      6..9   ODEB   2/3     -                                             1
+      10     A      3/3     DOBECODEBA OBECODEBA BECODEBA ECODEBA CODEBA  6
+      11     N      2/3     -                                             6
+      12     C      3/3     ODEBANC DEBANC EBANC* BANC*                   10
+      Each shrink stops when a needed char leaves: A at l = 0,
+      C at l = 5, B at l = 9. Answer: "BANC".
+    code:
+      - file: P02MinWindow.java
+        region: counts
+        title: Need, have and formed == required
+        tag: memorise
+      - file: P02MinWindow.java
+        region: missing
+        title: One array and a missing counter
+        tag: variant
+    time: O(m + n)
+    space: O(1)
+    cost_note: With m = |s| and n = |t|. r and l each pass over s once; the count arrays have a fixed size of 128.
+    variants:
+      - "Every distinct value of the array: `required` = number of distinct values; use a `HashMap`."
+      - "Smallest range covering k sorted lists: tag every value with its list, sort, and find the window holding all k list ids with the smallest max − min."
+      - "Balanced string (LC 1234): the window is valid when every count *outside* it is ≤ n/4."
+      - "Shortest window with sum ≥ target is the same shape with a sum as the state ([[sliding-window]])."
+    traps:
+      - "`if (++have[c] >= need[c]) formed++` counts every extra copy and every char not in t: s = \"AA\", t = \"AB\" reports \"AA\" as valid. Use `==` going up; going down, test before the decrement."
+      - "Recording after the while loop (as for *longest* in [[sliding-window]]) records a window that is no longer valid: \"DOBEC\" at r = 5, which has no A."
+      - "`s.substring` inside the loop builds a new string per step: O(m²) in the worst case. Store `bestL` and `bestLen` and cut once at the end."
+    practice: [replace-the-substring-for-balanced-string, shortest-subarray-with-or-at-least-k-ii, minimum-window-substring, smallest-range-covering-elements-from-k-lists]
+
+  - id: window-max
+    title: Sliding window maximum (deque)
+    signal: Max or min of every window, or a DP step that needs the best of the last k.
+    spot:
+      - "*Maximum of each sliding window of size k*, with n up to 10⁵ and k up to n, so O(nk) is too slow."
+      - "A DP such as `dp[i] = a[i] + max(dp[i-k..i-1])`: the max over a range that slides with i."
+      - Shortest subarray with sum ≥ k when values can be **negative**.
+    idea: |
+      Keep a deque of indices whose values strictly decrease from front to back. When
+      `a[r]` arrives, pop every back index `j` with `a[j] <= a[r]`: `r` is later and at
+      least as big, so `j` can never again be the max of a window. Pop the front when
+      it falls out of the window. The front is then the window's max. Each index
+      enters and leaves once, so the n steps cost O(n) in total, even with the inner
+      `while`. Store indices, not values: the index tells you when the front has left.
+
+      For *shortest subarray with sum ≥ k*, use prefix sums `p` and keep `p`
+      increasing in the deque. Pop the front while `p[j] - p[front] >= k`: that is
+      the best length for this start, since a later `j` is only longer. Pop the back
+      while `p[back] >= p[j]`: `j` starts later with a smaller prefix, so it is better.
+    trace_title: "a = [1, 3, -1, -3, 5, 3, 6, 7], k = 3"
+    trace: |
+      r  a[r]  popped                      deque (values)  max
+      0    1                               [1]
+      1    3   back 1                      [3]
+      2   -1                               [3, -1]         3
+      3   -3                               [3, -1, -3]     3
+      4    5   front 3, back -3, back -1   [5]             5
+      5    3                               [5, 3]          5
+      6    6   back 3, back 5              [6]             6
+      7    7   back 6                      [7]             7
+    code:
+      - file: P02WindowMax.java
+        region: max
+        title: Max of every window of size k
+        tag: memorise
+      - file: P02WindowMax.java
+        region: shortest
+        title: Shortest subarray with sum ≥ k (negatives)
+        tag: variant
+      - file: P02WindowMax.java
+        region: dp
+        title: Constrained subsequence sum (DP + deque)
+        tag: variant
+    time: O(n)
+    space: O(k)
+    cost_note: Every index is pushed once and popped at most once. The two variants also keep an O(n) array.
+    variants:
+      - "Window minimum: pop the back while `a[back] >= a[r]`; values then rise front to back."
+      - "Jump game VI: `dp[i] = a[i] + max(dp[i-k..i-1])` with no `max(0, ·)`, and the answer is `dp[n-1]`."
+      - "Longest subarray with max − min ≤ limit: a max deque and a min deque inside a variable window ([[sliding-window]]); shrink while the two fronts differ by more than the limit."
+      - "Next greater element is the same monotonic idea with a stack and no left edge ([[next-greater]])."
+    traps:
+      - "`if` instead of `while` when popping the back leaves small values behind a bigger one: the sample gives `[3, 3, -1, 5, 5, 7]`."
+      - "The plain [[sliding-window]] needs non-negative values. On `[84, -37, 32, 40, 95]` with k = 167 it returns 5; the answer is 3."
+      - "Prefix sums of 10⁵ values of size 10⁵ reach 10¹⁰: keep `p` as `long[]`."
+    practice: [longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit, jump-game-vi, sliding-window-maximum, constrained-subsequence-sum, shortest-subarray-with-sum-at-least-k]
