@@ -1,0 +1,1152 @@
+[
+ {
+  "day": 1,
+  "date": "7 Nov",
+  "dow": "Sat",
+  "title": "Set up, Java toolkit, fast input",
+  "focus": "Accounts, the Java collections you will use every day, and how FastScanner replaces Scanner.",
+  "problems": [
+   {
+    "n": 1,
+    "title": "Two Sum",
+    "slug": "two-sum",
+    "diff": "Easy",
+    "hint": "One pass: before storing a[i], look for target − a[i] in the map."
+   },
+   {
+    "n": 242,
+    "title": "Valid Anagram",
+    "slug": "valid-anagram",
+    "diff": "Easy",
+    "hint": "Count letters in an int[26]; one string adds, the other subtracts."
+   },
+   {
+    "n": 20,
+    "title": "Valid Parentheses",
+    "slug": "valid-parentheses",
+    "diff": "Easy",
+    "hint": "ArrayDeque as a stack: push the closer you expect, pop and compare."
+   },
+   {
+    "n": 347,
+    "title": "Top K Frequent Elements",
+    "slug": "top-k-frequent-elements",
+    "diff": "Medium",
+    "hint": "HashMap of counts, then a min-heap of size k (or buckets by count)."
+   },
+   {
+    "n": 729,
+    "title": "My Calendar I",
+    "slug": "my-calendar-i",
+    "diff": "Medium",
+    "hint": "TreeMap start → end. Check floorKey(start) and ceilingKey(start) for overlap."
+   },
+   {
+    "n": 206,
+    "title": "Reverse Linked List",
+    "slug": "reverse-linked-list",
+    "diff": "Easy",
+    "hint": "Three pointers: prev, cur, next."
+   },
+   {
+    "n": 141,
+    "title": "Linked List Cycle",
+    "slug": "linked-list-cycle",
+    "diff": "Easy",
+    "hint": "Slow moves 1, fast moves 2; they meet only if there is a cycle."
+   },
+   {
+    "n": 49,
+    "title": "Group Anagrams",
+    "slug": "group-anagrams",
+    "diff": "Medium",
+    "hint": "Key = the sorted letters of the word."
+   }
+  ]
+ },
+ {
+  "day": 2,
+  "date": "8 Nov",
+  "dow": "Sun",
+  "title": "Prefix sums, difference arrays, hashing",
+  "focus": "Count subarrays by remembering earlier prefix values in a HashMap.",
+  "problems": [
+   {
+    "n": 560,
+    "title": "Subarray Sum Equals K",
+    "slug": "subarray-sum-equals-k",
+    "diff": "Medium",
+    "hint": "Prefix + HashMap seeded with {0: 1}."
+   },
+   {
+    "n": 974,
+    "title": "Subarray Sums Divisible by K",
+    "slug": "subarray-sums-divisible-by-k",
+    "diff": "Medium",
+    "hint": "Key = Math.floorMod(prefix, k); equal remainders make a valid subarray."
+   },
+   {
+    "n": 1524,
+    "title": "Number of Sub-arrays With Odd Sum",
+    "slug": "number-of-sub-arrays-with-odd-sum",
+    "diff": "Medium",
+    "hint": "Count odd and even prefixes seen so far."
+   },
+   {
+    "n": 525,
+    "title": "Contiguous Array",
+    "slug": "contiguous-array",
+    "diff": "Medium",
+    "hint": "Treat 0 as −1; store the FIRST index of each prefix value."
+   },
+   {
+    "n": 1109,
+    "title": "Corporate Flight Bookings",
+    "slug": "corporate-flight-bookings",
+    "diff": "Medium",
+    "hint": "Difference array."
+   },
+   {
+    "n": 304,
+    "title": "Range Sum Query 2D - Immutable",
+    "slug": "range-sum-query-2d-immutable",
+    "diff": "Medium",
+    "hint": "2D prefix: P[i+1][j+1] = P[i][j+1] + P[i+1][j] − P[i][j] + a[i][j]."
+   }
+  ]
+ },
+ {
+  "day": 3,
+  "date": "9 Nov",
+  "dow": "Mon",
+  "title": "Two pointers and sliding window",
+  "focus": "Grow the window on the right; shrink it on the left while it is invalid.",
+  "problems": [
+   {
+    "n": 3,
+    "title": "Longest Substring Without Repeating Characters",
+    "slug": "longest-substring-without-repeating-characters",
+    "diff": "Medium",
+    "hint": "Window with a count (or last-seen index) per character."
+   },
+   {
+    "n": 1004,
+    "title": "Max Consecutive Ones III",
+    "slug": "max-consecutive-ones-iii",
+    "diff": "Medium",
+    "hint": "Window with at most K zeros: the vacation pattern."
+   },
+   {
+    "n": 424,
+    "title": "Longest Repeating Character Replacement",
+    "slug": "longest-repeating-character-replacement",
+    "diff": "Medium",
+    "hint": "Valid while window length − (most frequent count) ≤ k."
+   },
+   {
+    "n": 15,
+    "title": "3Sum",
+    "slug": "3sum",
+    "diff": "Medium",
+    "hint": "Sort, fix i, two pointers on the rest, skip duplicates."
+   },
+   {
+    "n": 992,
+    "title": "Subarrays with K Different Integers",
+    "slug": "subarrays-with-k-different-integers",
+    "diff": "Hard",
+    "hint": "Exactly K = atMost(K) − atMost(K − 1)."
+   },
+   {
+    "n": 239,
+    "title": "Sliding Window Maximum",
+    "slug": "sliding-window-maximum",
+    "diff": "Hard",
+    "hint": "Monotonic deque of indices."
+   },
+   {
+    "n": 76,
+    "title": "Minimum Window Substring",
+    "slug": "minimum-window-substring",
+    "diff": "Hard",
+    "hint": "Counts of what you need vs what the window has; shrink while valid."
+   }
+  ]
+ },
+ {
+  "day": 4,
+  "date": "10 Nov",
+  "dow": "Tue",
+  "title": "Sorting and greedy: intervals",
+  "focus": "Sort by the right key, then make one decision per element. Check the greedy by swapping two choices.",
+  "problems": [
+   {
+    "n": 56,
+    "title": "Merge Intervals",
+    "slug": "merge-intervals",
+    "diff": "Medium",
+    "hint": "Sort by start; extend the last interval while they overlap."
+   },
+   {
+    "n": 435,
+    "title": "Non-overlapping Intervals",
+    "slug": "non-overlapping-intervals",
+    "diff": "Medium",
+    "hint": "Sort by end; answer = n − (most you can keep)."
+   },
+   {
+    "n": 2406,
+    "title": "Divide Intervals Into Minimum Number of Groups",
+    "slug": "divide-intervals-into-minimum-number-of-groups",
+    "diff": "Medium",
+    "hint": "This is \"minimum platforms\": sweep sorted starts and ends."
+   },
+   {
+    "n": 179,
+    "title": "Largest Number",
+    "slug": "largest-number",
+    "diff": "Medium",
+    "hint": "Sort strings with (b + a).compareTo(a + b). All zeros → \"0\"."
+   },
+   {
+    "n": 1798,
+    "title": "Maximum Number of Consecutive Values You Can Make",
+    "slug": "maximum-number-of-consecutive-values-you-can-make",
+    "diff": "Medium",
+    "hint": "Sort; if a coin > reach + 1, stop, else reach += coin."
+   },
+   {
+    "n": 452,
+    "title": "Minimum Number of Arrows to Burst Balloons",
+    "slug": "minimum-number-of-arrows-to-burst-balloons",
+    "diff": "Medium",
+    "hint": "Sort by end; touching balloons share an arrow."
+   },
+   {
+    "n": 135,
+    "title": "Candy",
+    "slug": "candy",
+    "diff": "Hard",
+    "hint": "Two passes: left to right, then right to left."
+   }
+  ]
+ },
+ {
+  "day": 5,
+  "date": "11 Nov",
+  "dow": "Wed",
+  "title": "Greedy with heaps",
+  "focus": "Unlock options in sorted order, keep the unlocked ones in a heap, undo your worst choice when a limit breaks.",
+  "problems": [
+   {
+    "n": 502,
+    "title": "IPO",
+    "slug": "ipo",
+    "diff": "Hard",
+    "hint": "Sort projects by capital; heap of profits you can afford."
+   },
+   {
+    "n": 1642,
+    "title": "Furthest Building You Can Reach",
+    "slug": "furthest-building-you-can-reach",
+    "diff": "Medium",
+    "hint": "Min-heap of the climbs given ladders; the smallest pays bricks."
+   },
+   {
+    "n": 1526,
+    "title": "Minimum Number of Increments on Subarrays to Form a Target Array",
+    "slug": "minimum-number-of-increments-on-subarrays-to-form-a-target-array",
+    "diff": "Hard",
+    "hint": "Answer = sum of the positive rises a[i] − a[i−1]."
+   },
+   {
+    "n": 1046,
+    "title": "Last Stone Weight",
+    "slug": "last-stone-weight",
+    "diff": "Easy",
+    "hint": "Max-heap: poll two, push the difference."
+   },
+   {
+    "n": 871,
+    "title": "Minimum Number of Refueling Stops",
+    "slug": "minimum-number-of-refueling-stops",
+    "diff": "Hard",
+    "hint": "Heap of fuel at stations you have passed; refuel from the biggest when stuck."
+   },
+   {
+    "n": 630,
+    "title": "Course Schedule III",
+    "slug": "course-schedule-iii",
+    "diff": "Hard",
+    "hint": "Sort by deadline; max-heap of durations; drop the longest when over time."
+   }
+  ]
+ },
+ {
+  "day": 6,
+  "date": "12 Nov",
+  "dow": "Thu",
+  "title": "Binary search, including on the answer",
+  "focus": "When \"can the answer be x?\" is monotone, binary search x and check it greedily.",
+  "problems": [
+   {
+    "n": 34,
+    "title": "Find First and Last Position of Element in Sorted Array",
+    "slug": "find-first-and-last-position-of-element-in-sorted-array",
+    "diff": "Medium",
+    "hint": "Lower bound of x, and lower bound of x + 1, minus 1."
+   },
+   {
+    "n": 875,
+    "title": "Koko Eating Bananas",
+    "slug": "koko-eating-bananas",
+    "diff": "Medium",
+    "hint": "Smallest speed with total hours ≤ h. Hours for a pile = ceil(pile / speed)."
+   },
+   {
+    "n": 1011,
+    "title": "Capacity To Ship Packages Within D Days",
+    "slug": "capacity-to-ship-packages-within-d-days",
+    "diff": "Medium",
+    "hint": "Smallest capacity whose greedy day count ≤ days."
+   },
+   {
+    "n": 410,
+    "title": "Split Array Largest Sum",
+    "slug": "split-array-largest-sum",
+    "diff": "Hard",
+    "hint": "Same check as ship capacity: count parts greedily."
+   },
+   {
+    "n": 1552,
+    "title": "Magnetic Force Between Two Balls",
+    "slug": "magnetic-force-between-two-balls",
+    "diff": "Medium",
+    "hint": "Largest gap that still places m balls (round mid up)."
+   },
+   {
+    "n": 2226,
+    "title": "Maximum Candies Allocated to K Children",
+    "slug": "maximum-candies-allocated-to-k-children",
+    "diff": "Medium",
+    "hint": "Largest amount x with Σ pile / x ≥ k."
+   },
+   {
+    "n": 719,
+    "title": "Find K-th Smallest Pair Distance",
+    "slug": "find-k-th-smallest-pair-distance",
+    "diff": "Hard",
+    "hint": "Binary search the distance; count pairs ≤ d with two pointers."
+   }
+  ]
+ },
+ {
+  "day": 7,
+  "date": "13 Nov",
+  "dow": "Fri",
+  "title": "Monotonic stacks",
+  "focus": "Next or previous greater/smaller element for every index in O(n), and the contribution trick.",
+  "problems": [
+   {
+    "n": 739,
+    "title": "Daily Temperatures",
+    "slug": "daily-temperatures",
+    "diff": "Medium",
+    "hint": "Next greater element to the right; answer = index difference."
+   },
+   {
+    "n": 503,
+    "title": "Next Greater Element II",
+    "slug": "next-greater-element-ii",
+    "diff": "Medium",
+    "hint": "Circular: loop i from 0 to 2n − 1 and use i % n."
+   },
+   {
+    "n": 84,
+    "title": "Largest Rectangle in Histogram",
+    "slug": "largest-rectangle-in-histogram",
+    "diff": "Hard",
+    "hint": "Previous and next smaller bar give the width for each bar."
+   },
+   {
+    "n": 907,
+    "title": "Sum of Subarray Minimums",
+    "slug": "sum-of-subarray-minimums",
+    "diff": "Medium",
+    "hint": "Contribution counting, then mod 10⁹+7."
+   },
+   {
+    "n": 402,
+    "title": "Remove K Digits",
+    "slug": "remove-k-digits",
+    "diff": "Medium",
+    "hint": "Greedy stack: pop while the top is bigger than the current digit."
+   },
+   {
+    "n": 316,
+    "title": "Remove Duplicate Letters",
+    "slug": "remove-duplicate-letters",
+    "diff": "Medium",
+    "hint": "Stack + last index of each letter + \"already in stack\" flags."
+   },
+   {
+    "n": 2104,
+    "title": "Sum of Subarray Ranges",
+    "slug": "sum-of-subarray-ranges",
+    "diff": "Medium",
+    "hint": "Sum of maximums minus sum of minimums, both by contribution."
+   }
+  ]
+ },
+ {
+  "day": 8,
+  "date": "14 Nov",
+  "dow": "Sat",
+  "title": "Bits and XOR",
+  "focus": "Each bit is independent in a sum of XORs. A trie answers pair questions; a basis answers subset questions.",
+  "problems": [
+   {
+    "n": 136,
+    "title": "Single Number",
+    "slug": "single-number",
+    "diff": "Easy",
+    "hint": "XOR everything; pairs cancel."
+   },
+   {
+    "n": 1442,
+    "title": "Count Triplets That Can Form Two Arrays of Equal XOR",
+    "slug": "count-triplets-that-can-form-two-arrays-of-equal-xor",
+    "diff": "Medium",
+    "hint": "a == b means xor(i..k) == 0: equal prefix XORs."
+   },
+   {
+    "n": 421,
+    "title": "Maximum XOR of Two Numbers in an Array",
+    "slug": "maximum-xor-of-two-numbers-in-an-array",
+    "diff": "Medium",
+    "hint": "Binary trie; for each x, walk towards the opposite bits."
+   },
+   {
+    "n": 1803,
+    "title": "Count Pairs With XOR in a Range",
+    "slug": "count-pairs-with-xor-in-a-range",
+    "diff": "Hard",
+    "hint": "Trie with counts: pairs with XOR < high + 1 minus pairs with XOR < low."
+   },
+   {
+    "n": 2429,
+    "title": "Minimize XOR",
+    "slug": "minimize-xor",
+    "diff": "Medium",
+    "hint": "Greedy on bits: match num1's high bits first, then fill low bits."
+   },
+   {
+    "n": 1707,
+    "title": "Maximum XOR With an Element From Array",
+    "slug": "maximum-xor-with-an-element-from-array",
+    "diff": "Hard",
+    "hint": "Offline: sort queries by limit, insert numbers into the trie as they qualify."
+   }
+  ]
+ },
+ {
+  "day": 10,
+  "date": "16 Nov",
+  "dow": "Mon",
+  "title": "Number theory toolkit",
+  "focus": "gcd, sieves, fast power, inverses, nCr, and the square-free kernel.",
+  "problems": [
+   {
+    "n": 204,
+    "title": "Count Primes",
+    "slug": "count-primes",
+    "diff": "Medium",
+    "hint": "Sieve of Eratosthenes up to n − 1."
+   },
+   {
+    "n": 1922,
+    "title": "Count Good Numbers",
+    "slug": "count-good-numbers",
+    "diff": "Medium",
+    "hint": "5^(even positions) × 4^(odd positions) with fast power mod 10⁹+7."
+   },
+   {
+    "n": 2447,
+    "title": "Number of Subarrays With GCD Equal to K",
+    "slug": "number-of-subarrays-with-gcd-equal-to-k",
+    "diff": "Medium",
+    "hint": "For each start, extend while gcd is a multiple of k; stop early otherwise."
+   },
+   {
+    "n": 2862,
+    "title": "Maximum Element-Sum of a Complete Subset of Indices",
+    "slug": "maximum-element-sum-of-a-complete-subset-of-indices",
+    "diff": "Hard",
+    "hint": "Group indices by square-free kernel; the best group sum wins."
+   },
+   {
+    "n": 1819,
+    "title": "Number of Different Subsequences GCDs",
+    "slug": "number-of-different-subsequences-gcds",
+    "diff": "Hard",
+    "hint": "For each g, gcd of all multiples of g present in the array; count when it equals g."
+   },
+   {
+    "n": 2572,
+    "title": "Count the Number of Square-Free Subsets",
+    "slug": "count-the-number-of-square-free-subsets",
+    "diff": "Medium",
+    "hint": "Numbers ≤ 30: bitmask of the 10 primes, knapsack over masks."
+   }
+  ]
+ },
+ {
+  "day": 11,
+  "date": "17 Nov",
+  "dow": "Tue",
+  "title": "DP I: states, transitions, knapsack",
+  "focus": "Define the state in words before writing any code.",
+  "problems": [
+   {
+    "n": 198,
+    "title": "House Robber",
+    "slug": "house-robber",
+    "diff": "Medium",
+    "hint": "Take or skip: best[i] = max(best[i−1], best[i−2] + a[i−1])."
+   },
+   {
+    "n": 322,
+    "title": "Coin Change",
+    "slug": "coin-change",
+    "diff": "Medium",
+    "hint": "dp[a] = min over coins of dp[a − c] + 1; start with a large INF."
+   },
+   {
+    "n": 518,
+    "title": "Coin Change II",
+    "slug": "coin-change-ii",
+    "diff": "Medium",
+    "hint": "Combinations: coins in the outer loop, amount in the inner loop."
+   },
+   {
+    "n": 416,
+    "title": "Partition Equal Subset Sum",
+    "slug": "partition-equal-subset-sum",
+    "diff": "Medium",
+    "hint": "Boolean subset sum to total / 2, looping the sum downwards."
+   },
+   {
+    "n": 494,
+    "title": "Target Sum",
+    "slug": "target-sum",
+    "diff": "Medium",
+    "hint": "Count subsets with sum (total + target) / 2."
+   },
+   {
+    "n": 1049,
+    "title": "Last Stone Weight II",
+    "slug": "last-stone-weight-ii",
+    "diff": "Medium",
+    "hint": "Split into two groups as equal as possible: subset sum up to total / 2."
+   },
+   {
+    "n": 740,
+    "title": "Delete and Earn",
+    "slug": "delete-and-earn",
+    "diff": "Medium",
+    "hint": "Sum points per value, then House Robber over values."
+   }
+  ]
+ },
+ {
+  "day": 12,
+  "date": "18 Nov",
+  "dow": "Wed",
+  "title": "DP II: two-string DP",
+  "focus": "dp[i][j] over the prefixes of two strings.",
+  "problems": [
+   {
+    "n": 1143,
+    "title": "Longest Common Subsequence",
+    "slug": "longest-common-subsequence",
+    "diff": "Medium",
+    "hint": "Match → diagonal + 1, else the better of up and left."
+   },
+   {
+    "n": 72,
+    "title": "Edit Distance",
+    "slug": "edit-distance",
+    "diff": "Medium",
+    "hint": "Insert, delete, replace = left, up, diagonal + 1."
+   },
+   {
+    "n": 516,
+    "title": "Longest Palindromic Subsequence",
+    "slug": "longest-palindromic-subsequence",
+    "diff": "Medium",
+    "hint": "dp[l][r] on one string, or LCS with its reverse."
+   },
+   {
+    "n": 1312,
+    "title": "Minimum Insertion Steps to Make a String Palindrome",
+    "slug": "minimum-insertion-steps-to-make-a-string-palindrome",
+    "diff": "Hard",
+    "hint": "n − longest palindromic subsequence."
+   },
+   {
+    "n": 115,
+    "title": "Distinct Subsequences",
+    "slug": "distinct-subsequences",
+    "diff": "Hard",
+    "hint": "dp[i][j] = dp[i−1][j] + (match ? dp[i−1][j−1] : 0). Use long."
+   },
+   {
+    "n": 97,
+    "title": "Interleaving String",
+    "slug": "interleaving-string",
+    "diff": "Medium",
+    "hint": "dp[i][j] = can the first i of s1 and j of s2 form the first i + j of s3."
+   },
+   {
+    "n": 1092,
+    "title": "Shortest Common Supersequence",
+    "slug": "shortest-common-supersequence",
+    "diff": "Hard",
+    "hint": "Build the LCS table, then walk back to print."
+   }
+  ]
+ },
+ {
+  "day": 13,
+  "date": "19 Nov",
+  "dow": "Thu",
+  "title": "DP III: LIS and DP with an extra dimension",
+  "focus": "LIS in O(n log n), DP over values with a Fenwick tree, and an extra state for a side condition.",
+  "problems": [
+   {
+    "n": 300,
+    "title": "Longest Increasing Subsequence",
+    "slug": "longest-increasing-subsequence",
+    "diff": "Medium",
+    "hint": "Write the O(n log n) tails version."
+   },
+   {
+    "n": 1964,
+    "title": "Find the Longest Valid Obstacle Course at Each Position",
+    "slug": "find-the-longest-valid-obstacle-course-at-each-position",
+    "diff": "Hard",
+    "hint": "Non-decreasing LIS: upper bound; the answer at i is the position + 1."
+   },
+   {
+    "n": 1671,
+    "title": "Minimum Number of Removals to Make Mountain Array",
+    "slug": "minimum-number-of-removals-to-make-mountain-array",
+    "diff": "Hard",
+    "hint": "LIS ending at i from the left and from the right; peak needs both ≥ 2."
+   },
+   {
+    "n": 2370,
+    "title": "Longest Ideal Subsequence",
+    "slug": "longest-ideal-subsequence",
+    "diff": "Medium",
+    "hint": "dp over the last letter: 26 states."
+   },
+   {
+    "n": 354,
+    "title": "Russian Doll Envelopes",
+    "slug": "russian-doll-envelopes",
+    "diff": "Hard",
+    "hint": "Sort by width ascending, height descending; LIS on heights."
+   },
+   {
+    "n": 673,
+    "title": "Number of Longest Increasing Subsequence",
+    "slug": "number-of-longest-increasing-subsequence",
+    "diff": "Medium",
+    "hint": "For each i, keep (length, count)."
+   }
+  ]
+ },
+ {
+  "day": 14,
+  "date": "20 Nov",
+  "dow": "Fri",
+  "title": "DP IV: divisor, interval and game DP",
+  "focus": "Loops over multiples, dp[l][r] by length, and \"my score minus yours\" for two-player games.",
+  "problems": [
+   {
+    "n": 368,
+    "title": "Largest Divisible Subset",
+    "slug": "largest-divisible-subset",
+    "diff": "Medium",
+    "hint": "Sort; LIS-style DP where j → i is allowed if a[i] % a[j] == 0."
+   },
+   {
+    "n": 486,
+    "title": "Predict the Winner",
+    "slug": "predict-the-winner",
+    "diff": "Medium",
+    "hint": "dp[l][r] = max(a[l] − dp[l+1][r], a[r] − dp[l][r−1])."
+   },
+   {
+    "n": 1547,
+    "title": "Minimum Cost to Cut a Stick",
+    "slug": "minimum-cost-to-cut-a-stick",
+    "diff": "Hard",
+    "hint": "Add 0 and n as cuts; interval DP over cut indices."
+   },
+   {
+    "n": 1690,
+    "title": "Stone Game VII",
+    "slug": "stone-game-vii",
+    "diff": "Medium",
+    "hint": "Same game DP; the score of a move is the sum of what is left (prefix sums)."
+   },
+   {
+    "n": 2338,
+    "title": "Count the Number of Ideal Arrays",
+    "slug": "count-the-number-of-ideal-arrays",
+    "diff": "Hard",
+    "hint": "Divisor chains of s distinct values × C(n − 1, s − 1)."
+   },
+   {
+    "n": 312,
+    "title": "Burst Balloons",
+    "slug": "burst-balloons",
+    "diff": "Hard",
+    "hint": "Choose the LAST balloon to burst in (l, r)."
+   },
+   {
+    "n": 664,
+    "title": "Strange Printer",
+    "slug": "strange-printer",
+    "diff": "Hard",
+    "hint": "dp[l][r]; when s[k] == s[l], the two prints can merge."
+   }
+  ]
+ },
+ {
+  "day": 15,
+  "date": "21 Nov",
+  "dow": "Sat",
+  "title": "Graphs I: BFS, DFS, topological order",
+  "focus": "Shortest paths by edges, grids, multi-source BFS, Kahn's algorithm and DP on a DAG.",
+  "problems": [
+   {
+    "n": 200,
+    "title": "Number of Islands",
+    "slug": "number-of-islands",
+    "diff": "Medium",
+    "hint": "Each unvisited land cell starts a BFS/DFS that marks its island."
+   },
+   {
+    "n": 994,
+    "title": "Rotting Oranges",
+    "slug": "rotting-oranges",
+    "diff": "Medium",
+    "hint": "Multi-source BFS from every rotten orange; the answer is the last layer."
+   },
+   {
+    "n": 207,
+    "title": "Course Schedule",
+    "slug": "course-schedule",
+    "diff": "Medium",
+    "hint": "Kahn's algorithm; possible iff every course gets processed."
+   },
+   {
+    "n": 1091,
+    "title": "Shortest Path in Binary Matrix",
+    "slug": "shortest-path-in-binary-matrix",
+    "diff": "Medium",
+    "hint": "BFS with 8 directions; distance counts cells, so start at 1."
+   },
+   {
+    "n": 785,
+    "title": "Is Graph Bipartite?",
+    "slug": "is-graph-bipartite",
+    "diff": "Medium",
+    "hint": "BFS colouring; a neighbour with the same colour means no."
+   },
+   {
+    "n": 1368,
+    "title": "Minimum Cost to Make at Least One Valid Path in a Grid",
+    "slug": "minimum-cost-to-make-at-least-one-valid-path-in-a-grid",
+    "diff": "Hard",
+    "hint": "0-1 BFS: following the arrow costs 0, changing it costs 1."
+   },
+   {
+    "n": 2050,
+    "title": "Parallel Courses III",
+    "slug": "parallel-courses-iii",
+    "diff": "Hard",
+    "hint": "Topological order; finish[v] = time[v] + max finish of prerequisites."
+   }
+  ]
+ },
+ {
+  "day": 17,
+  "date": "23 Nov",
+  "dow": "Mon",
+  "title": "Graphs II: Dijkstra, DSU, MST",
+  "focus": "Weighted shortest paths, expanded state graphs, union-find and Kruskal.",
+  "problems": [
+   {
+    "n": 743,
+    "title": "Network Delay Time",
+    "slug": "network-delay-time",
+    "diff": "Medium",
+    "hint": "Dijkstra from k; the answer is the largest distance (−1 if any is unreachable)."
+   },
+   {
+    "n": 1631,
+    "title": "Path With Minimum Effort",
+    "slug": "path-with-minimum-effort",
+    "diff": "Medium",
+    "hint": "Dijkstra where a path costs its largest step."
+   },
+   {
+    "n": 1584,
+    "title": "Min Cost to Connect All Points",
+    "slug": "min-cost-to-connect-all-points",
+    "diff": "Medium",
+    "hint": "MST over all pairs (Kruskal, or Prim in O(n²))."
+   },
+   {
+    "n": 1976,
+    "title": "Number of Ways to Arrive at Destination",
+    "slug": "number-of-ways-to-arrive-at-destination",
+    "diff": "Medium",
+    "hint": "Dijkstra plus ways[]; distances need long."
+   },
+   {
+    "n": 787,
+    "title": "Cheapest Flights Within K Stops",
+    "slug": "cheapest-flights-within-k-stops",
+    "diff": "Medium",
+    "hint": "State = (city, stops), or Bellman-Ford for k + 1 rounds."
+   },
+   {
+    "n": 2290,
+    "title": "Minimum Obstacle Removal to Reach Corner",
+    "slug": "minimum-obstacle-removal-to-reach-corner",
+    "diff": "Hard",
+    "hint": "0-1 BFS: an obstacle cell costs 1."
+   },
+   {
+    "n": 2421,
+    "title": "Number of Good Paths",
+    "slug": "number-of-good-paths",
+    "diff": "Hard",
+    "hint": "Process nodes by value; DSU joins neighbours with value ≤ current."
+   }
+  ]
+ },
+ {
+  "day": 18,
+  "date": "24 Nov",
+  "dow": "Tue",
+  "title": "Trees I: recursion, parent arrays, LCA",
+  "focus": "LeetCode TreeNode recursion, general trees without recursion, and binary lifting.",
+  "problems": [
+   {
+    "n": 543,
+    "title": "Diameter of Binary Tree",
+    "slug": "diameter-of-binary-tree",
+    "diff": "Easy",
+    "hint": "Height of each side; the diameter bends at some node."
+   },
+   {
+    "n": 236,
+    "title": "Lowest Common Ancestor of a Binary Tree",
+    "slug": "lowest-common-ancestor-of-a-binary-tree",
+    "diff": "Medium",
+    "hint": "Return the node if it is p or q; if both sides return something, this is the LCA."
+   },
+   {
+    "n": 124,
+    "title": "Binary Tree Maximum Path Sum",
+    "slug": "binary-tree-maximum-path-sum",
+    "diff": "Hard",
+    "hint": "Return the best downward sum; drop negative branches."
+   },
+   {
+    "n": 2246,
+    "title": "Longest Path With Different Adjacent Characters",
+    "slug": "longest-path-with-different-adjacent-characters",
+    "diff": "Hard",
+    "hint": "Parent array input: reverse BFS order, keep the two best child chains."
+   },
+   {
+    "n": 102,
+    "title": "Binary Tree Level Order Traversal",
+    "slug": "binary-tree-level-order-traversal",
+    "diff": "Medium",
+    "hint": "BFS; process q.size() nodes per level."
+   },
+   {
+    "n": 1483,
+    "title": "Kth Ancestor of a Tree Node",
+    "slug": "kth-ancestor-of-a-tree-node",
+    "diff": "Hard",
+    "hint": "Binary lifting table."
+   },
+   {
+    "n": 2477,
+    "title": "Minimum Fuel Cost to Report to the Capital",
+    "slug": "minimum-fuel-cost-to-report-to-the-capital",
+    "diff": "Medium",
+    "hint": "Subtree sizes: each edge needs ceil(size / seats) cars."
+   },
+   {
+    "n": 2846,
+    "title": "Minimum Edge Weight Equilibrium Queries in a Tree",
+    "slug": "minimum-edge-weight-equilibrium-queries-in-a-tree",
+    "diff": "Hard",
+    "hint": "LCA plus counts of each weight (1..26) on the root path."
+   }
+  ]
+ },
+ {
+  "day": 19,
+  "date": "25 Nov",
+  "dow": "Wed",
+  "title": "Trees II: tree DP, rerooting, small-to-large",
+  "focus": "dp[v][state] from the children, answers for every root in O(n), and merging the smaller set into the larger.",
+  "problems": [
+   {
+    "n": 337,
+    "title": "House Robber III",
+    "slug": "house-robber-iii",
+    "diff": "Medium",
+    "hint": "Each node returns {best if robbed, best if not}."
+   },
+   {
+    "n": 1519,
+    "title": "Number of Nodes in the Sub-Tree With the Same Label",
+    "slug": "number-of-nodes-in-the-sub-tree-with-the-same-label",
+    "diff": "Medium",
+    "hint": "Count labels per subtree: int[26] per node, merged from children (edges given: root it first)."
+   },
+   {
+    "n": 834,
+    "title": "Sum of Distances in Tree",
+    "slug": "sum-of-distances-in-tree",
+    "diff": "Hard",
+    "hint": "Rerooting: ans[child] = ans[parent] − size[child] + (n − size[child])."
+   },
+   {
+    "n": 3068,
+    "title": "Find the Maximum Sum of Node Values",
+    "slug": "find-the-maximum-sum-of-node-values",
+    "diff": "Hard",
+    "hint": "Any even number of nodes can be XORed; greedy by gain, or dp[v][parity]."
+   },
+   {
+    "n": 2858,
+    "title": "Minimum Edge Reversals So Every Node Is Reachable",
+    "slug": "minimum-edge-reversals-so-every-node-is-reachable",
+    "diff": "Hard",
+    "hint": "Rerooting over edge directions: reversals from 0, then adjust per edge."
+   },
+   {
+    "n": 2003,
+    "title": "Smallest Missing Genetic Value in Each Subtree",
+    "slug": "smallest-missing-genetic-value-in-each-subtree",
+    "diff": "Hard",
+    "hint": "Only the path from the node with value 1 to the root matters; or small-to-large sets."
+   }
+  ]
+ },
+ {
+  "day": 20,
+  "date": "26 Nov",
+  "dow": "Thu",
+  "title": "Fenwick trees and segment trees",
+  "focus": "Point updates with range queries for sum, min and gcd, coordinate compression, and Euler tours.",
+  "problems": [
+   {
+    "n": 307,
+    "title": "Range Sum Query - Mutable",
+    "slug": "range-sum-query-mutable",
+    "diff": "Medium",
+    "hint": "Fenwick or segment tree; update stores the difference."
+   },
+   {
+    "n": 315,
+    "title": "Count of Smaller Numbers After Self",
+    "slug": "count-of-smaller-numbers-after-self",
+    "diff": "Hard",
+    "hint": "Compress values; scan from the right, query the Fenwick tree, then add."
+   },
+   {
+    "n": 2407,
+    "title": "Longest Increasing Subsequence II",
+    "slug": "longest-increasing-subsequence-ii",
+    "diff": "Hard",
+    "hint": "Segment tree of max over values; query [x − k, x − 1]."
+   },
+   {
+    "n": 2286,
+    "title": "Booking Concert Tickets in Groups",
+    "slug": "booking-concert-tickets-in-groups",
+    "diff": "Hard",
+    "hint": "Segment tree of max and sum; descend to the first row with room."
+   },
+   {
+    "n": 3165,
+    "title": "Maximum Sum of Subsequence With Non-adjacent Elements",
+    "slug": "maximum-sum-of-subsequence-with-non-adjacent-elements",
+    "diff": "Hard",
+    "hint": "Each node stores 4 values: best with or without its two ends."
+   },
+   {
+    "n": 2322,
+    "title": "Minimum Score After Removals on a Tree",
+    "slug": "minimum-score-after-removals-on-a-tree",
+    "diff": "Hard",
+    "hint": "Euler tour times decide whether one removed subtree contains the other."
+   }
+  ]
+ },
+ {
+  "day": 21,
+  "date": "27 Nov",
+  "dow": "Fri",
+  "title": "Lazy segment trees and the K-parts DP",
+  "focus": "Range updates, then the split-into-K-parts DP that Infosys reuses for its hardest problems.",
+  "problems": [
+   {
+    "n": 1335,
+    "title": "Minimum Difficulty of a Job Schedule",
+    "slug": "minimum-difficulty-of-a-job-schedule",
+    "diff": "Hard",
+    "hint": "dp[day][i] over the last day's start; cost = max of that part."
+   },
+   {
+    "n": 813,
+    "title": "Largest Sum of Averages",
+    "slug": "largest-sum-of-averages",
+    "diff": "Medium",
+    "hint": "dp[k][i] with prefix sums for the average of a part."
+   },
+   {
+    "n": 2916,
+    "title": "Subarrays Distinct Element Sum of Squares II",
+    "slug": "subarrays-distinct-element-sum-of-squares-ii",
+    "diff": "Hard",
+    "hint": "Lazy segment tree over start positions: a new element adds 1 to a range of starts."
+   },
+   {
+    "n": 732,
+    "title": "My Calendar III",
+    "slug": "my-calendar-iii",
+    "diff": "Hard",
+    "hint": "Lazy segment tree (range add, global max), or a TreeMap sweep."
+   }
+  ]
+ },
+ {
+  "day": 22,
+  "date": "28 Nov",
+  "dow": "Sat",
+  "title": "Backtracking, bitmask DP, digit DP",
+  "focus": "Brute force for partial marks, dp[mask] for n ≤ 20, and counting numbers digit by digit.",
+  "problems": [
+   {
+    "n": 78,
+    "title": "Subsets",
+    "slug": "subsets",
+    "diff": "Medium",
+    "hint": "Bitmask loop, or choose / skip recursion."
+   },
+   {
+    "n": 1986,
+    "title": "Minimum Number of Work Sessions to Finish the Tasks",
+    "slug": "minimum-number-of-work-sessions-to-finish-the-tasks",
+    "diff": "Medium",
+    "hint": "dp[mask] = (sessions, time used in the last one), compared in that order."
+   },
+   {
+    "n": 1879,
+    "title": "Minimum XOR Sum of Two Arrays",
+    "slug": "minimum-xor-sum-of-two-arrays",
+    "diff": "Hard",
+    "hint": "Assignment with dp[mask]: the next element of nums1 picks an unused element of nums2."
+   },
+   {
+    "n": 902,
+    "title": "Numbers At Most N Given Digit Set",
+    "slug": "numbers-at-most-n-given-digit-set",
+    "diff": "Hard",
+    "hint": "Shorter lengths: |D|^len. Same length: digit by digit with tight."
+   },
+   {
+    "n": 51,
+    "title": "N-Queens",
+    "slug": "n-queens",
+    "diff": "Hard",
+    "hint": "Backtracking with column and two diagonal flags."
+   },
+   {
+    "n": 847,
+    "title": "Shortest Path Visiting All Nodes",
+    "slug": "shortest-path-visiting-all-nodes",
+    "diff": "Hard",
+    "hint": "BFS over (node, visited mask)."
+   },
+   {
+    "n": 2827,
+    "title": "Number of Beautiful Integers in the Range",
+    "slug": "number-of-beautiful-integers-in-the-range",
+    "diff": "Hard",
+    "hint": "Digit DP: (pos, even − odd, remainder mod k, tight, started)."
+   }
+  ]
+ },
+ {
+  "day": 28,
+  "date": "4 Dec",
+  "dow": "Fri",
+  "title": "Consolidate",
+  "focus": "Templates from memory, a speed drill, and error-log re-solves. No new topics.",
+  "problems": [
+   {
+    "n": 217,
+    "title": "Contains Duplicate",
+    "slug": "contains-duplicate",
+    "diff": "Easy",
+    "hint": "Speed drill: HashSet."
+   },
+   {
+    "n": 881,
+    "title": "Boats to Save People",
+    "slug": "boats-to-save-people",
+    "diff": "Medium",
+    "hint": "Speed drill: sort + two pointers."
+   },
+   {
+    "n": 2300,
+    "title": "Successful Pairs of Spells and Potions",
+    "slug": "successful-pairs-of-spells-and-potions",
+    "diff": "Medium",
+    "hint": "Speed drill: sort + lower bound."
+   }
+  ]
+ },
+ {
+  "day": 29,
+  "date": "5 Dec",
+  "dow": "Sat",
+  "title": "Rest and logistics",
+  "focus": "One warm-up, pack, plan the route, sleep.",
+  "problems": [
+   {
+    "n": 1480,
+    "title": "Running Sum of 1d Array",
+    "slug": "running-sum-of-1d-array",
+    "diff": "Easy",
+    "hint": "5-minute warm-up."
+   }
+  ]
+ }
+]
