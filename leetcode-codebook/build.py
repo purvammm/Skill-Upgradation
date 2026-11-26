@@ -228,7 +228,11 @@ DIFF_CLASS = {"Easy": "easy", "Medium": "med", "Hard": "hard"}
 
 
 # ---------------------------------------------------------------- build
-def main():
+def load_book():
+    """Parse the sources, attach plan info and work out the 10-day schedule.
+
+    Shared by this script and build_apkg.py so the book and the Anki deck always agree.
+    """
     plan = json.loads((ROOT / "plan.json").read_text())
     problems, cores, tests_ok = load_sources()
     by_num = {}
@@ -315,7 +319,24 @@ def main():
     unscheduled = [p for p in problems if "learn" not in p]
     if unscheduled and "--draft" not in sys.argv:
         sys.exit("not scheduled: " + ", ".join("LC %d" % p["num"] for p in unscheduled))
+    return plan, problems, cores, sched, review_on, bonus
 
+
+def book_order(plan, problems, bonus):
+    """Cards in book order: plan days, then the bonus groups. Position + 1 is the card number (#)."""
+    order = []
+    for d in plan:
+        for q in d["problems"]:
+            p = next((x for x in problems if x["num"] == q["n"]), None)
+            if p:
+                order.append(p)
+    for g in BONUS_GROUPS:
+        order += [p for p in bonus if p["group"] == g]
+    return order
+
+
+def main():
+    plan, problems, cores, sched, review_on, bonus = load_book()
     html_out = render(plan, problems, cores, sched, review_on, bonus)
     OUT.write_text(html_out)
     nvar = sum(len(p["vars"]) for p in problems)
@@ -410,14 +431,7 @@ def core_html(c):
 
 def render(plan, problems, cores, sched, review_on, bonus):
     idx_of = {}
-    order = []
-    for d in plan:
-        for q in d["problems"]:
-            p = next((x for x in problems if x["num"] == q["n"]), None)
-            if p:
-                order.append(p)
-    for g in BONUS_GROUPS:
-        order += [p for p in bonus if p["group"] == g]
+    order = book_order(plan, problems, bonus)
     for i, p in enumerate(order, 1):
         idx_of[p["num"]] = i
     nvar = sum(len(p["vars"]) for p in problems)
